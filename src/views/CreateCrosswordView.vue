@@ -35,7 +35,7 @@
   const socket = io();
   
   const wordFromInput = function(inputWord, inputDesc) {
-    this.word = inputWord;
+    this.word = inputWord; /* Första steget kör split på ordet och leta igenom matrisen. Resultat ["c", "l", "o", "w", "n"] */
     this.desc = inputDesc;
 }
 
@@ -45,8 +45,8 @@
     name: 'CreateView',
     data: function () {
       return {
-        matrix: {},
-        wordPositions: [[]], /* vi loopar igenom matrisen genom att loopa:
+        matrix: {horizontal: 20, vertical: 20},
+        wordPositions: [[]], /* vi går igenom matrisen genom att loopa:
                                 for h in matrix.width:
                                     for v in matrix.height:
                                         någonting matrix[h, v]             */
@@ -100,13 +100,42 @@
         
         wordFromInput = new wordFromInput("","");
       }, 
-      findPotentialMatches: function (word, desc) {
-        /* let potentialMatches: [{word: desc}]; */
-        wordKeys = word.split();
-        
+      findPotentialMatches: function () {
+        let word = this.word;
+        let wordSplit = word.split();
+        const horiz = this.matrix.horizontal;
+        const vert = this.matrix.vertical;
+        /* let directionHoriz = true; */
+
+        for (let i = 0; i < word.length(); i++) {
+
+
+            for (let h = i; h < horiz; v++) {
+            for (let v = i; v < vert; h++) {
+                if (this.wordPositions[h][v] == wordSplit[i]) {
+                    if (word.length() - i - 1 <= horiz - h - 1) { /* FÅR PLATS HORISONTELLT? */
+                        for (let i2 = i + 1; i2 < word.length() - i; i++) {
+                            if (this.wordPositions[h + i2][v] != wordSplit[i2] && this.wordPositions[h + i2][v] != null) { /* räcker med att spara första och sista positionen för ordet! */
+                                
+                            }
+                        }
+
+
+
+                    } else if (word.length() - i - 1 <= vert - v - 1) {
+
+                    }
+                } else {
+
+                }
+            }
+            } 
+        }
       }
-      
+
     }
-  }
+      
+}   
+
   </script>
   
