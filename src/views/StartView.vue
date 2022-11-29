@@ -1,35 +1,26 @@
 <template>
   <header>
-    <div v-bind:class="['hamburger', {'close': !hideNav}]" 
-         v-on:click="toggleNav">
-    </div>
-    <div class="logo"><img src="/img/logo.png">Polly polling tool</div>
+    <button><img id="help" src="/img/help_pic.png">
+
+    </button>
+
   </header>
-  <ResponsiveNav v-bind:hideNav="hideNav">
-    <button v-on:click="switchLanguage">{{uiLabels.changeLanguage}}</button>
-    <router-link v-bind:to="'/create/'+lang">{{uiLabels.createPoll}}</router-link>
-    <a href="">Pricing</a>
-    <a href="">About</a>
-    <a href="">FAQ</a>
-  </ResponsiveNav>
-  <h1>Welcome!</h1>
-  <label>
-    Write poll id: 
-    <input type="text" v-model="id">
-  </label>
-  <router-link v-bind:to="'/poll/'+id">{{uiLabels.participatePoll}}</router-link>
+  <div id="homepic">
+    <div class="logo"><img src="/img/Logotyp.png"></div>
+  </div>
+  <div class="wrapper">
+    <button id="red" @click="$router.push('/create/'+lang)">{{uiLabels.createPoll}}</button>
+    <button id="red" @click="$router.push('/play/'+lang)">{{'Play'}}</button>
+  </div>
 </template>
 
 <script>
-import ResponsiveNav from '@/components/ResponsiveNav.vue';
+
 import io from 'socket.io-client';
 const socket = io();
 
 export default {
   name: 'StartView',
-  components: {
-    ResponsiveNav
-  },
   data: function () {
     return {
       uiLabels: {},
@@ -58,21 +49,41 @@ export default {
 }
 </script>
 <style scoped>
-  header {
-    background-color: gray;
+  
+  #help {
+    height: 2em;
+    width: 4em;
+    margin-top: 1px;
+    margin-right: 2px;
+  }
+
+  #homepic {
+    background-color: #A7CAB1;
     width: 100%;
-    display: grid;
-    grid-template-columns: 2em auto;
+    height: 25em;
   }
-  .logo {
-    text-transform: uppercase;
-    letter-spacing: 0.25em;
-    font-size: 2.5rem;
+
+  button {
+    width: 18rem;
+    height: 6rem;
+    border-radius: 15px;
+    border-color: #ba0c00;
+    margin: 2.5rem;
     color: white;
-    padding-top:0.2em;
+    background-color: #FE5F55;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 30px;
+    cursor:pointer;
+    
   }
+
+  button:hover{
+    background-color: #fb6d63;
+    
+  }
+
   .logo img {
-    height:2.5rem;
+    height:25rem;
     vertical-align: bottom;
     margin-right: 0.5rem; 
   }
