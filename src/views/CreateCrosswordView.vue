@@ -51,13 +51,16 @@
                                     for v in matrix.height:
                                         någonting matrix[h, v]             */
 
-        wordObjects: {}, /* {"clown": {beskrivning: "pajas", horisontellt: true, pos: {clown.split()[0]: [1, 1],
-                                                                                       clown.split()[1]: [1, 2],
+        wordObjects: {}, /* {"clown": {beskrivning: "pajas", horisontellt: true, pos: {bokstavIOrdningen[0]: [1, 1],
+                                                                                       bokstavIOrdningen[1]: [1, 2],
                                                                                        ...
                                                                                       }
                                       }
-                             "lakan": {beskrining: "ligger man på"} ...
+                             "lakan": {beskrivning: "bäddar man sängen med"} ...
                             }                                                           */
+        tempWordObjects: {},
+
+
         wordKeyPairs: [], /* [{ord: beskrivning}] vi matar in via v-model. Syftet med dessa är att kunna skicka
                             smidigare till spelarvyn. Kanske ej behövs, kolla hur mycket det underlättar! */
         wordFromInput: {}, 
@@ -105,31 +108,58 @@
         let wordSplit = word.split();
         const horiz = this.matrix.horizontal;
         const vert = this.matrix.vertical;
-        /* let directionHoriz = true; */
 
-        for (let i = 0; i < word.length(); i++) {
-
-
-            for (let h = i; h < horiz; v++) {
-            for (let v = i; v < vert; h++) {
-                if (this.wordPositions[h][v] == wordSplit[i]) {
-                    if (word.length() - i - 1 <= horiz - h - 1) { /* FÅR PLATS HORISONTELLT? */
-                        for (let i2 = i + 1; i2 < word.length() - i; i++) {
-                            if (this.wordPositions[h + i2][v] != wordSplit[i2] && this.wordPositions[h + i2][v] != null) { /* räcker med att spara första och sista positionen för ordet! */
-                                
+        for (let v = 0; v < vert; v++) {
+        for (let h = 0; h < horiz; h++) {
+            if (this.wordPositions[h][v] == wordSplit[0] || this.wordPositions[h][v] == null) {
+                if (word.length() <= horiz - h) { /* FÅR PLATS HORISONTELLT? */
+                    for (let i = 1; i < word.length(); i++) {
+                        if (this.wordPositions[h + i][v] == wordSplit[i] || this.wordPositions[h + i][v] == null) { /* räcker med att spara första och sista positionen för ordet! */
+                            if (i == word.length - 1) { /* vi har tagit oss till slutet av ordet och allt har funkat */
+                                this.tempWordObjects = Object.assign(potentialMatches, {
+                                    word: {beskrivning: this.desc, horisontellt: true, pos: getPositions(word, h, v, true)}
+                                })
                             }
+                        } else {
+                            continue /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
                         }
-
-
-
-                    } else if (word.length() - i - 1 <= vert - v - 1) {
-
                     }
-                } else {
-
+                } else if (word.length() <= vert - v) { /* FÅR PLATS VERTIKALT? */
+                    for (let i = 1; i < word.length(); i++) {
+                        if (this.wordPositions[h][v + i] == wordSplit[i] || this.wordPositions[h][v + i] == null) { /* räcker med att spara första och sista positionen för ordet! */
+                            if (i == word.length - 1) { /* vi har tagit oss till slutet av ordet och allt har funkat */
+                                this.tempWordObjects = Object.assign(potentialMatches, {
+                                    word: {beskrivning: this.desc, horisontellt: false, pos: getPositions(word, h, v, false)}
+                                })
+                            }
+                        } else {
+                            continue /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
+                        }
+                    }
                 }
+            } else {
+                continue
             }
-            } 
+        }
+        } 
+
+        if (this.tempWordObjects.keys().length() == 0) {
+            
+        }
+
+      }, 
+      getPositions: function (word, h, v, horizontal) {
+        let pos = {};
+
+
+        if (horizontal) {
+            for (let i = 0; i < word.length(); i++) {
+                pos = Object.assign(pos, {i: [h + i, v]})
+            }
+        } else {
+            for (let i = 0; i < word.length(); i++) {
+                pos = Object.assign(pos, {i: [h, v + i]})
+            }
         }
       }
 
