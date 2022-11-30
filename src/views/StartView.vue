@@ -13,6 +13,7 @@
     <a href="">FAQ</a>
   </ResponsiveNav>
   <h1>Welcome!</h1>
+  <h2>{{ uiLabels.subHeading }}</h2>
   <label>
     Write poll id: 
     <input type="text" v-model="id">
