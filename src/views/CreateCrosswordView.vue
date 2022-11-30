@@ -48,11 +48,7 @@
         iterator: 0,
         noMatches: false,
         matrix: {horizontal: 20, vertical: 20},
-        wordPositions: [[]], /* vi går igenom matrisen genom att loopa:
-                                for h in matrix.width:
-                                    for v in matrix.height:
-                                        någonting matrix[h, v]             */
-
+        wordPositions: [[]],
         wordObjects: {}, /* {clown: {beskrivning: "pajas", horisontellt: true, pos: {bokstavIOrdningen[0]: [1, 1],
                                                                                        bokstavIOrdningen[1]: [1, 2],
                                                                                        ...
@@ -61,12 +57,10 @@
                              "lakan": {beskrivning: "bäddar man sängen med"} ...
                             }                                                           */
         tempWordObjects: {},
-
-
         wordKeyPairs: {}, /* [{ord: beskrivning}] vi matar in via v-model. Syftet med dessa är att kunna skicka
                             smidigare till spelarvyn. Kanske ej behövs, kolla hur mycket det underlättar! */
-        wordFromInput: {}, 
-
+        wordFromInput: "",
+        descFromInput: ""
         /* SKICKA wordObjects TILL SPELARVYN */
         /* All info ligger under data, dvs. data.wordObjects."clown".beskrivning = "pajas" */
       }
