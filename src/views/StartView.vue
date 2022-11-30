@@ -51,10 +51,6 @@ export default {
 </script>
 <style scoped>
 
-header{
-
-}
-
 .language{
   height: 3rem;
     width: 3rem;
