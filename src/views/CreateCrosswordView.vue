@@ -45,13 +45,15 @@
     name: 'CreateView',
     data: function () {
       return {
+        iterator: 0,
+        noMatches: false,
         matrix: {horizontal: 20, vertical: 20},
         wordPositions: [[]], /* vi går igenom matrisen genom att loopa:
                                 for h in matrix.width:
                                     for v in matrix.height:
                                         någonting matrix[h, v]             */
 
-        wordObjects: {}, /* {"clown": {beskrivning: "pajas", horisontellt: true, pos: {bokstavIOrdningen[0]: [1, 1],
+        wordObjects: {}, /* {clown: {beskrivning: "pajas", horisontellt: true, pos: {bokstavIOrdningen[0]: [1, 1],
                                                                                        bokstavIOrdningen[1]: [1, 2],
                                                                                        ...
                                                                                       }
@@ -61,7 +63,7 @@
         tempWordObjects: {},
 
 
-        wordKeyPairs: [], /* [{ord: beskrivning}] vi matar in via v-model. Syftet med dessa är att kunna skicka
+        wordKeyPairs: {}, /* [{ord: beskrivning}] vi matar in via v-model. Syftet med dessa är att kunna skicka
                             smidigare till spelarvyn. Kanske ej behövs, kolla hur mycket det underlättar! */
         wordFromInput: {}, 
 
@@ -78,31 +80,19 @@
       socket.on("dataUpdate", (data) =>
         this.data = data
       )
-      socket.on("pollCreated", (data) =>
-        this.data = data)
     },
     methods: {
-      createPoll: function () {
-        socket.emit("createPoll", {pollId: this.pollId, lang: this.lang })
-      },
-      addQuestion: function () {
-        socket.emit("addQuestion", {pollId: this.pollId, q: this.question, a: this.answers } )
-      },
-      addAnswer: function () {
-        this.answers.push("");
-      },
-      runQuestion: function () {
-        socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.questionNumber})
-      },
       testAddWordObject: function (wordObject) {
         this.words.push(wordObject) /* dessa 'word' är alltså objekt */
       },
       testAddWord: function (wrd, description) {
         this.word.key = wrd; 
         this.word.description = description;
-        
         wordFromInput = new wordFromInput("","");
       }, 
+      pickWord: function () {
+        this.wordObjects = Object.assign(wordObjects, tempWordObjects[this.iterator]);
+      },
       findPotentialMatches: function () {
         let word = this.word;
         let wordSplit = word.split();
@@ -121,7 +111,7 @@
                                 })
                             }
                         } else {
-                            continue /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
+                            break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
                         }
                     }
                 } else if (word.length() <= vert - v) { /* FÅR PLATS VERTIKALT? */
@@ -133,7 +123,7 @@
                                 })
                             }
                         } else {
-                            continue /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
+                            break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
                         }
                     }
                 }
@@ -144,23 +134,25 @@
         } 
 
         if (this.tempWordObjects.keys().length() == 0) {
-            
+            alertNoMatches();
         }
-
       }, 
       getPositions: function (word, h, v, horizontal) {
         let pos = {};
 
-
         if (horizontal) {
             for (let i = 0; i < word.length(); i++) {
-                pos = Object.assign(pos, {i: [h + i, v]})
+                pos = Object.assign(pos, {i: [h + i, v]})   
             }
         } else {
             for (let i = 0; i < word.length(); i++) {
                 pos = Object.assign(pos, {i: [h, v + i]})
             }
         }
+        return pos;
+      },
+      alertNoMatches: function () {
+        alert("no matches! Try another word.")
       }
 
     }
