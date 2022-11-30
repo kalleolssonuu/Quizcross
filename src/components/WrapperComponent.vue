@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button v-on:click=help type="button">?</button>
+        <button id="help" v-on:click=help type="button">?</button>
 
     </div>
 
@@ -9,12 +9,27 @@
 <script>
 export default {
     name:'WrapperComponent',
-    props:{
-        
-    }
+
 }
 
 </script>
 
 <style>
+
+#help {
+    height: 3rem;
+    width: 3rem;
+    background-color: #FFFDD0;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 30px;
+    text-align: center;
+    cursor:pointer;
+    border-radius: 50%;
+    border-color: black;
+    position: absolute;
+    top: 0;
+    right:0;
+    margin: 0.5rem;
+
+  }
 </style>

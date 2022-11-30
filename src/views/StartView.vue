@@ -16,7 +16,6 @@
 </template>
 
 <script>
-
 import io from 'socket.io-client';
 const socket = io();
 
@@ -43,9 +42,6 @@ export default {
         this.lang = "en"
       socket.emit("switchLanguage", this.lang)
     },
-    toggleNav: function () {
-      this.hideNav = ! this.hideNav;
-    }
   }
 }
 </script>
@@ -68,22 +64,7 @@ export default {
 
 }
   
-  .help {
-    height: 3rem;
-    width: 3rem;
-    background-color: #FFFDD0;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-size: 30px;
-    text-align: center;
-    cursor:pointer;
-    border-radius: 50%;
-    border-color: black;
-    position: absolute;
-    top: 0;
-    right:0;
-    margin: 0.5rem;
 
-  }
 
   .wrapper{
     width: 100%;
