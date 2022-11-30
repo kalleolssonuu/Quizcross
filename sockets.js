@@ -13,6 +13,10 @@ function sockets(io, socket, data) {
     socket.emit('pollCreated', data.createPoll(d.pollId, d.lang));
   });
 
+  socket.on('playCross', function(d) {
+    socket.emit('crossCreated', data.playCross(d.playId, d.lang));
+  });
+
   socket.on('addQuestion', function(d) {
     data.addQuestion(d.pollId, {q: d.q, a: d.a});
     socket.emit('dataUpdate', data.getAnswers(d.pollId));

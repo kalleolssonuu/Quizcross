@@ -1,9 +1,10 @@
 <template>
   <header>
-    <div v-bind:class="['hamburger', {'close': !hideNav}]" 
-         v-on:click="toggleNav">
-    </div>
-    <div class="logo"><img src="/img/logo.png">Polly polling tool</div>
+    <button class="language" v-on:click="switchLanguage">{{uiLabels.changeLanguage}}</button>
+    <button class="help">
+      ?
+    </button>
+
   </header>
   <ResponsiveNav v-bind:hideNav="hideNav">
     <button v-on:click="switchLanguage">{{uiLabels.changeLanguage}}</button>
@@ -19,18 +20,22 @@
     <input type="text" v-model="id">
   </label>
   <router-link v-bind:to="'/poll/'+id">{{uiLabels.participatePoll}}</router-link>
+  <div id="homepic">
+    <div class="logo"><img src="/img/Logotyp.png"></div>
+  </div>
+  <div class="wrapper">
+    <button id="create" @click="$router.push('/create/'+lang)">{{uiLabels.createPoll}}</button>
+    <button id="play" @click="$router.push('/play/'+lang)">{{uiLabels.playCross}}</button>
+  </div>
 </template>
 
 <script>
-import ResponsiveNav from '@/components/ResponsiveNav.vue';
+
 import io from 'socket.io-client';
 const socket = io();
 
 export default {
   name: 'StartView',
-  components: {
-    ResponsiveNav
-  },
   data: function () {
     return {
       uiLabels: {},
@@ -59,21 +64,93 @@ export default {
 }
 </script>
 <style scoped>
-  header {
-    background-color: gray;
+
+.language{
+  height: 3rem;
+    width: 3rem;
+    background-color: #FFFDD0;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 1rem;
+    text-align: center;
+    cursor:pointer;
+    border-radius: 50%;
+    border-color: black;
+    position: absolute;
+    top:0;
+    left:0;
+    margin: 0.5rem;
+
+}
+  
+  .help {
+    height: 3rem;
+    width: 3rem;
+    background-color: #FFFDD0;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 30px;
+    text-align: center;
+    cursor:pointer;
+    border-radius: 50%;
+    border-color: black;
+    position: absolute;
+    top: 0;
+    right:0;
+    margin: 0.5rem;
+
+  }
+
+  .wrapper{
     width: 100%;
     display: grid;
-    grid-template-columns: 2em auto;
+    grid-gap: 3rem;
+    grid-auto-flow: column;
+
   }
-  .logo {
-    text-transform: uppercase;
-    letter-spacing: 0.25em;
-    font-size: 2.5rem;
+  
+
+  #homepic {
+    background-color: #A7CAB1;
+    width: 100%;
+    height: 25em;
+  }
+
+  #create {
+    width: 18rem;
+    height: 6rem;
+    border-radius: 15px;
+    border-color: #ba0c00;
+    margin: 2.5rem;
     color: white;
-    padding-top:0.2em;
+    background-color: #FE5F55;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 30px;
+    cursor:pointer;
+    position: relative;
+    
   }
+
+#play {
+    width: 18rem;
+    height: 6rem;
+    border-radius: 15px;
+    border-color: #ba0c00;
+    margin: 2.5rem;
+    color: white;
+    background-color: #FE5F55;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 30px;
+    cursor:pointer;
+    position: relative;
+    
+  }
+
+  #play:hover{
+    background-color: #fb6d63;
+    
+  }
+
   .logo img {
-    height:2.5rem;
+    height:25rem;
     vertical-align: bottom;
     margin-right: 0.5rem; 
   }
