@@ -1,3 +1,4 @@
 Frågor:
 
-1. 
+1. användar id
+2. fönsterstorlek
