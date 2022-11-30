@@ -51,7 +51,7 @@ export default {
     padding-left: 1em;
   }
   .hide {
-    left:-12em;
+    left:-12em; /* jättebra mekanism för att flytta saker in och ut från fönstret!*/
   }
 }
 </style>
