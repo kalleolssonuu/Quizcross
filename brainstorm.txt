@@ -2,3 +2,14 @@ Frågor:
 
 1. användar id
 2. fönsterstorlek
+
+
+Loggbok ish:
+
+1/12 ansvarsområden:
+- Hugo: design med knappar mm på playview
+- Emil: popup startview
+- Elin: component till ?-knappen
+- Jessie: rutnät mm till Charles' algortihm med mera
+- Charles: Jobba på sin algorythmmmm
+- till den som hinner/fråga micke: centrera och skala knapp
