@@ -1,32 +1,15 @@
 <template>
     <div>
-      QuizCross name: 
-      <input type="text" v-model="pollId">
-      <button v-on:click="createPoll">
-        Create crossword
-      </button>
-      <div>
-        {{uiLabels.question}}:
-        <input type="text" v-model="question">
-        <div>
-          Answers:
-          <input v-for="(_, i) in answers" 
-                 v-model="answers[i]" 
-                 v-bind:key="'answer'+i">
-          <button v-on:click="addAnswer">
-            Add answer alternative
-          </button>
-        </div>
-      </div>
-      <button v-on:click="addQuestion">
-        Add question
-      </button>
-      <input type="number" v-model="questionNumber">
-      <button v-on:click="runQuestion">
-        Run question
-      </button>
-      {{data}}
-      <router-link v-bind:to="'/result/'+pollId">Check result</router-link>
+        <WordBox v-for="box in boxes" v-bind:box="box" v-bind:key="box.id">
+
+
+        </WordBox>
+
+
+
+
+
+
     </div>
   </template>
   
@@ -39,12 +22,11 @@
     this.desc = inputDesc;
 }
 
-
-
   export default {
     name: 'CreateView',
     data: function () {
       return {
+        boxes: [],
         iterator: 0,
         noMatches: false,
         matrix: {horizontal: 20, vertical: 20},
@@ -55,7 +37,16 @@
                                                                                       }
                                       }
                              "lakan": {beskrivning: "bäddar man sängen med"} ...
-                            }                                                           */
+                            }            
+                            
+                            1. Skapa en grid och hitta ett sätt att kommunicera mellan:
+                                wordObjects.clown.pos.bokstavIOrdningen[i] och positionen i grid (20x20). Var ska vi sätta WordBox:en som innehåller
+                                vår bokstav?
+                            2. Sätt nya nycklar i wordObjects (exempelvis ett index i) så att wordObjects[iterator].namn = "clown"
+                                                                     wordObjects[iterator].beskrivning = "pajas"
+                            3. Fundera!
+
+                            */
         tempWordObjects: {},
         wordKeyPairs: {}, /* [{ord: beskrivning}] vi matar in via v-model. Syftet med dessa är att kunna skicka
                             smidigare till spelarvyn. Kanske ej behövs, kolla hur mycket det underlättar! */
@@ -147,6 +138,9 @@
       },
       alertNoMatches: function () {
         alert("no matches! Try another word.")
+      },
+      confirmNewWord: function () {
+        socket.emit("updateGrid", this.tempWordObjects, this.iterator) /* Hur ska vi låta användaren iterera över alla möjliga positioner? */
       }
 
     }
