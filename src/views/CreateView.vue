@@ -1,6 +1,6 @@
 <template>
   <header>
-    <div class="logo"><img src="/img/logo.png">Quizcross</div>
+    <div class="logo">Quizcross</div>
   </header>
   <div>
     Poll link: 
@@ -93,6 +93,7 @@ export default {
     color: white;
     padding-top:0.2em;
     text-align: center;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
   }
   .logo img {
     height:2.5rem;
