@@ -1,6 +1,7 @@
 <template>
   <header>
-    <button class="language" v-on:click="switchLanguage">{{uiLabels.changeLanguage}}</button>
+    <div class="language">
+      <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage"></div>
     <button class="help">
       ?
     </button>
@@ -52,20 +53,15 @@ export default {
 <style scoped>
 
 .language{
-  height: 3rem;
-    width: 3rem;
-    background-color: #FFFDD0;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-size: 1rem;
-    text-align: center;
+    height: 1rem;
+    width: 1rem;
     cursor:pointer;
-    border-radius: 50%;
-    border-color: black;
-    position: absolute;
-    top:0;
-    left:0;
     margin: 0.5rem;
-
+}
+#flag {
+  width: 5rem;
+  height: 3.5rem;
+  border-radius: 20%;
 }
   
   .help {
@@ -86,11 +82,8 @@ export default {
   }
 
   .wrapper{
-    width: 100%;
-    display: grid;
-    grid-gap: 3rem;
-    grid-auto-flow: column;
-
+    display: flex;
+    justify-content: center;
   }
   
 
