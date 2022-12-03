@@ -1,8 +1,9 @@
 {
 	"sales-pitch": "Simply. Great. Polling.",
 	"invite": "Invite participants with this link:",
-	"createPoll": "Create poll",
+	"createPoll": "Create",
 	"participatePoll": "Participate in poll",
 	"question": "Question",
-	"changeLanguage": "Byt till svenska"
+	"changeLanguage": "SV",
+	"playCross": "Play"
 }

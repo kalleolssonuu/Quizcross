@@ -1,32 +1,15 @@
 <template>
     <div>
-      QuizCross name: 
-      <input type="text" v-model="pollId">
-      <button v-on:click="createPoll">
-        Create crossword
-      </button>
-      <div>
-        {{uiLabels.question}}:
-        <input type="text" v-model="question">
-        <div>
-          Answers:
-          <input v-for="(_, i) in answers" 
-                 v-model="answers[i]" 
-                 v-bind:key="'answer'+i">
-          <button v-on:click="addAnswer">
-            Add answer alternative
-          </button>
-        </div>
-      </div>
-      <button v-on:click="addQuestion">
-        Add question
-      </button>
-      <input type="number" v-model="questionNumber">
-      <button v-on:click="runQuestion">
-        Run question
-      </button>
-      {{data}}
-      <router-link v-bind:to="'/result/'+pollId">Check result</router-link>
+        <WordBox v-for="box in boxes" v-bind:box="box" v-bind:key="box.id">
+
+
+        </WordBox>
+
+
+
+
+
+
     </div>
   </template>
   
@@ -39,32 +22,36 @@
     this.desc = inputDesc;
 }
 
-
-
   export default {
     name: 'CreateView',
     data: function () {
       return {
+        boxes: [],
+        iterator: 0,
+        noMatches: false,
         matrix: {horizontal: 20, vertical: 20},
-        wordPositions: [[]], /* vi går igenom matrisen genom att loopa:
-                                for h in matrix.width:
-                                    for v in matrix.height:
-                                        någonting matrix[h, v]             */
-
-        wordObjects: {}, /* {"clown": {beskrivning: "pajas", horisontellt: true, pos: {bokstavIOrdningen[0]: [1, 1],
+        wordPositions: [[]],
+        wordObjects: {}, /* {clown: {beskrivning: "pajas", horisontellt: true, pos: {bokstavIOrdningen[0]: [1, 1],
                                                                                        bokstavIOrdningen[1]: [1, 2],
                                                                                        ...
                                                                                       }
                                       }
                              "lakan": {beskrivning: "bäddar man sängen med"} ...
-                            }                                                           */
+                            }            
+                            
+                            1. Skapa en grid och hitta ett sätt att kommunicera mellan:
+                                wordObjects.clown.pos.bokstavIOrdningen[i] och positionen i grid (20x20). Var ska vi sätta WordBox:en som innehåller
+                                vår bokstav?
+                            2. Sätt nya nycklar i wordObjects (exempelvis ett index i) så att wordObjects[iterator].namn = "clown"
+                                                                     wordObjects[iterator].beskrivning = "pajas"
+                            3. Fundera!
+
+                            */
         tempWordObjects: {},
-
-
-        wordKeyPairs: [], /* [{ord: beskrivning}] vi matar in via v-model. Syftet med dessa är att kunna skicka
+        wordKeyPairs: {}, /* [{ord: beskrivning}] vi matar in via v-model. Syftet med dessa är att kunna skicka
                             smidigare till spelarvyn. Kanske ej behövs, kolla hur mycket det underlättar! */
-        wordFromInput: {}, 
-
+        wordFromInput: "",
+        descFromInput: ""
         /* SKICKA wordObjects TILL SPELARVYN */
         /* All info ligger under data, dvs. data.wordObjects."clown".beskrivning = "pajas" */
       }
@@ -78,31 +65,19 @@
       socket.on("dataUpdate", (data) =>
         this.data = data
       )
-      socket.on("pollCreated", (data) =>
-        this.data = data)
     },
     methods: {
-      createPoll: function () {
-        socket.emit("createPoll", {pollId: this.pollId, lang: this.lang })
-      },
-      addQuestion: function () {
-        socket.emit("addQuestion", {pollId: this.pollId, q: this.question, a: this.answers } )
-      },
-      addAnswer: function () {
-        this.answers.push("");
-      },
-      runQuestion: function () {
-        socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.questionNumber})
-      },
       testAddWordObject: function (wordObject) {
         this.words.push(wordObject) /* dessa 'word' är alltså objekt */
       },
       testAddWord: function (wrd, description) {
         this.word.key = wrd; 
         this.word.description = description;
-        
         wordFromInput = new wordFromInput("","");
       }, 
+      pickWord: function () {
+        this.wordObjects = Object.assign(wordObjects, tempWordObjects[this.iterator]);
+      },
       findPotentialMatches: function () {
         let word = this.word;                 /* för att spara plats längre ner */
         let wordSplit = word.split();
@@ -122,7 +97,7 @@
                                 /* BEHÖVER LÄGGA TILL NYA ORDET I MATRISEN! Dvs. i this.wordPositions */
                             }
                         } else {
-                            continue /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
+                            break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
                         }
                     }
                 } else if (word.length() <= vert - v) { /* FÅR PLATS VERTIKALT? */
@@ -135,7 +110,7 @@
                                 /* BEHÖVER LÄGGA TILL NYA ORDET I MATRISEN! Dvs. i this.wordPositions */
                             }
                         } else {
-                            continue /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
+                            break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
                         }
                     }
                 }
@@ -144,21 +119,30 @@
             }
         }
         } 
+
+        if (this.tempWordObjects.keys().length() == 0) {
+            alertNoMatches();
+        }
       }, 
       getPositions: function (word, h, v, horizontal) {
         let pos = {};
 
         if (horizontal) {
             for (let i = 0; i < word.length(); i++) {
-                pos = Object.assign(pos, {i: [h + i, v]})
+                pos = Object.assign(pos, {i: [h + i, v]})   
             }
         } else {
             for (let i = 0; i < word.length(); i++) {
                 pos = Object.assign(pos, {i: [h, v + i]})
             }
         }
-
         return pos;
+      },
+      alertNoMatches: function () {
+        alert("no matches! Try another word.")
+      },
+      confirmNewWord: function () {
+        socket.emit("updateGrid", this.tempWordObjects, this.iterator) /* Hur ska vi låta användaren iterera över alla möjliga positioner? */
       }
 
     }

@@ -5,6 +5,7 @@ const languages = ["en", "se"];
 // Store data in an object to keep the global namespace clean
 function Data() {
   this.polls = {};
+  this.crosses = {};
 }
 
 /***********************************************
@@ -29,6 +30,18 @@ Data.prototype.createPoll = function(pollId, lang="en") {
     console.log("poll created", pollId, poll);
   }
   return this.polls[pollId];
+}
+Data.prototype.playCross = function(playId, lang="en") {
+  if (typeof this.crosses[playId] === "undefined") {
+    let cross = {};
+    cross.lang = lang;  
+    cross.questions = [];
+    cross.answers = [];
+    cross.currentQuestion = 0;              
+    this.crosses[playId] = cross;
+    console.log("cross created", playId, cross);
+  }
+  return this.crosses[playId];
 }
 
 Data.prototype.addQuestion = function(pollId, q) {

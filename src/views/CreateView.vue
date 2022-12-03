@@ -1,4 +1,7 @@
 <template>
+  <header>
+    <div class="logo">Quizcross</div>
+  </header>
   <div>
     Poll link: 
     <input type="text" v-model="pollId">
@@ -75,3 +78,26 @@ export default {
   }
 }
 </script>
+
+  <style>
+ header {
+    background-color: #A7CAB1;
+    width: 100%;
+    height: 33%;
+  }
+
+  .logo {
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    font-size: 2.5rem;
+    color: white;
+    padding-top:0.2em;
+    text-align: center;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+  }
+  .logo img {
+    height:2.5rem;
+    vertical-align: bottom;
+    margin-right: 0.5rem; 
+  }
+</style>
