@@ -104,10 +104,10 @@
         wordFromInput = new wordFromInput("","");
       }, 
       findPotentialMatches: function () {
-        let word = this.word;
+        let word = this.word;                 /* för att spara plats längre ner */
         let wordSplit = word.split();
-        const horiz = this.matrix.horizontal;
-        const vert = this.matrix.vertical;
+        const horiz = this.matrix.horizontal; /* för att spara plats längre ner */
+        const vert = this.matrix.vertical;    /* för att spara plats längre ner */
 
         for (let v = 0; v < vert; v++) {
         for (let h = 0; h < horiz; h++) {
@@ -119,6 +119,7 @@
                                 this.tempWordObjects = Object.assign(potentialMatches, {
                                     word: {beskrivning: this.desc, horisontellt: true, pos: getPositions(word, h, v, true)}
                                 })
+                                /* BEHÖVER LÄGGA TILL NYA ORDET I MATRISEN! Dvs. i this.wordPositions */
                             }
                         } else {
                             continue /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
@@ -131,6 +132,7 @@
                                 this.tempWordObjects = Object.assign(potentialMatches, {
                                     word: {beskrivning: this.desc, horisontellt: false, pos: getPositions(word, h, v, false)}
                                 })
+                                /* BEHÖVER LÄGGA TILL NYA ORDET I MATRISEN! Dvs. i this.wordPositions */
                             }
                         } else {
                             continue /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
@@ -142,15 +144,9 @@
             }
         }
         } 
-
-        if (this.tempWordObjects.keys().length() == 0) {
-            
-        }
-
       }, 
       getPositions: function (word, h, v, horizontal) {
         let pos = {};
-
 
         if (horizontal) {
             for (let i = 0; i < word.length(); i++) {
@@ -161,6 +157,8 @@
                 pos = Object.assign(pos, {i: [h, v + i]})
             }
         }
+
+        return pos;
       }
 
     }
