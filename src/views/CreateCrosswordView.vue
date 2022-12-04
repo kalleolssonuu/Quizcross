@@ -9,7 +9,15 @@
         </Crossword>
 
 
+        <div class="wrapper">
+          <div class="inputField"> <!-- måste emitta word så att vi kan använda -->
+            <input type="text" v-model="word" required="required" placeholder="Word sv/en">
+          </div>
+          <div class="inputField">
+            <input type="text" v-model="desc" required="required" placeholder="Word desc sv/en">
+          </div>
 
+    </div>
 
 
 
@@ -30,6 +38,8 @@
     name: 'CreateView',
     data: function () {
       return {
+        word: "",
+        desc: "",
         boxes: {},
         iterator: 0,
         noMatches: false,

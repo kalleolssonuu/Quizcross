@@ -1,10 +1,17 @@
 <template>
   <div id="crosswordwrapper">
-    <div class="letterbox" v-for="word in wordObjects" >
-      {{ word.pos.key() }}
+
+
+    <!-- använd v-model för att lösa problemet med positioner i tabellen? -->
+
+    <div class="letterbox" v-for="list in wordPositions" >
+      <tr>
+        <span v-for="letter in list.items()">
+            <td> {{ letter }} </td>
+        </span>
+      </tr> 
 
     </div>
-
 
   </div>
 </template>
@@ -23,32 +30,27 @@
       wordPositions: []
     },
     methods: {
-      increaseAmount: function () {
-        this.amountOrdered += 1;
-        this.$emit('orderedBurger', {name: this.burger.name, amount: this.amountOrdered
-        })
-      }, 
-      decreaseAmount: function () {
-        if (this.amountOrdered > 0) {
-          this.amountOrdered -= 1;
-        }
-        this.$emit('orderedBurger', {name: this.burger.name, amount: this.amountOrdered
-        })
-      }
+
     }
   }
   </script>
   
   <!-- Add "scoped" attribute to limit CSS to this component only -->
   <style scoped>
-  
-.letterbox {
 
+  .letterbox:empty {
+  background-color: whitesmoke;
 }
 
+.letterbox {
+  background-color: white;
+  /* object-position: center; */
+}
+
+
 #crosswordwrapper {
-  display: grid;
-  grid-area: auto;
+  display: table;
+  table-layout: auto;
   background-color: #A7CAB1;
 }
 
