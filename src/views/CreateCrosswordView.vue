@@ -1,9 +1,12 @@
 <template>
     <div>
-        <WordBox v-for="box in boxes" v-bind:box="box" v-bind:key="box.id">
+        <Crossword  v-bind:wordObjects="wordObjects" 
+                    v-bind:tempWordObjects="tempWordObjects"
+                    v-bind:wordPositions="wordPositions"
+        >
 
 
-        </WordBox>
+        </Crossword>
 
 
 
@@ -14,6 +17,7 @@
   </template>
   
   <script>
+  import Crossword from '../components/OneBurger.vue'
   import io from 'socket.io-client';
   const socket = io();
   
@@ -26,11 +30,11 @@
     name: 'CreateView',
     data: function () {
       return {
-        boxes: [],
+        boxes: {},
         iterator: 0,
         noMatches: false,
         matrix: {horizontal: 20, vertical: 20},
-        wordPositions: [[]],
+        wordPositions: [], /* [[1, 2, 3], [2, 4, 6], [1, 3, 5]] */
         wordObjects: {}, /* {clown: {beskrivning: "pajas", horisontellt: true, pos: {bokstavIOrdningen[0]: [1, 1],
                                                                                        bokstavIOrdningen[1]: [1, 2],
                                                                                        ...
@@ -94,7 +98,8 @@
                                 this.tempWordObjects = Object.assign(potentialMatches, {
                                     word: {beskrivning: this.desc, horisontellt: true, pos: getPositions(word, h, v, true)}
                                 })
-                                /* BEHÖVER LÄGGA TILL NYA ORDET I MATRISEN! Dvs. i this.wordPositions */
+
+                                updateWordPositionsHoriz(h, v, wordSplit)
                             }
                         } else {
                             break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
@@ -107,7 +112,8 @@
                                 this.tempWordObjects = Object.assign(potentialMatches, {
                                     word: {beskrivning: this.desc, horisontellt: false, pos: getPositions(word, h, v, false)}
                                 })
-                                /* BEHÖVER LÄGGA TILL NYA ORDET I MATRISEN! Dvs. i this.wordPositions */
+
+                                updateWordPositionsVert(h, v, wordSplit)
                             }
                         } else {
                             break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
@@ -116,7 +122,7 @@
                 }
             } else {
                 continue
-            }
+            } /* borde gå att ta bort continue */
         }
         } 
 
@@ -129,15 +135,28 @@
 
         if (horizontal) {
             for (let i = 0; i < word.length(); i++) {
-                pos = Object.assign(pos, {i: [h + i, v]})   
+                pos = Object.assign(pos, {i: {x: h + i, y: v}
+              })   
             }
         } else {
             for (let i = 0; i < word.length(); i++) {
-                pos = Object.assign(pos, {i: [h, v + i]})
+                pos = Object.assign(pos, {i: {x: h, y: v + i}
+              })
             }
         }
         return pos;
       },
+      updateWordPositionsHoriz: function (h, v, wordSplit) {
+        for (let i = 1; i < word.length(); i++) {
+          this.wordPositions[h + i][v] = wordSplit[i]
+        }
+      },
+      updateWordPositionsVert: function (h, v, wordSplit) {
+        for (let i = 1; i < word.length(); i++) {
+          this.wordPositions[h][v + i] = wordSplit[i]
+        }
+      },
+
       alertNoMatches: function () {
         alert("no matches! Try another word.")
       },
