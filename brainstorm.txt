@@ -12,4 +12,4 @@ Loggbok ish:
 - Elin: component till ?-knappen
 - Jessie: rutnät mm till Charles' algortihm med mera
 - Charles: Jobba på sin algorythmmmm
-- till den som hinner/fråga micke: centrera och skala knapp
+- till den som hinner/fråga micke: centrera och skala knapp //Hugge löste
