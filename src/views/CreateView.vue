@@ -1,6 +1,7 @@
 <template>
   <header>
     <div class="logo">Quizcross</div>
+    <button class="language" v-on:click="switchLanguage">{{uiLabels.changeLanguage}}</button>
   </header>
   <div>
     Poll link: 
