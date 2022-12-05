@@ -1,25 +1,23 @@
 <template>
   <header>
     <button class="language" v-on:click="switchLanguage">{{uiLabels.changeLanguage}}</button>
-    <button class="help">
-      ?
-    </button>
+
+    <!-- ALL KOD FÖR POPUP-WINDOW-->
+    <div class="modal-vue">
+      <button class="help" @click="showModal=true">
+        ?
+      </button>
+      <div class="overlay" v-if="showModal"
+      @click="showModal=false">
+      </div>
+      <div class="modal" v-if="showModal">
+        <button class="close" @click="showModal = false">x</button>
+        <h3>What is Quizcross?</h3>
+        <p>Description here:</p>
+      </div>
+    </div>
 
   </header>
-  <ResponsiveNav v-bind:hideNav="hideNav">
-    <button v-on:click="switchLanguage">{{uiLabels.changeLanguage}}</button>
-    <router-link v-bind:to="'/create/'+lang">{{uiLabels.createPoll}}</router-link>
-    <a href="">Pricing</a>
-    <a href="">About</a>
-    <a href="">FAQ</a>
-  </ResponsiveNav>
-  <h1>Welcome!</h1>
-  <h2>{{ uiLabels.subHeading }}</h2>
-  <label>
-    Write poll id: 
-    <input type="text" v-model="id">
-  </label>
-  <router-link v-bind:to="'/poll/'+id">{{uiLabels.participatePoll}}</router-link>
   <div id="homepic">
     <div class="logo"><img src="/img/Logotyp.png"></div>
   </div>
@@ -30,7 +28,6 @@
 </template>
 
 <script>
-
 import io from 'socket.io-client';
 const socket = io();
 
@@ -41,9 +38,11 @@ export default {
       uiLabels: {},
       id: "",
       lang: "en",
-      hideNav: true
+      hideNav: true,
+      showModal: false
     }
   },
+
   created: function () {
     socket.on("init", (labels) => {
       this.uiLabels = labels
@@ -59,10 +58,16 @@ export default {
     },
     toggleNav: function () {
       this.hideNav = ! this.hideNav;
-    }
+    },
+    /* FÖR ATT FÅ FRAM POP-UP RUTA*/
+    togglePopup: function () {
+      this.showModal = ! this.showModal;
+    },
   }
 }
+
 </script>
+
 <style scoped>
 
 .language{
@@ -79,10 +84,9 @@ export default {
     top:0;
     left:0;
     margin: 0.5rem;
-
 }
-  
-  .help {
+
+.help {
     height: 3rem;
     width: 3rem;
     background-color: #FFFDD0;
@@ -96,9 +100,34 @@ export default {
     top: 0;
     right:0;
     margin: 0.5rem;
-
   }
+  .modal-vue .overlay {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+}
 
+.modal-vue .modal {
+  position: relative;
+  width: 400px;
+  z-index: 9999;
+  margin: 10px auto;
+  padding: 20px 30px;
+  background-color: #FFFDD0;
+  border-radius: 15px;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+
+.modal-vue .close{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #FE5F55;
+}
   .wrapper{
     width: 100%;
     display: grid;
@@ -106,7 +135,6 @@ export default {
     grid-auto-flow: column;
 
   }
-  
 
   #homepic {
     background-color: #A7CAB1;
