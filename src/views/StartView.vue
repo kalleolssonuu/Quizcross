@@ -1,5 +1,10 @@
 <template>
   <header>
+    <div class="language">
+      <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage"></div>
+    <button class="help">
+      ?
+    </button>
     <button class="language" v-on:click="switchLanguage">{{uiLabels.changeLanguage}}</button>
 
     <!-- ALL KOD FÖR POPUP-WINDOW-->
@@ -71,22 +76,18 @@ export default {
 <style scoped>
 
 .language{
-  height: 3rem;
-    width: 3rem;
-    background-color: #FFFDD0;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-size: 1rem;
-    text-align: center;
+    height: 1rem;
+    width: 1rem;
     cursor:pointer;
-    border-radius: 50%;
-    border-color: black;
-    position: absolute;
-    top:0;
-    left:0;
     margin: 0.5rem;
 }
-
-.help {
+#flag {
+  width: 5rem;
+  height: 3.5rem;
+  border-radius: 20%;
+}
+  
+  .help {
     height: 3rem;
     width: 3rem;
     background-color: #FFFDD0;
@@ -100,27 +101,8 @@ export default {
     top: 0;
     right:0;
     margin: 0.5rem;
-  }
-  .modal-vue .overlay {
-  position: fixed;
-  z-index: 9998;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, .5);
-}
 
-.modal-vue .modal {
-  position: relative;
-  width: 400px;
-  z-index: 9999;
-  margin: 10px auto;
-  padding: 20px 30px;
-  background-color: #FFFDD0;
-  border-radius: 15px;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
-}
+  }
 
 .modal-vue .close{
   position: absolute;
@@ -129,11 +111,8 @@ export default {
   background-color: #FE5F55;
 }
   .wrapper{
-    width: 100%;
-    display: grid;
-    grid-gap: 3rem;
-    grid-auto-flow: column;
-
+    display: flex;
+    justify-content: center;
   }
 
   #homepic {
