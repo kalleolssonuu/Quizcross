@@ -17,16 +17,13 @@
 
     </div> -->
 
-    <div id="crosswordwrapper">
-      <tr>
-        <td class="letterbox"> T </td>
-        <td class="letterbox"> D </td>
-        <td class="letterbox"> T </td>
+    <table id="crosswordwrapper">
+      <tr v-for="(list, key) in [[1,2,3,4],[2,3,4,5],[3,4,5,6]]" v-bind:key="key">
+        <td class="letterbox" v-for="(letter, key) in list" v-bind:key="key"> 
+          {{ letter }}
+        </td>
       </tr>
-      <tr>
-        <!-- <td class="letterbox"> T </td> -->
-      </tr>
-    </div>
+    </table>
 
   </div>
 </template>
@@ -45,9 +42,13 @@
       wordPositions: [],
       matrixDims: Object
     },
+    created: function () {
+      this.tempFunc()
+    },
     methods: {
       tempFunc: function () {
         console.log("test")
+        console.log(this.wordPositions)
       }
     }
   }
@@ -59,8 +60,8 @@
 
 .letterbox {
   background-color: green;
-  height: relative;
-  width: relative;
+  height: 2rem;
+  width: 2rem;
   margin: 2em;
   /* object-position: center; */
 }
@@ -68,14 +69,18 @@
   background-color: red;
 }
 
+#crossword {
+  display: table;
+  height: 20rem;
+  width: 20rem;
+
+}
 
 #crosswordwrapper {
   display: table;
   table-layout: auto;
   justify-content: center;
   background-color: #A7CAB1;
-  height: 20em;
-  width: 20em;
 }
 
 

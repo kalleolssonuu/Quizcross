@@ -1,9 +1,9 @@
 <template>
     <div>
-        <Crossword v-bind:wordObjects="wordObjects" 
-                    v-bind:tempWordObjects="tempWordObjects"
-                    v-bind:wordPositions="wordPositions" 
-                    v-bind:matrixDims="matrixDims">
+        <Crossword v-bind:wordObjects="this.wordObjects" 
+                    v-bind:tempWordObjects="this.tempWordObjects"
+                    v-bind:wordPositions="this.wordPositions" 
+                    v-bind:matrixDims="this.matrixDims">
         
             test
         </Crossword>
@@ -13,7 +13,7 @@
           <div class="inputField"> <!-- måste emitta word så att vi kan använda -->
             <input type="text" v-model="word" required="required" placeholder="Word sv/en">
           </div>
-            <div class="inputField">
+            <div class="inputField" style="display: inline-block">
                 <input type="text" v-model="desc" required="required" placeholder="Word desc sv/en">
         </div>
 
@@ -97,8 +97,8 @@
       findPotentialMatches: function () {
         let word = this.word;                 /* för att spara plats längre ner */
         let wordSplit = word.split();
-        const horiz = this.Dims.horizontal; /* för att spara plats längre ner */
-        const vert = this.Dims.vertical;    /* för att spara plats längre ner */
+        const horiz = this.matrixDims.x; /* för att spara plats längre ner */
+        const vert = this.matrixDims.y;    /* för att spara plats längre ner */
 
         for (let v = 0; v < vert; v++) {
         for (let h = 0; h < horiz; h++) {
@@ -179,9 +179,10 @@
             this.wordPositions[h] = [];
 
             for (let v = 0; v < this.matrixDims.y; v++) {
-            this.wordPositions[h][v] = null;
+            this.wordPositions[h][v] = "c";
             }
-        } 
+        }
+        console.log(this.wordPositions)
       }
 
     }
