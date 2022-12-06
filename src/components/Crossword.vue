@@ -1,16 +1,31 @@
 <template>
-  <div id="crosswordwrapper">
+  <div>
 
 
     <!-- använd v-model för att lösa problemet med positioner i tabellen? -->
 
-    <div class="letterbox" v-for="list in wordPositions" >
-      <tr>
-        <span v-for="letter in list.items()">
-            <td> {{ letter }} </td>
-        </span>
-      </tr> 
+<!--     <div class="letterbox" v-for="(list, key) in wordPositions" v-bind:key="key">
+      <tr v-for="(list, key) in wordPositions" v-bind:key="key">
+          <td v-for="(letter, key) in list.items()" v-bind:key="key"> 
+            <button v-on:click="tempFunc"> 
+              {{ letter }}
+              T
+            </button>
+            T
+          </td>
+      </tr>
 
+    </div> -->
+
+    <div id="crosswordwrapper">
+      <tr>
+        <td class="letterbox"> T </td>
+        <td class="letterbox"> D </td>
+        <td class="letterbox"> T </td>
+      </tr>
+      <tr>
+        <!-- <td class="letterbox"> T </td> -->
+      </tr>
     </div>
 
   </div>
@@ -27,10 +42,13 @@
     props: {
       wordObjects: Object,
       tempWordObjects: Object,
-      wordPositions: []
+      wordPositions: [],
+      matrixDims: Object
     },
     methods: {
-
+      tempFunc: function () {
+        console.log("test")
+      }
     }
   }
   </script>
@@ -38,20 +56,26 @@
   <!-- Add "scoped" attribute to limit CSS to this component only -->
   <style scoped>
 
-  .letterbox:empty {
-  background-color: whitesmoke;
-}
 
 .letterbox {
-  background-color: white;
+  background-color: green;
+  height: relative;
+  width: relative;
+  margin: 2em;
   /* object-position: center; */
+}
+  .letterbox:empty {
+  background-color: red;
 }
 
 
 #crosswordwrapper {
   display: table;
   table-layout: auto;
+  justify-content: center;
   background-color: #A7CAB1;
+  height: 20em;
+  width: 20em;
 }
 
 

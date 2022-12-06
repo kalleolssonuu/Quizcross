@@ -29,6 +29,7 @@
   <div class="wrapper">
     <button id="create" @click="$router.push('/create/'+lang)">{{uiLabels.createPoll}}</button>
     <button id="play" @click="$router.push('/play/'+lang)">{{uiLabels.playCross}}</button>
+    <button id="play" @click="$router.push('/kalletest/'+lang)">{{'Göra korsord test'}}</button>
   </div>
 </template>
 
