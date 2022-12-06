@@ -1,6 +1,9 @@
 <template>
     <header>
     <div class="logo"><img src="/img/HeaderLogo.png">Quizcross</div>
+    <button id="help">
+      ?
+    </button>
   </header>
 
     <div class="gameWrapper">
@@ -82,6 +85,23 @@
     background-color: #A7CAB1;
     width: 100%;
     height: 33%;
+  }
+
+  #help {
+    height: 3rem;
+    width: 3rem;
+    background-color: #FFFDD0;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 30px;
+    text-align: center;
+    cursor:pointer;
+    border-radius: 50%;
+    border-color: black;
+    position: absolute;
+    top: 0;
+    right:0;
+    margin: 0.5rem;
+
   }
 
   .logo {
