@@ -2,10 +2,6 @@
   <header>
     <div class="language">
       <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage"></div>
-    <button class="help">
-      ?
-    </button>
-    <button class="language" v-on:click="switchLanguage">{{uiLabels.changeLanguage}}</button>
 
     <!-- ALL KOD FÖR POPUP-WINDOW-->
     <div class="modal-vue">
@@ -104,6 +100,26 @@ export default {
     margin: 0.5rem;
 
   }
+  .modal-vue .overlay {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+}
+
+.modal-vue .modal {
+  position: relative;
+  width: 300px;
+  z-index: 9999;
+  margin: 0 auto;
+  padding: 20px 30px;
+  background-color: #FFFDD0;
+  border-radius: 15px;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
 
 .modal-vue .close{
   position: absolute;
