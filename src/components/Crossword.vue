@@ -18,7 +18,8 @@
     </div> -->
 
     <table id="crosswordwrapper">
-      <tr v-for="(list, key) in [[1,2,3,4],[2,3,4,5],[3,4,5,6]]" v-bind:key="key">
+      <tr v-for="(list, key) in [['C','L', 'O', 'W', 'N', ''],['','A','','', '', ''],['','K','A','N', 'O', 'N'],
+                                  ['J', 'A', '', '', '', ''], ['', 'N', '', '', '', '']]" v-bind:key="key">
         <td class="letterbox" v-for="(letter, key) in list" v-bind:key="key"> 
           {{ letter }}
         </td>
@@ -29,6 +30,7 @@
 </template>
   
   <script>
+
   export default {
     data: function() {
       return {
@@ -40,7 +42,9 @@
       wordObjects: Object,
       tempWordObjects: Object,
       wordPositions: [],
-      matrixDims: Object
+      matrixDims: Object,
+      word: String,
+      desc: String
     },
     created: function () {
       this.tempFunc()
@@ -59,14 +63,19 @@
 
 
 .letterbox {
-  background-color: green;
-  height: 2rem;
-  width: 2rem;
-  margin: 2em;
+  background-color: rgb(250, 244, 192);
+  height: 5rem;
+  width: 5rem;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-weight: bold;
+  font-size: 2rem;
+  border: black 0.15rem solid;
   /* object-position: center; */
 }
-  .letterbox:empty {
-  background-color: red;
+.letterbox:empty {
+  background-color: white;
+  /* background-color: #A7CAB1; */
+
 }
 
 #crossword {

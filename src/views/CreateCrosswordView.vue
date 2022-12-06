@@ -3,13 +3,15 @@
         <Crossword v-bind:wordObjects="this.wordObjects" 
                     v-bind:tempWordObjects="this.tempWordObjects"
                     v-bind:wordPositions="this.wordPositions" 
-                    v-bind:matrixDims="this.matrixDims">
+                    v-bind:matrixDims="this.matrixDims"
+                    v-bind:word="this.word"
+                    v-bind:desc="this.desc">
         
             test
         </Crossword>
 
 
-        <div class="wrapper">
+        <div class="inputFieldWrapper">
           <div class="inputField"> <!-- måste emitta word så att vi kan använda -->
             <input type="text" v-model="word" required="required" placeholder="Word sv/en">
           </div>
