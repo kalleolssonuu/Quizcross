@@ -180,7 +180,7 @@
             this.wordPositions[h] = [];
             /* wordPositions = [[null, null, null, null]] */
             for (let v = 0; v < this.matrixDims.y; v++) {
-            this.wordPositions[h][v] = "";
+            this.wordPositions[h][v] = "c";
             }
         }
         console.log(this.wordPositions)
