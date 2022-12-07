@@ -17,21 +17,20 @@
 
     </div> -->
 
-    <div id="crosswordwrapper">
-      <tr>
-        <td class="letterbox"> T </td>
-        <td class="letterbox"> D </td>
-        <td class="letterbox"> T </td>
+    <table id="crosswordwrapper">
+      <tr v-for="(list, key) in [['C','L', 'O', 'W', 'N', ''],['','A','','', '', ''],['','K','A','N', 'O', 'N'],
+                                  ['J', 'A', '', '', '', ''], ['', 'N', '', '', '', '']]" v-bind:key="key">
+        <td class="letterbox" v-for="(letter, key) in list" v-bind:key="key"> 
+          {{ letter }}
+        </td>
       </tr>
-      <tr>
-        <!-- <td class="letterbox"> T </td> -->
-      </tr>
-    </div>
+    </table>
 
   </div>
 </template>
   
   <script>
+
   export default {
     data: function() {
       return {
@@ -43,11 +42,17 @@
       wordObjects: Object,
       tempWordObjects: Object,
       wordPositions: [],
-      matrixDims: Object
+      matrixDims: Object,
+      word: String,
+      desc: String
+    },
+    created: function () {
+      this.tempFunc()
     },
     methods: {
       tempFunc: function () {
         console.log("test")
+        console.log(this.wordPositions)
       }
     }
   }
@@ -58,24 +63,33 @@
 
 
 .letterbox {
-  background-color: green;
-  height: relative;
-  width: relative;
-  margin: 2em;
+  background-color: rgb(250, 244, 192);
+  height: 5rem;
+  width: 5rem;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-weight: bold;
+  font-size: 2rem;
+  border: black 0.15rem solid;
   /* object-position: center; */
 }
-  .letterbox:empty {
-  background-color: red;
+.letterbox:empty {
+  background-color: white;
+  /* background-color: #A7CAB1; */
+
 }
 
+#crossword {
+  display: table;
+  height: 20rem;
+  width: 20rem;
+
+}
 
 #crosswordwrapper {
   display: table;
   table-layout: auto;
   justify-content: center;
   background-color: #A7CAB1;
-  height: 20em;
-  width: 20em;
 }
 
 
