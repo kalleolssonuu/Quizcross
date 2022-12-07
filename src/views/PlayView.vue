@@ -11,29 +11,12 @@
           User created games
           <div id="gameList">
             <div class="scroll">
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-
-          
+             <!--- <Game v-for="game in games"
+              v-bind:game="game" 
+              v-bind:key="game.name"
+              v-on:selectedGame="selectedGame($event)"/> -->
         </div>
-          </div>
+        </div>
       </div>
 
       <div id="myGames">
@@ -41,23 +24,7 @@
         <div class="scroll">
           -Hugo <br>
           -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
-          -Hugo <br>
+
 
           
         </div>
@@ -75,8 +42,26 @@
   </template>
   
   <script>
+  /*import Game from '../components/GamesComponent.vue'*/
+
   /*import io from 'socket.io-client'; 
   const socket = io();*/
+
+  /*export default{
+    name: 'PlayView',
+    components:{
+      Game
+    },
+    data: function(){
+      return{
+        games: gameInfo,
+        selectedGame:{}
+      }
+
+
+    }
+  }*/
+  
   
   </script>
 

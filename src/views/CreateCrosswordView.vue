@@ -1,15 +1,23 @@
 <template>
     <div>
-        <Crossword  v-bind:wordObjects="wordObjects" 
+        <Crossword v-bind:wordObjects="wordObjects" 
                     v-bind:tempWordObjects="tempWordObjects"
-                    v-bind:wordPositions="wordPositions"
-        >
-
-
+                    v-bind:wordPositions="wordPositions" 
+                    v-bind:matrixDims="matrixDims">
+        
+            test
         </Crossword>
 
 
+        <div class="wrapper">
+          <div class="inputField"> <!-- måste emitta word så att vi kan använda -->
+            <input type="text" v-model="word" required="required" placeholder="Word sv/en">
+          </div>
+            <div class="inputField">
+                <input type="text" v-model="desc" required="required" placeholder="Word desc sv/en">
+        </div>
 
+    </div>
 
 
 
@@ -17,23 +25,28 @@
   </template>
   
   <script>
-  import Crossword from '../components/OneBurger.vue'
+  import Crossword from '../components/Crossword.vue'
   import io from 'socket.io-client';
   const socket = io();
   
-  const wordFromInput = function(inputWord, inputDesc) {
-    this.word = inputWord; /* Första steget kör split på ordet och leta igenom matrisen. Resultat ["c", "l", "o", "w", "n"] */
+/*   const wordFromInput = function(inputWord, inputDesc) {
+    this.word = inputWord; /* Första steget kör split på ordet och leta igenom matrisen. Resultat ["c", "l", "o", "w", "n"] 
     this.desc = inputDesc;
-}
+} */
 
   export default {
-    name: 'CreateView',
+    name: 'CreateCrosswordView',
+    components: {
+        Crossword
+    },
     data: function () {
       return {
+        word: "",
+        desc: "",
         boxes: {},
         iterator: 0,
         noMatches: false,
-        matrix: {horizontal: 20, vertical: 20},
+        matrixDims: {horizontal: 20, vertical: 20},
         wordPositions: [], /* [[1, 2, 3], [2, 4, 6], [1, 3, 5]] */
         wordObjects: {}, /* {clown: {beskrivning: "pajas", horisontellt: true, pos: {bokstavIOrdningen[0]: [1, 1],
                                                                                        bokstavIOrdningen[1]: [1, 2],
@@ -54,8 +67,6 @@
         tempWordObjects: {},
         wordKeyPairs: {}, /* [{ord: beskrivning}] vi matar in via v-model. Syftet med dessa är att kunna skicka
                             smidigare till spelarvyn. Kanske ej behövs, kolla hur mycket det underlättar! */
-        wordFromInput: "",
-        descFromInput: ""
         /* SKICKA wordObjects TILL SPELARVYN */
         /* All info ligger under data, dvs. data.wordObjects."clown".beskrivning = "pajas" */
       }
@@ -68,7 +79,8 @@
       })
       socket.on("dataUpdate", (data) =>
         this.data = data
-      )
+      ),
+      this.fillPositionsNull();
     },
     methods: {
       testAddWordObject: function (wordObject) {
@@ -77,16 +89,16 @@
       testAddWord: function (wrd, description) {
         this.word.key = wrd; 
         this.word.description = description;
-        wordFromInput = new wordFromInput("","");
+        /* wordFromInput = new wordFromInput("",""); */
       }, 
       pickWord: function () {
-        this.wordObjects = Object.assign(wordObjects, tempWordObjects[this.iterator]);
+        this.wordObjects = Object.assign(this.wordObjects, this.tempWordObjects[this.iterator]);
       },
       findPotentialMatches: function () {
         let word = this.word;                 /* för att spara plats längre ner */
         let wordSplit = word.split();
-        const horiz = this.matrix.horizontal; /* för att spara plats längre ner */
-        const vert = this.matrix.vertical;    /* för att spara plats längre ner */
+        const horiz = this.Dims.horizontal; /* för att spara plats längre ner */
+        const vert = this.Dims.vertical;    /* för att spara plats längre ner */
 
         for (let v = 0; v < vert; v++) {
         for (let h = 0; h < horiz; h++) {
@@ -95,11 +107,11 @@
                     for (let i = 1; i < word.length(); i++) {
                         if (this.wordPositions[h + i][v] == wordSplit[i] || this.wordPositions[h + i][v] == null) { /* räcker med att spara första och sista positionen för ordet! */
                             if (i == word.length - 1) { /* vi har tagit oss till slutet av ordet och allt har funkat */
-                                this.tempWordObjects = Object.assign(potentialMatches, {
-                                    word: {beskrivning: this.desc, horisontellt: true, pos: getPositions(word, h, v, true)}
+                                this.tempWordObjects = Object.assign(this.tempWordObjects, {
+                                    word: {beskrivning: this.desc, horisontellt: true, pos: this.getPositions(word, h, v, true)}
                                 })
 
-                                updateWordPositionsHoriz(h, v, wordSplit)
+                                this.updateWordPositionsHoriz(h, v, wordSplit)
                             }
                         } else {
                             break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
@@ -109,11 +121,11 @@
                     for (let i = 1; i < word.length(); i++) {
                         if (this.wordPositions[h][v + i] == wordSplit[i] || this.wordPositions[h][v + i] == null) { /* räcker med att spara första och sista positionen för ordet! */
                             if (i == word.length - 1) { /* vi har tagit oss till slutet av ordet och allt har funkat */
-                                this.tempWordObjects = Object.assign(potentialMatches, {
-                                    word: {beskrivning: this.desc, horisontellt: false, pos: getPositions(word, h, v, false)}
+                                this.tempWordObjects = Object.assign(this.tempWordObjects, {
+                                    word: {beskrivning: this.desc, horisontellt: false, pos: this.getPositions(word, h, v, false)}
                                 })
 
-                                updateWordPositionsVert(h, v, wordSplit)
+                                this.updateWordPositionsVert(h, v, wordSplit)
                             }
                         } else {
                             break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
@@ -127,7 +139,7 @@
         } 
 
         if (this.tempWordObjects.keys().length() == 0) {
-            alertNoMatches();
+            this.alertNoMatches();
         }
       }, 
       getPositions: function (word, h, v, horizontal) {
@@ -147,21 +159,29 @@
         return pos;
       },
       updateWordPositionsHoriz: function (h, v, wordSplit) {
-        for (let i = 1; i < word.length(); i++) {
+        for (let i = 1; i < this.word.length(); i++) {
           this.wordPositions[h + i][v] = wordSplit[i]
         }
       },
       updateWordPositionsVert: function (h, v, wordSplit) {
-        for (let i = 1; i < word.length(); i++) {
+        for (let i = 1; i < this.word.length(); i++) {
           this.wordPositions[h][v + i] = wordSplit[i]
         }
       },
-
       alertNoMatches: function () {
         alert("no matches! Try another word.")
       },
       confirmNewWord: function () {
         socket.emit("updateGrid", this.tempWordObjects, this.iterator) /* Hur ska vi låta användaren iterera över alla möjliga positioner? */
+      },
+      fillPositionsNull: function () {
+        for (let h = 0; h < this.matrixDims.x; h++) {
+            this.wordPositions[h] = [];
+
+            for (let v = 0; v < this.matrixDims.y; v++) {
+            this.wordPositions[h][v] = null;
+            }
+        } 
       }
 
     }
@@ -170,3 +190,10 @@
 
   </script>
   
+  <style>
+
+
+
+
+
+</style>

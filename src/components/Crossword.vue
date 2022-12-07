@@ -1,10 +1,32 @@
 <template>
-  <div id="crosswordwrapper">
-    <div class="letterbox" v-for="word in wordObjects" >
-      {{ word.pos.key() }}
+  <div>
 
+
+    <!-- använd v-model för att lösa problemet med positioner i tabellen? -->
+
+<!--     <div class="letterbox" v-for="(list, key) in wordPositions" v-bind:key="key">
+      <tr v-for="(list, key) in wordPositions" v-bind:key="key">
+          <td v-for="(letter, key) in list.items()" v-bind:key="key"> 
+            <button v-on:click="tempFunc"> 
+              {{ letter }}
+              T
+            </button>
+            T
+          </td>
+      </tr>
+
+    </div> -->
+
+    <div id="crosswordwrapper">
+      <tr>
+        <td class="letterbox"> T </td>
+        <td class="letterbox"> D </td>
+        <td class="letterbox"> T </td>
+      </tr>
+      <tr>
+        <!-- <td class="letterbox"> T </td> -->
+      </tr>
     </div>
-
 
   </div>
 </template>
@@ -20,20 +42,12 @@
     props: {
       wordObjects: Object,
       tempWordObjects: Object,
-      wordPositions: []
+      wordPositions: [],
+      matrixDims: Object
     },
     methods: {
-      increaseAmount: function () {
-        this.amountOrdered += 1;
-        this.$emit('orderedBurger', {name: this.burger.name, amount: this.amountOrdered
-        })
-      }, 
-      decreaseAmount: function () {
-        if (this.amountOrdered > 0) {
-          this.amountOrdered -= 1;
-        }
-        this.$emit('orderedBurger', {name: this.burger.name, amount: this.amountOrdered
-        })
+      tempFunc: function () {
+        console.log("test")
       }
     }
   }
@@ -41,15 +55,27 @@
   
   <!-- Add "scoped" attribute to limit CSS to this component only -->
   <style scoped>
-  
-.letterbox {
 
+
+.letterbox {
+  background-color: green;
+  height: relative;
+  width: relative;
+  margin: 2em;
+  /* object-position: center; */
+}
+  .letterbox:empty {
+  background-color: red;
 }
 
+
 #crosswordwrapper {
-  display: grid;
-  grid-area: auto;
+  display: table;
+  table-layout: auto;
+  justify-content: center;
   background-color: #A7CAB1;
+  height: 20em;
+  width: 20em;
 }
 
 
