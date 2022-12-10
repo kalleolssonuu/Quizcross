@@ -11,10 +11,10 @@
           User created games
           <div id="gameList">
             <div class="scroll">
-             <!--- <Game v-for="game in games"
+             <Game v-for="game in games"
               v-bind:game="game" 
               v-bind:key="game.name"
-              v-on:selectedGame="selectedGame($event)"/> -->
+              v-on:selectGame="selectGame($event)"/> 
         </div>
         </div>
       </div>
@@ -42,12 +42,12 @@
   </template>
   
   <script>
-  /*import Game from '../components/GamesComponent.vue'*/
-
+  import Game from '../components/GameComponent.vue'
+  import gameInfo from '../assets/gameInfo.json' 
   /*import io from 'socket.io-client'; 
   const socket = io();*/
 
-  /*export default{
+  export default{
     name: 'PlayView',
     components:{
       Game
@@ -59,14 +59,14 @@
       }
 
 
-    }
-  },
-  methods: {
-    playGame: function (){
+    },
+    methods: {
+    selectGame: function (event){
       
     }
   }
-  */
+  }
+  
   
   
   </script>
