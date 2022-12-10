@@ -60,7 +60,13 @@
 
 
     }
-  }*/
+  },
+  methods: {
+    playGame: function (){
+      
+    }
+  }
+  */
   
   
   </script>
