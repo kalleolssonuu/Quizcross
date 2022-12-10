@@ -48,7 +48,8 @@ export default {
   created: function () {
     socket.on("init", (labels) => {
       this.uiLabels = labels
-    })
+    });
+    console.log("created har anropats")
   },
   methods: {
     switchLanguage: function() {

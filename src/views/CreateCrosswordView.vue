@@ -15,11 +15,10 @@
           <div class="inputField"> <!-- måste emitta word så att vi kan använda -->
             <input type="text" v-model="word" required="required" placeholder="Word sv/en">
           </div>
-            <div class="inputField" style="display: inline-block">
-                <input type="text" v-model="desc" required="required" placeholder="Word desc sv/en">
+          <div class="inputField" style="display: inline-block">
+              <input type="text" v-model="desc" required="required" placeholder="Word desc sv/en">
+          </div>
         </div>
-
-    </div>
 
 
 
@@ -48,9 +47,9 @@
         boxes: {},
         iterator: 0,
         noMatches: false,
-        matrixDims: {horizontal: 20, vertical: 20},
+        matrixDims: {x: 20, y: 20},
         wordPositions: [], /* [[1, 2, 3], [2, 4, 6], [1, 3, 5]] */
-        wordObjects: {}, /* {clown: {beskrivning: "pajas", horisontellt: true, pos: {bokstavIOrdningen[0]: [1, 1],
+        wordObjects: {}, /* {id: {ord: "clown", beskrivning: "pajas", horisontellt: true, pos: {bokstavIOrdningen[0]: [1, 1],
                                                                                        bokstavIOrdningen[1]: [1, 2],
                                                                                        ...
                                                                                       }
@@ -179,7 +178,7 @@
       fillPositionsNull: function () {
         for (let h = 0; h < this.matrixDims.x; h++) {
             this.wordPositions[h] = [];
-
+            /* wordPositions = [[null, null, null, null]] */
             for (let v = 0; v < this.matrixDims.y; v++) {
             this.wordPositions[h][v] = "c";
             }
