@@ -6,10 +6,7 @@
                     v-bind:tempWordPositions="tempWordPositions"
                     v-bind:matrixDims="this.matrixDims"
                     v-bind:word="this.word"
-                    v-bind:desc="this.desc"
->
-        
-            test
+                    v-bind:desc="this.desc">
         </Crossword>
 
 
@@ -111,7 +108,7 @@
             console.log("har kommit in i loop")
         for (let h = 0; h < horiz; h++) {
             if (this.wordPositions[h][v] == wordSplit[0] || this.wordPositions[h][v] == null) {
-                console.log("har kommit förbi bokstavsjämförelse")
+                console.log("har kommit förbi bokstavskoll")
                 if (wordSplit.length <= horiz - h) { /* FÅR PLATS HORISONTELLT? */
                     console.log("wordSplit.length = " + wordSplit.length)
                     console.log("har kommit förbi längdkontroll") /* här sitter vi fast */
@@ -127,6 +124,7 @@
                                 this.tempWordPositions[this.iterator] = this.getNewTempPositionHoriz(h, v, wordSplit);
                                 this.iterator++;
                                 console.log("iterator = " + this.iterator)
+                                console.log("tempWordPositions = " + this.tempWordPositions)
                             
                             }
                         } else {
@@ -152,9 +150,7 @@
                         }
                     }
                 }
-            } else {
-                continue
-            } /* borde gå att ta bort continue */
+            }
         }
         } 
 
@@ -222,9 +218,9 @@
       
 }   
 
-  </script>
-  
-  <style>
+</script>
+
+<style>
 
 
 
