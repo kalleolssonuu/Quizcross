@@ -1,30 +1,33 @@
 <template>
+
+
   <div>
-
-
     <!-- använd v-model för att lösa problemet med positioner i tabellen? -->
 
-<!--     <div class="letterbox"> -->
-<!--   <table id="crosswordwrapper">
-    <tr v-for="(list, ykey) in wordPositions" v-bind:key="'y' + ykey">
-        <td id="letterbox" v-for="(letter, xkey) in list" v-bind:key="'x' + xkey"> 
-          {{ letter }}
-        </td>
-    </tr>
-  </table> -->
+<div class="letterbox"> 
+    <table id="crosswordwrapper">
+      <tr v-for="(list, ykey) in wordPositions" v-bind:key="'y' + ykey">
+          <td class="letterbox" v-for="(letter, xkey) in list" v-bind:key="'x' + xkey"> 
+            {{ letter }}
+          </td>
+      </tr>
+    </table> 
 
-<!--     </div> -->
+  </div>
 
-    <table id="crosswordwrapper"> <!-- nedan lista är hur wordPositions kommer se ut i verkligheten -->
+    <!-- <table id="crosswordwrapper"> nedan lista är hur wordPositions kommer se ut i verkligheten -->
+      <!-- vad är key??? ex är första iterationen (list, ykey) ovan: ([listan me clown], [v])?? 
+                    kommer varje bokstav i list ha "totala" keyn [h][v] därav måste välja ykey och xkey?  
       <tr v-for="(list, key) in [['C','L', 'O', 'W', 'N', ''],['','A','','', '', ''],['','K','A','N', 'O', 'N'],
                                   ['J', 'A', '', '', '', ''], ['', 'N', '', '', '', '']]" v-bind:key="key">
         <td class="letterbox" v-for="(letter, key) in list" v-bind:key="key"> 
           {{ letter }}
         </td>
       </tr>
-    </table>
+    </table> -->
 
-  </div>
+  </div> 
+  
 </template>
   
   <script>

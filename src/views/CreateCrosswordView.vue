@@ -81,7 +81,7 @@
       socket.on("dataUpdate", (data) =>
         this.data = data
       ),
-      this.fillPositionsNull();
+      this.fillPositionsNull();  // fyller matris
     },
     methods: {
       testAddWordObject: function (wordObject) {
@@ -101,13 +101,17 @@
         const horiz = this.matrixDims.x; /* för att spara plats längre ner */
         const vert = this.matrixDims.y;    /* för att spara plats längre ner */
 
-        for (let v = 0; v < vert; v++) {
+        for (let v = 0; v < vert; v++) { // v är yttre!!!!!!
         for (let h = 0; h < horiz; h++) {
+
+          // förstår ej koppling, tänk ex om Wordposition [[1, 2, 3], [2, 4, 6], [1, 3, 5]], vad är h och vad v??
+          // eler hur förstår den nedan vilken av yttre och inre som är h och v? UPDATE: FATTAR PGA VI NAMNGETT ALLA PLATSER I FILLMATRIX
             if (this.wordPositions[h][v] == wordSplit[0] || this.wordPositions[h][v] == null) {
                 if (word.length() <= horiz - h) { /* FÅR PLATS HORISONTELLT? */
                     for (let i = 1; i < word.length(); i++) {
                         if (this.wordPositions[h + i][v] == wordSplit[i] || this.wordPositions[h + i][v] == null) { /* räcker med att spara första och sista positionen för ordet! */
-                            if (i == word.length - 1) { /* vi har tagit oss till slutet av ordet och allt har funkat */
+                            
+                          if (i == word.length - 1) { /* vi har tagit oss till slutet av ordet och allt har funkat */
                                 this.tempWordObjects = Object.assign(this.tempWordObjects, {
                                     word: {beskrivning: this.desc, horisontellt: true, pos: this.getPositions(word, h, v, true)}
                                 })
@@ -148,7 +152,14 @@
 
         if (horizontal) {
             for (let i = 0; i < word.length(); i++) {
-                pos = Object.assign(pos, {i: {x: h + i, y: v}
+                pos = Object.assign(pos, {i: {x: h + i, y: v}   // Blir väl ex: {0: {x: 0 + 0, y: 0}}
+                                                                //              {1: {x: 0 + 1, y: 0 }}
+                                                                //              {2: {x: 0 + 2, y: 0 }}
+                                                                // vill vi ha:
+                                                                //              {c: {x: 0 + 0, y: 0 }}
+                                                                //              {l: {x: 0 + 1, y: 0 }}
+                                                                // dvs   ej    {i: {x: h + i, y: v}   utan ist {word[i]: {x: h + i, y: v}
+                                                                // om ska stämma överrens med beskrivningen av wordObjects i Data!!!
               })   
             }
         } else {
@@ -159,7 +170,8 @@
         }
         return pos;
       },
-      updateWordPositionsHoriz: function (h, v, wordSplit) {
+      updateWordPositionsHoriz: function (h, v, wordSplit) {  // asså om ordet fick plats osv så ska wordpositions uppdaderas så platsen tilldelas varje bokstav i ordet.
+                                                              // men ska verkligen detta göras på en gång??? ska inte detta göras när man valt vilken man vill behålla genom att gå igenom tempwordobjects??
         for (let i = 1; i < this.word.length(); i++) {
           this.wordPositions[h + i][v] = wordSplit[i]
         }
@@ -175,12 +187,14 @@
       confirmNewWord: function () {
         socket.emit("updateGrid", this.tempWordObjects, this.iterator) /* Hur ska vi låta användaren iterera över alla möjliga positioner? */
       },
+
       fillPositionsNull: function () {
         for (let h = 0; h < this.matrixDims.x; h++) {
             this.wordPositions[h] = [];
             /* wordPositions = [[null, null, null, null]] */
             for (let v = 0; v < this.matrixDims.y; v++) {
-            this.wordPositions[h][v] = "c";
+            this.wordPositions[h][v] = "c";                 // Sa vi att matrisen även skulle ha indexvärden?
+                                                            // För när man itererar med worobjecrs? fattar ej hur wordobj och tempwordobj ska kopplas till matrisen 
             }
         }
         console.log(this.wordPositions)
