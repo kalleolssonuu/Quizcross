@@ -89,7 +89,13 @@
 
 
     }
-  }*/
+  },
+  methods: {
+    playGame: function (){
+      
+    }
+  }
+  */
   
   
   </script>
