@@ -47,7 +47,7 @@
         boxes: {},
         iterator: 0,
         noMatches: false,
-        matrixDims: {x: 20, y: 20},
+        matrixDims: {x: 13, y: 10},
         wordPositions: [], /* [[1, 2, 3], [2, 4, 6], [1, 3, 5]] */
         wordObjects: {}, /* {id: {ord: "clown", beskrivning: "pajas", horisontellt: true, pos: {bokstavIOrdningen[0]: [1, 1],
                                                                                        bokstavIOrdningen[1]: [1, 2],
@@ -176,11 +176,11 @@
         socket.emit("updateGrid", this.tempWordObjects, this.iterator) /* Hur ska vi låta användaren iterera över alla möjliga positioner? */
       },
       fillPositionsNull: function () {
-        for (let h = 0; h < this.matrixDims.x; h++) {
-            this.wordPositions[h] = [];
+        for (let v = 0; v < this.matrixDims.y; v++) {
+            this.wordPositions[v] = [];
             /* wordPositions = [[null, null, null, null]] */
-            for (let v = 0; v < this.matrixDims.y; v++) {
-            this.wordPositions[h][v] = "c";
+            for (let h = 0; h < this.matrixDims.x; h++) {
+            this.wordPositions[v][h] = "c";
             }
         }
         console.log(this.wordPositions)
