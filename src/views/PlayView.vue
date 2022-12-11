@@ -1,9 +1,11 @@
 <template>
     <header>
     <div class="logo"><img src="/img/HeaderLogo.png">Quizcross</div>
-    <button id="help">
-      ?
-    </button>
+    <div
+      v-on:click="togglePopup">
+      <Modal v-bind:hideNav="hideNav">
+      <button v-on:click="togglePopup"></button>
+      </Modal></div>
   </header>
 
     <div class="gameWrapper">
@@ -42,6 +44,33 @@
   </template>
   
   <script>
+  import Modal from '../components/PopUp.vue'
+  
+
+  export default {
+  name: 'StartView',
+  components: {
+    Modal
+  },
+  data: function () {
+    return {
+      uiLabels: {},
+      id: "",
+      lang: "en",
+      hideNav: true,
+      showModal: false
+    }
+  },
+  methods: {
+    toggleNav: function () {
+      this.hideNav = ! this.hideNav;
+    },
+    /* FÖR ATT FÅ FRAM POP-UP RUTA*/
+    togglePopup: function () {
+      this.showModal = ! this.showModal;
+    },
+  }
+}
   /*import Game from '../components/GamesComponent.vue'*/
 
   /*import io from 'socket.io-client'; 
@@ -60,7 +89,13 @@
 
 
     }
-  }*/
+  },
+  methods: {
+    playGame: function (){
+      
+    }
+  }
+  */
   
   
   </script>

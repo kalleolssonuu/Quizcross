@@ -1,21 +1,21 @@
 <template>
-  <div>
+<div>
 
 
     <!-- använd v-model för att lösa problemet med positioner i tabellen? -->
 
-<!-- <div class="letterbox"> -->
-<table id="crosswordwrapper">
-  <tr v-for="(list, ykey) in wordPositions" v-bind:key="'y' + ykey">
-    <td class="letterbox" v-for="(letter, xkey) in list" v-bind:key="'x' + xkey"> 
-      {{ letter }}
-    </td>
-  </tr>
-</table> 
+<!--     <div class="letterbox"> -->
+  <table id="crosswordwrapper">
+    <tr v-for="(list, ykey) in wordPositions" v-bind:key="'y' + ykey">
+        <td class="letterbox" v-for="(letter, xkey) in list" v-bind:key="'x' + xkey"> 
+          {{ letter }}
+        </td>
+    </tr>
+  </table>
 
 <!--     </div> -->
 
-<!--     <table id="crosswordwrapper"> !-- nedan lista är hur wordPositions kommer se ut i verkligheten --
+<!--     <table id="crosswordwrapper"> nedan lista är hur wordPositions kommer se ut i verkligheten
       <tr v-for="(list, key) in [['C','L', 'O', 'W', 'N', ''],['','A','','', '', ''],['','K','A','N', 'O', 'N'],
                                   ['J', 'A', '', '', '', ''], ['', 'N', '', '', '', '']]" v-bind:key="key">
         <td class="letterbox" v-for="(letter, key) in list" v-bind:key="key"> 
@@ -24,7 +24,7 @@
       </tr>
     </table> -->
 
-  </div>
+</div>
 </template>
   
   <script>
