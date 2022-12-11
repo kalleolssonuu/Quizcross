@@ -47,7 +47,7 @@
         boxes: {},
         iterator: 0,
         noMatches: false,
-        matrixDims: {x: 20, y: 20},
+        matrixDims: {x: 13, y: 13},
         wordPositions: [], /* [[1, 2, 3], [2, 4, 6], [1, 3, 5]] */
         wordObjects: {}, /* {id: {ord: "clown", beskrivning: "pajas", horisontellt: true, pos: {bokstavIOrdningen[0]: [1, 1],
                                                                                        bokstavIOrdningen[1]: [1, 2],
