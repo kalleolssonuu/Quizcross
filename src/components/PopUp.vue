@@ -1,0 +1,87 @@
+<template> 
+   <!-- ALL KOD FÖR POPUP-WINDOW-->
+   <div class="modal-vue">
+      <button id="help" @click="showModal=true">
+        ?
+      </button>
+      <div class="overlay" v-if="showModal"
+      @click="showModal=false">
+      </div>
+      <div class="modal" v-if="showModal">
+        <button class="close" @click="showModal = false">x</button>
+        <h3>What is Quizcross?</h3>
+        <p>Description here:</p>
+      </div>
+    </div>
+</template>
+
+<script>
+export default {
+  name: 'PopUp',
+  props: {
+    modal: Object
+  },
+
+  data: function () {
+    return {
+      /*uiLabels: {},
+      id: "",
+      lang: "en",
+      hideNav: true,*/
+      showModal: false
+    }
+  },
+  methods:{
+    togglePopup: function () {
+      this.showModal = ! this.showModal;
+    }
+  }     
+}
+</script>
+
+<style>
+  
+  #help {
+    height: 3rem;
+    width: 3rem;
+    background-color: #FFFDD0;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 30px;
+    text-align: center;
+    cursor:pointer;
+    border-radius: 50%;
+    border-color: black;
+    position: absolute;
+    top: 0;
+    right:0;
+    margin: 0.5rem;
+  }
+  .modal-vue .overlay {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+}
+
+.modal-vue .modal {
+  position: absolute;
+  width: 300px;
+  z-index: 9999;
+  margin: 0 auto;
+  padding: 20px 30px;
+  background-color: #FFFDD0;
+  border-radius: 15px;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+
+.modal-vue .close{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #FE5F55;
+  border-radius: 5px;
+}
+</style>

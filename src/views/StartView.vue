@@ -39,6 +39,7 @@ export default {
   },
 
   created: function () {
+    socket.emit('pageLoaded')
     socket.on("init", (labels) => {
       this.uiLabels = labels
     });
@@ -151,10 +152,15 @@ export default {
     
   }
 
+  #create:hover{
+    background-color: #fb6d63;
+    
+  }
   #play:hover{
     background-color: #fb6d63;
     
   }
+
 
   .logo img {
     height:25rem;
