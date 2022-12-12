@@ -16,6 +16,16 @@
     <button id="play" @click="$router.push('/play/'+lang)">{{uiLabels.playCross}}</button>
     <button id="play" @click="$router.push('/kalletest/'+lang)">{{'Göra korsord test'}}</button>
   </div>
+
+<audio src="01 Manboy.m4a" controls>
+  <embed
+  src="01 Manboy.m4a"
+  loop="true"
+  autostart="true"
+  height="0"
+  hidden>
+</audio>
+
 </template>
 
 <script>
