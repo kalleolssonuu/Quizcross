@@ -13,10 +13,10 @@
         User created games
         <div id="gameList">
           <div class="scroll">
-          <!---- <Game v-for="game in games"
+          <Game v-for="game in games"
             v-bind:game="game" 
             v-bind:key="game.name"
-            v-on:selectGame="selectGame($event)"/> -->
+            v-on:selectedGame="selectGame()"/> 
       </div>
       </div>
     </div>
@@ -30,6 +30,10 @@
 
         
       </div>
+      <textarea id="select">
+         hej           
+      </textarea>
+
       <button id="create" @click="$router.push('/create/en')">{{'Create'}}</button>
     </div>
   </div>
@@ -44,7 +48,7 @@
 </template>
 
 <script>
-import Game from '../components/GamesComponent.vue'
+import Game from '../components/GameComponent.vue'
 import gameInfo from '../assets/gameInfo.json' 
 
 /*import io from 'socket.io-client'; 
@@ -52,30 +56,34 @@ const socket = io();*/
 
 export default{
   name: 'PlayView',
-  /*components:{
+  components:{
     Game
-  },*/
+  },
   props: {
   modal: Object
 },
   data: function(){
     return{
-      /*games: gameInfo,
-      selectedGame:{},*/
+      games: gameInfo,
+      selectedGame:{},
       uiLabels: {},
-    id: "",
-    lang: "en",
-    hideNav: true,
-    showModal: false
+      id: "",
+      lang: "en",
+      hideNav: true,
+      showModal: false
     }
   },
   methods: {
-  /*selectGame: function (event){ 
+  selectGame: function (){ 
+    document.getElementById("select").innerHTML="halloj"
+
   },
+
 /* FÖR ATT FÅ FRAM POP-UP RUTA*/
 togglePopup: function () {
     this.showModal = ! this.showModal;
   },
+
 }
 }
 

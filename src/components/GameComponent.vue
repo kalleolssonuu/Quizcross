@@ -1,7 +1,6 @@
 <template>
     <form name="gameList">
-        <input type="radio" id={{game.id}} v-model="games" required="required">
-        <label for={{game.id}}> {{game.name}}</label>
+        <button onclick="selectAGame()">{{game.name}}</button>
     </form>
 
 </template>
@@ -16,14 +15,11 @@ export default{
     },
     data: function(){
         return{
-            selected: {},
         }
     },
     methods:{
         selectAGame: function(){
-            if('document.gameList')
-            var checked = document.querySelector().value;
-            this.$emit('selectedGame', {name: this.game.name, id: this.game.id})
+            this.$emit('selectedGame', {name: this.name, id: this.id})
         }
     }
 }
