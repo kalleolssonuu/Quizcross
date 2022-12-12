@@ -16,7 +16,7 @@
              <Game v-for="game in games"
               v-bind:game="game" 
               v-bind:key="game.name"
-              v-on:selectGame="selectGame($event)"/> 
+              v-on:selectedGame="selectGame($event)"/> 
         </div>
         </div>
       </div>
@@ -44,7 +44,8 @@
   </template>
   
   <script>
-  /*import Game from '../components/GamesComponent.vue'*/
+  import Game from '../components/GamesComponent.vue'
+  import gameInfo from '../assets/gameInfo.json' 
 
   /*import io from 'socket.io-client'; 
   const socket = io();*/
@@ -57,14 +58,13 @@
     data: function(){
       return{
         games: gameInfo,
-        selectedGame:{}
+        selectedGame:''
       }
-
 
     },
     methods: {
     selectGame: function (event){
-      
+      this.selectedGame=event.name
     }
   }
   }
