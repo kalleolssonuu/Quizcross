@@ -15,11 +15,12 @@ export default{
     },
     data: function(){
         return{
+
         }
     },
     methods:{
         selectAGame: function(){
-            this.$emit('selectedGame', {name: this.name, id: this.id})
+            this.$emit('selectedGame', {name: this.game.name, id: this.game.id})
         }
     }
 }

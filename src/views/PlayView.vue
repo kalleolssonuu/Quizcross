@@ -16,7 +16,7 @@
           <Game v-for="game in games"
             v-bind:game="game" 
             v-bind:key="game.name"
-            v-on:selectedGame="selectGame()"/> 
+            v-on:game="selectGame($event)"/> 
       </div>
       </div>
     </div>
