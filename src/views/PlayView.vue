@@ -44,7 +44,7 @@
       Play cross
     </button>
   </div>
-  <button @click="$router.push('/')">{{'Homepage'}}</button>
+  <button @click="$router.push('/'+lang)">{{'Homepage'}}</button>
 </template>
 
 <script>
@@ -62,6 +62,11 @@ export default{
   props: {
   modal: Object
 },
+
+  created: function () {
+    this.lang = this.$route.params.lang
+  },
+
   data: function(){
     return{
       games: gameInfo,

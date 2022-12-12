@@ -39,6 +39,7 @@ export default {
   },
 
   created: function () {
+    socket.emit('pageLoaded')
     socket.on("init", (labels) => {
       this.uiLabels = labels
     });
