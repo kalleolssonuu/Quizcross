@@ -3,7 +3,6 @@
         <Crossword v-bind:wordObjects="this.wordObjects" 
                     v-bind:tempWordObjects="this.tempWordObjects"
                     v-bind:wordPositions="this.wordPositions"
-                    v-bind:tempWordPositions="tempWordPositions"
                     v-bind:matrixDims="this.matrixDims"
                     v-bind:word="this.word"
                     v-bind:desc="this.desc">
@@ -49,7 +48,8 @@
         iterator: 0,
         noMatches: false,
         matrixDims: {x: 13, y: 10},
-        wordPositions: [], /* [[1, 2, 3], [2, 4, 6], [1, 3, 5]] */
+        /* wordPositions: [], */
+        wordPositions: {actual: [], temp: []},
         tempWordPositions: [],
         wordObjects: {}, /* {id: {ord: "clown", beskrivning: "pajas", horisontellt: true, pos: {bokstavIOrdningen[0]: [1, 1],
                                                                                        bokstavIOrdningen[1]: [1, 2],
@@ -107,24 +107,29 @@
         for (let v = 0; v < vert; v++) {
             console.log("har kommit in i loop")
         for (let h = 0; h < horiz; h++) {
-            if (this.wordPositions[h][v] == wordSplit[0] || this.wordPositions[h][v] == null) {
+            if (this.wordPositions.actual[h][v] == wordSplit[0] || this.wordPositions.actual[h][v] == null) {
                 console.log("har kommit förbi bokstavskoll")
+                console.log("wordPosition.actual (inne i loop efter bokstavskoll)= " + this.wordPositions.actual)
                 if (wordSplit.length <= horiz - h) { /* FÅR PLATS HORISONTELLT? */
                     console.log("wordSplit.length = " + wordSplit.length)
                     console.log("har kommit förbi längdkontroll") /* här sitter vi fast */
-                    for (let i = 1; i < wordSplit.length; i++) {
+                    for (let i = 0; i < wordSplit.length; i++) {
                         console.log("har kommit in i loop efter längdkontroll")
-                        if (this.wordPositions[h + i][v] == wordSplit[i] || this.wordPositions[h + i][v] == null) { /* räcker med att spara första och sista positionen för ordet! */
+                        console.log("wordPosition.actual (inne i loop efter längdkontroll)= " + this.wordPositions.actual)
+                        if (this.wordPositions.actual[h + i][v] == wordSplit[i] || this.wordPositions.actual[h + i][v] == null) { /* räcker med att spara första och sista positionen för ordet! */
                             if (i == wordSplit.length - 1) { /* vi har tagit oss till slutet av ordet och allt har funkat */
 
                                 /* this.tempWordObjects = Object.assign(this.tempWordObjects, {
                                     word: {beskrivning: this.desc, horisontellt: true, pos: this.getPositions(word, h, v, true)}
                                 }) */
 
-                                this.tempWordPositions[this.iterator] = this.getNewTempPositionHoriz(h, v, wordSplit);
+                                this.wordPositions.temp[this.iterator] = this.getNewTempPositionHoriz(h, v, wordSplit);
+                                /* this.wordPositions.actual = ett korsord
+                                   this.wordPositions.temp   = flera korsord. Itereras med this.iterator */
                                 this.iterator++;
                                 console.log("iterator = " + this.iterator)
-                                console.log("tempWordPositions = " + this.tempWordPositions)
+                                console.log("tempWordPositions = " + this.wordPositions.temp)
+                                console.log("wordPosition.actual (inne i loop efter platskontroll)= " + this.wordPositions.actual)
                             
                             }
                         } else {
@@ -133,15 +138,15 @@
                     }
                 }
                 if (wordSplit.length <= vert - v) { /* FÅR PLATS VERTIKALT? */
-                    for (let i = 1; i < wordSplit.length; i++) {
-                        if (this.wordPositions[h][v + i] == wordSplit[i] || this.wordPositions[h][v + i] == null) { /* räcker med att spara första och sista positionen för ordet! */
+                    for (let i = 0; i < wordSplit.length; i++) {
+                        if (this.wordPositions.actual[h][v + i] == wordSplit[i] || this.wordPositions.actual[h][v + i] == null) { /* räcker med att spara första och sista positionen för ordet! */
                             if (i == wordSplit.length - 1) { /* vi har tagit oss till slutet av ordet och allt har funkat */
 
                                 /* this.tempWordObjects = Object.assign(this.tempWordObjects, {
                                     word: {beskrivning: this.desc, horisontellt: false, pos: this.getPositions(word, h, v, true)}
                                 }) */
 
-                                this.tempWordPositions[this.iterator] = this.getNewTempPositionVert(h, v, wordSplit);
+                                this.wordPositions.temp[this.iterator] = this.getNewTempPositionVert(h, v, wordSplit);
                                 this.iterator++;
                                 console.log("iterator = " + this.iterator)
                             }
@@ -156,9 +161,11 @@
 
         this.iterator = 0;
 
-        if (this.tempWordObjects.keys().length == 0) {
+        if (this.wordPositions.temp.length == 0) {
             this.alertNoMatches();
         }
+
+        this.wordPositions.actual = this.wordPositions.temp[0]
       }, 
       getPositions: function (word, h, v, horizontal) {
         let pos = {};
@@ -177,21 +184,21 @@
         return pos;
       },
       getNewTempPositionHoriz: function (h, v, wordSplit) {
-        let newWordPositions = this.wordPositions;
+        let newWordPositions = Object.assign({}, this.wordPositions.actual)
 
         for (let i = 1; i < this.word.length; i++) {
-            newWordPositions[h + i][v] = wordSplit[i]
+            newWordPositions.actual[h + i][v] = wordSplit[i]
         }
-        return newWordPositions
+        return newWordPositions.actual
       },
       getNewTempPositionVert: function (h, v, wordSplit) {
-        let newWordPositions = this.wordPositions;
+        let newWordPositions = Object.assign({}, this.wordPositions.actual)
 
         for (let i = 1; i < this.word.length; i++) {
-            newWordPositions[h][v + i] = wordSplit[i]
+            newWordPositions.actual[h][v + i] = wordSplit[i]
         }
 
-        return newWordPositions
+        return newWordPositions.actual
       },
       alertNoMatches: function () {
         alert("no matches! Try another word.")
@@ -201,13 +208,13 @@
       },
       fillPositionsNull: function () {
         for (let v = 0; v < this.matrixDims.y; v++) {
-            this.wordPositions[v] = [];
+            this.wordPositions.actual[v] = [];
             /* wordPositions = [[null, null, null, null]] */
             for (let h = 0; h < this.matrixDims.x; h++) {
-            this.wordPositions[v][h] = null;
+            this.wordPositions.actual[v][h] = null;
             }
         }
-        console.log(this.wordPositions)
+        console.log(this.wordPositions.actual)
       },
       testClick: function() {
         console.log(this.word);

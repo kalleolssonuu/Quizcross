@@ -6,14 +6,13 @@
 
 <!--     <div class="letterbox"> -->
   <table id="crosswordwrapper">
-    <tr v-for="(list, ykey) in wordPositions" v-bind:key="'y' + ykey">
+    <tr v-for="(list, ykey) in wordPositions.actual" v-bind:key="'y' + ykey">
         <td class="letterbox" v-for="(letter, xkey) in list" v-bind:key="'x' + xkey"> 
           {{ letter }}
         </td>
     </tr>
   </table>
 
-<!--     </div> -->
 
 <!--     <table id="crosswordwrapper"> nedan lista är hur wordPositions kommer se ut i verkligheten
       <tr v-for="(list, key) in [['C','L', 'O', 'W', 'N', ''],['','A','','', '', ''],['','K','A','N', 'O', 'N'],
@@ -39,7 +38,7 @@
     props: {
       wordObjects: Object,
       tempWordObjects: Object,
-      wordPositions: [],
+      wordPositions: Object,
       matrixDims: Object,
       word: String,
       desc: String
