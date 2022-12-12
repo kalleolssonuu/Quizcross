@@ -184,21 +184,21 @@
         return pos;
       },
       getNewTempPositionHoriz: function (h, v, wordSplit) {
-        let newWordPositions = Object.assign({}, this.wordPositions.actual)
+        let newWordPositions = JSON.parse(JSON.stringify(this.wordPositions.actual))
 
         for (let i = 1; i < this.word.length; i++) {
-            newWordPositions.actual[h + i][v] = wordSplit[i]
+            newWordPositions.pos[h + i][v] = wordSplit[i]
         }
-        return newWordPositions.actual
+        return newWordPositions.pos
       },
       getNewTempPositionVert: function (h, v, wordSplit) {
-        let newWordPositions = Object.assign({}, this.wordPositions.actual)
+        let newWordPositions = JSON.parse(JSON.stringify(this.wordPositions.actual))
 
         for (let i = 1; i < this.word.length; i++) {
-            newWordPositions.actual[h][v + i] = wordSplit[i]
+            newWordPositions.pos[h][v + i] = wordSplit[i]
         }
 
-        return newWordPositions.actual
+        return newWordPositions.pos
       },
       alertNoMatches: function () {
         alert("no matches! Try another word.")
