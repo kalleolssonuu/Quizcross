@@ -13,10 +13,10 @@
           User created games
           <div id="gameList">
             <div class="scroll">
-             <Game v-for="game in games"
+            <!---- <Game v-for="game in games"
               v-bind:game="game" 
               v-bind:key="game.name"
-              v-on:selectGame="selectGame($event)"/> 
+              v-on:selectGame="selectGame($event)"/> -->
         </div>
         </div>
       </div>
@@ -51,21 +51,30 @@
 
   export default{
     name: 'PlayView',
-    components:{
+    /*components:{
       Game
-    },
+    },*/
+    props: {
+    modal: Object
+  },
     data: function(){
       return{
-        games: gameInfo,
-        selectedGame:{}
+        /*games: gameInfo,
+        selectedGame:{},*/
+        uiLabels: {},
+      id: "",
+      lang: "en",
+      hideNav: true,
+      showModal: false
       }
-
-
     },
     methods: {
-    selectGame: function (event){
-      
-    }
+    /*selectGame: function (event){ 
+    },
+/* FÖR ATT FÅ FRAM POP-UP RUTA*/
+  togglePopup: function () {
+      this.showModal = ! this.showModal;
+    },
   }
   }
   
