@@ -1,6 +1,6 @@
 <template>
     <form name="gameList">
-        <button onclick="selectAGame()">{{game.name}}</button>
+        <button id="selectGameButtonStyle" onclick="selectAGame()">{{game.name}}</button>
     </form>
 
 </template>
@@ -29,5 +29,23 @@ export default{
 
 
 <style>
-
+#selectGameButtonStyle {
+ background-color:#43918a;
+ text-align: center;
+ width: 90%;
+ height: 2rem;
+ cursor: pointer;
+ border-width: 0ch;
+ color:white;
+ margin-left: 5%;
+ margin-right: 5%;
+ margin-top: 5%;
+ font-family: "Comic Sans MS", "Comic Sans", cursive;
+ font-size: medium;
+ border-radius: 0.25rem;
+}
+#selectGameButtonStyle:hover{
+    opacity: 75%;
+    
+  }
 </style>
