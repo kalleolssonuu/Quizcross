@@ -1,10 +1,22 @@
 [
     {
-      "name": "hugos spel",
+      "name": "Hugos spel",
        "id": "1337"
     },
     {
-        "name": "elins spel",
+        "name": "Elins spel",
          "id": "1527"
+    },
+    {
+        "name": "Kung Charles spel",
+         "id": "1992"
+    },
+    {
+        "name": "Emils spel",
+         "id": "6969"
+    },
+    {
+        "name": "JJJJJessies spel",
+         "id": "1234"
     }
 ]

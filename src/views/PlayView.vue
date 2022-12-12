@@ -1,6 +1,6 @@
 <template>
   <header>
-  <div class="logo"><img src="/img/HeaderLogo.png">Quizcross</div>
+  <div class="logo">Quizcross</div>
   <div
     v-on:click="togglePopup">
     <Modal v-bind:hideNav="hideNav">
@@ -106,7 +106,7 @@ header {
 #help {
   height: 3rem;
   width: 3rem;
-  background-color: #FFFDD0;
+  background-color: #EEF5DB;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
   font-size: 30px;
   text-align: center;
@@ -143,29 +143,29 @@ header {
   width: 18rem;
   height: 30rem;
   border-radius: 5px;
-  border-color: #5da455;
+  border-color: #a6d8d4;
   margin: 2.5rem;
   color: white;
-  background-color: #5da455;
+  background-color: #43918a;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
-  font-size: 20px;
+  font-size: 25px;
   position: relative;
 }
 #myGames {
   width: 18rem;
   height: 30rem;
   border-radius: 5px;
-  border-color: #5da455;
+  border-color: #a6d8d4;
   margin: 2.5rem;
   color: white;
-  background-color: #5da455;
+  background-color: #43918a;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
-  font-size: 20px;
+  font-size: 25px;
   position: relative;
 }
 div.scroll {
               margin:4px;
-              background-color: #fffecb;
+              background-color: #ffffff;
               width: 17.5rem;
               height: 24rem;
               overflow-x: hidden;
