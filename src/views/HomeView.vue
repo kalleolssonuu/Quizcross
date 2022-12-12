@@ -1,6 +1,6 @@
 <template>
     <header>
-      <div v-bind:class="['hamburger', {'close': !hideNav}]" 
+      <div
            v-on:click="toggleNav">
       </div>
       <div class="logo"><img src="/img/logo.png">Quizcross</div>

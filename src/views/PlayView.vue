@@ -1,9 +1,11 @@
 <template>
     <header>
     <div class="logo"><img src="/img/HeaderLogo.png">Quizcross</div>
-    <button id="help">
-      ?
-    </button>
+    <div
+      v-on:click="togglePopup">
+      <Modal v-bind:hideNav="hideNav">
+      <button v-on:click="togglePopup"></button>
+      </Modal></div>
   </header>
 
     <div class="gameWrapper">
@@ -11,10 +13,10 @@
           User created games
           <div id="gameList">
             <div class="scroll">
-             <!--- <Game v-for="game in games"
+            <!---- <Game v-for="game in games"
               v-bind:game="game" 
               v-bind:key="game.name"
-              v-on:selectedGame="selectedGame($event)"/> -->
+              v-on:selectGame="selectGame($event)"/> -->
         </div>
         </div>
       </div>
@@ -47,26 +49,35 @@
   /*import io from 'socket.io-client'; 
   const socket = io();*/
 
-  /*export default{
+  export default{
     name: 'PlayView',
-    components:{
+    /*components:{
       Game
-    },
+    },*/
+    props: {
+    modal: Object
+  },
     data: function(){
       return{
-        games: gameInfo,
-        selectedGame:{}
+        /*games: gameInfo,
+        selectedGame:{},*/
+        uiLabels: {},
+      id: "",
+      lang: "en",
+      hideNav: true,
+      showModal: false
       }
-
-
-    }
-  },
-  methods: {
-    playGame: function (){
-      
-    }
+    },
+    methods: {
+    /*selectGame: function (event){ 
+    },
+/* FÖR ATT FÅ FRAM POP-UP RUTA*/
+  togglePopup: function () {
+      this.showModal = ! this.showModal;
+    },
   }
-  */
+  }
+  
   
   
   </script>
