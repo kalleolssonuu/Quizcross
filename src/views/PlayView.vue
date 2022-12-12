@@ -1,9 +1,11 @@
 <template>
     <header>
     <div class="logo"><img src="/img/HeaderLogo.png">Quizcross</div>
-    <button id="help">
-      ?
-    </button>
+    <div
+      v-on:click="togglePopup">
+      <Modal v-bind:hideNav="hideNav">
+      <button v-on:click="togglePopup"></button>
+      </Modal></div>
   </header>
 
     <div class="gameWrapper">
@@ -42,8 +44,8 @@
   </template>
   
   <script>
-  import Game from '../components/GameComponent.vue'
-  import gameInfo from '../assets/gameInfo.json' 
+  /*import Game from '../components/GamesComponent.vue'*/
+
   /*import io from 'socket.io-client'; 
   const socket = io();*/
 
