@@ -1,6 +1,6 @@
 <template>
     <form name="gameList">
-        <button id="selectGameButtonStyle" onclick="selectAGame()">{{game.name}}</button>
+        <button id="selectGameButtonStyle" v-on:click=selectAGame(game)>{{game.name}}</button>
     </form>
 
 </template>
@@ -19,8 +19,8 @@ export default{
         }
     },
     methods:{
-        selectAGame: function(){
-            this.$emit('selectedGame', {name: this.game.name, id: this.game.id})
+        selectAGame: function(game){
+            this.$emit('selectedGame', {name: game.name, id: game.id})
         }
     }
 }
