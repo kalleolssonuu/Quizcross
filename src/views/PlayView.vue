@@ -44,8 +44,8 @@
 </template>
 
 <script>
-import Game from '../components/GamesComponent.vue'
-import gameInfo from '../assets/gameInfo.json' 
+/* import Game from '../components/GamesComponent.vue' */
+/* import gameInfo from '../assets/gameInfo.json'  */
 
 /*import io from 'socket.io-client'; 
 const socket = io();*/

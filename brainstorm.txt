@@ -6,6 +6,32 @@ Frågor:
 
 Loggbok ish:
 
+12/12 planering:
+
+Gruppen:
+- Tisdag 13/12 plugg tidigt +++, föreläsning databas
+- Onsdag 14/12 plugg kl 11 +++
+- Torsdag 15/12 plugg kl 10 utan Elin & Hugo
+- Fredag 16/12 plugg kl 9 +++
+- Söndag 18/12 plugg kl 10 +++
+- Måndag 19/12 plugg tidigt +++, vinkväll hos Charles
+
+
+Ansvarsområden:
+- Klickbara komponenter som tar en till PlayView (så småningom)
+        * Elin
+        * Hugo
+- Totalheader-komponent innehållande flaggknapp och frågetecken
+    Placera en motsvarande alert window i en div med högre z-värde
+        * Emil
+- Algoritmen: 
+    Få findPotentialMatches att fungera
+    Planera funktionalitet hos PlayView
+        * Charles
+        * Jessie
+
+
+
 1/12 ansvarsområden:
 - Hugo: design med knappar mm på playview
 - Emil: popup startview
