@@ -79,9 +79,9 @@ export default{
     }
   },
   methods: {
-  selectGame: function (event){ 
+  selectGame: function (games){ 
     console.log(this.selectedGame)
-    document.getElementById("select").innerHTML=this.selectGame[event.name]
+    document.getElementById("select").value=games.name + ', id:' +games.id
 
   },
 
