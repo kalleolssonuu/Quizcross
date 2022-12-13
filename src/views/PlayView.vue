@@ -16,8 +16,11 @@
           <Game v-for="game in games"
             v-bind:game="game" 
             v-bind:key="game.name"
-            v-on:game="selectGame($event)"/> 
+            v-on:selectedGame="selectGame($event)"/> 
       </div>
+      <textarea id="select">
+         hej           
+      </textarea>
       </div>
     </div>
 
@@ -30,16 +33,13 @@
 
         
       </div>
-      <textarea id="select">
-         hej           
-      </textarea>
 
       <button id="create" @click="$router.push('/create/en')">{{'Create'}}</button>
     </div>
   </div>
   <div>
     Play link: 
-    <input type="text" v-model="playId">
+    <!----<input type="text" v-model="playId">-->
     <button v-on:click="playCross">
       Play cross
     </button>
@@ -70,7 +70,7 @@ export default{
   data: function(){
     return{
       games: gameInfo,
-      selectedGame:{},
+      selectedGame: {},
       uiLabels: {},
       id: "",
       lang: "en",
@@ -79,8 +79,9 @@ export default{
     }
   },
   methods: {
-  selectGame: function (){ 
-    document.getElementById("select").innerHTML="halloj"
+  selectGame: function (event){ 
+    console.log(this.selectedGame)
+    document.getElementById("select").innerHTML=this.selectGame[event.name]
 
   },
 
