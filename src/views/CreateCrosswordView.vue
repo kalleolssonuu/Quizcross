@@ -157,8 +157,8 @@
                             console.log("v = " + v)
                             console.log("i = " + i)
 
-                            console.log("same letter?: " + this.wordPositions.actual[h + i][v] === wordSplit[i])
-                            console.log("is this null!?!?: " + this.wordPositions.actual[h + i][v])
+                            console.log("same letter?: " + this.wordPositions.actual[h][v + i] === wordSplit[i])
+                            console.log("is this null!?!?: " + this.wordPositions.actual[h][v + i])
                             console.log((this.wordPositions.actual[h + i][v] === null))
                             
                           if (i == wordSplit.length - 1) { /* vi har tagit oss till slutet av ordet och allt har funkat */
