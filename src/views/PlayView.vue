@@ -27,10 +27,10 @@
     <div id="myGames">
         My games
       <div class="scroll">
-        -Hugo <br>
-        -Hugo <br>
-
-
+        <Game v-for="game in games"
+            v-bind:game="game" 
+            v-bind:key="game.name"
+            v-on:selectedGame="selectGame($event)"/> 
         
       </div>
 
