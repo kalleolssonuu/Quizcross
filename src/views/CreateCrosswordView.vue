@@ -11,16 +11,19 @@
 
         <div class="inputFieldWrapper">
           <div class="inputField"> <!-- måste emitta word så att vi kan använda -->
-            <input type="text" v-model="word" required="required" placeholder="Word sv/en">
+            <input type="text" id="inputField" v-model="word" required="required" placeholder="Word sv/en">
           </div>
-          <div class="inputField" style="display: inline-block">
+          <div class="inputField" id="inputField" style="display: inline-block">
               <input type="text" v-model="desc" required="required" placeholder="Word desc sv/en">
           </div>
         </div>
         <button v-on:click="this.testClick"> Test V-Model word desc </button>
-        <button v-on:click="this.findPotentialMatches"> Test wordPositions and tempWordPositions </button>
-
-
+        <button v-on:click="this.findPotentialMatches"> Test wordPositions and tempWordPositions </button> <br>
+        <button v-on:click="this.emptyTextFields"> Empty Input </button> <!-- gör detta när användaren har valt ett ord istället för en knapp. Det rensar även textfältet -->
+        <button v-on:click="this.fillPositionsLetterC"> Fill with "c" </button>
+        <button v-on:click="this.fillPositionsNull"> Fill with null </button> <br>
+        <button v-on:click="this.iterateWordPosTemp"> Iterate wordPositions.temp </button>
+        <button v-on:click="this.wordPositionsTempToActual"> Take temp and put as actual </button>
 
     </div>
   </template>
@@ -45,12 +48,13 @@
         word: "",
         desc: "",
         boxes: {},
-        iterator: 0,
+        userIterator: 0,
+        matchesIterator: 0,
         noMatches: false,
         matrixDims: {x: 13, y: 10},
         /* wordPositions: [], */
         wordPositions: {actual: [], temp: []},
-        tempWordPositions: [],
+        /* tempWordPositions: [], */
         wordObjects: {}, /* {id: {ord: "clown", beskrivning: "pajas", horisontellt: true, pos: {bokstavIOrdningen[0]: [1, 1],
                                                                                        bokstavIOrdningen[1]: [1, 2],
                                                                                        ...
@@ -62,8 +66,8 @@
                             1. Skapa en grid och hitta ett sätt att kommunicera mellan:
                                 wordObjects.clown.pos.bokstavIOrdningen[i] och positionen i grid (20x20). Var ska vi sätta WordBox:en som innehåller
                                 vår bokstav?
-                            2. Sätt nya nycklar i wordObjects (exempelvis ett index i) så att wordObjects[iterator].namn = "clown"
-                                                                     wordObjects[iterator].beskrivning = "pajas"
+                            2. Sätt nya nycklar i wordObjects (exempelvis ett index i) så att wordObjects[matchesIterator].namn = "clown"
+                                                                     wordObjects[matchesIterator].beskrivning = "pajas"
                             3. Fundera!
 
                             */
@@ -95,27 +99,27 @@
         /* wordFromInput = new wordFromInput("",""); */
       }, 
       pickWord: function () {
-        this.wordObjects = Object.assign(this.wordObjects, this.tempWordObjects[this.iterator]);
+        this.wordObjects = Object.assign(this.wordObjects, this.tempWordObjects[this.matchesIterator]);
       },
       findPotentialMatches: function () {
+        this.matchesIterator = 0;
         let word = this.word;                 /* för att spara plats längre ner */
         let wordSplit = word.split("");
         console.log("wordSplit = " + wordSplit);
         const horiz = this.matrixDims.x; /* för att spara plats längre ner */
         const vert = this.matrixDims.y;    /* för att spara plats längre ner */
 
-        for (let v = 0; v < vert; v++) {
-            console.log("har kommit in i loop")
         for (let h = 0; h < horiz; h++) {
+            console.log("har kommit in i loop")
+        for (let v = 0; v < vert; v++) {
             if (this.wordPositions.actual[h][v] == wordSplit[0] || this.wordPositions.actual[h][v] == null) {
                 console.log("har kommit förbi bokstavskoll")
-                console.log("wordPosition.actual (inne i loop efter bokstavskoll)= " + this.wordPositions.actual)
-                if (wordSplit.length <= horiz - h) { /* FÅR PLATS HORISONTELLT? */
+                console.log("wordPosition.actual (inne i loop efter bokstavskoll) = " + this.wordPositions.actual)
+                if (wordSplit.length <= vert - v) { /* FÅR PLATS HORISONTELLT? */
                     console.log("wordSplit.length = " + wordSplit.length)
                     console.log("har kommit förbi längdkontroll") /* här sitter vi fast */
-                    for (let i = 0; i < wordSplit.length; i++) {
-                        console.log("har kommit in i loop efter längdkontroll")
-                        console.log("wordPosition.actual (inne i loop efter längdkontroll)= " + this.wordPositions.actual)
+                    for (let i = 1; i < wordSplit.length; i++) {
+                        console.log("h = " + h + ", v = " + v + ", this.matchesIterator = " + this.matchesIterator)
                         if (this.wordPositions.actual[h + i][v] == wordSplit[i] || this.wordPositions.actual[h + i][v] == null) { /* räcker med att spara första och sista positionen för ordet! */
                             if (i == wordSplit.length - 1) { /* vi har tagit oss till slutet av ordet och allt har funkat */
 
@@ -123,11 +127,11 @@
                                     word: {beskrivning: this.desc, horisontellt: true, pos: this.getPositions(word, h, v, true)}
                                 }) */
 
-                                this.wordPositions.temp[this.iterator] = this.getNewTempPositionHoriz(h, v, wordSplit);
+                                this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionHoriz(h, v, wordSplit);
                                 /* this.wordPositions.actual = ett korsord
-                                   this.wordPositions.temp   = flera korsord. Itereras med this.iterator */
-                                this.iterator++;
-                                console.log("iterator = " + this.iterator)
+                                   this.wordPositions.temp   = flera korsord. Itereras med this.matchesIterator */
+                                this.matchesIterator++;
+                                console.log("matchesIterator = " + this.matchesIterator)
                                 console.log("tempWordPositions = " + this.wordPositions.temp)
                                 console.log("wordPosition.actual (inne i loop efter platskontroll)= " + this.wordPositions.actual)
                             
@@ -137,8 +141,8 @@
                         }
                     }
                 }
-                if (wordSplit.length <= vert - v) { /* FÅR PLATS VERTIKALT? */
-                    for (let i = 0; i < wordSplit.length; i++) {
+                if (wordSplit.length <= horiz - h) { /* FÅR PLATS VERTIKALT? */
+                    for (let i = 1; i < wordSplit.length; i++) {
                         if (this.wordPositions.actual[h][v + i] == wordSplit[i] || this.wordPositions.actual[h][v + i] == null) { /* räcker med att spara första och sista positionen för ordet! */
                             if (i == wordSplit.length - 1) { /* vi har tagit oss till slutet av ordet och allt har funkat */
 
@@ -146,9 +150,9 @@
                                     word: {beskrivning: this.desc, horisontellt: false, pos: this.getPositions(word, h, v, true)}
                                 }) */
 
-                                this.wordPositions.temp[this.iterator] = this.getNewTempPositionVert(h, v, wordSplit);
-                                this.iterator++;
-                                console.log("iterator = " + this.iterator)
+                                this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionVert(h, v, wordSplit);
+                                this.matchesIterator++;
+                                console.log("matchesIterator = " + this.matchesIterator)
                             }
                         } else {
                             break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
@@ -158,8 +162,6 @@
             }
         }
         } 
-
-        this.iterator = 0;
 
         if (this.wordPositions.temp.length == 0) {
             this.alertNoMatches();
@@ -185,26 +187,27 @@
       },
       getNewTempPositionHoriz: function (h, v, wordSplit) {
         let newWordPositions = JSON.parse(JSON.stringify(this.wordPositions.actual))
+        console.log(newWordPositions)
 
-        for (let i = 1; i < this.word.length; i++) {
-            newWordPositions.pos[h + i][v] = wordSplit[i]
+        for (let i = 0; i < wordSplit.length; i++) {
+            newWordPositions[v + i][h] = wordSplit[i]
         }
-        return newWordPositions.pos
+        return newWordPositions
       },
       getNewTempPositionVert: function (h, v, wordSplit) {
         let newWordPositions = JSON.parse(JSON.stringify(this.wordPositions.actual))
 
-        for (let i = 1; i < this.word.length; i++) {
-            newWordPositions.pos[h][v + i] = wordSplit[i]
+        for (let i = 0; i < wordSplit.length; i++) {
+            newWordPositions[v][h + i] = wordSplit[i]
         }
 
-        return newWordPositions.pos
+        return newWordPositions
       },
       alertNoMatches: function () {
         alert("no matches! Try another word.")
       },
       confirmNewWord: function () {
-        socket.emit("updateGrid", this.tempWordObjects, this.iterator) /* Hur ska vi låta användaren iterera över alla möjliga positioner? */
+        socket.emit("updateGrid", this.tempWordObjects, this.matchesIterator) /* Hur ska vi låta användaren iterera över alla möjliga positioner? */
       },
       fillPositionsNull: function () {
         for (let v = 0; v < this.matrixDims.y; v++) {
@@ -216,9 +219,29 @@
         }
         console.log(this.wordPositions.actual)
       },
+      fillPositionsLetterC: function () {
+        for (let v = 0; v < this.matrixDims.y; v++) {
+            this.wordPositions.actual[v] = [];
+            /* wordPositions = [[null, null, null, null]] */
+            for (let h = 0; h < this.matrixDims.x; h++) {
+            this.wordPositions.actual[v][h] = "c";
+            }
+        }
+        console.log(this.wordPositions.actual)
+      },
       testClick: function() {
         console.log(this.word);
         console.log(this.desc);
+      },
+      emptyTextFields: function() {
+        this.word = ""
+        this.desc = ""
+      },
+      iterateWordPosTemp: function () {
+        this.userIterator++
+      },
+      wordPositionsTempToActual: function () {
+        this.wordPositions.actual = this.wordPositions.temp[this.userIterator]
       }
 
     }
