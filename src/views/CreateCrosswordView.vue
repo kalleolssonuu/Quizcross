@@ -33,6 +33,29 @@
   import io from 'socket.io-client';
   const socket = io();
   
+/* LOGG:
+
+  2022-12-12 (natten 13:e)
+
+  * För att snabba på processen för användaren: 
+  Loopa först igenom alla matchningar där första bokstaven träffar en annan bokstav, alternativt ordna wordPositions.temp så att bokstavsträffar läggs först i listan.
+
+  * Vi behöver ej göra enligt Mikaels instruktioner för att grafiken ska uppdateras löpande. Kanske behöver undersöka server-socket-kommunikation dock.
+  
+
+  Gjort idag:
+    - Fixat loopmekanismen så att man kan se alla wordPosition.temp som har hittats. Lagt till knappar för iterering osv. så att man lättare man undersöka.
+      I princip en massa meckande med olika index, kanske syns bäst i en merge editor vad som har ändrats.
+
+  Nästa steg:
+    - Fixa klart så att få-plats-testet för ord fungerar som det ska. Just nu räcker i vissa fall att ett av platstesten uppfylls för att vi ska generera matchningar. 
+    - Testa att lägga till nya ord i wordPositions.actual via inputfältet
+    - Undersök: hur lätt är det att lägga till egenskaper på de enskilda rutorna? Komponent-i-komponent?
+    - Layout (någon annan?)
+
+*/
+
+
 /*   const wordFromInput = function(inputWord, inputDesc) {
     this.word = inputWord; /* Första steget kör split på ordet och leta igenom matrisen. Resultat ["c", "l", "o", "w", "n"] 
     this.desc = inputDesc;
