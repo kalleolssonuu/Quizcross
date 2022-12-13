@@ -2,22 +2,11 @@
   <header>
     <div class="language">
       <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage"></div>
-
-    <!-- ALL KOD FÖR POPUP-WINDOW-->
-    <div class="modal-vue">
-      <button id="help" @click="showModal=true">
-        ?
-      </button>
-      <div class="overlay" v-if="showModal"
-      @click="showModal=false">
-      </div>
-      <div class="modal" v-if="showModal">
-        <button class="close" @click="showModal = false">x</button>
-        <h3>What is Quizcross?</h3>
-        <p>Description here:</p>
-      </div>
-    </div>
-
+    <div
+      v-on:click="togglePopup">
+      <Modal v-bind:hideNav="hideNav">
+      <button v-on:click="togglePopup"></button>
+      </Modal></div>
   </header>
   <div id="homepic">
     <div class="logo"><img src="/img/Logotyp.png"></div>
@@ -27,14 +16,28 @@
     <button id="play" @click="$router.push('/play/'+lang)">{{uiLabels.playCross}}</button>
     <button id="play" @click="$router.push('/kalletest/'+lang)">{{'Göra korsord test'}}</button>
   </div>
+
+<audio src="01 Manboy.m4a" controls>
+  <embed
+  src="01 Manboy.m4a"
+  loop="true"
+  autostart="true"
+  height="0"
+  hidden>
+</audio>
+
 </template>
 
 <script>
 import io from 'socket.io-client';
+import Modal from '../components/PopUp.vue'
 const socket = io();
 
 export default {
   name: 'StartView',
+  components: {
+    Modal
+  },
   data: function () {
     return {
       uiLabels: {},
@@ -46,6 +49,7 @@ export default {
   },
 
   created: function () {
+    socket.emit('pageLoaded')
     socket.on("init", (labels) => {
       this.uiLabels = labels
     });
@@ -99,7 +103,6 @@ export default {
     top: 0;
     right:0;
     margin: 0.5rem;
-
   }
   
   .help {
@@ -116,35 +119,8 @@ export default {
     top: 0;
     right:0;
     margin: 0.5rem;
-
   }
-  .modal-vue .overlay {
-  position: fixed;
-  z-index: 9998;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, .5);
-}
 
-.modal-vue .modal {
-  position: relative;
-  width: 300px;
-  z-index: 9999;
-  margin: 0 auto;
-  padding: 20px 30px;
-  background-color: #FFFDD0;
-  border-radius: 15px;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
-}
-
-.modal-vue .close{
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: #FE5F55;
-}
   .wrapper{
     display: flex;
     justify-content: center;
@@ -186,10 +162,15 @@ export default {
     
   }
 
+  #create:hover{
+    background-color: #fb6d63;
+    
+  }
   #play:hover{
     background-color: #fb6d63;
     
   }
+
 
   .logo img {
     height:25rem;

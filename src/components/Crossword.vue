@@ -4,16 +4,19 @@
 
     <!-- använd v-model för att lösa problemet med positioner i tabellen? -->
 
-<!--     <div class="letterbox"> -->
+<!--     <div class="letterbox"> -->    
+  
+  <!-- actual: {{ wordPositions.actual }} <br> <br>
+  temp: {{ wordPositions.temp }} -->
+
   <table id="crosswordwrapper">
-    <tr v-for="(list, ykey) in wordPositions" v-bind:key="'y' + ykey">
+    <tr v-for="(list, ykey) in wordPositions.actual" v-bind:key="'y' + ykey">
         <td class="letterbox" v-for="(letter, xkey) in list" v-bind:key="'x' + xkey"> 
           {{ letter }}
         </td>
     </tr>
   </table>
 
-  </div>
 
 <!--     <table id="crosswordwrapper"> nedan lista är hur wordPositions kommer se ut i verkligheten
       <tr v-for="(list, key) in [['C','L', 'O', 'W', 'N', ''],['','A','','', '', ''],['','K','A','N', 'O', 'N'],
@@ -29,6 +32,7 @@
   
   <script>
 
+
   export default {
     data: function() {
       return {
@@ -39,7 +43,7 @@
     props: {
       wordObjects: Object,
       tempWordObjects: Object,
-      wordPositions: [],
+      wordPositions: Object, /* .actual[] .temp[[]] */
       matrixDims: Object,
       word: String,
       desc: String
@@ -49,7 +53,6 @@
     },
     methods: {
       tempFunc: function () {
-        console.log("test")
         console.log(this.wordPositions)
       }
     }
@@ -86,6 +89,7 @@
 #crosswordwrapper {
   display: table;
   table-layout: auto;
+  margin: 0 auto;
   justify-content: center;
   background-color: #A7CAB1;
 }

@@ -3,28 +3,27 @@
         <Crossword v-bind:wordObjects="this.wordObjects" 
                     v-bind:tempWordObjects="this.tempWordObjects"
                     v-bind:wordPositions="this.wordPositions"
-                    v-bind:tempWordPositions="tempWordPositions"
                     v-bind:matrixDims="this.matrixDims"
                     v-bind:word="this.word"
-                    v-bind:desc="this.desc"
->
-        
-            test
+                    v-bind:desc="this.desc">
         </Crossword>
 
 
         <div class="inputFieldWrapper">
           <div class="inputField"> <!-- måste emitta word så att vi kan använda -->
-            <input type="text" v-model="word" required="required" placeholder="Word sv/en">
+            <input type="text" id="inputField" v-model="word" required="required" placeholder="Word sv/en">
           </div>
-          <div class="inputField" style="display: inline-block">
+          <div class="inputField" id="inputField" style="display: inline-block">
               <input type="text" v-model="desc" required="required" placeholder="Word desc sv/en">
           </div>
         </div>
         <button v-on:click="this.testClick"> Test V-Model word desc </button>
-        <button v-on:click="this.findPotentialMatches"> Test wordPositions and tempWordPositions </button>
-
-
+        <button v-on:click="this.findPotentialMatches"> Test wordPositions and tempWordPositions </button> <br>
+        <button v-on:click="this.emptyTextFields"> Empty Input </button> <!-- gör detta när användaren har valt ett ord istället för en knapp. Det rensar även textfältet -->
+        <button v-on:click="this.fillPositionsLetterC"> Fill with "c" </button>
+        <button v-on:click="this.fillPositionsNull"> Fill with null </button> <br>
+        <button v-on:click="this.iterateWordPosTemp"> Iterate wordPositions.temp </button>
+        <button v-on:click="this.wordPositionsTempToActual"> Take temp and put as actual </button>
 
     </div>
   </template>
@@ -34,6 +33,29 @@
   import io from 'socket.io-client';
   const socket = io();
   
+/* LOGG:
+
+  2022-12-12 (natten 13:e)
+
+  * För att snabba på processen för användaren: 
+  Loopa först igenom alla matchningar där första bokstaven träffar en annan bokstav, alternativt ordna wordPositions.temp så att bokstavsträffar läggs först i listan.
+
+  * Vi behöver ej göra enligt Mikaels instruktioner för att grafiken ska uppdateras löpande. Kanske behöver undersöka server-socket-kommunikation dock.
+  
+
+  Gjort idag:
+    - Fixat loopmekanismen så att man kan se alla wordPosition.temp som har hittats. Lagt till knappar för iterering osv. så att man lättare man undersöka.
+      I princip en massa meckande med olika index, kanske syns bäst i en merge editor vad som har ändrats.
+
+  Nästa steg:
+    - Fixa klart så att få-plats-testet för ord fungerar som det ska. Just nu räcker i vissa fall att ett av platstesten uppfylls för att vi ska generera matchningar. 
+    - Testa att lägga till nya ord i wordPositions.actual via inputfältet
+    - Undersök: hur lätt är det att lägga till egenskaper på de enskilda rutorna? Komponent-i-komponent?
+    - Layout (någon annan?)
+
+*/
+
+
 /*   const wordFromInput = function(inputWord, inputDesc) {
     this.word = inputWord; /* Första steget kör split på ordet och leta igenom matrisen. Resultat ["c", "l", "o", "w", "n"] 
     this.desc = inputDesc;
@@ -49,11 +71,13 @@
         word: "",
         desc: "",
         boxes: {},
-        iterator: 0,
+        userIterator: 0,
+        matchesIterator: 0,
         noMatches: false,
         matrixDims: {x: 13, y: 10},
-        wordPositions: [], /* [[1, 2, 3], [2, 4, 6], [1, 3, 5]] */
-        tempWordPositions: [],
+        /* wordPositions: [], */
+        wordPositions: {actual: [], temp: []},
+        /* tempWordPositions: [], */
         wordObjects: {}, /* {id: {ord: "clown", beskrivning: "pajas", horisontellt: true, pos: {bokstavIOrdningen[0]: [1, 1],
                                                                                        bokstavIOrdningen[1]: [1, 2],
                                                                                        ...
@@ -65,8 +89,8 @@
                             1. Skapa en grid och hitta ett sätt att kommunicera mellan:
                                 wordObjects.clown.pos.bokstavIOrdningen[i] och positionen i grid (20x20). Var ska vi sätta WordBox:en som innehåller
                                 vår bokstav?
-                            2. Sätt nya nycklar i wordObjects (exempelvis ett index i) så att wordObjects[iterator].namn = "clown"
-                                                                     wordObjects[iterator].beskrivning = "pajas"
+                            2. Sätt nya nycklar i wordObjects (exempelvis ett index i) så att wordObjects[matchesIterator].namn = "clown"
+                                                                     wordObjects[matchesIterator].beskrivning = "pajas"
                             3. Fundera!
 
                             */
@@ -98,38 +122,41 @@
         /* wordFromInput = new wordFromInput("",""); */
       }, 
       pickWord: function () {
-        this.wordObjects = Object.assign(this.wordObjects, this.tempWordObjects[this.iterator]);
+        this.wordObjects = Object.assign(this.wordObjects, this.tempWordObjects[this.matchesIterator]);
       },
       findPotentialMatches: function () {
+        this.matchesIterator = 0;
         let word = this.word;                 /* för att spara plats längre ner */
         let wordSplit = word.split("");
         console.log("wordSplit = " + wordSplit);
         const horiz = this.matrixDims.x; /* för att spara plats längre ner */
         const vert = this.matrixDims.y;    /* för att spara plats längre ner */
 
-        for (let v = 0; v < vert; v++) {
-            console.log("har kommit in i loop")
         for (let h = 0; h < horiz; h++) {
-
-          // förstår ej koppling, tänk ex om Wordposition [[1, 2, 3], [2, 4, 6], [1, 3, 5]], vad är h och vad v??
-          // eler hur förstår den nedan vilken av yttre och inre som är h och v? UPDATE: FATTAR PGA VI NAMNGETT ALLA PLATSER I FILLMATRIX
-            if (this.wordPositions[h][v] == wordSplit[0] || this.wordPositions[h][v] == null) {
-                console.log("har kommit förbi bokstavsjämförelse")
-                if (wordSplit.length <= horiz - h) { /* FÅR PLATS HORISONTELLT? */
+            console.log("har kommit in i loop")
+        for (let v = 0; v < vert; v++) {
+            if (this.wordPositions.actual[h][v] == wordSplit[0] || this.wordPositions.actual[h][v] == null) {
+                console.log("har kommit förbi bokstavskoll")
+                console.log("wordPosition.actual (inne i loop efter bokstavskoll) = " + this.wordPositions.actual)
+                if (wordSplit.length <= vert - v) { /* FÅR PLATS HORISONTELLT? */
                     console.log("wordSplit.length = " + wordSplit.length)
                     console.log("har kommit förbi längdkontroll") /* här sitter vi fast */
                     for (let i = 1; i < wordSplit.length; i++) {
-                        console.log("har kommit in i loop efter längdkontroll")
-                        if (this.wordPositions[h + i][v] == wordSplit[i] || this.wordPositions[h + i][v] == null) { /* räcker med att spara första och sista positionen för ordet! */
+                        console.log("h = " + h + ", v = " + v + ", this.matchesIterator = " + this.matchesIterator)
+                        if (this.wordPositions.actual[h + i][v] == wordSplit[i] || this.wordPositions.actual[h + i][v] == null) { /* räcker med att spara första och sista positionen för ordet! */
                             if (i == wordSplit.length - 1) { /* vi har tagit oss till slutet av ordet och allt har funkat */
 
                                 /* this.tempWordObjects = Object.assign(this.tempWordObjects, {
                                     word: {beskrivning: this.desc, horisontellt: true, pos: this.getPositions(word, h, v, true)}
                                 }) */
 
-                                this.tempWordPositions[this.iterator] = this.getNewTempPositionHoriz(h, v, wordSplit);
-                                this.iterator++;
-                                console.log("iterator = " + this.iterator)
+                                this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionHoriz(h, v, wordSplit);
+                                /* this.wordPositions.actual = ett korsord
+                                   this.wordPositions.temp   = flera korsord. Itereras med this.matchesIterator */
+                                this.matchesIterator++;
+                                console.log("matchesIterator = " + this.matchesIterator)
+                                console.log("tempWordPositions = " + this.wordPositions.temp)
+                                console.log("wordPosition.actual (inne i loop efter platskontroll)= " + this.wordPositions.actual)
                             
                             }
                         } else {
@@ -137,35 +164,33 @@
                         }
                     }
                 }
-                if (wordSplit.length <= vert - v) { /* FÅR PLATS VERTIKALT? */
+                if (wordSplit.length <= horiz - h) { /* FÅR PLATS VERTIKALT? */
                     for (let i = 1; i < wordSplit.length; i++) {
-                        if (this.wordPositions[h][v + i] == wordSplit[i] || this.wordPositions[h][v + i] == null) { /* räcker med att spara första och sista positionen för ordet! */
+                        if (this.wordPositions.actual[h][v + i] == wordSplit[i] || this.wordPositions.actual[h][v + i] == null) { /* räcker med att spara första och sista positionen för ordet! */
                             if (i == wordSplit.length - 1) { /* vi har tagit oss till slutet av ordet och allt har funkat */
 
                                 /* this.tempWordObjects = Object.assign(this.tempWordObjects, {
                                     word: {beskrivning: this.desc, horisontellt: false, pos: this.getPositions(word, h, v, true)}
                                 }) */
 
-                                this.tempWordPositions[this.iterator] = this.getNewTempPositionVert(h, v, wordSplit);
-                                this.iterator++;
-                                console.log("iterator = " + this.iterator)
+                                this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionVert(h, v, wordSplit);
+                                this.matchesIterator++;
+                                console.log("matchesIterator = " + this.matchesIterator)
                             }
                         } else {
                             break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
                         }
                     }
                 }
-            } else {
-                continue
-            } /* borde gå att ta bort continue */
+            }
         }
         } 
 
-        this.iterator = 0;
-
-        if (this.tempWordObjects.keys().length == 0) {
+        if (this.wordPositions.temp.length == 0) {
             this.alertNoMatches();
         }
+
+        this.wordPositions.actual = this.wordPositions.temp[0]
       }, 
       getPositions: function (word, h, v, horizontal) {
         let pos = {};
@@ -184,18 +209,19 @@
         return pos;
       },
       getNewTempPositionHoriz: function (h, v, wordSplit) {
-        let newWordPositions = this.wordPositions;
+        let newWordPositions = JSON.parse(JSON.stringify(this.wordPositions.actual))
+        console.log(newWordPositions)
 
-        for (let i = 1; i < this.word.length; i++) {
-            newWordPositions[h + i][v] = wordSplit[i]
+        for (let i = 0; i < wordSplit.length; i++) {
+            newWordPositions[v + i][h] = wordSplit[i]
         }
         return newWordPositions
       },
       getNewTempPositionVert: function (h, v, wordSplit) {
-        let newWordPositions = this.wordPositions;
+        let newWordPositions = JSON.parse(JSON.stringify(this.wordPositions.actual))
 
-        for (let i = 1; i < this.word.length; i++) {
-            newWordPositions[h][v + i] = wordSplit[i]
+        for (let i = 0; i < wordSplit.length; i++) {
+            newWordPositions[v][h + i] = wordSplit[i]
         }
 
         return newWordPositions
@@ -204,31 +230,51 @@
         alert("no matches! Try another word.")
       },
       confirmNewWord: function () {
-        socket.emit("updateGrid", this.tempWordObjects, this.iterator) /* Hur ska vi låta användaren iterera över alla möjliga positioner? */
+        socket.emit("updateGrid", this.tempWordObjects, this.matchesIterator) /* Hur ska vi låta användaren iterera över alla möjliga positioner? */
       },
 
       fillPositionsNull: function () {
         for (let v = 0; v < this.matrixDims.y; v++) {
-            this.wordPositions[v] = [];
+            this.wordPositions.actual[v] = [];
             /* wordPositions = [[null, null, null, null]] */
             for (let h = 0; h < this.matrixDims.x; h++) {
-            this.wordPositions[v][h] = null;
+            this.wordPositions.actual[v][h] = null;
             }
         }
-        console.log(this.wordPositions)
+        console.log(this.wordPositions.actual)
+      },
+      fillPositionsLetterC: function () {
+        for (let v = 0; v < this.matrixDims.y; v++) {
+            this.wordPositions.actual[v] = [];
+            /* wordPositions = [[null, null, null, null]] */
+            for (let h = 0; h < this.matrixDims.x; h++) {
+            this.wordPositions.actual[v][h] = "c";
+            }
+        }
+        console.log(this.wordPositions.actual)
       },
       testClick: function() {
         console.log(this.word);
         console.log(this.desc);
+      },
+      emptyTextFields: function() {
+        this.word = ""
+        this.desc = ""
+      },
+      iterateWordPosTemp: function () {
+        this.userIterator++
+      },
+      wordPositionsTempToActual: function () {
+        this.wordPositions.actual = this.wordPositions.temp[this.userIterator]
       }
 
     }
       
 }   
 
-  </script>
-  
-  <style>
+</script>
+
+<style>
 
 
 
