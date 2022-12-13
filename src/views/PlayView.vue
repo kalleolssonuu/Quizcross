@@ -1,6 +1,6 @@
 <template>
   <header>
-  <div class="logo"><img src="/img/HeaderLogo.png">Quizcross</div>
+  <div class="logo">Quizcross</div>
   <div
     v-on:click="togglePopup">
     <Modal v-bind:hideNav="hideNav">
@@ -13,10 +13,10 @@
         User created games
         <div id="gameList">
           <div class="scroll">
-          <!---- <Game v-for="game in games"
+          <Game v-for="game in games"
             v-bind:game="game" 
             v-bind:key="game.name"
-            v-on:selectGame="selectGame($event)"/> -->
+            v-on:game="selectGame($event)"/> 
       </div>
       </div>
     </div>
@@ -30,6 +30,10 @@
 
         
       </div>
+      <textarea id="select">
+         hej           
+      </textarea>
+
       <button id="create" @click="$router.push('/create/en')">{{'Create'}}</button>
     </div>
   </div>
@@ -40,7 +44,7 @@
       Play cross
     </button>
   </div>
-  <button @click="$router.push('/')">{{'Homepage'}}</button>
+  <button @click="$router.push('/'+lang)">{{'Homepage'}}</button>
 </template>
 
 <script>
@@ -52,30 +56,39 @@ const socket = io();*/
 
 export default{
   name: 'PlayView',
-  /*components:{
+  components:{
     Game
-  },*/
+  },
   props: {
   modal: Object
 },
+
+  created: function () {
+    this.lang = this.$route.params.lang
+  },
+
   data: function(){
     return{
-      /*games: gameInfo,
-      selectedGame:{},*/
+      games: gameInfo,
+      selectedGame:{},
       uiLabels: {},
-    id: "",
-    lang: "en",
-    hideNav: true,
-    showModal: false
+      id: "",
+      lang: "en",
+      hideNav: true,
+      showModal: false
     }
   },
   methods: {
-  /*selectGame: function (event){ 
+  selectGame: function (){ 
+    document.getElementById("select").innerHTML="halloj"
+
   },
+
 /* FÖR ATT FÅ FRAM POP-UP RUTA*/
 togglePopup: function () {
     this.showModal = ! this.showModal;
   },
+
 }
 }
 
@@ -93,7 +106,7 @@ header {
 #help {
   height: 3rem;
   width: 3rem;
-  background-color: #FFFDD0;
+  background-color: #EEF5DB;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
   font-size: 30px;
   text-align: center;
@@ -130,29 +143,29 @@ header {
   width: 18rem;
   height: 30rem;
   border-radius: 5px;
-  border-color: #5da455;
+  border-color: #a6d8d4;
   margin: 2.5rem;
   color: white;
-  background-color: #5da455;
+  background-color: #43918a;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
-  font-size: 20px;
+  font-size: 25px;
   position: relative;
 }
 #myGames {
   width: 18rem;
   height: 30rem;
   border-radius: 5px;
-  border-color: #5da455;
+  border-color: #a6d8d4;
   margin: 2.5rem;
   color: white;
-  background-color: #5da455;
+  background-color: #43918a;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
-  font-size: 20px;
+  font-size: 25px;
   position: relative;
 }
 div.scroll {
               margin:4px;
-              background-color: #fffecb;
+              background-color: #ffffff;
               width: 17.5rem;
               height: 24rem;
               overflow-x: hidden;

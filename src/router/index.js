@@ -3,7 +3,7 @@ import StartView from '../views/StartView.vue'
 
 const routes = [
   {
-    path: '/',
+    path: '/:lang',
     name: 'Start',
     component: StartView
   },

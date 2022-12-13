@@ -6,8 +6,8 @@
 
 <!--     <div class="letterbox"> -->    
   
-  actual: {{ wordPositions.actual }} <br> <br>
-  temp: {{ wordPositions.temp }}
+  <!-- actual: {{ wordPositions.actual }} <br> <br>
+  temp: {{ wordPositions.temp }} -->
 
   <table id="crosswordwrapper">
     <tr v-for="(list, ykey) in wordPositions.actual" v-bind:key="'y' + ykey">
@@ -53,7 +53,6 @@
     },
     methods: {
       tempFunc: function () {
-        console.log("test")
         console.log(this.wordPositions)
       }
     }
@@ -90,6 +89,7 @@
 #crosswordwrapper {
   display: table;
   table-layout: auto;
+  margin: 0 auto;
   justify-content: center;
   background-color: #A7CAB1;
 }
