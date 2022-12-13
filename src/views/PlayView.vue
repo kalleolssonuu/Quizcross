@@ -18,9 +18,12 @@
             v-bind:key="game.name"
             v-on:selectedGame="selectGame($event)"/> 
       </div>
-      <textarea id="select">
-         hej           
+      <div class="wrapper">
+      <text id="selectedText">Selected game: </text>
+      <textarea readonly id="selectedname">
+
       </textarea>
+      </div>
       </div>
     </div>
 
@@ -38,13 +41,15 @@
     </div>
   </div>
   <div>
-    Play link: 
-    <!----<input type="text" v-model="playId">-->
-    <button v-on:click="playCross">
-      Play cross
+    <text id="crossText">Cross ID: </text> 
+    <textarea id="selectedid">
+                  
+                </textarea>
+    <button id="playButton" v-on:click="playCross">
+      PLAY
     </button>
   </div>
-  <button @click="$router.push('/'+lang)">{{'Homepage'}}</button>
+  <button id="homepagebutton" @click="$router.push('/'+lang)">{{'Homepage'}}</button>
 </template>
 
 <script>
@@ -81,7 +86,8 @@ export default{
   methods: {
   selectGame: function (games){ 
     console.log(this.selectedGame)
-    document.getElementById("select").value=games.name + ', id:' +games.id
+    document.getElementById("selectedname").value=games.name
+    document.getElementById("selectedid").value=games.id
 
   },
 
@@ -186,6 +192,79 @@ div.scroll {
   font-family: "Comic Sans MS", "Comic Sans", cursive;
   font-size: 15px;
   cursor:pointer;
-  
+}
+textarea {
+  resize: none;
+  overflow:hidden;
+}
+.wrapper{
+    display: flex;
+    justify-content: center;
+  }
+
+#selectedname{
+  width: 10rem;
+  height: 1.5rem;
+  margin-top: 0.5rem;
+  margin-left: 25%;
+  border-radius: 5px;
+  text-align: center;
+  vertical-align: middle;
+  position: relative;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 1rem;
+  color: #43918a;
+}
+#selectedText{
+  font-size: 1rem;
+  width: 2rem;
+  position: relative;
+  text-align: center;
+}
+
+#selectedid{
+  width: 10rem;
+  height: 1.5rem;
+  border-radius: 5px;
+  text-align: center;
+  vertical-align: middle;
+  position: relative;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 1rem;
+  color: #43918a;
+  border-color: #2d635f;
+}
+#crossText{
+  font-size: 1.25rem;
+  width: 2rem;
+  position: relative;
+  text-align: center;
+  color: #ffffff;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+
+#playButton{
+  width: 5rem;
+  height: 1.8rem;
+  border-radius: 5px;
+  text-align: center;
+  vertical-align: middle;
+  position: relative;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 1rem;
+  background-color: #43918a;
+  color: #ffffff;
+  border-color: #2d635f;
+  cursor: pointer;
+}
+#playButton:hover{
+  opacity: 75%;
+}
+
+#homepagebutton {
+  bottom: 0;
+  left: 0;
+  margin: 0.5rem;
+  background-color: #FE5F55;
 }
 </style>
