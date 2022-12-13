@@ -18,10 +18,13 @@
             v-bind:key="game.name"
             v-on:selectedGame="selectGame($event)"/> 
       </div>
-      <textarea id="select">
+      <!----<textarea id="select">
          hej           
-      </textarea>
+      </textarea>-->
+      <input type="number" id="select" v-model="ID" placeholder="Game ID...">
       </div>
+            
+
     </div>
 
     <div id="myGames">
@@ -40,11 +43,11 @@
   <div>
     Play link: 
     <!----<input type="text" v-model="playId">-->
-    <button v-on:click="playCross">
-      Play cross
+    <button id="play" v-on:click="playCross">
+      Play
     </button>
   </div>
-  <button @click="$router.push('/'+lang)">{{'Homepage'}}</button>
+  <button id="home" @click="$router.push('/'+lang)">{{'Homepage'}}</button>
 </template>
 
 <script>
@@ -80,9 +83,8 @@ export default{
   },
   methods: {
   selectGame: function (games){ 
-    console.log(this.selectedGame)
-    document.getElementById("select").value=games.name + ', id:' +games.id
-
+    /*document.getElementById("select").value=games.name + ', id:' +games.id*/
+    document.getElementById("select").placeholder = games.id
   },
 
 /* FÖR ATT FÅ FRAM POP-UP RUTA*/
@@ -188,4 +190,31 @@ div.scroll {
   cursor:pointer;
   
 }
+
+
+#play{
+  width: 6rem;
+  height: 2rem;
+  border-radius: 15px;
+  border-color: #ba0c00;
+  margin: 1rem;
+  color: white;
+  background-color: #FE5F55;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 15px;
+  cursor:pointer;
+}
+
+#create:hover{
+    background-color: #fb6d63;
+    
+  }
+  #play:hover{
+    background-color: #fb6d63;
+    
+  }
+
+  #select{
+    margin-top: -20px;
+  }
 </style>
