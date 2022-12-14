@@ -68,7 +68,10 @@ export default {
 
 .modal-vue .modal {
   position: absolute;
-  width: 300px;
+  top: 25%;
+  left: 30%;
+  height: 20%;
+  width: 40%;
   z-index: 9999;
   margin: 0 auto;
   padding: 20px 30px;
@@ -83,5 +86,9 @@ export default {
   right: 10px;
   background-color: #FE5F55;
   border-radius: 5px;
+  cursor:pointer;
+}
+.modal-vue .close:hover{
+background-color: #e36f67;
 }
 </style>

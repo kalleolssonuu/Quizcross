@@ -1,5 +1,8 @@
 <template>
   <header>
+    <div class="language">
+      <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage">
+    </div>
   <div class="logo">Quizcross</div>
   <div
     v-on:click="togglePopup">
@@ -55,22 +58,28 @@
 <script>
 import Game from '../components/GameComponent.vue' 
 import gameInfo from '../assets/gameInfo.json'  
-
-/*import io from 'socket.io-client'; 
-const socket = io();*/
+import Modal from '../components/PopUp.vue'
+import io from 'socket.io-client'; 
+const socket = io();
 
 export default{
   name: 'PlayView',
   components:{
-    Game
+    Game,
+    Modal
   },
   props: {
   modal: Object
 },
 
-  created: function () {
+  created: 
+  function () {
     this.lang = this.$route.params.lang
+    socket.on("init", (labels) => {
+      this.uiLabels = labels
+    });
   },
+  
 
   data: function(){
     return{
@@ -88,9 +97,15 @@ export default{
     console.log(this.selectedGame)
     document.getElementById("selectedname").value=games.name
     document.getElementById("selectedid").value=games.id
-
   },
 
+  switchLanguage: function() {
+    if (this.lang === "en")
+      this.lang = "sv"
+    else
+      this.lang = "en"
+    socket.emit("switchLanguage", this.lang)
+    },
 /* FÖR ATT FÅ FRAM POP-UP RUTA*/
 togglePopup: function () {
     this.showModal = ! this.showModal;
@@ -104,6 +119,18 @@ togglePopup: function () {
 </script>
 
 <style>
+  .language{
+    height: 1rem;
+    width: 1rem;
+    cursor:pointer;
+    margin: 0.5rem;
+}
+  #flag {
+    width: 5rem;
+    height: 3.5rem;
+    border-radius: 20%;
+}
+
 header {
   background-color: #A7CAB1;
   width: 100%;
@@ -267,4 +294,31 @@ textarea {
   margin: 0.5rem;
   background-color: #FE5F55;
 }
+
+
+#play{
+  width: 6rem;
+  height: 2rem;
+  border-radius: 15px;
+  border-color: #ba0c00;
+  margin: 1rem;
+  color: white;
+  background-color: #FE5F55;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 15px;
+  cursor:pointer;
+}
+
+#create:hover{
+    background-color: #fb6d63;
+    
+  }
+  #play:hover{
+    background-color: #fb6d63;
+    
+  }
+
+  #select{
+    margin-top: -20px;
+  }
 </style>
