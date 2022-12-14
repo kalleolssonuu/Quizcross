@@ -9,25 +9,34 @@
       </div>
       <div class="modal" v-if="showModal">
         <button class="close" @click="showModal = false">x</button>
-        <h3>What is Quizcross?</h3>
-        <p>Description here:</p>
+        <h3>{{uiLabels.whatIsQC}}</h3>
+        <p>{{uiLabels.pageDescription}}</p>
       </div>
     </div>
 </template>
 
 <script>
+import io from 'socket.io-client'; 
+const socket = io();
+
 export default {
   name: 'PopUp',
   props: {
     modal: Object
   },
-
+  created: 
+  function () {
+    this.lang = this.$route.params.lang
+    socket.on("init", (labels) => {
+      this.uiLabels = labels
+    });
+  },
   data: function () {
     return {
-      /*uiLabels: {},
-      id: "",
+      uiLabels: {},
+      //id: "",
       lang: "en",
-      hideNav: true,*/
+      //hideNav: true,
       showModal: false
     }
   },

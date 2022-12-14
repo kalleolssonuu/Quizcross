@@ -13,7 +13,7 @@
 
   <div class="gameWrapper">
     <div id="userGames">
-        User created games
+      {{uiLabels.userCreatedGames}}
         <div id="gameList">
           <div class="scroll">
           <Game v-for="game in games"
@@ -22,7 +22,7 @@
             v-on:selectedGame="selectGame($event)"/> 
       </div>
       <div class="wrapper">
-      <text id="selectedText">Selected game: </text>
+      <text id="selectedText">{{uiLabels.selectedGameLang}}</text>
       <textarea readonly id="selectedname">
 
       </textarea>
@@ -31,7 +31,7 @@
     </div>
 
     <div id="myGames">
-        My games
+        {{uiLabels.myGamesLang}}
       <div class="scroll">
         <Game v-for="game in games"
             v-bind:game="game" 
@@ -44,15 +44,15 @@
     </div>
   </div>
   <div>
-    <text id="crossText">Cross ID: </text> 
+    <text id="crossText">{{uiLabels.crossID}}</text> 
     <textarea id="selectedid">
                   
                 </textarea>
     <button id="playButton" v-on:click="playCross">
-      PLAY
+      {{uiLabels.playPlay}}
     </button>
   </div>
-  <button id="homepagebutton" @click="$router.push('/'+lang)">{{'Homepage'}}</button>
+  <button id="homepagebutton" @click="$router.push('/'+lang)">{{uiLabels.backButton}}</button>
 </template>
 
 <script>
