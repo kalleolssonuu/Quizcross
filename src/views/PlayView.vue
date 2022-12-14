@@ -294,4 +294,31 @@ textarea {
   margin: 0.5rem;
   background-color: #FE5F55;
 }
+
+
+#play{
+  width: 6rem;
+  height: 2rem;
+  border-radius: 15px;
+  border-color: #ba0c00;
+  margin: 1rem;
+  color: white;
+  background-color: #FE5F55;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 15px;
+  cursor:pointer;
+}
+
+#create:hover{
+    background-color: #fb6d63;
+    
+  }
+  #play:hover{
+    background-color: #fb6d63;
+    
+  }
+
+  #select{
+    margin-top: -20px;
+  }
 </style>
