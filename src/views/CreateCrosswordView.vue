@@ -49,7 +49,11 @@
     'ingår i ett vertikalt ord' eller 'är första bokstaven (viktigt när vi ska sätta en liten siffra för att indikera vilket beskrivning
     som berör ordet)'.
   * Indikera första- och sista bokstav i ett ord så att vi kan ha ord som ligger intill varandra och inte behöva kolla omkringliggande ord/riktning?
-  
+
+
+  Gjort idag:
+    - Fixat hela algoritmen (ej fullt optimerad version)
+    - Funderat på funktioner vi kan undersöka vidare
 
   2022-12-12 (natten 13:e)
 
