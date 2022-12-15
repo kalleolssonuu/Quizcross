@@ -26,7 +26,6 @@ export default {
   },
   created: 
   function () {
-    this.lang = this.$route.params.lang
     socket.on("init", (labels) => {
       this.uiLabels = labels
     });
@@ -43,7 +42,14 @@ export default {
   methods:{
     togglePopup: function () {
       this.showModal = ! this.showModal;
-    }
+    },
+    switchLanguage: function() {
+    if (this.lang === "en")
+      this.lang = "sv"
+    else
+      this.lang = "en"
+    socket.emit("switchLanguage", this.lang)
+    },
   }     
 }
 </script>
