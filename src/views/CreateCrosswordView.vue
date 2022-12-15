@@ -22,8 +22,8 @@
         <button v-on:click="this.emptyTextFields"> Empty Input </button> <!-- gör detta när användaren har valt ett ord istället för en knapp. Det rensar även textfältet -->
         <button v-on:click="this.fillPositionsLetterC"> Fill with "c" </button>
         <button v-on:click="this.fillPositionsNull"> Fill with null </button> <br>
-        <button v-on:click="this.iterateWordPosTemp"> Increase wordPositions.temp </button>
-        <button v-on:click="this.decreaseWordPosTemp"> Decrease wordPositions.temp </button> <br>
+        <button v-on:click="this.showNextSolution"> Show next solution </button>
+        <button v-on:click="this.showPreviousSolution"> Show previous </button> <br>
         <button v-on:click="this.wordPositionsTempToActual"> Take temp and put as actual </button> <br>
         <button v-on:click="this.logWordPositionActual"> Print actual list in console </button>
         <button v-on:click="this.compareMatrices"> Print: compare wordPositions.temp[index] to .actual </button> 
@@ -331,6 +331,22 @@
       },
       wordPositionsTempToActual: function () {
         this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
+      },
+      showNextSolution: function () {
+        if (this.userIterator == this.matchesIterator - 1) { /* matchesIterator max 168 */
+          this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
+        } else {
+          this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
+          this.userIterator++          
+        }
+      },
+      showPreviousSolution: function () {
+        if (this.userIterator == 0) {
+          this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
+        } else {
+          this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
+          this.userIterator--
+        }
       },
       logWordPositionActual: function () {
         console.log(this.wordPositions.actual)
