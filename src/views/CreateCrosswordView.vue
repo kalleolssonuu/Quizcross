@@ -141,45 +141,49 @@
         const vert = this.matrixDims.y;    /* för att spara plats längre ner */
 
         for (let h = 0; h < horiz; h++) {
-          console.log("kommit in? horisontellt")
+          /* console.log("kommit in? horisontellt") */
         for (let v = 0; v < vert; v++) {
-          console.log("kommit in? vertikalt")
-            if (this.wordPositions.actual[h][v] === wordSplit[0] || this.wordPositions.actual[h][v] === null) {
+          /* console.log("kommit in? vertikalt") */
+            if (this.wordPositions.actual[v][h] === wordSplit[0] || this.wordPositions.actual[v][h] === null) {
 
-                console.log("har kommit förbi bokstavskoll")
-                /* console.log("wordPosition.actual (inne i loop efter bokstavskoll) = " + this.wordPositions.actual) */
+                /* console.log("har kommit förbi bokstavskoll") */
                 
                 if (wordSplit.length <= vert - v) { /* FÅR PLATS VERTIKALT? */
 
-                  console.log("har kommit förbi få-plats-koll")
+                  /* console.log("har kommit förbi få-plats-koll") */
                     for (let iv = 0; iv < wordSplit.length; iv++) {
                         
                         /* console.log("h = " + h + ", v = " + v + ", this.matchesIterator = " + this.matchesIterator) */
                         
-                        if ((this.wordPositions.actual[h][v + iv] === wordSplit[iv]) || (this.wordPositions.actual[h][v + iv] === null)) { /* räcker med att spara första och sista positionen för ordet! */
+                        if ((this.wordPositions.actual[v + iv][h] === wordSplit[iv]) || (this.wordPositions.actual[v + iv][h] === null)) { /* räcker med att spara första och sista positionen för ordet! */
 
                           console.log("h = " + h)
                           console.log("v = " + v)
                           console.log("iv = " + iv)
-                          /* console.log("matchesIterator = " + this.matchesIterator) */
-
-                            /* console.log("same letter?: " + this.wordPositions.actual[h][v + i] === wordSplit[i])
-                            console.log("is this null!?!?: " + this.wordPositions.actual[h][v + i])
-                            console.log((this.wordPositions.actual[h + i][v] === null)) */
+                          console.log("matchesIterator = " + this.matchesIterator)
+                          console.log(this.wordPositions.actual)
+                          console.log("värde på positionen: " + this.wordPositions.actual[v + iv][h])
+                          console.log("bokstav == null?" + (this.wordPositions.actual[v + iv][h] === null))
                             
                           if (iv == wordSplit.length - 1) { /* vi har tagit oss till slutet av ordet och allt har funkat */
 
-                                /* console.log("kontrollera krock med andra bokstäver än första. h = " + h + ", v = " + v) */
+                            console.log("Good Match Found (vertical). Starting at h = " + h + ", and v = " + v)
+                            
+                            this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionVert(h, v, wordSplit)
+                            console.log("this.getNewTempPositionVert(h, v, wordSplit)) --- ")
+                            console.log(this.getNewTempPositionVert(h, v, wordSplit))
+                          
+                            console.log("this.wordPositions.actual --- ")
+                            console.log(this.wordPositions.actual)
 
-                                console.log("Good Match Found (vertical). Starting at h = " + h + ", and v = " + v)
-                                this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionVert(h, v, wordSplit);
-                                /* this.wordPositions.temp.push(this.getNewTempPositionVert(h, v, wordSplit)) */
-                                console.log("Matchning nr. " + this.matchesIterator + ": " + this.wordPositions.temp[this.matchesIterator])
-                                this.matchesIterator++;
-                                console.log("matchesIterator = " + this.matchesIterator)
-                            }
+                            console.log("this.wordPositions.temp[this.matchesIterator] --- ")
+                            console.log(this.wordPositions.temp[this.matchesIterator])
+
+                            this.matchesIterator++;
+                            console.log("matchesIterator increased to: " + this.matchesIterator)
+                          }
                         } else {
-                            break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
+                          break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
                         }
                     }
                 }
@@ -187,22 +191,33 @@
                     
                   for (let ih = 0; ih < wordSplit.length; ih++) {
 
-                        if ((this.wordPositions.actual[h + ih][v] === wordSplit[ih]) || (this.wordPositions.actual[h + ih][v] === null)) { /* räcker med att spara första och sista positionen för ordet! */
+                        if ((this.wordPositions.actual[v][h + ih] === wordSplit[ih]) || (this.wordPositions.actual[v][h + ih] === null)) { /* räcker med att spara första och sista positionen för ordet! */
                             
                           console.log("h = " + h)
                           console.log("v = " + v)
                           console.log("ih = " + ih)
                           console.log("matchesIterator = " + this.matchesIterator)
-                          console.log("värde på positionen: " + this.wordPositions.actual[h + ih][v])
-                          console.log("bokstav == null?" + (this.wordPositions.actual[h + ih][v] === null))
+                          console.log(this.wordPositions.actual)
+                          console.log("värde på positionen: " + this.wordPositions.actual[v][h + ih])
+                          console.log("bokstav == null?" + (this.wordPositions.actual[v][h + ih] === null))
 
                           if (ih == wordSplit.length - 1) { /* vi har tagit oss till slutet av ordet och allt har funkat */
 
                             console.log("Good Match Found (horizontal). Starting at h = " + h + ", and v = " + v)
-                            this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionHoriz(h, v, wordSplit);
+
+                            this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionHoriz(h, v, wordSplit)
+                            console.log("this.getNewTempPositionHoriz(h, v, wordSplit)) --- ")
+                            console.log(this.getNewTempPositionHoriz(h, v, wordSplit))
+                          
+                            console.log("this.wordPositions.actual --- ")
+                            console.log(this.wordPositions.actual)
+
+                            console.log("this.wordPositions.temp[this.matchesIterator] --- ")
+                            console.log(this.wordPositions.temp[this.matchesIterator])
+
                             /* this.wordPositions.temp.push(this.getNewTempPositionHoriz(h, v, wordSplit)) */
                             this.matchesIterator++;
-                            console.log("matchesIterator = " + this.matchesIterator)
+                            console.log("matchesIterator increased to: " + this.matchesIterator)
                             }
                         } else {
                             break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
@@ -217,9 +232,9 @@
             this.alertNoMatches();
         }
 
-        this.wordPositions.actual = this.wordPositions.temp[0]
+        /* this.wordPositions.actual = this.wordPositions.temp[0] */
       }, 
-      getPositions: function (word, h, v, horizontal) {
+      getPositions: function (word, h, v, horizontal) { /* används ej */
         let pos = {};
 
         if (horizontal) {
@@ -269,22 +284,27 @@
       getNewTempPositionVert: function (h, v, wordSplit) {
         let newWordPositions = JSON.parse(JSON.stringify(this.wordPositions.actual))
 
+        console.log("inside of vertical func")
+
         for (let i = 0; i < wordSplit.length; i++) {
             newWordPositions[v + i][h] = wordSplit[i]
         }
 
+        console.log("From getNewTempPositionVert, newWordPositions: ")
+        console.log(newWordPositions)
         return newWordPositions
       },
       getNewTempPositionHoriz: function (h, v, wordSplit) {
         let newWordPositions = JSON.parse(JSON.stringify(this.wordPositions.actual))
-        console.log(newWordPositions)
+
+        console.log("inside of horizontal func")
 
         for (let i = 0; i < wordSplit.length; i++) {
             newWordPositions[v][h + i] = wordSplit[i]
         }
 
-        console.log("Läggs listor till i temp?" + typeof(newWordPositions))
-
+        console.log("From getNewTempPositionHoriz, newWordPositions: ")
+        console.log(newWordPositions)
         return newWordPositions
       },
       testClick: function() {
