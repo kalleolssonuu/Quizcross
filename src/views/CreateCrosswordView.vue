@@ -43,6 +43,7 @@
 /* LOGG:
 
   2022-12-15
+  * Spara ord- och beskrivningspar så att vi kan skicka med det. Alternativt skicka ett stort 'paket' som innehållar all information om korsordet.
   * Börja med att kolla alla positioner där ordet har en gemensam bokstav med wordPositions.actual. Därefter byt plats på den matchningen och
     en som ligger på en före-detta-null-plats. Ny iterator this.swapIterator. Visualisera: typ som hur pivotelementet rör sig i QuickSort.
   * PlayView: vi borde kunna ha komponenter som element i vårt table. Har kollat med OpenAI! Dvs. vi kan har egenskaper såsom
@@ -74,12 +75,6 @@
     - Layout (någon annan?)
 
 */
-
-
-/*   const wordFromInput = function(inputWord, inputDesc) {
-    this.word = inputWord; /* Första steget kör split på ordet och leta igenom matrisen. Resultat ["c", "l", "o", "w", "n"] 
-    this.desc = inputDesc;
-} */
 
   export default {
     name: 'CreateCrosswordView',
