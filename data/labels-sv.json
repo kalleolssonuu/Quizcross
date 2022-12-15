@@ -6,5 +6,17 @@
 	"participatePoll": "Delta i röstning",
 	"question": "Fråga",
 	"changeLanguage": "https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/800px-Flag_of_the_United_Kingdom.svg.png",
-	"playCross": "Spela"
+	"playCross": "Spela",
+
+	
+	"userCreatedGames": "Användarskapade spel",
+	"myGamesLang": "Mina spel",
+	"selectedGameLang": "Valt spel: ",
+	"crossID": "Korsords-ID",
+	"playPlay": "Spela",
+	"backButton": "Tillbaka",
+
+
+	"whatIsQC": "Vad är Quizcross?",
+	"pageDescription": "Förklaring här"
 }
