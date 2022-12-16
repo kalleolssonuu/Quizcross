@@ -57,7 +57,7 @@ const socket = io();*/
 export default{
   name: 'PlayView',
   components:{
-    Game
+    // Game
   },
   props: {
   modal: Object
@@ -69,7 +69,7 @@ export default{
 
   data: function(){
     return{
-      games: gameInfo,
+      // games: gameInfo,
       selectedGame:{},
       uiLabels: {},
       id: "",

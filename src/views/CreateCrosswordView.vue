@@ -19,7 +19,7 @@
         </div>
         <button v-on:click="this.testClick"> Test V-Model word desc </button>
         <button v-on:click="this.findPotentialMatches"> Test wordPositions and tempWordPositions </button> <br>
-        <button v-on:click="this.emptyTextFields"> Empty Input </button> <!-- gör detta när användaren har valt ett ord istället för en knapp. Det rensar även textfältet -->
+        <button v-on:click="this.emptyTextFields"> Empty Input/Enter Word </button> <!-- gör detta när användaren har valt ett ord istället för en knapp. Det rensar även textfältet -->
         <button v-on:click="this.fillPositionsLetterC"> Fill with "c" </button>
         <button v-on:click="this.fillPositionsNull"> Fill with null </button> <br>
         <button v-on:click="this.iterateWordPosTemp"> Iterate wordPositions.temp </button>
