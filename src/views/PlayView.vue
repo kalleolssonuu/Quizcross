@@ -45,9 +45,9 @@
   </div>
   <div>
     <text id="crossText">{{uiLabels.crossID}}</text> 
-    <textarea id="selectedid">
+    <input type="number" id="selectedid" placeholder="ex. 1234..">
                   
-                </textarea>
+                
     <button id="playButton" v-on:click="playCross">
       {{uiLabels.playPlay}}
     </button>
@@ -162,6 +162,7 @@ header {
   color: white;
   padding-top:0.2em;
   text-align: center;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
 .logo img {
   height:2.5rem;
@@ -335,5 +336,10 @@ textarea {
     border-radius: 2px;
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
     background: #43918a;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 </style>
