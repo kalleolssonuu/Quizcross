@@ -4,9 +4,8 @@
       <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage">
     </div>
   <div class="logo">Quizcross</div>
-  <div
-    v-on:click="togglePopup">
-    <Modal>
+  <div>
+    <Modal v-bind:key="kopplingTillJSON">
     <button v-on:click="togglePopup"></button>
     </Modal></div>
 </header>
@@ -90,7 +89,9 @@ export default{
       id: "",
       lang: "en",
       hideNav: true,
-      showModal: false
+      showModal: false,
+      kopplingTillJSON: "pageDescriptionPlayView"
+      /* vi letar sen efter JSON[kopplingTillJSON] */
     }
   },
   methods: {
@@ -322,16 +323,16 @@ textarea {
   #select{
     margin-top: -20px;
   }
-  ::-webkit-scrollbar {
+.scroll::-webkit-scrollbar {
     width: 12px;
 }
  
-::-webkit-scrollbar-track {
+.scroll::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
     border-radius: 2px;
 }
  
-::-webkit-scrollbar-thumb {
+.scroll::-webkit-scrollbar-thumb {
     border-radius: 2px;
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
     background: #43918a;
