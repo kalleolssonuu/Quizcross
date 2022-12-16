@@ -75,6 +75,7 @@ export default{
   created: 
   function () {
     this.lang = this.$route.params.lang
+    socket.emit('pageLoaded')
     socket.on("init", (labels) => {
       this.uiLabels = labels
     });
@@ -320,4 +321,18 @@ textarea {
   #select{
     margin-top: -20px;
   }
+  ::-webkit-scrollbar {
+    width: 12px;
+}
+ 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 2px;
+}
+ 
+::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+    background: #43918a;
+}
 </style>
