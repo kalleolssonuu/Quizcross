@@ -15,6 +15,7 @@
     </div>
 </template>
 
+
 <script>
 import io from 'socket.io-client'; 
 const socket = io();
@@ -91,8 +92,10 @@ export default {
   margin: 0 auto;
   padding: 20px 30px;
   background-color: #FFFDD0;
+  color: #000;
   border-radius: 15px;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
+  overflow-y: auto;
 }
 
 .modal-vue .close{
