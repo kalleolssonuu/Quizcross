@@ -34,7 +34,7 @@ export default {
   data: function () {
     return {
       uiLabels: {},
-      //id: "",
+      id: "",
       lang: "en",
       //hideNav: true,
       showModal: false

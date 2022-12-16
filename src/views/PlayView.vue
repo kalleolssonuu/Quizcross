@@ -6,7 +6,7 @@
   <div class="logo">Quizcross</div>
   <div
     v-on:click="togglePopup">
-    <Modal v-bind:hideNav="hideNav">
+    <Modal>
     <button v-on:click="togglePopup"></button>
     </Modal></div>
 </header>
