@@ -109,8 +109,7 @@ export default{
 /* FÖR ATT FÅ FRAM POP-UP RUTA*/
 togglePopup: function () {
     this.showModal = ! this.showModal;
-  },
-
+  }
 }
 }
 
