@@ -5,5 +5,18 @@
 	"participatePoll": "Participate in poll",
 	"question": "Question",
 	"changeLanguage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARwAAACxCAMAAAAh3/JWAAAAJFBMVEUAaqf+zAAAaKn/0ABKfJNQgIwAZqtMf41Fe5X/zwByjntRgYvwTh7hAAABqElEQVR4nO3ayY3DQBAEwSGpW/77uxZsig8OIFARDjQ63zXGHOt7Wz7Zruuk619uvYrzL3GCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOOEccdY5bvcdce63SdcPMi5zPF474rwek64fZGyTPD+2WZbnrOMHGTt++FniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAmWXcEmMFiThmkL3lPskCcRJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAnr+wRx/gBgCFQDC7+0YQAAAABJRU5ErkJggg==",
-	"playCross": "Play"
+	"playCross": "Play",
+
+
+	"userCreatedGames": "User created games",
+	"myGamesLang": "My games",
+	"selectedGameLang": "Selected game: ",
+	"crossID": "Crossword ID",
+	"playPlay": "Play",
+	"backButton": "Back",
+
+
+	"whatIsQC": "What is Quizcross?",
+	"pageDescription": "Description here"
+
 }

@@ -12,7 +12,10 @@
   <table id="crosswordwrapper">
     <tr v-for="(list, ykey) in wordPositions.actual" v-bind:key="'y' + ykey">
         <td class="letterbox" v-for="(letter, xkey) in list" v-bind:key="'x' + xkey"> 
+          
           {{ letter }}
+          
+
         </td>
     </tr>
   </table>
@@ -54,6 +57,9 @@
     methods: {
       tempFunc: function () {
         console.log(this.wordPositions)
+      },
+      testLog: function() {
+        console.log("test")
       }
     }
   }

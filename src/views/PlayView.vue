@@ -1,5 +1,8 @@
 <template>
   <header>
+    <div class="language">
+      <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage">
+    </div>
   <div class="logo">Quizcross</div>
   <div
     v-on:click="togglePopup">
@@ -10,67 +13,78 @@
 
   <div class="gameWrapper">
     <div id="userGames">
-        User created games
+      {{uiLabels.userCreatedGames}}
         <div id="gameList">
           <div class="scroll">
           <Game v-for="game in games"
             v-bind:game="game" 
             v-bind:key="game.name"
-            v-on:game="selectGame($event)"/> 
+            v-on:selectedGame="selectGame($event)"/> 
+      </div>
+      <div class="wrapper">
+      <text id="selectedText">{{uiLabels.selectedGameLang}}</text>
+      <textarea readonly id="selectedname">
+
+      </textarea>
       </div>
       </div>
     </div>
 
     <div id="myGames">
-        My games
+        {{uiLabels.myGamesLang}}
       <div class="scroll">
-        -Hugo <br>
-        -Hugo <br>
-
-
+        <Game v-for="game in games"
+            v-bind:game="game" 
+            v-bind:key="game.name"
+            v-on:selectedGame="selectGame($event)"/> 
         
       </div>
-      <textarea id="select">
-         hej           
-      </textarea>
 
       <button id="create" @click="$router.push('/create/en')">{{'Create'}}</button>
     </div>
   </div>
   <div>
-    Play link: 
-    <input type="text" v-model="playId">
-    <button v-on:click="playCross">
-      Play cross
+    <text id="crossText">{{uiLabels.crossID}}</text> 
+    <textarea id="selectedid">
+                  
+                </textarea>
+    <button id="playButton" v-on:click="playCross">
+      {{uiLabels.playPlay}}
     </button>
   </div>
-  <button @click="$router.push('/'+lang)">{{'Homepage'}}</button>
+  <button id="homepagebutton" @click="$router.push('/'+lang)">{{uiLabels.backButton}}</button>
 </template>
 
 <script>
-/* import Game from '../components/GamesComponent.vue' */
-/* import gameInfo from '../assets/gameInfo.json'  */
-
-/*import io from 'socket.io-client'; 
-const socket = io();*/
+import Game from '../components/GameComponent.vue' 
+import gameInfo from '../assets/gameInfo.json'  
+import Modal from '../components/PopUp.vue'
+import io from 'socket.io-client'; 
+const socket = io();
 
 export default{
   name: 'PlayView',
   components:{
-    // Game
+    Game,
+    Modal
   },
   props: {
   modal: Object
 },
 
-  created: function () {
+  created: 
+  function () {
     this.lang = this.$route.params.lang
+    socket.on("init", (labels) => {
+      this.uiLabels = labels
+    });
   },
+  
 
   data: function(){
     return{
-      // games: gameInfo,
-      selectedGame:{},
+      games: gameInfo,
+      selectedGame: {},
       uiLabels: {},
       id: "",
       lang: "en",
@@ -79,11 +93,19 @@ export default{
     }
   },
   methods: {
-  selectGame: function (){ 
-    document.getElementById("select").innerHTML="halloj"
-
+  selectGame: function (games){ 
+    console.log(this.selectedGame)
+    document.getElementById("selectedname").value=games.name
+    document.getElementById("selectedid").value=games.id
   },
 
+  switchLanguage: function() {
+    if (this.lang === "en")
+      this.lang = "sv"
+    else
+      this.lang = "en"
+    socket.emit("switchLanguage", this.lang)
+    },
 /* FÖR ATT FÅ FRAM POP-UP RUTA*/
 togglePopup: function () {
     this.showModal = ! this.showModal;
@@ -97,6 +119,18 @@ togglePopup: function () {
 </script>
 
 <style>
+  .language{
+    height: 1rem;
+    width: 1rem;
+    cursor:pointer;
+    margin: 0.5rem;
+}
+  #flag {
+    width: 5rem;
+    height: 3.5rem;
+    border-radius: 20%;
+}
+
 header {
   background-color: #A7CAB1;
   width: 100%;
@@ -185,6 +219,106 @@ div.scroll {
   font-family: "Comic Sans MS", "Comic Sans", cursive;
   font-size: 15px;
   cursor:pointer;
-  
 }
+textarea {
+  resize: none;
+  overflow:hidden;
+}
+.wrapper{
+    display: flex;
+    justify-content: center;
+  }
+
+#selectedname{
+  width: 10rem;
+  height: 1.5rem;
+  margin-top: 0.5rem;
+  margin-left: 25%;
+  border-radius: 5px;
+  text-align: center;
+  vertical-align: middle;
+  position: relative;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 1rem;
+  color: #43918a;
+}
+#selectedText{
+  font-size: 1rem;
+  width: 2rem;
+  position: relative;
+  text-align: center;
+}
+
+#selectedid{
+  width: 10rem;
+  height: 1.5rem;
+  border-radius: 5px;
+  text-align: center;
+  vertical-align: middle;
+  position: relative;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 1rem;
+  color: #43918a;
+  border-color: #2d635f;
+}
+#crossText{
+  font-size: 1.25rem;
+  width: 2rem;
+  position: relative;
+  text-align: center;
+  color: #ffffff;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+
+#playButton{
+  width: 5rem;
+  height: 1.8rem;
+  border-radius: 5px;
+  text-align: center;
+  vertical-align: middle;
+  position: relative;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 1rem;
+  background-color: #43918a;
+  color: #ffffff;
+  border-color: #2d635f;
+  cursor: pointer;
+}
+#playButton:hover{
+  opacity: 75%;
+}
+
+#homepagebutton {
+  bottom: 0;
+  left: 0;
+  margin: 0.5rem;
+  background-color: #FE5F55;
+}
+
+
+#play{
+  width: 6rem;
+  height: 2rem;
+  border-radius: 15px;
+  border-color: #ba0c00;
+  margin: 1rem;
+  color: white;
+  background-color: #FE5F55;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 15px;
+  cursor:pointer;
+}
+
+#create:hover{
+    background-color: #fb6d63;
+    
+  }
+  #play:hover{
+    background-color: #fb6d63;
+    
+  }
+
+  #select{
+    margin-top: -20px;
+  }
 </style>

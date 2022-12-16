@@ -21,7 +21,6 @@
   <embed
   src="01 Manboy.m4a"
   loop="true"
-  autostart="true"
   height="0"
   hidden>
 </audio>

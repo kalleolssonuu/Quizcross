@@ -9,32 +9,47 @@
       </div>
       <div class="modal" v-if="showModal">
         <button class="close" @click="showModal = false">x</button>
-        <h3>What is Quizcross?</h3>
-        <p>Description here:</p>
+        <h3>{{uiLabels.whatIsQC}}</h3>
+        <p>{{uiLabels.pageDescription}}</p>
       </div>
     </div>
 </template>
 
 <script>
+import io from 'socket.io-client'; 
+const socket = io();
+
 export default {
   name: 'PopUp',
   props: {
     modal: Object
   },
-
+  created: 
+  function () {
+    socket.on("init", (labels) => {
+      this.uiLabels = labels
+    });
+  },
   data: function () {
     return {
-      /*uiLabels: {},
-      id: "",
+      uiLabels: {},
+      //id: "",
       lang: "en",
-      hideNav: true,*/
+      //hideNav: true,
       showModal: false
     }
   },
   methods:{
     togglePopup: function () {
       this.showModal = ! this.showModal;
-    }
+    },
+    switchLanguage: function() {
+    if (this.lang === "en")
+      this.lang = "sv"
+    else
+      this.lang = "en"
+    socket.emit("switchLanguage", this.lang)
+    },
   }     
 }
 </script>
@@ -68,7 +83,10 @@ export default {
 
 .modal-vue .modal {
   position: absolute;
-  width: 300px;
+  top: 25%;
+  left: 30%;
+  height: 20%;
+  width: 40%;
   z-index: 9999;
   margin: 0 auto;
   padding: 20px 30px;
@@ -83,5 +101,9 @@ export default {
   right: 10px;
   background-color: #FE5F55;
   border-radius: 5px;
+  cursor:pointer;
+}
+.modal-vue .close:hover{
+background-color: #e36f67;
 }
 </style>
