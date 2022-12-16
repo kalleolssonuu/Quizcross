@@ -8,9 +8,9 @@
       @click="showModal=false">
       </div>
       <div class="modal" v-if="showModal">
-        <button class="close" @click="showModal = false">x</button>
         <h3>{{uiLabels.whatIsQC}}</h3>
         <p>{{uiLabels.pageDescription}}</p>
+        <button class="close" @click="showModal = false">x</button>
       </div>
     </div>
 </template>
