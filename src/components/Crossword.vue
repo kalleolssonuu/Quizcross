@@ -13,9 +13,11 @@
     <tr v-for="(list, ykey) in wordPositions.actual" v-bind:key="'y' + ykey">
         <td class="letterbox" v-for="(letter, xkey) in list" v-bind:key="'x' + xkey"> 
           
-          {{ letter }}
-          
+          <!-- <WordBox v-bind:key="key" v-bind:letter="letter" v-bind:direction="direction">
+            {{ letter }}
+          </WordBox> -->
 
+          {{ letter }}
         </td>
     </tr>
   </table>
@@ -50,6 +52,15 @@
       matrixDims: Object,
       word: String,
       desc: String
+    },
+    mounted() {
+    this.wordPositions.actual.forEach((item, yindex) => {
+      console.log("Outer wordPositions.actual index: " + yindex);
+      item.forEach((item, xindex) => {
+        console.log("Inner wordPositions.actual index: " + xindex)
+      })
+    });
+
     },
     created: function () {
       this.tempFunc()
