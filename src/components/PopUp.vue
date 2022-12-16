@@ -9,7 +9,7 @@
       </div>
       <div class="modal" v-if="showModal">
         <h3>{{uiLabels.whatIsQC}}</h3>
-        <p>{{uiLabels.pageDescription}}</p>
+        <p>{{uiLabels.kopplingTillJSON}}</p>
         <button class="close" @click="showModal = false">x</button>
       </div>
     </div>
@@ -23,7 +23,8 @@ const socket = io();
 export default {
   name: 'PopUp',
   props: {
-    modal: Object
+    modal: Object,
+    kopplingTillJSON: String,
   },
   created: 
   function () {
@@ -35,9 +36,10 @@ export default {
   },
   data: function () {
     return {
+
       uiLabels: {},
       id: "",
-      lang: "en",
+      lang: "",
       //hideNav: true,
       showModal: false
     }
