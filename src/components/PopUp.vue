@@ -1,7 +1,7 @@
 <template> 
    <!-- ALL KOD FÖR POPUP-WINDOW-->
    <div class="modal-vue">
-      <button id="help" @click="showModal=true">
+      <button id="help" :src="uiLabels.changeLanguage" @click="showModal=true">
         ?
       </button>
       <div class="overlay" v-if="showModal"
@@ -27,6 +27,7 @@ export default {
   },
   created: 
   function () {
+    socket.emit('pageLoaded')
     socket.on("init", (labels) => {
       this.uiLabels = labels
     });
