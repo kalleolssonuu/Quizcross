@@ -26,7 +26,6 @@
         <button v-on:click="this.showPreviousSolution"> Show previous </button> <br>
         <button v-on:click="this.wordPositionsTempToActual"> Take temp and put as actual </button> <br>
         <button v-on:click="this.logWordPositionActual"> Print actual list in console </button>
-        <button v-on:click="this.compareMatrices"> Print: compare wordPositions.temp[index] to .actual </button> 
         
         <br>
 
@@ -153,17 +152,12 @@
         for (let v = 0; v < vert; v++) {
           /* console.log("kommit in? vertikalt") */
             if (this.wordPositions.actual[v][h] === wordSplit[0] || this.wordPositions.actual[v][h] === null) {
-
-                /* console.log("har kommit förbi bokstavskoll") */
                 
                 if (wordSplit.length <= vert - v) { /* FÅR PLATS VERTIKALT? */
 
-                  /* console.log("har kommit förbi få-plats-koll") */
                     for (let iv = 0; iv < wordSplit.length; iv++) {
                         
-                        /* console.log("h = " + h + ", v = " + v + ", this.matchesIterator = " + this.matchesIterator) */
-                        
-                        if ((this.wordPositions.actual[v + iv][h] === wordSplit[iv]) || (this.wordPositions.actual[v + iv][h] === null)) { /* räcker med att spara första och sista positionen för ordet! */
+                        if ((this.wordPositions.actual[v + iv][h] === wordSplit[iv]) || (this.wordPositions.actual[v + iv][h] === null)) { 
 
                           console.log("h = " + h)
                           console.log("v = " + v)
