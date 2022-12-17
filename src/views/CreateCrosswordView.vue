@@ -149,6 +149,7 @@
         const vert = this.matrixDims.y;    /* för att spara plats längre ner */
 
         for (let h = 0; h < horiz; h++) {
+          
           /* console.log("kommit in? horisontellt") */
         for (let v = 0; v < vert; v++) {
           /* console.log("kommit in? vertikalt") */
@@ -158,7 +159,7 @@
                 
                 if (wordSplit.length <= vert - v) { /* FÅR PLATS VERTIKALT? */
 
-                  /* console.log("har kommit förbi få-plats-koll") */
+                  /* console.log("har kommit förbi få-plats-koll") */    // JESS: iv??? varför behövs
                     for (let iv = 0; iv < wordSplit.length; iv++) {
                         
                         /* console.log("h = " + h + ", v = " + v + ", this.matchesIterator = " + this.matchesIterator) */
@@ -177,7 +178,7 @@
 
                             console.log("Good Match Found (vertical). Starting at h = " + h + ", and v = " + v)
                             
-                            this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionVert(h, v, wordSplit)
+                            this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionVert(h, v, wordSplit) // JESS: Vad sker här?? massa JSON grejer i func. går typ igenom hela ordet igen? för att spara alla bokstavspos?
                             console.log("this.getNewTempPositionVert(h, v, wordSplit)) --- ")
                             console.log(this.getNewTempPositionVert(h, v, wordSplit))
                           
@@ -293,7 +294,7 @@
       getNewTempPositionVert: function (h, v, wordSplit) {
         let newWordPositions = JSON.parse(JSON.stringify(this.wordPositions.actual))
 
-        console.log("inside of vertical func")
+        console.log("inside of vertical func")     // JESS: VARFÖR SKRIVA UT FLERA GGR DETTA
 
         for (let i = 0; i < wordSplit.length; i++) {
             newWordPositions[v + i][h] = wordSplit[i]
