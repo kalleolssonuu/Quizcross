@@ -4,7 +4,7 @@
       <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage"></div>
     <div
       v-on:click="togglePopup">
-      <Modal v-bind:hideNav="hideNav">
+      <Modal>
       <button v-on:click="togglePopup"></button>
       </Modal></div>
   </header>

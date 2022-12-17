@@ -1,19 +1,20 @@
 <template> 
    <!-- ALL KOD FÖR POPUP-WINDOW-->
    <div class="modal-vue">
-      <button id="help" @click="showModal=true">
+      <button id="help" :src="uiLabels.changeLanguage" @click="showModal=true">
         ?
       </button>
       <div class="overlay" v-if="showModal"
       @click="showModal=false">
       </div>
       <div class="modal" v-if="showModal">
-        <button class="close" @click="showModal = false">x</button>
         <h3>{{uiLabels.whatIsQC}}</h3>
-        <p>{{uiLabels.pageDescription}}</p>
+        <p>{{uiLabels.kopplingTillJSON}}</p>
+        <button class="close" @click="showModal = false">x</button>
       </div>
     </div>
 </template>
+
 
 <script>
 import io from 'socket.io-client'; 
@@ -22,19 +23,23 @@ const socket = io();
 export default {
   name: 'PopUp',
   props: {
-    modal: Object
+    modal: Object,
+    kopplingTillJSON: String,
   },
   created: 
   function () {
+    this.lang = this.$route.params.lang
+    socket.emit('pageLoaded')
     socket.on("init", (labels) => {
       this.uiLabels = labels
     });
   },
   data: function () {
     return {
+
       uiLabels: {},
-      //id: "",
-      lang: "en",
+      id: "",
+      lang: "",
       //hideNav: true,
       showModal: false
     }
@@ -91,8 +96,10 @@ export default {
   margin: 0 auto;
   padding: 20px 30px;
   background-color: #FFFDD0;
+  color: #000;
   border-radius: 15px;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
+  overflow-y: auto;
 }
 
 .modal-vue .close{

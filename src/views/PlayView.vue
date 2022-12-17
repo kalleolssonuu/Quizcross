@@ -4,9 +4,8 @@
       <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage">
     </div>
   <div class="logo">Quizcross</div>
-  <div
-    v-on:click="togglePopup">
-    <Modal v-bind:hideNav="hideNav">
+  <div>
+    <Modal v-bind:key="kopplingTillJSON">
     <button v-on:click="togglePopup"></button>
     </Modal></div>
 </header>
@@ -45,9 +44,9 @@
   </div>
   <div>
     <text id="crossText">{{uiLabels.crossID}}</text> 
-    <textarea id="selectedid">
+    <input type="number" id="selectedid" placeholder="ex. 1234..">
                   
-                </textarea>
+                
     <button id="playButton" v-on:click="playCross">
       {{uiLabels.playPlay}}
     </button>
@@ -75,6 +74,7 @@ export default{
   created: 
   function () {
     this.lang = this.$route.params.lang
+    socket.emit('pageLoaded')
     socket.on("init", (labels) => {
       this.uiLabels = labels
     });
@@ -89,7 +89,9 @@ export default{
       id: "",
       lang: "en",
       hideNav: true,
-      showModal: false
+      showModal: false,
+      kopplingTillJSON: "pageDescriptionPlayView"
+      /* vi letar sen efter JSON[kopplingTillJSON] */
     }
   },
   methods: {
@@ -109,8 +111,7 @@ export default{
 /* FÖR ATT FÅ FRAM POP-UP RUTA*/
 togglePopup: function () {
     this.showModal = ! this.showModal;
-  },
-
+  }
 }
 }
 
@@ -161,6 +162,7 @@ header {
   color: white;
   padding-top:0.2em;
   text-align: center;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
 .logo img {
   height:2.5rem;
@@ -321,4 +323,23 @@ textarea {
   #select{
     margin-top: -20px;
   }
+.scroll::-webkit-scrollbar {
+    width: 12px;
+}
+ 
+.scroll::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 2px;
+}
+ 
+.scroll::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+    background: #43918a;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 </style>
