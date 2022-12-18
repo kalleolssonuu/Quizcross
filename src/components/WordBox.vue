@@ -10,6 +10,7 @@
  
  <template>
     <div class="letterbox">
+       {{letter}}
 
     </div>
 
@@ -18,6 +19,23 @@
 
 
  <script>
+ export default{
+    name: 'WordBox',
+    props: {
+        box:Object,
+        letter: String
+  
+
+    },
+    data: function(){
+        return{
+
+        }
+    },
+    methods:{
+       
+    }
+}
 
 </script>
 

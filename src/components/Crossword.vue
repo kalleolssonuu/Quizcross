@@ -3,14 +3,14 @@
   
   <table id="crosswordwrapper">
     <tr v-for="(list, ykey) in wordPositions.actual" v-bind:key="'y' + ykey">
-        <WordBox v-for="(letter, xkey) in list" v-bind:key="'x' + xkey"> 
+        <td v-for="(letter, xkey) in list">
+          <WordBox v-bind:key="'x' + xkey" v-bind:letter="letter"/> 
+        </td> 
           
           <!-- <WordBox v-bind:key="key" v-bind:letter="letter" v-bind:direction="direction">
             {{ letter }}
           </WordBox> -->
 
-          {{ letter }}
-        </WordBox>
     </tr>
   </table>
 
@@ -28,15 +28,17 @@
 </template>
   
   <script>
-
+import WordBox from '../components/WordBox.vue' 
 
   export default {
     data: function() {
       return {
-        amountOrdered: 0
       }
     },  
-    name: 'OneBurger',
+    name: 'CrossWord',
+    components: {
+      WordBox, 
+    },
     props: {
       wordObjects: Object,
       tempWordObjects: Object,
