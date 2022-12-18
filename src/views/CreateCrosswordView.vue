@@ -128,6 +128,7 @@
       findPotentialMatches: function () {
         this.matchesIterator = 0;
         this.userIterator = 0;
+        this.swapIterator = 0;
         let word = this.word;                 /* för att spara plats längre ner */
         let wordSplit = word.split("");
         console.log("wordSplit = " + wordSplit);
@@ -287,6 +288,8 @@
             this.wordPositions.actual[v][h] = null;
             }
         }
+
+        this.wordPositions.temp = []
         console.log(this.wordPositions.actual)
       },
       fillPositionsLetterC: function () {
@@ -305,30 +308,35 @@
         console.log(this.wordPositions.actual)
       },
       getNewTempPositionVert: function (h, v, wordSplit) {
-        let newWordPositions = JSON.parse(JSON.stringify(this.wordPositions.actual))
+        if (this.wordPositions.temp != []) {
+          let newWordPositions = JSON.parse(JSON.stringify(this.wordPositions.actual))
 
-        console.log("inside of vertical func")
+          console.log("inside of vertical func")
 
-        for (let i = 0; i < wordSplit.length; i++) {
-            newWordPositions[v + i][h] = wordSplit[i]
+          for (let i = 0; i < wordSplit.length; i++) {
+              newWordPositions[v + i][h] = wordSplit[i]
+          }
+
+          console.log("From getNewTempPositionVert, newWordPositions: ")
+          console.log(newWordPositions)
+          return newWordPositions
         }
-
-        console.log("From getNewTempPositionVert, newWordPositions: ")
-        console.log(newWordPositions)
-        return newWordPositions
       },
       getNewTempPositionHoriz: function (h, v, wordSplit) {
-        let newWordPositions = JSON.parse(JSON.stringify(this.wordPositions.actual))
+        if (this.wordPositions != []) {
+          let newWordPositions = JSON.parse(JSON.stringify(this.wordPositions.actual))
 
-        console.log("inside of horizontal func")
+          console.log("inside of horizontal func")
 
-        for (let i = 0; i < wordSplit.length; i++) {
-            newWordPositions[v][h + i] = wordSplit[i]
+          for (let i = 0; i < wordSplit.length; i++) {
+              newWordPositions[v][h + i] = wordSplit[i]
+          }
+
+          console.log("From getNewTempPositionHoriz, newWordPositions: ")
+          console.log(newWordPositions)
+          return newWordPositions
         }
 
-        console.log("From getNewTempPositionHoriz, newWordPositions: ")
-        console.log(newWordPositions)
-        return newWordPositions
       },
       testClick: function() {
         console.log(this.word);
