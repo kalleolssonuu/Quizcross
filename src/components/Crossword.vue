@@ -3,14 +3,14 @@
   
   <table id="crosswordwrapper">
     <tr v-for="(list, ykey) in wordPositions.actual" v-bind:key="'y' + ykey">
-        <td class="letterbox" v-for="(letter, xkey) in list" v-bind:key="'x' + xkey"> 
+        <WordBox v-for="(letter, xkey) in list" v-bind:key="'x' + xkey"> 
           
           <!-- <WordBox v-bind:key="key" v-bind:letter="letter" v-bind:direction="direction">
             {{ letter }}
           </WordBox> -->
 
           {{ letter }}
-        </td>
+        </WordBox>
     </tr>
   </table>
 
@@ -85,7 +85,6 @@
 .letterbox:empty {
   background-color: white;
   /* background-color: #A7CAB1; */
-
 }
 
 #crossword {
