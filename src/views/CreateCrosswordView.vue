@@ -167,17 +167,20 @@
 
                             console.log("Good Match Found (vertical). Starting at h = " + h + ", and v = " + v)
                             
-                            this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionVert(h, v, wordSplit)
+                            
                             console.log("this.getNewTempPositionVert(h, v, wordSplit)) --- ")
                             console.log(this.getNewTempPositionVert(h, v, wordSplit))
                           
                             if (this.wordCollision) {
-                              [this.wordPositions.temp[this.matchesIterator], this.wordPositions.temp[this.swapIterator]] = 
-                              [this.wordPositions.temp[this.swapIterator], this.wordPositions.temp[this.matchesIterator]] /* byter plats på position med bokstavsmatchning och null-matchning */
+                              this.wordPositions.temp.splice(this.swapIterator, 0, this.getNewTempPositionVert(h, v, wordSplit))
+                              /* [this.wordPositions.temp[this.matchesIterator], this.wordPositions.temp[this.swapIterator]] = 
+                              [this.wordPositions.temp[this.swapIterator], this.wordPositions.temp[this.matchesIterator]] */
                               this.swapIterator++
                               this.wordCollision = false
+                            } else {
+                              this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionVert(h, v, wordSplit)
                             }
-
+                              
                             console.log("this.wordPositions.actual --- ")
                             console.log(this.wordPositions.actual)
 
@@ -219,10 +222,13 @@
                             console.log(this.getNewTempPositionHoriz(h, v, wordSplit))
 
                             if (this.wordCollision) {
-                              [this.wordPositions.temp[this.matchesIterator], this.wordPositions.temp[this.swapIterator]] = 
-                              [this.wordPositions.temp[this.swapIterator], this.wordPositions.temp[this.matchesIterator]] /* byter plats på position med bokstavsmatchning och null-matchning */
+                              this.wordPositions.temp.splice(this.swapIterator, 0, this.getNewTempPositionHoriz(h, v, wordSplit))
+                              /* [this.wordPositions.temp[this.matchesIterator], this.wordPositions.temp[this.swapIterator]] = 
+                              [this.wordPositions.temp[this.swapIterator], this.wordPositions.temp[this.matchesIterator]] */
                               this.swapIterator++
                               this.wordCollision = false
+                            } else {
+                              this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionHoriz(h, v, wordSplit)
                             }
                           
                             console.log("this.wordPositions.actual --- ")
