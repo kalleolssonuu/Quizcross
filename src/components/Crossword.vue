@@ -3,19 +3,10 @@
   
   <table id="crosswordwrapper">
     <tr v-for="(list, ykey) in wordPositions.actual" v-bind:key="'y' + ykey">
-<<<<<<< HEAD
         <td v-for="(letter, xkey) in list" v-bind:key="'x' + xkey">
           <WordBox class="letterbox" v-bind:key="'x' + xkey" v-bind:letter="letter">
           </WordBox> 
         </td> 
-=======
-        <WordBox v-for="(letter, xkey) in list" v-bind:key="'x' + xkey" v-bind:letter="letter"/> 
->>>>>>> 0847c7657835c3f1f8c2c857aa9d518593f2984b
-          
-          <!-- <WordBox v-bind:key="key" v-bind:letter="letter" v-bind:direction="direction">
-            {{ letter }}
-          </WordBox> -->
-
     </tr>
   </table>
 
