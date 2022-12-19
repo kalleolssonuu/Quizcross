@@ -3,8 +3,9 @@
   
   <table id="crosswordwrapper">
     <tr v-for="(list, ykey) in wordPositions.actual" v-bind:key="'y' + ykey">
-        <td v-for="(letter, xkey) in list">
-          <WordBox v-bind:key="'x' + xkey" v-bind:letter="letter"/> 
+        <td v-for="(letter, xkey) in list" v-bind:key="'x' + xkey">
+          <WordBox class="letterbox" v-bind:key="'x' + xkey" v-bind:letter="letter">
+          </WordBox> 
         </td> 
           
           <!-- <WordBox v-bind:key="key" v-bind:letter="letter" v-bind:direction="direction">
@@ -73,7 +74,15 @@ import WordBox from '../components/WordBox.vue'
   <!-- Add "scoped" attribute to limit CSS to this component only -->
   <style scoped>
 
-
+.letterbox {
+  background-color: rgb(250, 244, 192);
+  height: 3rem;
+  width: 3rem;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-weight: bold;
+  font-size: 2rem;
+  border: black 0.15rem solid;
+}
 
 .letterbox:empty {
   background-color: white;
@@ -93,6 +102,8 @@ import WordBox from '../components/WordBox.vue'
   margin: 0 auto;
   justify-content: center;
   background-color: #A7CAB1;
+  height: 70%;
+  width: 40%;
 }
 
 

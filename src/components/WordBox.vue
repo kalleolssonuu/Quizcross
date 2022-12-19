@@ -10,8 +10,7 @@
  
  <template>
     <div class="letterbox">
-       {{letter}}
-
+        {{ letter }}
     </div>
 
 
@@ -19,21 +18,18 @@
 
 
  <script>
- export default{
-    name: 'WordBox',
+
+  export default {
+    data: function() {
+      return {
+        name: 'WordBox'
+      }
+    },
     props: {
-        box:Object,
         letter: String
-  
-
     },
-    data: function(){
-        return{
-
-        }
-    },
-    methods:{
-       
+    mounted() {
+      console.log("letter test: " + this.letter);
     }
 }
 
@@ -41,7 +37,10 @@
 
 
 <style>
-.letterbox {
+
+
+
+/* .letterbox {
   background-color: rgb(250, 244, 192);
   height: 3rem;
   width: 3rem;
@@ -49,7 +48,12 @@
   font-weight: bold;
   font-size: 2rem;
   border: black 0.15rem solid;
-  /* object-position: center; */
+} */
+
+
+.letterbox:empty {
+  background-color: white;
+  /* background-color: #A7CAB1; */
 }
 
 </style>

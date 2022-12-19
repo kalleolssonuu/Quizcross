@@ -129,7 +129,7 @@
         this.matchesIterator = 0;
         this.userIterator = 0;
         this.swapIterator = 0;
-        let word = this.word;                 /* för att spara plats längre ner */
+        let word = this.word.toUpperCase();                 /* för att spara plats längre ner */
         let wordSplit = word.split("");
         console.log("wordSplit = " + wordSplit);
         const horiz = this.matrixDims.x; /* för att spara plats längre ner */
