@@ -29,7 +29,7 @@
         letter: String
     },
     mounted() {
-      console.log("letter test: " + this.letter);
+        
     }
 }
 
