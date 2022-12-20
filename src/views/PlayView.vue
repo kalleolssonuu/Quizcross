@@ -1,19 +1,15 @@
 <template>
   <header>
-    <!--<div class="language">
-      <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage">
-    </div>-->
-  <div class="logo">Quizcross</div>
+  <!-- <div class="logo">Quizcross</div> -->
   <div>
-    <Modal v-bind:uiLabels="uiLabels">
+    <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-on:switchLanguage="switchLanguage" >
     <button v-on:click="togglePopup"></button>
     </Modal></div>
 </header>
 
   <div class="gameWrapper">
     <div id="userGames">
-      <div v-if="lang === 'en'">{{uiLabels.userCreatedGames}}</div>
-      <div v-if="lang === 'sv'">{{uiLabels.userCreatedGames}}</div>
+      {{uiLabels.userCreatedGames}}
         <div id="gameList">
           <div class="scroll">
           <Game v-for="game in games"
@@ -75,7 +71,8 @@ export default{
   created: 
   function () {
     //this.lang = this.$route.params.lang
-    socket.emit('pageLoaded', this.lang)
+    //socket.emit('pageLoaded', this.lang)
+    socket.emit('pageLoaded')
     socket.on("init", (labels) => {
       this.uiLabels = labels
     });
