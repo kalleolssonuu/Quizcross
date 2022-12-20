@@ -26,10 +26,12 @@
       }
     },
     props: {
-        letter: String
+        letter: String,
+        xkey: Number,
+        ykey: Number
     },
     mounted() {
-        
+
     }
 }
 

@@ -1,11 +1,11 @@
 <template> 
-  <div class="language">
-      <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage">
-  </div>
-   
    <!-- ALL KOD FÖR POPUP-WINDOW-->
+   <div>
+    <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage">
+   </div>
+   <div class="logo">Quizcross</div>
    <div class="modal-vue">
-      <button id="help" @click="showModal=true">
+      <button id="help" :src="uiLabels.changeLanguage" @click="showModal=true">
         ?
       </button>
       <div class="overlay" v-if="showModal"
@@ -13,7 +13,7 @@
       </div>
       <div class="modal" v-if="showModal">
         <h3>{{uiLabels.whatIsQC}}</h3>
-        <p></p>
+        <p>{{uiLabels.kopplingTillJSON}}</p>
         <button class="close" @click="showModal = false">x</button>
       </div>
     </div>
@@ -21,14 +21,15 @@
 
 
 <script>
+
 export default {
   name: 'PopUp',
   props: {
     modal: Object,
     uiLabels: Object,
     lang: String
-  
   },
+
   data: function () {
     return {
       id: "",
@@ -40,25 +41,13 @@ export default {
       this.showModal = ! this.showModal;
     },
     switchLanguage: function() {
-    this.$emit("switchLanguage")
-    }
-
+      this.$emit("switchLanguage")
   }     
+}
 }
 </script>
 
 <style>
-  .language{
-      height: 1rem;
-      width: 1rem;
-      cursor:pointer;
-      margin: 0.5rem;
-  }
-  #flag {
-    width: 5rem;
-    height: 3.5rem;
-    border-radius: 20%;
-  }
   
   #help {
     height: 3rem;
@@ -111,5 +100,21 @@ export default {
 }
 .modal-vue .close:hover{
 background-color: #e36f67;
+}
+#flag {
+    width: 5rem;
+    height: 3.5rem;
+    border-radius: 20%;
+    margin: 0.5rem;
+    margin-right: 100%;
+}
+.logo {
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  font-size: 2.5rem;
+  color: white;
+  padding-top:0.2em;
+  text-align: center;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
 </style>
