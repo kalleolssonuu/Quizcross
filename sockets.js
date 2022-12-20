@@ -7,7 +7,7 @@ function sockets(io, socket, data) {
   });
 
   socket.on('switchLanguage', function(lang) {
-    console.log("Vilket språk från switchlanguage:", lang);
+    //console.log("Vilket språk från switchlanguage:", lang);//
     socket.emit('init', data.getUILabels(lang));
   });
 

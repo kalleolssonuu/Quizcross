@@ -1,7 +1,7 @@
 <template>
 <header>
   <div>
-      <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-on:switchLanguage="switchLanguage" >
+      <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
       <button v-on:click="togglePopup"></button>
       </Modal>
     </div>
@@ -124,7 +124,8 @@
         showModal: false,
         uiLabels: {},
         id: "",
-        lang: "en"
+        lang: "en",
+        sourceName: "CreateCrosswordView"
       }
     },
     created: function () {
