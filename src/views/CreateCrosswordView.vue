@@ -30,7 +30,8 @@
         
 
     <div id="div2"> 
-        <Crossword v-bind:wordObjects="this.wordObjects" 
+        <Crossword  v-bind:sourceName="sourceName"
+                    v-bind:wordObjects="this.wordObjects" 
                     v-bind:tempWordObjects="this.tempWordObjects"
                     v-bind:wordPositions="this.wordPositions"
                     v-bind:matrixDims="this.matrixDims"
@@ -49,9 +50,9 @@
 
         Iterator: {{ this.userIterator }}
 
-  </template>
+</template>
   
-  <script>
+<script>
   import Crossword from '../components/Crossword.vue'
   import Modal from '../components/PopUp.vue'
   import io from 'socket.io-client';
@@ -107,12 +108,12 @@
         userIterator: 0,
         matchesIterator: 0,
         swapIterator: 0, 
+        wordInOrder: 0,
         wordCollision: false,
         noMatches: false,
         matrixDims: {x: 13, y: 10},
         /* wordPositions: [], */
         wordPositions: {actual: [], temp: []},
-        /* tempWordPositions: [], */
         crosswordPack: {}, /* { crossword: this.wordPositions.actual, wordKeypairs: [{ord: "clown", beskrivning: "pajas", riktning: horisontellt}, 
                                                                                     { ... }, { ... }],
                                 ID: -- någonting med IP-adress -- }
@@ -162,141 +163,148 @@
         this.wordObjects = Object.assign(this.wordObjects, this.tempWordObjects[this.matchesIterator]);
       },
       findPotentialMatches: function () {
-        this.matchesIterator = 0;
-        this.userIterator = 0;
-        this.swapIterator = 0;
-        let word = this.word.toUpperCase();                 /* för att spara plats längre ner */
-        let wordSplit = word.split("");
-        console.log("wordSplit = " + wordSplit);
-        const horiz = this.matrixDims.x; /* för att spara plats längre ner */
-        const vert = this.matrixDims.y;    /* för att spara plats längre ner */
+        if (this.word != "") {
+          this.matchesIterator = 0;
+          this.userIterator = 0;
+          this.swapIterator = 0;
+          let word = this.word.toUpperCase();                 /* för att spara plats längre ner */
+          let wordSplit = word.split("");
+          console.log("wordSplit = " + wordSplit);
+          const horiz = this.matrixDims.x; /* för att spara plats längre ner */
+          const vert = this.matrixDims.y;    /* för att spara plats längre ner */
 
 
 
-        for (let h = 0; h < horiz; h++) {
-          /* console.log("kommit in? horisontellt") */
-        for (let v = 0; v < vert; v++) {
-          /* console.log("kommit in? vertikalt") */
-            if (this.wordPositions.actual[v][h].letter === wordSplit[0] || this.wordPositions.actual[v][h].letter === null) {
+          for (let h = 0; h < horiz; h++) {
+            /* console.log("kommit in? horisontellt") */
+          for (let v = 0; v < vert; v++) {
+            /* console.log("kommit in? vertikalt") */
+              if (this.wordPositions.actual[v][h].letter === wordSplit[0] || this.wordPositions.actual[v][h].letter === null) {
 
-                /* console.log("har kommit förbi bokstavskoll") */
-                
-                if (wordSplit.length <= vert - v) { /* FÅR PLATS VERTIKALT? */
+                  /* console.log("har kommit förbi bokstavskoll") */
+                  
+                  if (wordSplit.length <= vert - v) { /* FÅR PLATS VERTIKALT? */
 
-                  /* console.log("har kommit förbi få-plats-koll") */
-                    for (let iv = 0; iv < wordSplit.length; iv++) {
-                        
-                        /* console.log("h = " + h + ", v = " + v + ", this.matchesIterator = " + this.matchesIterator) */
-                        
-                        if ((this.wordPositions.actual[v + iv][h].letter === wordSplit[iv]) || (this.wordPositions.actual[v + iv][h].letter === null)) { /* räcker med att spara första och sista positionen för ordet! */
-
-                          if (this.wordPositions.actual[v + iv][h].letter === wordSplit[iv]) {
-                            this.wordCollision = true
-                          }
-
-                          console.log("h = " + h)
-                          console.log("v = " + v)
-                          console.log("iv = " + iv)
-                          console.log("matchesIterator = " + this.matchesIterator)
-                          console.log(this.wordPositions.actual)
-                          console.log("värde på positionen: " + this.wordPositions.actual[v + iv][h].letter)
-                            
-                          if (iv == wordSplit.length - 1) { /* vi har tagit oss till slutet av ordet och allt har funkat */
-
-                            console.log("Good Match Found (vertical). Starting at h = " + h + ", and v = " + v)
-                            
-                            
-                            console.log("this.getNewTempPositionVert(h, v, wordSplit)) --- ")
-                            console.log(this.getNewTempPositionVert(h, v, wordSplit))
+                    /* console.log("har kommit förbi få-plats-koll") */
+                      for (let iv = 0; iv < wordSplit.length; iv++) {
                           
-                            if (this.wordCollision) {
-                              this.wordPositions.temp.splice(this.swapIterator, 0, this.getNewTempPositionVert(h, v, wordSplit))
-                              /* [this.wordPositions.temp[this.matchesIterator], this.wordPositions.temp[this.swapIterator]] = 
-                              [this.wordPositions.temp[this.swapIterator], this.wordPositions.temp[this.matchesIterator]] */
-                              this.swapIterator++
-                              this.wordCollision = false
-                            } else {
-                              this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionVert(h, v, wordSplit)
+                          /* console.log("h = " + h + ", v = " + v + ", this.matchesIterator = " + this.matchesIterator) */
+                          
+                          if ((this.wordPositions.actual[v + iv][h].letter === wordSplit[iv]) || (this.wordPositions.actual[v + iv][h].letter === null)) { /* räcker med att spara första och sista positionen för ordet! */
+
+                            if (this.wordPositions.actual[v + iv][h].letter === wordSplit[iv]) {
+                              this.wordCollision = true
                             }
+
+                            console.log("h = " + h)
+                            console.log("v = " + v)
+                            console.log("iv = " + iv)
+                            console.log("matchesIterator = " + this.matchesIterator)
+                            console.log(this.wordPositions.actual)
+                            console.log("värde på positionen: " + this.wordPositions.actual[v + iv][h].letter)
                               
-                            console.log("this.wordPositions.actual --- ")
-                            console.log(this.wordPositions.actual)
+                            if (iv == wordSplit.length - 1) { /* vi har tagit oss till slutet av ordet och allt har funkat */
 
-                            console.log("this.wordPositions.temp[this.matchesIterator] --- ")
-                            console.log(this.wordPositions.temp[this.matchesIterator])
+                              console.log("Good Match Found (vertical). Starting at h = " + h + ", and v = " + v)
+                              
+                              
+                              console.log("this.getNewTempPositionVert(h, v, wordSplit)) --- ")
+                              console.log(this.getNewTempPositionVert(h, v, wordSplit))
+                            
+                              if (this.wordCollision) {
+                                this.wordPositions.temp.splice(this.swapIterator, 0, this.getNewTempPositionVert(h, v, wordSplit))
+                                /* [this.wordPositions.temp[this.matchesIterator], this.wordPositions.temp[this.swapIterator]] = 
+                                [this.wordPositions.temp[this.swapIterator], this.wordPositions.temp[this.matchesIterator]] */
+                                this.swapIterator++
+                                this.wordCollision = false
+                              } else {
+                                this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionVert(h, v, wordSplit)
+                              }
+                                
+                              console.log("this.wordPositions.actual --- ")
+                              console.log(this.wordPositions.actual)
 
-                            this.matchesIterator++;
-                            console.log("matchesIterator increased to: " + this.matchesIterator)
-                          }
-                        } else {
-                          break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
-                        }
-                    }
-                }
-                if (wordSplit.length <= horiz - h) { /* FÅR PLATS HORISONTELLT? */
-                    
-                  for (let ih = 0; ih < wordSplit.length; ih++) {
+                              console.log("this.wordPositions.temp[this.matchesIterator] --- ")
+                              console.log(this.wordPositions.temp[this.matchesIterator])
 
-                        if ((this.wordPositions.actual[v][h + ih].letter === wordSplit[ih]) || (this.wordPositions.actual[v][h + ih].letter === null)) { /* räcker med att spara första och sista positionen för ordet! */
-                          
-                          if (this.wordPositions.actual[v][h + ih].letter === wordSplit[ih]) {
-                            this.wordCollision = true
-                          }
+                              this.matchesIterator++;
+                              console.log("matchesIterator increased to: " + this.matchesIterator)
 
-                          console.log("h = " + h)
-                          console.log("v = " + v)
-                          console.log("ih = " + ih)
-                          console.log("matchesIterator = " + this.matchesIterator)
-                          console.log(this.wordPositions.actual)
-                          console.log("värde på positionen: " + this.wordPositions.actual[v][h + ih].letter)
-
-                          if (ih == wordSplit.length - 1) { /* vi har tagit oss till slutet av ordet och allt har funkat */
-
-                            console.log("Good Match Found (horizontal). Starting at h = " + h + ", and v = " + v)
-
-                            this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionHoriz(h, v, wordSplit)
-                            console.log("this.getNewTempPositionHoriz(h, v, wordSplit)) --- ")
-                            console.log(this.getNewTempPositionHoriz(h, v, wordSplit))
-
-                            if (this.wordCollision) {
-                              this.wordPositions.temp.splice(this.swapIterator, 0, this.getNewTempPositionHoriz(h, v, wordSplit))
-                              /* [this.wordPositions.temp[this.matchesIterator], this.wordPositions.temp[this.swapIterator]] = 
-                              [this.wordPositions.temp[this.swapIterator], this.wordPositions.temp[this.matchesIterator]] */
-                              this.swapIterator++
-                              this.wordCollision = false
-                            } else {
-                              this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionHoriz(h, v, wordSplit)
+                              this.wordInOrder++
+                              console.log("Amount of words added: " + this.wordInOrder)
                             }
-                          
-                            console.log("this.wordPositions.actual --- ")
-                            console.log(this.wordPositions.actual)
-
-                            console.log("this.wordPositions.temp[this.matchesIterator] --- ")
-                            console.log(this.wordPositions.temp[this.matchesIterator])
-
-                            /* this.wordPositions.temp.push(this.getNewTempPositionHoriz(h, v, wordSplit)) */
-                            this.matchesIterator++;
-                            console.log("matchesIterator increased to: " + this.matchesIterator)
-                            }
-                        } else {
+                          } else {
                             break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
-                        }
-                    }
-                }
-            }
+                          }
+                      }
+                  }
+                  if (wordSplit.length <= horiz - h) { /* FÅR PLATS HORISONTELLT? */
+                      
+                    for (let ih = 0; ih < wordSplit.length; ih++) {
+
+                          if ((this.wordPositions.actual[v][h + ih].letter === wordSplit[ih]) || (this.wordPositions.actual[v][h + ih].letter === null)) { /* räcker med att spara första och sista positionen för ordet! */
+                            
+                            if (this.wordPositions.actual[v][h + ih].letter === wordSplit[ih]) {
+                              this.wordCollision = true
+                            }
+
+                            console.log("h = " + h)
+                            console.log("v = " + v)
+                            console.log("ih = " + ih)
+                            console.log("matchesIterator = " + this.matchesIterator)
+                            console.log(this.wordPositions.actual)
+                            console.log("värde på positionen: " + this.wordPositions.actual[v][h + ih].letter)
+
+                            if (ih == wordSplit.length - 1) { /* vi har tagit oss till slutet av ordet och allt har funkat */
+
+                              console.log("Good Match Found (horizontal). Starting at h = " + h + ", and v = " + v)
+
+                              this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionHoriz(h, v, wordSplit)
+                              console.log("this.getNewTempPositionHoriz(h, v, wordSplit)) --- ")
+                              console.log(this.getNewTempPositionHoriz(h, v, wordSplit))
+
+                              if (this.wordCollision) {
+                                this.wordPositions.temp.splice(this.swapIterator, 0, this.getNewTempPositionHoriz(h, v, wordSplit))
+                                /* [this.wordPositions.temp[this.matchesIterator], this.wordPositions.temp[this.swapIterator]] = 
+                                [this.wordPositions.temp[this.swapIterator], this.wordPositions.temp[this.matchesIterator]] */
+                                this.swapIterator++
+                                this.wordCollision = false
+                              } else {
+                                this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionHoriz(h, v, wordSplit)
+                              }
+                            
+                              console.log("this.wordPositions.actual --- ")
+                              console.log(this.wordPositions.actual)
+
+                              console.log("this.wordPositions.temp[this.matchesIterator] --- ")
+                              console.log(this.wordPositions.temp[this.matchesIterator])
+
+                              /* this.wordPositions.temp.push(this.getNewTempPositionHoriz(h, v, wordSplit)) */
+                              this.matchesIterator++
+                              console.log("matchesIterator increased to: " + this.matchesIterator)
+
+                              this.wordInOrder++
+                              console.log("Amount of words added: " + this.wordInOrder)
+                              }
+                          } else {
+                              break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
+                          }
+                      }
+                  }
+              }
+          }
+          }
+
+          if (this.wordPositions.temp.length == 0) {
+              this.alertNoMatches();
+          } else {
+            this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
+            /* this.crosswordPack ... LÄGG TILL ORD OCH BESKRIVNING */
+          }
+
+          this.word = ""
+          this.desc = ""
         }
-        }
-
-        if (this.wordPositions.temp.length == 0) {
-            this.alertNoMatches();
-        } else {
-          this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
-        }
-
-
-        this.word = ""
-        this.desc = ""
-
       }, 
       getPositions: function (word, h, v, horizontal) { /* används ej */
         let pos = {};
@@ -325,7 +333,11 @@
             this.wordPositions.actual[v] = [];
             /* wordPositions = [[null, null, null, null]] */
             for (let h = 0; h < this.matrixDims.x; h++) {
-            this.wordPositions.actual[v][h] = {letter: null, direction: "", isFirstLetter: false};
+            this.wordPositions.actual[v][h] = {letter: null, 
+                                               inHorizontal: false,
+                                               inVertical: false,
+                                               isFirstLetter: false, 
+                                               wordInOrder: this.wordInOrder} /* if (wordInOrder != 0) { lägg till siffra i hörnet } */
             }
         }
 
@@ -340,9 +352,13 @@
 
           for (let i = 0; i < wordSplit.length; i++) {
               newWordPositions[v + i][h].letter = wordSplit[i]
-              newWordPositions[v + i][h].direction = "vertical"
+              newWordPositions[v + i][h].inVertical = true
               if (i == 0) {
                 newWordPositions[v + i][h].isFirstLetter = true
+                newWordPositions[v + i][h].wordInOrder = this.wordInOrder
+              } else {
+                newWordPositions[v + i][h].isFirstLetter = false
+                newWordPositions[v + i][h].wordInOrder = null
               }
           }
 
@@ -359,9 +375,13 @@
 
           for (let i = 0; i < wordSplit.length; i++) {
               newWordPositions[v][h + i].letter = wordSplit[i]
-              newWordPositions[v][h + i].direction = "horizontal"
+              newWordPositions[v][h + i].inHorizontal = true
               if (i == 0) {
-                newWordPositions[v][h + i].isFirstLetter = true  
+                newWordPositions[v][h + i].isFirstLetter = true
+                newWordPositions[v][h + i].wordInOrder = this.wordInOrder
+              } else {
+                newWordPositions[v][h + i].isFirstLetter = false
+                newWordPositions[v][h + i].wordInOrder = null
               }
           }
 
@@ -386,18 +406,8 @@
           this.userIterator--
           this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
         }
-      },
-      logWordPositionActual: function () {
-        console.log(this.wordPositions.actual)
-        console.log(this.wordPositions.actual[0][0])
-      },
-      compareMatrices: function () {
-        console.log(this.wordPositions.actual)
-        console.log(this.wordPositions.temp[1])
       }
-
-    }
-      
+    }  
 }   
 
 </script>

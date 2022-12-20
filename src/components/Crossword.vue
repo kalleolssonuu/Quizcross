@@ -4,7 +4,12 @@
   <table id="crosswordwrapper">
     <tr v-for="(list, ykey) in wordPositions.actual" v-bind:key="'y' + ykey">
         <td v-for="(element, xkey) in list" v-bind:key="'x' + xkey">
-          <WordBox class="letterbox" v-bind:xkey="xkey" v-bind:ykey="ykey" v-bind:letter="element.letter">
+          <WordBox class="letterbox" 
+            v-bind:xkey="xkey" 
+            v-bind:ykey="ykey" 
+            v-bind:letter="element.letter"
+            v-bind:direction="element.direction"
+            v-bind:isFirstLetter="element.isFirstLetter">
           </WordBox> 
         </td> 
     </tr>
@@ -29,6 +34,7 @@ import WordBox from '../components/WordBox.vue'
   export default {
     data: function() {
       return {
+        sourceName: ""
       }
     },  
     name: 'CrossWord',
@@ -36,12 +42,12 @@ import WordBox from '../components/WordBox.vue'
       WordBox, 
     },
     props: {
-      wordObjects: Object,
-      tempWordObjects: Object,
-      wordPositions: Object, /* .actual[] .temp[[]] */
+      wordPositions: Object,
       matrixDims: Object,
       word: String,
-      desc: String
+      desc: String,
+      solutionsList: Object,
+      //sourceName: String
     },
     mounted() {
     this.wordPositions.actual.forEach((item, yindex) => {
