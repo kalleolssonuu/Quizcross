@@ -2,7 +2,7 @@
   <header>
   <!-- <div class="logo">Quizcross</div> -->
   <div>
-    <Modal v-bind:uiLabels="uiLabels">
+    <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-on:switchLanguage="switchLanguage" >
     <button v-on:click="togglePopup"></button>
     </Modal></div>
 </header>
