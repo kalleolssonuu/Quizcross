@@ -1,5 +1,10 @@
 <template>
 <header>
+  <div>
+      <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-on:switchLanguage="switchLanguage" >
+      <button v-on:click="togglePopup"></button>
+      </Modal>
+    </div>
 </header>
 
 <div id="div1" class="inputFieldWrapper">
@@ -44,6 +49,7 @@
   
   <script>
   import Crossword from '../components/Crossword.vue'
+  import Modal from '../components/PopUp.vue'
   import io from 'socket.io-client';
   const socket = io();
   
@@ -86,7 +92,8 @@
   export default {
     name: 'CreateCrosswordView',
     components: {
-        Crossword
+        Crossword,
+        Modal
     },
     data: function () {
       return {
@@ -109,15 +116,18 @@
                             */
         tempWordObjects: {},
         wordKeyPairs: {},
-        wordPosChecked: false
+        wordPosChecked: false,
+        showModal: false,
+        uiLabels: {},
+        id: "",
+        lang: "en"
       }
     },
     created: function () {
-      this.lang = this.$route.params.lang;
-      socket.emit("pageLoaded", this.lang);
+      socket.emit('pageLoaded')
       socket.on("init", (labels) => {
-        this.uiLabels = labels
-      })
+      this.uiLabels = labels
+    })
       socket.on("dataUpdate", (data) =>
         this.data = data
       ),
@@ -130,6 +140,10 @@
       else
         this.lang = "en"
       socket.emit("switchLanguage", this.lang)
+    },
+    /* FÖR ATT FÅ FRAM POP-UP RUTA*/
+    togglePopup: function () {
+      this.showModal = ! this.showModal;
     },
       testAddWordObject: function (wordObject) {
         this.words.push(wordObject) /* dessa 'word' är alltså objekt */
@@ -431,11 +445,29 @@
     cursor:pointer;
     margin: 0.5rem;
 }
-  #flag {
-    width: 5rem;
-    height: 3.5rem;
-    border-radius: 20%;
+#flag {
+  width: 5rem;
+  height: 3.5rem;
+  border-radius: 20%;
 }
+
+#help {
+    height: 3rem;
+    width: 3rem;
+    background-color: #FFFDD0;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 30px;
+    text-align: center;
+    cursor:pointer;
+    border-radius: 50%;
+    border-color: black;
+    color: black;
+    position: absolute;
+    top: 0;
+    right:0;
+    margin: 0.5rem;
+  }
+
 .logo {
   text-transform: uppercase;
   letter-spacing: 0.25em;

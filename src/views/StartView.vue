@@ -1,12 +1,10 @@
 <template>
   <header>
-    <!-- <div class="language">
-      <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage"></div> -->
-    <div
-      v-on:click="togglePopup">
+    <div>
       <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-on:switchLanguage="switchLanguage" >
       <button v-on:click="togglePopup"></button>
-      </Modal></div>
+      </Modal>
+    </div>
   </header>
   <div id="homepic">
     <div class="logo"><img src="/img/Logotyp.png"></div>
@@ -52,8 +50,6 @@ export default {
   },
 
   created: function () {
-   // this.lang = this.$route.params.lang
-    //socket.emit('pageLoaded', this.lang)//
     socket.emit('pageLoaded')
     socket.on("init", (labels) => {
       this.uiLabels = labels
@@ -67,9 +63,6 @@ export default {
       else
         this.lang = "en"
       socket.emit("switchLanguage", this.lang)
-    },
-    toggleNav: function () {
-      this.hideNav = ! this.hideNav;
     },
     /* FÖR ATT FÅ FRAM POP-UP RUTA*/
     togglePopup: function () {
