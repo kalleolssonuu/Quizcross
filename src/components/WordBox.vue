@@ -27,7 +27,8 @@
     },
     props: {
         letter: String,
-        key: Number
+        xkey: Number,
+        ykey: Number
     },
     mounted() {
 
