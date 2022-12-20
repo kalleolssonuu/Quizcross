@@ -114,22 +114,16 @@
         matrixDims: {x: 13, y: 10},
         /* wordPositions: [], */
         wordPositions: {actual: [], temp: []},
-        crosswordPack: {} /* { crossword: this.wordPositions.actual, wordKeypairs: [{ord: "clown", beskrivning: "pajas", riktning: horisontellt}, 
+        crosswordPack: {}, /* { crossword: this.wordPositions.actual, wordKeypairs: [{ord: "clown", beskrivning: "pajas", riktning: horisontellt}, 
                                                                                     { ... }, { ... }],
                                 ID: -- någonting med IP-adress -- }
 
                             */
-<<<<<<< HEAD
-=======
-        tempWordObjects: {},
-        wordKeyPairs: {},
-        wordPosChecked: false,
         showModal: false,
         uiLabels: {},
         id: "",
         lang: "en",
         sourceName: "CreateCrosswordView"
->>>>>>> 00c4449ce3bdbbac5adebb056e6d57c4a27baf0c
       }
     },
     created: function () {
@@ -149,25 +143,11 @@
       else
         this.lang = "en"
       socket.emit("switchLanguage", this.lang)
-<<<<<<< HEAD
-=======
     },
     /* FÖR ATT FÅ FRAM POP-UP RUTA*/
     togglePopup: function () {
       this.showModal = ! this.showModal;
     },
-      testAddWordObject: function (wordObject) {
-        this.words.push(wordObject) /* dessa 'word' är alltså objekt */
-      },
-      testAddWord: function (wrd, description) {
-        this.word.key = wrd; 
-        this.word.description = description;
-        /* wordFromInput = new wordFromInput("",""); */
-      }, 
-      pickWord: function () {
-        this.wordObjects = Object.assign(this.wordObjects, this.tempWordObjects[this.matchesIterator]);
->>>>>>> 00c4449ce3bdbbac5adebb056e6d57c4a27baf0c
-      },
       findPotentialMatches: function () {
         if (this.word != "") {
           this.matchesIterator = 0;
