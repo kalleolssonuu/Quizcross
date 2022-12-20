@@ -1,7 +1,7 @@
 <template>
   <header>
   <div>
-    <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-on:switchLanguage="switchLanguage" >
+    <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
     <button v-on:click="togglePopup"></button>
     </Modal></div>
 </header>
@@ -85,7 +85,8 @@ export default{
       uiLabels: {},
       id: "",
       lang: "en",
-      showModal: false
+      showModal: false,
+      sourceName: "PlayView"
     }
   },
   methods: {

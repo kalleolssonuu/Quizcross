@@ -11,7 +11,9 @@
       @click="showModal=false">
       </div>
       <div class="modal" v-if="showModal">
-        <h3>{{uiLabels.whatIsQC}}</h3>
+          <h3 v-if="sourceName == 'StartView'"> {{uiLabels.whatIsQC}}</h3>
+          <h3 v-if="sourceName =='PlayView'"> {{uiLabels.pageDescriptionPlayView}}</h3>
+          <h3 v-if="sourceName =='CreateCrosswordView'"> {{uiLabels.pageDescriptionCreateView}}</h3>
         <p>{{uiLabels.kopplingTillJSON}}</p>
         <button class="close" @click="showModal = false">x</button>
       </div>
@@ -26,7 +28,8 @@ export default {
   props: {
     modal: Object,
     uiLabels: Object,
-    lang: String
+    lang: String,
+    sourceName: String
   },
 
   data: function () {
