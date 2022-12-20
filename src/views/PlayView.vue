@@ -287,6 +287,9 @@ textarea {
   left: 0;
   margin: 0.5rem;
   background-color: #FE5F55;
+  border-radius: 5px;
+  color: white;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
 
 

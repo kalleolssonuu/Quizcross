@@ -41,6 +41,7 @@ export default {
     },
     switchLanguage: function() {
       this.$emit("switchLanguage")
+      //this.$router.push(this.lang)// //visa språk i URL?//
   }     
 }
 }
