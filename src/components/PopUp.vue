@@ -1,7 +1,11 @@
 <template> 
+  <div class="language">
+      <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage">
+  </div>
+   
    <!-- ALL KOD FÖR POPUP-WINDOW-->
    <div class="modal-vue">
-      <button id="help" :src="uiLabels.changeLanguage" @click="showModal=true">
+      <button id="help" @click="showModal=true">
         ?
       </button>
       <div class="overlay" v-if="showModal"
@@ -9,7 +13,7 @@
       </div>
       <div class="modal" v-if="showModal">
         <h3>{{uiLabels.whatIsQC}}</h3>
-        <p>{{uiLabels.kopplingTillJSON}}</p>
+        <p></p>
         <button class="close" @click="showModal = false">x</button>
       </div>
     </div>
@@ -17,30 +21,17 @@
 
 
 <script>
-import io from 'socket.io-client'; 
-const socket = io();
-
 export default {
   name: 'PopUp',
   props: {
     modal: Object,
-    kopplingTillJSON: String,
-  },
-  created: 
-  function () {
-    this.lang = this.$route.params.lang
-    socket.emit('pageLoaded')
-    socket.on("init", (labels) => {
-      this.uiLabels = labels
-    });
+    uiLabels: Object,
+    lang: String
+  
   },
   data: function () {
     return {
-
-      uiLabels: {},
       id: "",
-      lang: "",
-      //hideNav: true,
       showModal: false
     }
   },
@@ -49,17 +40,25 @@ export default {
       this.showModal = ! this.showModal;
     },
     switchLanguage: function() {
-    if (this.lang === "en")
-      this.lang = "sv"
-    else
-      this.lang = "en"
-    socket.emit("switchLanguage", this.lang)
-    },
+    this.$emit("switchLanguage")
+    }
+
   }     
 }
 </script>
 
 <style>
+  .language{
+      height: 1rem;
+      width: 1rem;
+      cursor:pointer;
+      margin: 0.5rem;
+  }
+  #flag {
+    width: 5rem;
+    height: 3.5rem;
+    border-radius: 20%;
+  }
   
   #help {
     height: 3rem;
