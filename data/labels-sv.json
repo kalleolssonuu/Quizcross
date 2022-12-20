@@ -19,11 +19,11 @@
 
 
 	"//CreateCrosswordView": "Här är CreateCrosswordViews översättningar",
-	"yourWord": "Your word",
-	"wordDescription": "Word description",
-	"addWord": "Ad word to crossword",
-	"showNext": "Show next solution",
-	"showPrevious": "Show previous solution",
-	"resetCrossword": "Reset crossword",
-	"confirmCreate": "Confirm and create crossword"
+	"yourWord": "Ditt ord",
+	"wordDescription": "Ordets förklaring",
+	"addWord": "Lägg till ordet i korsordet",
+	"showNext": "/img/ShowNextSv.png",
+	"showPrevious": "/img/ShowPreviousSv.png",
+	"resetCrossword": "Återställ korsordet",
+	"confirmCreate": "Bekräfta och skapa korsordet"
 }

@@ -10,18 +10,22 @@
 <div id="div1" class="inputFieldWrapper">
           
           <div class="inputField"> <!-- måste emitta word så att vi kan använda -->
-            <h2>Your word:</h2>
-            <input type="text" id="inputField" v-model="word" required="required" placeholder="Word sv/en">
+            <h2>{{uiLabels.yourWord}}</h2>
+            <input type="text" id="wordInput" v-model="word" required="required" placeholder="Word sv/en">
           </div>
           <br>
-          <div class="inputField" id="inputField" style="display: inline-block">
-              <h2>Word description:</h2>
-              <input type="text" v-model="desc" required="required" placeholder="Word desc sv/en">
+          <div class="inputField" style="display: inline-block">
+              <h2>{{uiLabels.wordDescription}}</h2>
+              <input type="text"  id="descInput" v-model="desc" required="required" placeholder="Word desc sv/en">
           </div>
           <br>
-          <button v-on:click="this.findPotentialMatches">Add word to crossword</button> <br>
-          <button id="showSolutions" v-on:click="this.showNextSolution"> Show next solution </button>
-          <button id="showSolutions" v-on:click="this.showPreviousSolution"> Show previous </button>
+          <button v-on:click="this.findPotentialMatches">{{uiLabels.addWord}}</button> <br>
+          <div class="sulutionsWrapper">
+          <img id="showSolutions" :src="uiLabels.showPrevious" v-on:click="this.showPreviousSolution">
+          <img id="showSolutions" :src="uiLabels.showNext" v-on:click="this.showNextSolution">
+          </div>
+          <!-- <button id="showSolutions" v-on:click="this.showPreviousSolution">{{uiLabels.showPrevious}}</button>
+          <button id="showSolutions" v-on:click="this.showNextSolution">{{uiLabels.showNext}}</button> -->
         </div>
         
 
@@ -38,8 +42,8 @@
         
         <div id="div3">
         <!--<button v-on:click="this.emptyTextFields"> Empty Input </button> ---><!-- gör detta när användaren har valt ett ord istället för en knapp. Det rensar även textfältet -->
-        <button v-on:click="this.fillPositionsNull"> Reset Crossword </button> <br>
-        <button> PLAY </button>
+        <button v-on:click="this.fillPositionsNull">{{uiLabels.resetCrossword}}</button> <br>
+        <button>{{uiLabels.confirmCreate}}</button>
         </div>
         <br>
 
@@ -467,15 +471,30 @@ button {
     cursor:pointer;
     position: relative;   
   }
+  .solutionsWrapper{
+    display: flex;
+    justify-content: center;
+  }
   #showSolutions {
     width: 5rem;
-    height: 4rem;
-    border-radius: 15px;
-    border-color: #ba0c00;
-    color: white;
-    background-color: #FE5F55;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-size: 0.8rem;
+    height: 4.5rem;
     cursor:pointer; 
+    margin: 0.5rem;
+  }
+
+  #wordInput {
+    height: 2rem;
+    width: 9rem;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 1rem;
+    text-align: center; 
+ }
+
+  #descInput {
+    height: 2rem;
+    width: 9rem;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 1rem;
+    text-align: center; 
   }
 </style>
