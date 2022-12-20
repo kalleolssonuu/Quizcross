@@ -1,5 +1,9 @@
 <template> 
    <!-- ALL KOD FÖR POPUP-WINDOW-->
+   <div>
+    <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage">
+   </div>
+   <div class="logo">Quizcross</div>
    <div class="modal-vue">
       <button id="help" :src="uiLabels.changeLanguage" @click="showModal=true">
         ?
@@ -96,5 +100,21 @@ export default {
 }
 .modal-vue .close:hover{
 background-color: #e36f67;
+}
+#flag {
+    width: 5rem;
+    height: 3.5rem;
+    border-radius: 20%;
+    margin: 0.5rem;
+    margin-right: 100%;
+}
+.logo {
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  font-size: 2.5rem;
+  color: white;
+  padding-top:0.2em;
+  text-align: center;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
 </style>
