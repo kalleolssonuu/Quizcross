@@ -1,9 +1,6 @@
 <template>
   <header>
-    <!--<div class="language">
-      <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage">
-    </div>-->
-  <div class="logo">Quizcross</div>
+  <!-- <div class="logo">Quizcross</div> -->
   <div>
     <Modal v-bind:uiLabels="uiLabels">
     <button v-on:click="togglePopup"></button>

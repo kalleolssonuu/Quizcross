@@ -3,7 +3,6 @@
    <div>
     <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage">
    </div>
-   <div class="logo">Quizcross</div>
    <div class="modal-vue">
       <button id="help" :src="uiLabels.changeLanguage" @click="showModal=true">
         ?
@@ -106,7 +105,7 @@ background-color: #e36f67;
     height: 3.5rem;
     border-radius: 20%;
     margin: 0.5rem;
-    margin-right: 100%;
+    margin-left:-94%;
 }
 .logo {
   text-transform: uppercase;
