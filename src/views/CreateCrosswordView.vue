@@ -1,5 +1,30 @@
 <template>
-    <div>
+<header>
+    <div class="language">
+      <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage">
+    </div>
+  <div class="logo">Quizcross</div>
+</header>
+
+<div id="div1" class="inputFieldWrapper">
+          
+          <div class="inputField"> <!-- måste emitta word så att vi kan använda -->
+            <h2>Your word:</h2>
+            <input type="text" id="inputField" v-model="word" required="required" placeholder="Word sv/en">
+          </div>
+          <br>
+          <div class="inputField" id="inputField" style="display: inline-block">
+              <h2>Word description:</h2>
+              <input type="text" v-model="desc" required="required" placeholder="Word desc sv/en">
+          </div>
+          <br>
+          <button v-on:click="this.findPotentialMatches">Add word to crossword</button> <br>
+          <button id="showSolutions" v-on:click="this.showNextSolution"> Show next solution </button>
+          <button id="showSolutions" v-on:click="this.showPreviousSolution"> Show previous </button>
+        </div>
+        
+
+    <div id="div2"> 
         <Crossword v-bind:wordObjects="this.wordObjects" 
                     v-bind:tempWordObjects="this.tempWordObjects"
                     v-bind:wordPositions="this.wordPositions"
@@ -7,29 +32,18 @@
                     v-bind:word="this.word"
                     v-bind:desc="this.desc">
         </Crossword>
+    </div>
 
-
-        <div class="inputFieldWrapper">
-          <div class="inputField"> <!-- måste emitta word så att vi kan använda -->
-            <input type="text" id="inputField" v-model="word" required="required" placeholder="Word sv/en">
-          </div>
-          <div class="inputField" id="inputField" style="display: inline-block">
-              <input type="text" v-model="desc" required="required" placeholder="Word desc sv/en">
-          </div>
-        </div>
-
-        <button v-on:click="this.findPotentialMatches"> Find Potential Matches </button> <br>
-        <button v-on:click="this.emptyTextFields"> Empty Input </button> <!-- gör detta när användaren har valt ett ord istället för en knapp. Det rensar även textfältet -->
-        <button v-on:click="this.fillPositionsNull"> Reset Crossword </button> <br>
-        <button v-on:click="this.showNextSolution"> Show next solution </button>
-        <button v-on:click="this.showPreviousSolution"> Show previous </button> <br>
-        <button> Confirm and Create </button>
         
+        <div id="div3">
+        <!--<button v-on:click="this.emptyTextFields"> Empty Input </button> ---><!-- gör detta när användaren har valt ett ord istället för en knapp. Det rensar även textfältet -->
+        <button v-on:click="this.fillPositionsNull"> Reset Crossword </button> <br>
+        <button> PLAY </button>
+        </div>
         <br>
 
         Iterator: {{ this.userIterator }}
 
-    </div>
   </template>
   
   <script>
@@ -390,9 +404,71 @@
 </script>
 
 <style>
+#div1 {
+  float: left;
+  width: 25%;
+  justify-content: center;
+  margin-top: 5%;
+}
+#div2 {
+  float: left;
+  width: 50%;
+  margin-top: 2%;
+}
+#div3 {
+  float: left;
+  width: 25%;
+  justify-content: center;
+  margin-top: 10%;
+}
 
-
-
-
+.language{
+    height: 1rem;
+    width: 1rem;
+    cursor:pointer;
+    margin: 0.5rem;
+}
+  #flag {
+    width: 5rem;
+    height: 3.5rem;
+    border-radius: 20%;
+}
+.logo {
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  font-size: 2.5rem;
+  color: white;
+  padding-top:0.2em;
+  text-align: center;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+button {
+    width: 10rem;
+    height: 4rem;
+    border-radius: 15px;
+    border-color: #ba0c00;
+    margin: 1.5rem;
+    color: white;
+    background-color: #FE5F55;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 1rem;
+    cursor:pointer;
+    position: relative;   
+  }
+  #showSolutions {
+    width: 5rem;
+    height: 4rem;
+    border-radius: 15px;
+    border-color: #ba0c00;
+    color: white;
+    background-color: #FE5F55;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 0.8rem;
+    cursor:pointer; 
+  }
+  #inputField{
+    height: 3rem;
+    width: 8rem;
+  }
 
 </style>
