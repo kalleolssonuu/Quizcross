@@ -10,10 +10,7 @@
     <div class="logo"><img src="/img/Logotyp.png"></div>
   </div>
   <div class="wrapper">
-<<<<<<< HEAD
-    <button id="create" @click="$router.push('/create/'+lang)">{{uiLabels.createCross}}</button>
-=======
->>>>>>> 8a31c0ac5556ebe8ebe071c271ab9339a9ee3540
+    <button id="play" @click="$router.push('/actualPlay/'+lang)">{{'Actual PlayView'}}</button>
     <button id="play" @click="$router.push('/play/'+lang)">{{uiLabels.playCross}}</button>
     <button id="play" @click="$router.push('/kalletest/'+lang)">{{'Göra korsord test'}}</button>
   </div>
