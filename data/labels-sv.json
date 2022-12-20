@@ -1,14 +1,9 @@
-{
-	"sales-pitch": "Svar. Helt. Enkelt.",
-	"subHeading": "Ett enkelt enkätverktyg",
-	"invite": "Bjud in deltagare med den här länken:",
-	"createPoll": "Skapa",
-	"participatePoll": "Delta i röstning",
-	"question": "Fråga",
+{	"//StartView": "Här är StartViews översättningar",
 	"changeLanguage": "https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/800px-Flag_of_the_United_Kingdom.svg.png",
 	"playCross": "Spela",
 
 	
+	"//PlayView": "Här är PlayViews översättningar",
 	"userCreatedGames": "Användarskapade spel",
 	"myGamesLang": "Mina spel",
 	"selectedGameLang": "Valt spel: ",
@@ -17,6 +12,17 @@
 	"backButton": "Tillbaka",
 
 
+	"//PopUp": "Här är PopUps översättningar",
 	"whatIsQC": "Vad är Quizcross?",
-	"pageDescriptionPlayView": "Test124"
+	"pageDescriptionPlayView": "Test124",
+
+
+	"//CreateCrosswordView": "Här är CreateCrosswordViews översättningar",
+	"yourWord": "Your word",
+	"wordDescription": "Word description",
+	"addWord": "Ad word to crossword",
+	"showNext": "Show next solution",
+	"showPrevious": "Show previous solution",
+	"resetCrossword": "Reset crossword",
+	"confirmCreate": "Confirm and create crossword"
 }
