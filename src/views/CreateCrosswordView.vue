@@ -122,8 +122,8 @@
         showModal: false,
         uiLabels: {},
         id: "",
-        lang: "en",
-        sourceName: "CreateCrosswordView"
+        lang: "en"/* ,
+        sourceName: "CreateCrosswordView" */
       }
     },
     created: function () {

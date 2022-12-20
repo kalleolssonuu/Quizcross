@@ -34,7 +34,7 @@ import WordBox from '../components/WordBox.vue'
   export default {
     data: function() {
       return {
-        sourceName: ""
+        /* sourceName: "" */
       }
     },  
     name: 'CrossWord',
