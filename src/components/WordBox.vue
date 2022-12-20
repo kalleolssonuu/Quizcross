@@ -26,9 +26,11 @@
       }
     },
     props: {
-        letter: String,
         xkey: Number,
-        ykey: Number
+        ykey: Number,
+        letter: String,
+        direction: String,
+        isFirstLetter: Boolean
     },
     mounted() {
 
