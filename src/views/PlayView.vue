@@ -12,8 +12,7 @@
 
   <div class="gameWrapper">
     <div id="userGames">
-      <div v-if="lang === 'en'">{{uiLabels.userCreatedGames}}</div>
-      <div v-if="lang === 'sv'">{{uiLabels.userCreatedGames}}</div>
+      {{uiLabels.userCreatedGames}}
         <div id="gameList">
           <div class="scroll">
           <Game v-for="game in games"
@@ -76,6 +75,7 @@ export default{
   function () {
     //this.lang = this.$route.params.lang
     //socket.emit('pageLoaded', this.lang)
+    socket.emit('pageLoaded')
     socket.on("init", (labels) => {
       this.uiLabels = labels
     });
