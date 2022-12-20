@@ -17,6 +17,7 @@
 	"backButton": "Tillbaka",
 
 
-	"whatIsQC": "Vad är Quizcross?",
-	"pageDescriptionPlayView": "Test124"
+	"whatIsQC": "Tryck på 'Skapa' för att skapa ett nytt korsord!\nTryck på 'Spela' för att välja ett korsord att spela",
+	"pageDescriptionPlayView": "Välj bland förskapade och egenskapade korsord. Tryck sedan på 'Spela' för att lösa korsordet.\n Tryck på 'Skapa' om du vill skapa ett nytt korsord",
+	"pageDescriptionCreateView":"Fyll i ord med motsvarande beskrivning och lägg till i korsordet. Använd knapparna 'Visa nästa och 'Visa senaste' för att bestämma ordets plats i korsordet."
 }

@@ -17,6 +17,7 @@
 
 
 	"whatIsQC": "What is Quizcross?",
-	"pageDescriptionPlayView": "Test124"
+	"pageDescriptionPlayView": "Choose between user created crosswords and your own crosswords. Press 'Play' to solve the chosen crossword. Press 'Create' to create a new crossword",
+	"pageDescriptionCreateView":"Enter a word and a description and add the word to the crossword. Use the 'Show next' and 'Show previos' buttons."
 
 }
