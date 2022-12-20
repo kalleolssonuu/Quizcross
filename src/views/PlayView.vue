@@ -1,6 +1,5 @@
 <template>
   <header>
-  <!-- <div class="logo">Quizcross</div> -->
   <div>
     <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-on:switchLanguage="switchLanguage" >
     <button v-on:click="togglePopup"></button>
@@ -86,7 +85,7 @@ export default{
       uiLabels: {},
       id: "",
       lang: "en",
-      showModal: false,
+      showModal: false
     }
   },
   methods: {

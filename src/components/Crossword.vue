@@ -3,8 +3,8 @@
   
   <table id="crosswordwrapper">
     <tr v-for="(list, ykey) in wordPositions.actual" v-bind:key="'y' + ykey">
-        <td v-for="(letter, xkey) in list" v-bind:key="'x' + xkey">
-          <WordBox class="letterbox" v-bind:xkey="'x' + xkey" v-bind:ykey="ykey" v-bind:letter="letter">
+        <td v-for="(element, xkey) in list" v-bind:key="'x' + xkey">
+          <WordBox class="letterbox" v-bind:xkey="xkey" v-bind:ykey="ykey" v-bind:letter="element.letter">
           </WordBox> 
         </td> 
     </tr>
