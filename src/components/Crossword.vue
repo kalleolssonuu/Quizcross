@@ -47,7 +47,7 @@ import WordBox from '../components/WordBox.vue'
       word: String,
       desc: String,
       solutionsList: Object,
-      sourceName: String
+      //sourceName: String
     },
     mounted() {
     this.wordPositions.actual.forEach((item, yindex) => {

@@ -13,6 +13,13 @@ const routes = [
     name: 'PollView',
     component: () => import(/* webpackChunkName: "about" */ '../views/PollView.vue')
   },
+
+  {
+    path: '/ActualPlay/:lang',
+    name: 'ActualPlayView',
+    component: () => import(/* webpackChunkName: "about" */ '../views/ActualPlayView.vue')
+  },
+
   {
     path: '/create/:lang',
     name: 'CreateView',

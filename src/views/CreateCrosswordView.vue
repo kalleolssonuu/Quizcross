@@ -119,6 +119,9 @@
                                 ID: -- någonting med IP-adress -- }
 
                             */
+        tempWordObjects: {},
+        wordKeyPairs: {},
+        wordPosChecked: false,
         showModal: false,
         uiLabels: {},
         id: "",
@@ -148,6 +151,17 @@
     togglePopup: function () {
       this.showModal = ! this.showModal;
     },
+      testAddWordObject: function (wordObject) {
+        this.words.push(wordObject) /* dessa 'word' är alltså objekt */
+      },
+      testAddWord: function (wrd, description) {
+        this.word.key = wrd; 
+        this.word.description = description;
+        /* wordFromInput = new wordFromInput("",""); */
+      }, 
+      pickWord: function () {
+        this.wordObjects = Object.assign(this.wordObjects, this.tempWordObjects[this.matchesIterator]);
+      },
       findPotentialMatches: function () {
         if (this.word != "") {
           this.matchesIterator = 0;
