@@ -1,9 +1,5 @@
 <template>
 <header>
-    <div class="language">
-      <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage">
-    </div>
-  <div class="logo">Quizcross</div>
 </header>
 
 <div id="div1" class="inputFieldWrapper">
@@ -128,6 +124,13 @@
       this.fillPositionsNull();
     },
     methods: {
+      switchLanguage: function() {
+      if (this.lang === "en")
+        this.lang = "sv"
+      else
+        this.lang = "en"
+      socket.emit("switchLanguage", this.lang)
+    },
       testAddWordObject: function (wordObject) {
         this.words.push(wordObject) /* dessa 'word' är alltså objekt */
       },
@@ -466,9 +469,4 @@ button {
     font-size: 0.8rem;
     cursor:pointer; 
   }
-  #inputField{
-    height: 3rem;
-    width: 8rem;
-  }
-
 </style>
