@@ -1,10 +1,10 @@
 <template>
   <header>
-    <div class="language">
-      <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage"></div>
+    <!-- <div class="language">
+      <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage"></div> -->
     <div
       v-on:click="togglePopup">
-      <Modal>
+      <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-on:switchLanguage="switchLanguage" >
       <button v-on:click="togglePopup"></button>
       </Modal></div>
   </header>
@@ -47,14 +47,13 @@ export default {
       uiLabels: {},
       id: "",
       lang: "en",
-      hideNav: true,
-      showModal: false,
-      isMusicPlaying: false,
+      showModal: false
     }
   },
 
   created: function () {
-    socket.emit('pageLoaded')
+   // this.lang = this.$route.params.lang
+    //socket.emit('pageLoaded', this.lang)//
     socket.on("init", (labels) => {
       this.uiLabels = labels
     });
@@ -86,11 +85,9 @@ export default {
     },
   }
 }
-
 </script>
 
 <style scoped>
-
 .language{
     height: 1rem;
     width: 1rem;

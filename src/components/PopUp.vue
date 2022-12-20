@@ -24,23 +24,13 @@ export default {
   name: 'PopUp',
   props: {
     modal: Object,
-    kopplingTillJSON: String,
+    uiLabels: Object,
+    lang: String
   },
-  created: 
-  function () {
-    let lang = this.$route.params.lang
-    socket.emit('pageLoaded', lang)
-    socket.on("init", (labels) => {
-      this.uiLabels = labels
-    });
-  },
+
   data: function () {
     return {
-
-      uiLabels: {},
       id: "",
-      lang: "",
-      //hideNav: true,
       showModal: false
     }
   },
@@ -49,13 +39,9 @@ export default {
       this.showModal = ! this.showModal;
     },
     switchLanguage: function() {
-    if (this.lang === "en")
-      this.lang = "sv"
-    else
-      this.lang = "en"
-    socket.emit("switchLanguage", this.lang)
-    },
+      this.$emit("switchLanguage")
   }     
+}
 }
 </script>
 

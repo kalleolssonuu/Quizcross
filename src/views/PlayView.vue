@@ -1,18 +1,19 @@
 <template>
   <header>
-    <div class="language">
+    <!--<div class="language">
       <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage">
-    </div>
+    </div>-->
   <div class="logo">Quizcross</div>
   <div>
-    <Modal v-bind:key="kopplingTillJSON">
+    <Modal v-bind:uiLabels="uiLabels">
     <button v-on:click="togglePopup"></button>
     </Modal></div>
 </header>
 
   <div class="gameWrapper">
     <div id="userGames">
-      {{uiLabels.userCreatedGames}}
+      <div v-if="lang === 'en'">{{uiLabels.userCreatedGames}}</div>
+      <div v-if="lang === 'sv'">{{uiLabels.userCreatedGames}}</div>
         <div id="gameList">
           <div class="scroll">
           <Game v-for="game in games"
@@ -73,8 +74,8 @@ export default{
 
   created: 
   function () {
-    this.lang = this.$route.params.lang
-    socket.emit('pageLoaded')
+    //this.lang = this.$route.params.lang
+    //socket.emit('pageLoaded', this.lang)
     socket.on("init", (labels) => {
       this.uiLabels = labels
     });
@@ -88,10 +89,7 @@ export default{
       uiLabels: {},
       id: "",
       lang: "en",
-      hideNav: true,
       showModal: false,
-      kopplingTillJSON: "pageDescriptionPlayView"
-      /* vi letar sen efter JSON[kopplingTillJSON] */
     }
   },
   methods: {
@@ -114,8 +112,6 @@ togglePopup: function () {
   }
 }
 }
-
-
 
 </script>
 
