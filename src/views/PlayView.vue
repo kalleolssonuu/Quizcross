@@ -1,8 +1,7 @@
 <template>
   <header>
-  <!-- <div class="logo">Quizcross</div> -->
   <div>
-    <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-on:switchLanguage="switchLanguage" >
+    <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
     <button v-on:click="togglePopup"></button>
     </Modal></div>
 </header>
@@ -87,6 +86,7 @@ export default{
       id: "",
       lang: "en",
       showModal: false,
+      sourceName: "PlayView"
     }
   },
   methods: {
@@ -288,6 +288,9 @@ textarea {
   left: 0;
   margin: 0.5rem;
   background-color: #FE5F55;
+  border-radius: 5px;
+  color: white;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
 
 
