@@ -25,6 +25,11 @@
     hidden>
   </audio>
 
+  <div>
+    <button @click="playMusic">Play Music</button>
+    <audio ref="audio" src="01 Manboy.m4a"></audio>
+  </div>
+
 </template>
 
 <script>
@@ -68,6 +73,15 @@ export default {
     /* FÖR ATT FÅ FRAM POP-UP RUTA*/
     togglePopup: function () {
       this.showModal = ! this.showModal;
+    },
+    playMusic() {
+      if (this.isMusicPlaying) {
+        // stop music
+        this.isMusicPlaying = false;
+      } else {
+        // play music
+        this.isMusicPlaying = true;
+      }
     },
   }
 }
