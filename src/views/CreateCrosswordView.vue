@@ -31,8 +31,6 @@
 
     <div id="div2"> 
         <Crossword  v-bind:sourceName="sourceName"
-                    v-bind:wordObjects="this.wordObjects" 
-                    v-bind:tempWordObjects="this.tempWordObjects"
                     v-bind:wordPositions="this.wordPositions"
                     v-bind:matrixDims="this.matrixDims"
                     v-bind:word="this.word"
@@ -119,14 +117,11 @@
                                 ID: -- någonting med IP-adress -- }
 
                             */
-        tempWordObjects: {},
-        wordKeyPairs: {},
-        wordPosChecked: false,
         showModal: false,
         uiLabels: {},
         id: "",
-        lang: "en"/* ,
-        sourceName: "CreateCrosswordView" */
+        lang: "en",
+        sourceName: "CreateCrosswordView"
       }
     },
     created: function () {
@@ -151,17 +146,6 @@
     togglePopup: function () {
       this.showModal = ! this.showModal;
     },
-      testAddWordObject: function (wordObject) {
-        this.words.push(wordObject) /* dessa 'word' är alltså objekt */
-      },
-      testAddWord: function (wrd, description) {
-        this.word.key = wrd; 
-        this.word.description = description;
-        /* wordFromInput = new wordFromInput("",""); */
-      }, 
-      pickWord: function () {
-        this.wordObjects = Object.assign(this.wordObjects, this.tempWordObjects[this.matchesIterator]);
-      },
       findPotentialMatches: function () {
         if (this.word != "") {
           this.matchesIterator = 0;
@@ -215,8 +199,9 @@
                                 this.wordPositions.temp.splice(this.swapIterator, 0, this.getNewTempPositionVert(h, v, wordSplit))
                                 /* [this.wordPositions.temp[this.matchesIterator], this.wordPositions.temp[this.swapIterator]] = 
                                 [this.wordPositions.temp[this.swapIterator], this.wordPositions.temp[this.matchesIterator]] */
+                                console.log("Pushed from wordCollision, starting at h = " + h + ", v = " + v)
+
                                 this.swapIterator++
-                                this.wordCollision = false
                               } else {
                                 this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionVert(h, v, wordSplit)
                               }
@@ -229,14 +214,12 @@
 
                               this.matchesIterator++;
                               console.log("matchesIterator increased to: " + this.matchesIterator)
-
-                              this.wordInOrder++
-                              console.log("Amount of words added: " + this.wordInOrder)
                             }
                           } else {
                             break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
                           }
                       }
+                    this.wordCollision = false
                   }
                   if (wordSplit.length <= horiz - h) { /* FÅR PLATS HORISONTELLT? */
                       
@@ -259,14 +242,12 @@
 
                               console.log("Good Match Found (horizontal). Starting at h = " + h + ", and v = " + v)
 
-                              this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionHoriz(h, v, wordSplit)
-                              console.log("this.getNewTempPositionHoriz(h, v, wordSplit)) --- ")
-                              console.log(this.getNewTempPositionHoriz(h, v, wordSplit))
-
                               if (this.wordCollision) {
                                 this.wordPositions.temp.splice(this.swapIterator, 0, this.getNewTempPositionHoriz(h, v, wordSplit))
                                 /* [this.wordPositions.temp[this.matchesIterator], this.wordPositions.temp[this.swapIterator]] = 
                                 [this.wordPositions.temp[this.swapIterator], this.wordPositions.temp[this.matchesIterator]] */
+                                console.log("Pushed from wordCollision, starting at h = " + h + ", v = " + v)
+
                                 this.swapIterator++
                                 this.wordCollision = false
                               } else {
@@ -282,14 +263,12 @@
                               /* this.wordPositions.temp.push(this.getNewTempPositionHoriz(h, v, wordSplit)) */
                               this.matchesIterator++
                               console.log("matchesIterator increased to: " + this.matchesIterator)
-
-                              this.wordInOrder++
-                              console.log("Amount of words added: " + this.wordInOrder)
                               }
                           } else {
                               break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
                           }
                       }
+                    this.wordCollision = false
                   }
               }
           }
@@ -299,11 +278,14 @@
               this.alertNoMatches();
           } else {
             this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
+            this.wordInOrder++
+            console.log("Amount of words added: " + this.wordInOrder)
             /* this.crosswordPack ... LÄGG TILL ORD OCH BESKRIVNING */
           }
 
           this.word = ""
           this.desc = ""
+
         }
       }, 
       getPositions: function (word, h, v, horizontal) { /* används ej */
@@ -323,7 +305,7 @@
         return pos;
       },
       alertNoMatches: function () {
-        alert("no matches! Try another word.")
+        alert("No matches! Try another word.")
       },
       confirmNewWord: function () {
         socket.emit("updateGrid", this.tempWordObjects, this.matchesIterator) /* Hur ska vi låta användaren iterera över alla möjliga positioner? */

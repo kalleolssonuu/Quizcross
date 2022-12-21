@@ -9,7 +9,7 @@
  
  
  <template>
-    <div class="letterbox">
+    <div class="letterbox" @click="testClick">
         {{ letter }}
     </div>
 
@@ -30,10 +30,16 @@
         ykey: Number,
         letter: String,
         direction: String,
-        isFirstLetter: Boolean
+        isFirstLetter: Boolean,
+        sourceName: String
     },
     mounted() {
 
+    },
+    methods: {
+      testClick: function() {
+        alert("Button has been clicked. This is a first letter button: " + this.isFirstLetter)
+      }
     }
 }
 
