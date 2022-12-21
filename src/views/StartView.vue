@@ -11,7 +11,7 @@
   </div>
   <div class="wrapper">
     <button id="play" @click="$router.push('/actualPlay/'+lang)">{{'Actual PlayView'}}</button>
-    <button id="play" @click="$router.push('/play/'+lang)">{{uiLabels.playCross}}</button>
+    <button id="play" @click="$router.push('/lobby/'+lang)">{{uiLabels.playCross}}</button>
     <button id="play" @click="$router.push('/kalletest/'+lang)">{{'Göra korsord test'}}</button>
   </div>
 
