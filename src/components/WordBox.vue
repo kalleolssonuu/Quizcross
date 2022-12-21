@@ -66,4 +66,8 @@
   /* background-color: #A7CAB1; */
 }
 
+.letterbox:hover {
+  
+}
+
 </style>
