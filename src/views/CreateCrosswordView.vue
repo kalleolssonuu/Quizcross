@@ -42,7 +42,9 @@
         <div id="div3">
         <!--<button v-on:click="this.emptyTextFields"> Empty Input </button> ---><!-- gör detta när användaren har valt ett ord istället för en knapp. Det rensar även textfältet -->
         <button v-on:click="this.fillPositionsNull">{{uiLabels.resetCrossword}}</button> <br>
-        <button>{{uiLabels.confirmCreate}}</button>
+        <button v-on:click="sendPackage">
+          {{uiLabels.confirmCreate}}
+        </button>
         </div>
         <br>
 
@@ -388,6 +390,9 @@
           this.userIterator--
           this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
         }
+      },
+      sendPackage: function () {
+        /* här skickar vi vårt paket och skapar ett ID för korsordet? Math.Random()?? */
       }
     }  
 }   
