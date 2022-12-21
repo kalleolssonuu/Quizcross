@@ -11,7 +11,7 @@
       {{uiLabels.userCreatedGames}}
         <div id="gameList">
           <div class="scroll">
-          <Game v-for="game in games"
+          <Game v-for="game in premadeGames"
             v-bind:game="game" 
             v-bind:key="game.name"
             v-on:selectedGame="selectGame($event)"/> 
@@ -28,7 +28,7 @@
     <div id="myGames">
         {{uiLabels.myGamesLang}}
       <div class="scroll">
-        <Game v-for="game in games"
+        <Game v-for="game in premadeGames"
             v-bind:game="game" 
             v-bind:key="game.name"
             v-on:selectedGame="selectGame($event)"/> 
@@ -80,7 +80,8 @@ export default{
 
   data: function(){
     return{
-      games: gameInfo,
+      premadeGames: gameInfo,
+      /* myGames: myGameInfo, */
       selectedGame: {},
       uiLabels: {},
       id: "",
@@ -95,6 +96,11 @@ export default{
     document.getElementById("selectedname").value=games.name
     document.getElementById("selectedid").value=games.id
   },
+  /* listenAddGame: function(games) {
+    socket.on("receiveGameFromCreateView") {
+      games.push()
+    }
+  }, */
 
   switchLanguage: function() {
     if (this.lang === "en")
