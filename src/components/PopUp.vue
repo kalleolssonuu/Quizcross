@@ -101,6 +101,8 @@ export default {
   background-color: #FE5F55;
   border-radius: 5px;
   cursor:pointer;
+  height: 1.8rem;
+  width: 1.8rem;
 }
 .modal-vue .close:hover{
 background-color: #e36f67;
