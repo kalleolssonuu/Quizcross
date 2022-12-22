@@ -9,8 +9,9 @@
  
  
  <template>
-    <div class="letterbox">
-        {{ letter }}
+    <div class="letterbox" @click="testClick">
+        <!-- om ärTom = true så blir bokstav = " " -->{{ letter }}
+        <!-- om ärTom = false så blir bokstav = {{ letter }} -->
     </div>
 
 
@@ -30,10 +31,26 @@
         ykey: Number,
         letter: String,
         direction: String,
-        isFirstLetter: Boolean
+        isFirstLetter: Boolean,
+        sourceName: String
     },
-    mounted() {
+    computed: {
 
+    },
+    methods: {
+      testClick: function() { /* ÄNDRA SENARE SÅ ATT ENDAST PlayView ÄR TILLÅTET SOM sourceName */
+        if ((this.sourceName == "CreateCrosswordView" || this.sourceName == "PlayView") && this.isFirstLetter == true) {
+          alert("x coordinate: " + this.xkey + ", y coordinate: " + this.ykey)
+        } else {
+          alert("test noclick")
+        }
+      },
+      occupyWordBox: function () {
+        /* Den här positionen är kopplad till ett eller två ord. Utifrån angiven riktning vill vi börja skriva och matcha bokstav för bokstav
+          med det ord som är 'osynligt' på de positionerna. Om vi matchar = visa ordet för användaren och ge poäng. 
+          Sätt färg på rutan efter vilken användare det är, och markera den som ockuperad. 
+          this.$emit(this.xkey, this.ykey) */
+      }
     }
 }
 
@@ -58,6 +75,10 @@
 .letterbox:empty {
   background-color: white;
   /* background-color: #A7CAB1; */
+}
+
+.letterbox:hover {
+  cursor: pointer;
 }
 
 </style>

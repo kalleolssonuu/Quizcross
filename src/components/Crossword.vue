@@ -9,7 +9,8 @@
             v-bind:ykey="ykey" 
             v-bind:letter="element.letter"
             v-bind:direction="element.direction"
-            v-bind:isFirstLetter="element.isFirstLetter">
+            v-bind:isFirstLetter="element.isFirstLetter"
+            v-bind:sourceName="this.sourceName">
           </WordBox> 
         </td> 
     </tr>
@@ -34,7 +35,7 @@ import WordBox from '../components/WordBox.vue'
   export default {
     data: function() {
       return {
-        sourceName: ""
+        /* sourceName: "" */
       }
     },  
     name: 'CrossWord',
@@ -47,7 +48,7 @@ import WordBox from '../components/WordBox.vue'
       word: String,
       desc: String,
       solutionsList: Object,
-      //sourceName: String
+      sourceName: String
     },
     mounted() {
     this.wordPositions.actual.forEach((item, yindex) => {

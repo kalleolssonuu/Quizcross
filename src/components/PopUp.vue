@@ -3,6 +3,7 @@
    <div>
     <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage">
    </div>
+
    <div class="modal-vue">
       <button id="help" :src="uiLabels.changeLanguage" @click="showModal=true">
         ?
