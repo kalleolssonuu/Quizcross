@@ -47,7 +47,8 @@
       occupyWordBox: function () {
         /* Den här positionen är kopplad till ett eller två ord. Utifrån angiven riktning vill vi börja skriva och matcha bokstav för bokstav
           med det ord som är 'osynligt' på de positionerna. Om vi matchar = visa ordet för användaren och ge poäng. 
-          Sätt färg på rutan efter vilken användare det är, och markera den som ockuperad. */
+          Sätt färg på rutan efter vilken användare det är, och markera den som ockuperad. 
+          this.$emit(this.xkey, this.ykey) */
       }
     }
 }
