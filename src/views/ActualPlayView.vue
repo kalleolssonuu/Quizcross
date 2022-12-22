@@ -1,13 +1,108 @@
 <template>
 <h3>Hej Kung Charles</h3>
 
-<body style="background-color:#A7CAB1;">
-</body>
+<header>
+  <div>
+      <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
+      <button v-on:click="togglePopup"></button>
+      </Modal>
+    </div>
+</header>
+
+<div id="div2"> 
+        <Crossword  v-bind:sourceName="sourceName"
+                    v-bind:wordPositions="this.wordPositions"
+                    v-bind:matrixDims="this.matrixDims"
+                    v-bind:word="this.word"
+                    v-bind:desc="this.desc">
+        </Crossword>
+    </div>
 
 </template>
 
 <script>
 
+import Crossword from '../components/Crossword.vue'
+  import Modal from '../components/PopUp.vue'
+  import io from 'socket.io-client';
+  const socket = io();
+
+export default {
+    name: 'CreateCrosswordView',
+    components: {
+        Crossword,
+        Modal
+    },
+    data: function () {
+      return {
+        word: "",
+        desc: "",
+        matrixDims: {x: 13, y: 10},
+        /* wordPositions: [], */
+        wordPositions: {actual: [], temp: []},
+        crosswordPack: {}, /* { crossword: this.wordPositions.actual, wordKeypairs: [{ord: "clown", beskrivning: "pajas", riktning: horisontellt}, 
+                                                                                    { ... }, { ... }],
+                                ID: -- någonting med IP-adress -- }
+
+                            */
+        showModal: false,
+        uiLabels: {},
+        id: "",
+        lang: "en",
+        sourceName: "PlayView"
+      }
+    },
+    created: function () {
+      socket.emit('pageLoaded')
+      socket.on("init", (labels) => {
+      this.uiLabels = labels
+    })
+      socket.on("dataUpdate", (data) =>
+        this.data = data
+      ),
+      this.fillPremadeCrossword();
+    },
+    methods: {
+        fillPremadeCrossword: function () {
+            for (let v = 0; v < this.matrixDims.y; v++) {
+                this.wordPositions.actual[v] = [];
+                /* wordPositions = [[null, null, null, null]] */
+                for (let h = 0; h < this.matrixDims.x; h++) {
+                this.wordPositions.actual[v][h] = {letter: null, 
+                                                    inHorizontal: false,
+                                                    inVertical: false,
+                                                    isFirstLetter: false, 
+                                                    wordInOrder: this.wordInOrder} /* if (wordInOrder != 0) { lägg till siffra i hörnet } */
+                }
+            }
+
+            this.wordPositions.actual[0][0].letter = "c"; this.wordPositions.actual[0][0].inHorizontal = true
+            this.wordPositions.actual[0][0].isFirstLetter = true
+
+            this.wordPositions.actual[0][1].letter = "l"; this.wordPositions.actual[0][1].inHorizontal = true; this.wordPositions.actual[0][1].inVertical = true
+            this.wordPositions.actual[0][1].isFirstLetter = true
+
+            this.wordPositions.actual[0][2].letter = "o"; this.wordPositions.actual[0][0].inHorizontal = true
+            this.wordPositions.actual[0][3].letter = "w"; this.wordPositions.actual[0][0].inHorizontal = true
+            this.wordPositions.actual[0][4].letter = "n"; this.wordPositions.actual[0][0].inHorizontal = true
+
+            this.wordPositions.actual[1][1].letter = "a"; this.wordPositions.actual[1][1].inHorizontal = false; this.wordPositions.actual[1][1].inVertical = true
+            this.wordPositions.actual[2][1].letter = "k"; this.wordPositions.actual[2][1].inHorizontal = true; this.wordPositions.actual[2][1].inVertical = true
+            this.wordPositions.actual[2][1].isFirstLetter = true
+
+            this.wordPositions.actual[3][1].letter = "a"; this.wordPositions.actual[3][1].inHorizontal = true; this.wordPositions.actual[3][1].inVertical = true
+            this.wordPositions.actual[4][1].letter = "n"; this.wordPositions.actual[4][1].inHorizontal = false; this.wordPositions.actual[4][1].inVertical = true
+            this.wordPositions.actual[3][0].letter = "j"; this.wordPositions.actual[3][0].inHorizontal = true /* från JA */
+            this.wordPositions.actual[3][0].isFirstLetter = true
+
+            this.wordPositions.actual[2][2].letter = "a"; this.wordPositions.actual[2][2].inHorizontal = true /* från KANON */
+            this.wordPositions.actual[2][3].letter = "n"; this.wordPositions.actual[2][3].inHorizontal = true
+            this.wordPositions.actual[2][4].letter = "o"; this.wordPositions.actual[2][4].inHorizontal = true
+            this.wordPositions.actual[2][5].letter = "n"; this.wordPositions.actual[2][5].inHorizontal = true
+
+        },
+    }
+}
 
 </script>
 

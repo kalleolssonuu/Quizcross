@@ -9,9 +9,9 @@ const routes = [
   },
 
     {
-    path: '/poll/:id',
-    name: 'PollView',
-    component: () => import(/* webpackChunkName: "about" */ '../views/PollView.vue')
+    path: '/PreCreate/:lang',
+    name: 'PreCreateView',
+    component: () => import(/* webpackChunkName: "about" */ '../views/PreCreateView.vue')
   },
 
   {
