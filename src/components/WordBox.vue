@@ -33,12 +33,21 @@
         isFirstLetter: Boolean,
         sourceName: String
     },
-    mounted() {
+    computed: {
 
     },
     methods: {
       testClick: function() {
-        alert("Button has been clicked. This is a first letter button: " + this.isFirstLetter)
+        if (this.sourceName == "CreateCrosswordView" && this.isFirstLetter == true) {
+          alert("x coordinate: " + this.xkey + ", y coordinate: " + this.ykey)
+        } else {
+          alert("test noclick")
+        }
+      },
+      occupyWordBox: function () {
+        /* Den här positionen är kopplad till ett eller två ord. Utifrån angiven riktning vill vi börja skriva och matcha bokstav för bokstav
+          med det ord som är 'osynligt' på de positionerna. Om vi matchar = visa ordet för användaren och ge poäng. 
+          Sätt färg på rutan efter vilken användare det är, och markera den som ockuperad. */
       }
     }
 }
@@ -67,7 +76,7 @@
 }
 
 .letterbox:hover {
-  
+  cursor: pointer;
 }
 
 </style>
