@@ -1,38 +1,38 @@
 <template>
 <header>
   <div>
-    <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
-    <button v-on:click="togglePopup"></button>
-    </Modal>
-  </div>
+      <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
+      <button v-on:click="togglePopup"></button>
+      </Modal>
+    </div>
 </header>
 
-  <div id="div1" class="inputFieldWrapper">
+<div id="div1" class="inputFieldWrapper">
           
-    <div class="inputField"> <!-- måste emitta word så att vi kan använda -->
-      <h2>{{uiLabels.yourWord}}</h2>
-      <input type="text" id="wordInput" v-model="word" required="required" placeholder="Word sv/en">
-    </div>
-    <br>
-
-    <div class="inputField" style="display: inline-block">
-        <h2>{{uiLabels.wordDescription}}</h2>
-        <input type="text"  id="descInput" v-model="desc" required="required" placeholder="Word desc sv/en">
-    </div>
-    <br>
-    
-    <button v-on:click="this.findPotentialMatches">{{uiLabels.addWord}}</button> <br>
-    <div class="solutionsWrapper">
-      <img id="showSolutions" :src="uiLabels.showPrevious" v-on:click="this.showPreviousSolution">
-      <img id="showSolutions" :src="uiLabels.showNext" v-on:click="this.showNextSolution">
-    </div>
-    <!-- <button id="showSolutions" v-on:click="this.showPreviousSolution">{{uiLabels.showPrevious}}</button>
-    <button id="showSolutions" v-on:click="this.showNextSolution">{{uiLabels.showNext}}</button> -->
-  </div>
+          <div class="inputField"> <!-- måste emitta word så att vi kan använda -->
+            <h2>{{uiLabels.yourWord}}</h2>
+            <input type="text" id="wordInput" v-model="word" required="required" placeholder="Word sv/en">
+          </div>
+          <br>
+          <div class="inputField" style="display: inline-block">
+              <h2>{{uiLabels.wordDescription}}</h2>
+              <input type="text"  id="descInput" v-model="desc" required="required" placeholder="Word desc sv/en">
+          </div>
+          <br>
+          <button v-on:click="this.findPotentialMatches">{{uiLabels.addWord}}</button> <br>
+          <div class="sulutionsWrapper">
+          <img id="showSolutions" :src="uiLabels.showPrevious" v-on:click="this.showPreviousSolution">
+          <img id="showSolutions" :src="uiLabels.showNext" v-on:click="this.showNextSolution">
+          </div>
+          <!-- <button id="showSolutions" v-on:click="this.showPreviousSolution">{{uiLabels.showPrevious}}</button>
+          <button id="showSolutions" v-on:click="this.showNextSolution">{{uiLabels.showNext}}</button> -->
+        </div>
         
 
     <div id="div2"> 
         <Crossword  v-bind:sourceName="sourceName"
+                    v-bind:wordObjects="this.wordObjects" 
+                    v-bind:tempWordObjects="this.tempWordObjects"
                     v-bind:wordPositions="this.wordPositions"
                     v-bind:matrixDims="this.matrixDims"
                     v-bind:word="this.word"
@@ -44,9 +44,7 @@
         <div id="div3">
         <!--<button v-on:click="this.emptyTextFields"> Empty Input </button> ---><!-- gör detta när användaren har valt ett ord istället för en knapp. Det rensar även textfältet -->
         <button v-on:click="this.fillPositionsNull">{{uiLabels.resetCrossword}}</button> <br>
-        <button v-on:click="sendPackage">
-          {{uiLabels.confirmCreate}}
-        </button>
+        <button>{{uiLabels.confirmCreate}}</button>
         </div>
         <br>
 
@@ -203,9 +201,8 @@
                                 this.wordPositions.temp.splice(this.swapIterator, 0, this.getNewTempPositionVert(h, v, wordSplit))
                                 /* [this.wordPositions.temp[this.matchesIterator], this.wordPositions.temp[this.swapIterator]] = 
                                 [this.wordPositions.temp[this.swapIterator], this.wordPositions.temp[this.matchesIterator]] */
-                                console.log("Pushed from wordCollision, starting at h = " + h + ", v = " + v)
-
                                 this.swapIterator++
+                                this.wordCollision = false
                               } else {
                                 this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionVert(h, v, wordSplit)
                               }
@@ -218,12 +215,14 @@
 
                               this.matchesIterator++;
                               console.log("matchesIterator increased to: " + this.matchesIterator)
+
+                              this.wordInOrder++
+                              console.log("Amount of words added: " + this.wordInOrder)
                             }
                           } else {
                             break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
                           }
                       }
-                    this.wordCollision = false
                   }
                   if (wordSplit.length <= horiz - h) { /* FÅR PLATS HORISONTELLT? */
                       
@@ -246,12 +245,14 @@
 
                               console.log("Good Match Found (horizontal). Starting at h = " + h + ", and v = " + v)
 
+                              this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionHoriz(h, v, wordSplit)
+                              console.log("this.getNewTempPositionHoriz(h, v, wordSplit)) --- ")
+                              console.log(this.getNewTempPositionHoriz(h, v, wordSplit))
+
                               if (this.wordCollision) {
                                 this.wordPositions.temp.splice(this.swapIterator, 0, this.getNewTempPositionHoriz(h, v, wordSplit))
                                 /* [this.wordPositions.temp[this.matchesIterator], this.wordPositions.temp[this.swapIterator]] = 
                                 [this.wordPositions.temp[this.swapIterator], this.wordPositions.temp[this.matchesIterator]] */
-                                console.log("Pushed from wordCollision, starting at h = " + h + ", v = " + v)
-
                                 this.swapIterator++
                                 this.wordCollision = false
                               } else {
@@ -267,12 +268,14 @@
                               /* this.wordPositions.temp.push(this.getNewTempPositionHoriz(h, v, wordSplit)) */
                               this.matchesIterator++
                               console.log("matchesIterator increased to: " + this.matchesIterator)
+
+                              this.wordInOrder++
+                              console.log("Amount of words added: " + this.wordInOrder)
                               }
                           } else {
                               break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
                           }
                       }
-                    this.wordCollision = false
                   }
               }
           }
@@ -282,14 +285,11 @@
               this.alertNoMatches();
           } else {
             this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
-            this.wordInOrder++
-            console.log("Amount of words added: " + this.wordInOrder)
             /* this.crosswordPack ... LÄGG TILL ORD OCH BESKRIVNING */
           }
 
           this.word = ""
           this.desc = ""
-
         }
       }, 
       getPositions: function (word, h, v, horizontal) { /* används ej */
@@ -309,7 +309,7 @@
         return pos;
       },
       alertNoMatches: function () {
-        alert("No matches! Try another word.")
+        alert("no matches! Try another word.")
       },
       confirmNewWord: function () {
         socket.emit("updateGrid", this.tempWordObjects, this.matchesIterator) /* Hur ska vi låta användaren iterera över alla möjliga positioner? */
@@ -392,13 +392,6 @@
           this.userIterator--
           this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
         }
-      },
-      confirmCreate: function () {
-        /* här skickar vi vårt paket och skapar ett ID för korsordet? Math.Random()?? */
-
-        /* skickar korsordet med korsordsID till Data.js */
-        /* tar oss till LobbyView */
-        /* alltså inget returvärde */
       }
     }  
 }   
