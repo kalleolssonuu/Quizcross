@@ -46,7 +46,21 @@ function sockets(io, socket, data) {
   socket.on('resetAll', () => {
     data = new Data();
     data.initializeData();
-  })
+  });
+
+
+  // Funktioner för korsordsinfo:
+
+  socket.on('emittedCrosswordInfo', function(info) {  // lyssnar efter medellanden från clients som heter emittedCrosswordInfo
+    data.storeInfo(info);  // lägger till mottagna infon i egna datan (nödvändigt???? känns som ett steg för mycket)
+
+    io.emit('currentCrosswordInfo', data.getAllCrosswordInfo() ) // "send updated info to all connected clients, note the use of io instead of socket" Fattar dock inte hur detta kan skickas till clients? tnkte att det inte hände förrän nästa steg
+                                    // OBS: I burgare:  io.emit('currentQueue', { orders: data.getAllOrders() }); , 
+                                    // men var väl det som gjorde att det blev dubbla keys  "orders"????
+
+  });
+
+  socket.emit('currentCrosswordInfo', data.getAllCrosswordInfo() ); // Send Info when a client connects
  
 }
 

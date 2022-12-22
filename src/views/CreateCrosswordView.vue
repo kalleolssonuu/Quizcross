@@ -24,6 +24,8 @@
         <button v-on:click="this.showNextSolution"> Show next solution </button>
         <button v-on:click="this.showPreviousSolution"> Show previous </button> <br>
         <button> Confirm and Create </button>
+
+        <button v-on:click="this.testEmit"> testEmit </button>
         
         <br>
 
@@ -369,6 +371,13 @@
       compareMatrices: function () {
         console.log(this.wordPositions.actual)
         console.log(this.wordPositions.temp[1])
+      },
+
+      testEmit: function() {
+        socket.emit("emittedCrosswordInfo", {word: this.word,
+                                             nrOfMatches: this.matchesIterator});
+        console.log( {word: this.word,
+                      nrOfMatches: this.matchesIterator} )
       }
 
     }

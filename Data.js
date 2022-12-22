@@ -6,6 +6,8 @@ const languages = ["en", "se"];
 function Data() {
   this.polls = {};
   this.crosses = {};
+
+  this.crosswordInfo = {};
 }
 
 /***********************************************
@@ -99,6 +101,22 @@ Data.prototype.getAnswers = function(pollId) {
   }
   return {}
 }
+
+// Funktioner för korsordsifo:
+
+Data.prototype.storeInfo = function (info) {
+  this.crosswordInfo = info;  
+  
+  // kan det bli fel här? I hamburgare gjordes: this.orders[order.orderId] = order;
+  // men jag behöver ju inte lagra en array med info, är ju alltid ett info-"paket" per klick? 
+  // obs i burgare var beskrivning: "Store the order in an "associative array" with orderId as key"
+
+};
+
+Data.prototype.getAllCrosswordInfo = function () {
+  return this.crosswordInfo;
+}
+
 module.exports = Data;
 
 
