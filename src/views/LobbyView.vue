@@ -1,11 +1,7 @@
 <template>
   <header>
-    <div class="language">
-      <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage">
-    </div>
-  <div class="logo">Quizcross</div>
   <div>
-    <Modal v-bind:key="kopplingTillJSON">
+    <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
     <button v-on:click="togglePopup"></button>
     </Modal></div>
 </header>
@@ -15,7 +11,7 @@
       {{uiLabels.userCreatedGames}}
         <div id="gameList">
           <div class="scroll">
-          <Game v-for="game in games"
+          <Game v-for="game in premadeGames"
             v-bind:game="game" 
             v-bind:key="game.name"
             v-on:selectedGame="selectGame($event)"/> 
@@ -32,7 +28,7 @@
     <div id="myGames">
         {{uiLabels.myGamesLang}}
       <div class="scroll">
-        <Game v-for="game in games"
+        <Game v-for="game in premadeGames"
             v-bind:game="game" 
             v-bind:key="game.name"
             v-on:selectedGame="selectGame($event)"/> 
@@ -83,8 +79,9 @@ export default{
 
   created: 
   function () {
-    this.lang = this.$route.params.lang
-    socket.emit('pageLoaded');
+    //this.lang = this.$route.params.lang
+    //socket.emit('pageLoaded', this.lang)
+    socket.emit('pageLoaded')
     socket.on("init", (labels) => {
       this.uiLabels = labels
     });
@@ -100,16 +97,16 @@ export default{
   data: function() {
     return{
       crosswordInfo: null,
-
       games: gameInfo,
+      
+      premadeGames: gameInfo,
+      /* myGames: myGameInfo, */
       selectedGame: {},
       uiLabels: {},
       id: "",
       lang: "en",
-      hideNav: true,
       showModal: false,
-      kopplingTillJSON: "pageDescriptionPlayView"
-      /* vi letar sen efter JSON[kopplingTillJSON] */
+      sourceName: "PlayView"
     }
   },
   methods: {
@@ -118,6 +115,11 @@ export default{
     document.getElementById("selectedname").value=games.name
     document.getElementById("selectedid").value=games.id
   },
+  /* listenAddGame: function(games) {
+    socket.on("receiveGameFromCreateView") {
+      games.push()
+    }
+  }, */
 
   switchLanguage: function() {
     if (this.lang === "en")
@@ -132,8 +134,6 @@ togglePopup: function () {
   }
 }
 }
-
-
 
 </script>
 
@@ -313,6 +313,9 @@ textarea {
   left: 0;
   margin: 0.5rem;
   background-color: #FE5F55;
+  border-radius: 5px;
+  color: white;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
 
 

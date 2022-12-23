@@ -1,13 +1,10 @@
-{
-	"sales-pitch": "Simply. Great. Polling.",
-	"invite": "Invite participants with this link:",
-	"createPoll": "Create",
-	"participatePoll": "Participate in poll",
-	"question": "Question",
+{	"//StartView": "Här är StartViews översättningar",
 	"changeLanguage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARwAAACxCAMAAAAh3/JWAAAAJFBMVEUAaqf+zAAAaKn/0ABKfJNQgIwAZqtMf41Fe5X/zwByjntRgYvwTh7hAAABqElEQVR4nO3ayY3DQBAEwSGpW/77uxZsig8OIFARDjQ63zXGHOt7Wz7Zruuk619uvYrzL3GCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOOEccdY5bvcdce63SdcPMi5zPF474rwek64fZGyTPD+2WZbnrOMHGTt++FniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAmWXcEmMFiThmkL3lPskCcRJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAnr+wRx/gBgCFQDC7+0YQAAAABJRU5ErkJggg==",
+	"createCross": "Create",
 	"playCross": "Play",
 
 
+	"//PlayView": "Här är PlayViews översättningar",
 	"userCreatedGames": "User created games",
 	"myGamesLang": "My games",
 	"selectedGameLang": "Selected game: ",
@@ -16,7 +13,18 @@
 	"backButton": "Back",
 
 
-	"whatIsQC": "What is Quizcross?",
-	"pageDescriptionPlayView": "Test124"
+	"//PopUp": "Här är PopUps översättningar",
+	"whatIsQC": "Press 'Create' to create a new crossword. Press 'Play' to choose a crossword to play",
+	"pageDescriptionPlayView": "Choose between user created crosswords and your own crosswords. Press 'Play' to solve the chosen crossword. Press 'Create' to create a new crossword",
+	"pageDescriptionCreateView":"Enter a word and a description and add the word to the crossword. Use the 'Show next' and 'Show previous' buttons to place the word where you want it.",
 
+
+	"//CreateCrosswordView": "Här är CreateCrosswordViews översättningar",
+	"yourWord": "Your word",
+	"wordDescription": "Word description",
+	"addWord": "Add word to crossword",
+	"showNext": "/img/ShowNextEn.png",
+	"showPrevious": "/img/ShowPreviousEn.png",
+	"resetCrossword": "Reset crossword",
+	"confirmCreate": "Confirm and create crossword"
 }

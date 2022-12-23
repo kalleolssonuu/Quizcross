@@ -1,5 +1,8 @@
 <template> 
    <!-- ALL KOD FÖR POPUP-WINDOW-->
+   <div>
+    <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage">
+   </div>
    <div class="modal-vue">
       <button id="help" :src="uiLabels.changeLanguage" @click="showModal=true">
         ?
@@ -8,7 +11,9 @@
       @click="showModal=false">
       </div>
       <div class="modal" v-if="showModal">
-        <h3>{{uiLabels.whatIsQC}}</h3>
+          <h3 v-if="sourceName == 'StartView'"> {{uiLabels.whatIsQC}}</h3>
+          <h3 v-if="sourceName =='PlayView'"> {{uiLabels.pageDescriptionPlayView}}</h3>
+          <h3 v-if="sourceName =='CreateCrosswordView'"> {{uiLabels.pageDescriptionCreateView}}</h3>
         <p>{{uiLabels.kopplingTillJSON}}</p>
         <button class="close" @click="showModal = false">x</button>
       </div>
@@ -17,30 +22,19 @@
 
 
 <script>
-import io from 'socket.io-client'; 
-const socket = io();
 
 export default {
   name: 'PopUp',
   props: {
     modal: Object,
-    kopplingTillJSON: String,
+    uiLabels: Object,
+    lang: String,
+    sourceName: String
   },
-  created: 
-  function () {
-    this.lang = this.$route.params.lang
-    socket.emit('pageLoaded')
-    socket.on("init", (labels) => {
-      this.uiLabels = labels
-    });
-  },
+
   data: function () {
     return {
-
-      uiLabels: {},
       id: "",
-      lang: "",
-      //hideNav: true,
       showModal: false
     }
   },
@@ -49,13 +43,10 @@ export default {
       this.showModal = ! this.showModal;
     },
     switchLanguage: function() {
-    if (this.lang === "en")
-      this.lang = "sv"
-    else
-      this.lang = "en"
-    socket.emit("switchLanguage", this.lang)
-    },
+      this.$emit("switchLanguage")
+      //this.$router.push(this.lang)// //visa språk i URL?//
   }     
+}
 }
 </script>
 
@@ -109,8 +100,26 @@ export default {
   background-color: #FE5F55;
   border-radius: 5px;
   cursor:pointer;
+  height: 1.8rem;
+  width: 1.8rem;
 }
 .modal-vue .close:hover{
 background-color: #e36f67;
+}
+#flag {
+    width: 5rem;
+    height: 3.5rem;
+    border-radius: 20%;
+    margin: 0.5rem;
+    margin-left:-94%;
+}
+.logo {
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  font-size: 2.5rem;
+  color: white;
+  padding-top:0.2em;
+  text-align: center;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
 </style>

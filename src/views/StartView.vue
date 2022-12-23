@@ -1,29 +1,32 @@
 <template>
   <header>
-    <div class="language">
-      <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage"></div>
-    <div
-      v-on:click="togglePopup">
-      <Modal>
+    <div>
+      <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
       <button v-on:click="togglePopup"></button>
-      </Modal></div>
+      </Modal>
+    </div>
   </header>
   <div id="homepic">
     <div class="logo"><img src="/img/Logotyp.png"></div>
   </div>
   <div class="wrapper">
-    <button id="create" @click="$router.push('/create/'+lang)">{{uiLabels.createPoll}}</button>
-    <button id="play" @click="$router.push('/play/'+lang)">{{uiLabels.playCross}}</button>
+    <button id="play" @click="$router.push('/actualPlay/'+lang)">{{'Actual PlayView'}}</button>
+    <button id="play" @click="$router.push('/lobby/'+lang)">{{uiLabels.playCross}}</button>
     <button id="play" @click="$router.push('/kalletest/'+lang)">{{'Göra korsord test'}}</button>
   </div>
 
-<audio src="01 Manboy.m4a" controls>
-  <embed
-  src="01 Manboy.m4a"
-  loop="true"
-  height="0"
-  hidden>
-</audio>
+    <audio src="01 Manboy.m4a" controls>
+    <embed
+    src="01 Manboy.m4a"
+    loop="true"
+    height="0"
+    hidden>
+  </audio>
+
+  <div>
+    <button @click="playMusic">Play Music</button>
+    <audio ref="audio" src="01 Manboy.m4a"></audio>
+  </div>
 
 </template>
 
@@ -42,8 +45,8 @@ export default {
       uiLabels: {},
       id: "",
       lang: "en",
-      hideNav: true,
-      showModal: false
+      showModal: false,
+      sourceName: 'StartView'
     }
   },
 
@@ -62,20 +65,24 @@ export default {
         this.lang = "en"
       socket.emit("switchLanguage", this.lang)
     },
-    toggleNav: function () {
-      this.hideNav = ! this.hideNav;
-    },
     /* FÖR ATT FÅ FRAM POP-UP RUTA*/
     togglePopup: function () {
       this.showModal = ! this.showModal;
     },
+    playMusic() {
+      if (this.isMusicPlaying) {
+        // stop music
+        this.isMusicPlaying = false;
+      } else {
+        // play music
+        this.isMusicPlaying = true;
+      }
+    },
   }
 }
-
 </script>
 
 <style scoped>
-
 .language{
     height: 1rem;
     width: 1rem;

@@ -3,14 +3,16 @@
   
   <table id="crosswordwrapper">
     <tr v-for="(list, ykey) in wordPositions.actual" v-bind:key="'y' + ykey">
-        <td class="letterbox" v-for="(letter, xkey) in list" v-bind:key="'x' + xkey"> 
-          
-          <!-- <WordBox v-bind:key="key" v-bind:letter="letter" v-bind:direction="direction">
-            {{ letter }}
-          </WordBox> -->
-
-          {{ letter }}
-        </td>
+        <td v-for="(element, xkey) in list" v-bind:key="'x' + xkey">
+          <WordBox class="letterbox" 
+            v-bind:xkey="xkey" 
+            v-bind:ykey="ykey" 
+            v-bind:letter="element.letter"
+            v-bind:direction="element.direction"
+            v-bind:isFirstLetter="element.isFirstLetter"
+            v-bind:sourceName="this.sourceName">
+          </WordBox> 
+        </td> 
     </tr>
   </table>
 
@@ -28,22 +30,25 @@
 </template>
   
   <script>
-
+import WordBox from '../components/WordBox.vue' 
 
   export default {
     data: function() {
       return {
-        amountOrdered: 0
+        /* sourceName: "" */
       }
     },  
-    name: 'OneBurger',
+    name: 'CrossWord',
+    components: {
+      WordBox, 
+    },
     props: {
-      wordObjects: Object,
-      tempWordObjects: Object,
-      wordPositions: Object, /* .actual[] .temp[[]] */
+      wordPositions: Object,
       matrixDims: Object,
       word: String,
-      desc: String
+      desc: String,
+      solutionsList: Object,
+      sourceName: String
     },
     mounted() {
     this.wordPositions.actual.forEach((item, yindex) => {
@@ -71,7 +76,6 @@
   <!-- Add "scoped" attribute to limit CSS to this component only -->
   <style scoped>
 
-
 .letterbox {
   background-color: rgb(250, 244, 192);
   height: 3rem;
@@ -80,12 +84,11 @@
   font-weight: bold;
   font-size: 2rem;
   border: black 0.15rem solid;
-  /* object-position: center; */
 }
+
 .letterbox:empty {
   background-color: white;
   /* background-color: #A7CAB1; */
-
 }
 
 #crossword {
@@ -101,6 +104,8 @@
   margin: 0 auto;
   justify-content: center;
   background-color: #A7CAB1;
+  height: 70%;
+  width: 40%;
 }
 
 

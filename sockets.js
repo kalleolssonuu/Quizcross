@@ -2,10 +2,12 @@ function sockets(io, socket, data) {
   socket.emit('init', data.getUILabels());
   
   socket.on('pageLoaded', function (lang) {
+   // console.log("pageLoaded parameter lang", lang);//
     socket.emit('init', data.getUILabels(lang));
   });
 
   socket.on('switchLanguage', function(lang) {
+    //console.log("Vilket språk från switchlanguage:", lang);//
     socket.emit('init', data.getUILabels(lang));
   });
 

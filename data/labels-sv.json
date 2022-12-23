@@ -1,14 +1,10 @@
-{
-	"sales-pitch": "Svar. Helt. Enkelt.",
-	"subHeading": "Ett enkelt enkätverktyg",
-	"invite": "Bjud in deltagare med den här länken:",
-	"createPoll": "Skapa",
-	"participatePoll": "Delta i röstning",
-	"question": "Fråga",
+{	"//StartView": "Här är StartViews översättningar",
 	"changeLanguage": "https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/800px-Flag_of_the_United_Kingdom.svg.png",
+	"createCross": "Skapa",
 	"playCross": "Spela",
 
 	
+	"//PlayView": "Här är PlayViews översättningar",
 	"userCreatedGames": "Användarskapade spel",
 	"myGamesLang": "Mina spel",
 	"selectedGameLang": "Valt spel: ",
@@ -17,6 +13,19 @@
 	"backButton": "Tillbaka",
 
 
-	"whatIsQC": "Vad är Quizcross?",
-	"pageDescriptionPlayView": "Test124"
+	"whatIsQC": "Tryck på 'Skapa' för att skapa ett nytt korsord!\nTryck på 'Spela' för att välja ett korsord att spela",
+	"pageDescriptionPlayView": "Välj bland förskapade och egenskapade korsord. Tryck sedan på 'Spela' för att lösa korsordet.\n Tryck på 'Skapa' om du vill skapa ett nytt korsord",
+	"pageDescriptionCreateView":"Fyll i ord med motsvarande beskrivning och lägg till i korsordet. Använd knapparna 'Visa nästa och 'Visa senaste' för att bestämma ordets plats i korsordet.",
+	"//PopUp": "Här är PopUps översättningar",
+
+
+
+	"//CreateCrosswordView": "Här är CreateCrosswordViews översättningar",
+	"yourWord": "Ditt ord",
+	"wordDescription": "Ordets förklaring",
+	"addWord": "Lägg till ordet i korsordet",
+	"showNext": "/img/ShowNextSv.png",
+	"showPrevious": "/img/ShowPreviousSv.png",
+	"resetCrossword": "Återställ korsordet",
+	"confirmCreate": "Bekräfta och skapa korsordet"
 }
