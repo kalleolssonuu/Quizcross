@@ -10,7 +10,8 @@
  
  <template>
     <div class="letterbox" @click="testClick">
-        {{ letter }}
+        <!-- om ärTom = true så blir bokstav = " " -->{{ letter }}
+        <!-- om ärTom = false så blir bokstav = {{ letter }} -->
     </div>
 
 
@@ -37,8 +38,8 @@
 
     },
     methods: {
-      testClick: function() {
-        if (this.sourceName == "CreateCrosswordView" && this.isFirstLetter == true) {
+      testClick: function() { /* ÄNDRA SENARE SÅ ATT ENDAST PlayView ÄR TILLÅTET SOM sourceName */
+        if ((this.sourceName == "CreateCrosswordView" || this.sourceName == "PlayView") && this.isFirstLetter == true) {
           alert("x coordinate: " + this.xkey + ", y coordinate: " + this.ykey)
         } else {
           alert("test noclick")

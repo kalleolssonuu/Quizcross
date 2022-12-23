@@ -1,35 +1,36 @@
 <template>
 <header>
   <div>
-      <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
-      <button v-on:click="togglePopup"></button>
-      </Modal>
-    </div>
+    <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
+    <button v-on:click="togglePopup"></button>
+    </Modal>
+  </div>
 </header>
 
-<div id="div1" class="inputFieldWrapper">
+  <div id="div1" class="inputFieldWrapper">
           
-          <div class="inputField"> <!-- måste emitta word så att vi kan använda -->
-            <h2>{{uiLabels.yourWord}}</h2>
-            <input type="text" id="wordInput" v-model="word" required="required" placeholder="Word sv/en">
-          </div>
-          <br>
-          <div class="inputField" style="display: inline-block">
-              <h2>{{uiLabels.wordDescription}}</h2>
-              <input type="text"  id="descInput" v-model="desc" required="required" placeholder="Word desc sv/en">
-          </div>
-          <br>
-          <button v-on:click="this.findPotentialMatches">{{uiLabels.addWord}}</button> <br>
-          <div class="sulutionsWrapper">
-          <img id="showSolutions" :src="uiLabels.showPrevious" v-on:click="this.showPreviousSolution">
-          <img id="showSolutions" :src="uiLabels.showNext" v-on:click="this.showNextSolution">
-          </div>
-          <!-- <button id="showSolutions" v-on:click="this.showPreviousSolution">{{uiLabels.showPrevious}}</button>
-          <button id="showSolutions" v-on:click="this.showNextSolution">{{uiLabels.showNext}}</button> -->
+    <div class="inputField"> <!-- måste emitta word så att vi kan använda -->
+      <h2>{{uiLabels.yourWord}}</h2>
+      <input type="text" id="wordInput" v-model="word" required="required" placeholder="Word sv/en">
+    </div>
+    <br>
 
-          <!-- JESSIE <button v-on:click="this.testEmit"> testEmit </button> -->
-        
-        </div>
+    <div class="inputField" style="display: inline-block">
+        <h2>{{uiLabels.wordDescription}}</h2>
+        <input type="text"  id="descInput" v-model="desc" required="required" placeholder="Word desc sv/en">
+    </div>
+    <br>
+    
+    <button v-on:click="this.findPotentialMatches">{{uiLabels.addWord}}</button> <br>
+    <div class="solutionsWrapper">
+      <img id="showSolutions" :src="uiLabels.showPrevious" v-on:click="this.showPreviousSolution">
+      <img id="showSolutions" :src="uiLabels.showNext" v-on:click="this.showNextSolution">
+    </div>
+    <!-- <button id="showSolutions" v-on:click="this.showPreviousSolution">{{uiLabels.showPrevious}}</button>
+    <button id="showSolutions" v-on:click="this.showNextSolution">{{uiLabels.showNext}}</button> -->
+
+    <!-- JESSIEs servertest <button v-on:click="this.testEmit"> testEmit </button> -->
+  </div>
         
 
     <div id="div2"> 
@@ -401,8 +402,12 @@
         console.log( {word: this.word,
                       nrOfMatches: this.matchesIterator} )
       },
-      sendPackage: function () {
+      confirmCreate: function () {
         /* här skickar vi vårt paket och skapar ett ID för korsordet? Math.Random()?? */
+
+        /* skickar korsordet med korsordsID till Data.js */
+        /* tar oss till LobbyView */
+        /* alltså inget returvärde */
       }
     }  
 }   
