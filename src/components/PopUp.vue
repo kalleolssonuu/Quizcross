@@ -1,7 +1,10 @@
 <template> 
    <!-- ALL KOD FÖR POPUP-WINDOW-->
-   <div>
+ 
+
+   <div class="logo">
     <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage">
+    <h3 v-if="sourceName != 'StartView'"> Quizcross</h3>
    </div>
 
    <div class="modal-vue">
@@ -53,7 +56,7 @@ export default {
 
 <style>
   
-  #help {
+   #help {
     height: 3rem;
     width: 3rem;
     background-color: #FFFDD0;
@@ -63,11 +66,11 @@ export default {
     cursor:pointer;
     border-radius: 50%;
     border-color: black;
-    position: absolute;
+     position: absolute;
     top: 0;
     right:0;
-    margin: 0.5rem;
-  }
+    margin: 0.5rem; 
+  } 
   .modal-vue .overlay {
   position: fixed;
   z-index: 9998;
@@ -108,18 +111,20 @@ export default {
 background-color: #e36f67;
 }
 #flag {
+    position: fixed;
     width: 5rem;
     height: 3.5rem;
-    border-radius: 20%;
+    border-radius: 10%;
     margin: 0.5rem;
-    margin-left:-94%;
+    margin-left:-48%;
+    cursor: pointer;
 }
 .logo {
   text-transform: uppercase;
   letter-spacing: 0.25em;
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   color: white;
-  padding-top:0.2em;
+  padding-top:0.1em;
   text-align: center;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
 }

@@ -26,7 +26,9 @@
           </div>
           <!-- <button id="showSolutions" v-on:click="this.showPreviousSolution">{{uiLabels.showPrevious}}</button>
           <button id="showSolutions" v-on:click="this.showNextSolution">{{uiLabels.showNext}}</button> -->
-        </div>
+      
+    <!-- JESSIEs servertest <button v-on:click="this.testEmit"> testEmit </button> -->
+  </div>
         
 
     <div id="div2"> 
@@ -134,7 +136,7 @@
       socket.on("dataUpdate", (data) =>
         this.data = data
       ),
-      this.fillPositionsNull();
+      this.fillPositionsNull();  // fyller matris
     },
     methods: {
       switchLanguage: function() {
@@ -314,6 +316,7 @@
       confirmNewWord: function () {
         socket.emit("updateGrid", this.tempWordObjects, this.matchesIterator) /* Hur ska vi låta användaren iterera över alla möjliga positioner? */
       },
+
       fillPositionsNull: function () {
         for (let v = 0; v < this.matrixDims.y; v++) {
             this.wordPositions.actual[v] = [];
@@ -392,6 +395,19 @@
           this.userIterator--
           this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
         }
+      },
+      testEmit: function() {
+        socket.emit("emittedCrosswordInfo", {word: this.word,
+                                             nrOfMatches: this.matchesIterator});
+        console.log( {word: this.word,
+                      nrOfMatches: this.matchesIterator} )
+      },
+      confirmCreate: function () {
+        /* här skickar vi vårt paket och skapar ett ID för korsordet? Math.Random()?? */
+
+        /* skickar korsordet med korsordsID till Data.js */
+        /* tar oss till LobbyView */
+        /* alltså inget returvärde */
       }
     }  
 }   
