@@ -1,25 +1,21 @@
 <template>
     <h3>Pre Create Lobby</h3>
-    <div>
-    <h3>X: {{ x }}</h3>
-    <button v-on:click=decreaseX type="button">
+    
+    <div id="crosswordArea">
+        <div class="plusMinusWrapper" id="PlusMinusButtons">
+    <button id="minusButtonX" v-on:click=decreaseX type="button">
     -
     </button>
-    <button v-on:click=increaseX type="button">
+    <button id="plusButtonX" v-on:click=increaseX type="button">
     +
     </button>
-    <h3>Y: {{ y }}</h3>
-    <button v-on:click=decreaseY type="button">
+    <button id="minusButtonY" v-on:click=decreaseY type="button">
     -
     </button>
-    <button v-on:click=increaseY type="button">
+    <button id="plusButtonY" v-on:click=increaseY type="button">
     +
     </button>
     </div>
-    
-
-
-    <div id="crosswordArea">
     <Crossword  v-bind:sourceName="sourceName"
                     v-bind:wordObjects="this.wordObjects" 
                     v-bind:tempWordObjects="this.tempWordObjects"
@@ -28,11 +24,22 @@
                     v-bind:word="this.word"
                     v-bind:desc="this.desc">
         </Crossword>
+        
     </div>
-    <button v-on:click=submitsDim>
+    <div class="nameWrapper" id="nameAndCreate">
+        <h2>Game name:</h2>
+        <br>
+    <form id="gameNameAndSize">
+        <div id="section1">
+            <form id="myForm">
+  <input type="text" id="gameName" name="gameName">
+</form>
+  </div>
+    </form>
+    <button v-on:click=submitsDim id="confirmAndCreate">
     Confirm and create
     </button>
-
+    </div>
     </template>
     
     <script>
@@ -58,6 +65,7 @@
     methods: {
         submitsDim() {
         console.log("x: " + this.x + ", y: " + this.y);
+        console.log(this.matrixDims)
         },
 
         storeValues() {
@@ -90,7 +98,6 @@
         },
 
 
-
         fillPositionsNull: function () { //tar x och y som inparametrar med input
             this.wordPositions.actual = []
         for (let v = 0; v < this.matrixDims.y; v++) {
@@ -117,10 +124,46 @@
     <style>
     
     #crosswordArea {
-        margin-left: 20%;
-        margin-right: 20%;
         justify-content: center;
+        float: left;
+        width: 70%;
+        margin-top: 2%;
     }
+
+    #nameAndCreate {
+    float: left;
+    width: 25%;
+    justify-content: center;
+    margin-top: 10%;
+    }
+
+    #confirmAndCreate {
+        width: 10rem;
+        height: 5rem;
+        font-family: "Comic Sans MS", "Comic Sans", cursive;
+    }
+    #gameName {
+        width: 18rem;
+        height: 4.6rem;
+        font-family: "Comic Sans MS", "Comic Sans", cursive;
+        font-size: 25px;
+    }
+
+    .nameWrapper{
+    display: flex;
+    justify-content: center;
+  }
+
+  .XYWrapper{
+    display: flex;
+    justify-content: center;
+  }
+
+  .plusMinusWrapper{
+    display: flex;
+    justify-content: center;
+    margin: 1rem;
+  }
 
     #x {
         width: 3rem;
@@ -137,6 +180,19 @@
         font-size: 30px;
         text-align: center;
     }
+
+    #minusButtonX, #plusButtonX, #minusButtonY, #plusButtonY{
+        height: 2rem;
+        width: 2rem;
+    }
+    
+    #plusButtonX {
+        margin-right: 1rem;
+    }
+    #minusButtonY {
+        margin-left: 1rem;
+    }
+
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
     -webkit-appearance: none;
