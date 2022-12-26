@@ -1,15 +1,21 @@
 <template>
     <h3>Pre Create Lobby</h3>
-    <div>
-    <label for="x">X:</label>
-    <input type="number" v-model.number="x" id="x">
-    <br>
-    <label for="y">Y:</label>
-    <input type="number" v-model.number="y" id="y">
-    <br>
-    <button @click="storeValues">Submit</button>
-    </div>
+    
     <div id="crosswordArea">
+        <div class="plusMinusWrapper" id="PlusMinusButtons">
+    <button id="minusButtonX" v-on:click=decreaseX type="button">
+    -
+    </button>
+    <button id="plusButtonX" v-on:click=increaseX type="button">
+    +
+    </button>
+    <button id="minusButtonY" v-on:click=decreaseY type="button">
+    -
+    </button>
+    <button id="plusButtonY" v-on:click=increaseY type="button">
+    +
+    </button>
+    </div>
     <Crossword  v-bind:sourceName="sourceName"
                     v-bind:wordObjects="this.wordObjects" 
                     v-bind:tempWordObjects="this.tempWordObjects"
@@ -18,6 +24,21 @@
                     v-bind:word="this.word"
                     v-bind:desc="this.desc">
         </Crossword>
+        
+    </div>
+    <div class="nameWrapper" id="nameAndCreate">
+        <h2>Game name:</h2>
+        <br>
+    <form id="gameNameAndSize">
+        <div id="section1">
+            <form id="myForm">
+  <input type="text" id="gameName" name="gameName">
+</form>
+  </div>
+    </form>
+    <button v-on:click=submitsDim id="confirmAndCreate">
+    Confirm and create
+    </button>
     </div>
     </template>
     
@@ -30,10 +51,10 @@
     },
     data: function () {
     return {
-    matrixDims: {x: 13, y: 10},
+    matrixDims: {x: 8, y: 8},
     wordPositions: {actual: [], temp: []},
-    x: 5,
-    y: 5
+    x: 8,
+    y: 8
 
     }
 },
@@ -42,12 +63,41 @@
     },
 
     methods: {
-        storeValues() {
+        submitsDim() {
         console.log("x: " + this.x + ", y: " + this.y);
+        console.log(this.matrixDims)
+        },
+
+        storeValues() {
         this.matrixDims.x = this.x
         this.matrixDims.y = this.y
         this.fillPositionsNull()
         },
+
+        increaseX: function() {
+            this.x += 1
+            this.storeValues()
+        },
+
+        decreaseX: function() {
+            if(this.x >= 1){
+                this.x -= 1
+                this.storeValues()
+            }
+        },
+        increaseY: function() {
+            this.y += 1
+            this.storeValues()
+        },
+
+        decreaseY: function() {
+            if(this.y >= 1){
+                this.y -= 1
+                this.storeValues()
+            }
+        },
+
+
         fillPositionsNull: function () { //tar x och y som inparametrar med input
             this.wordPositions.actual = []
         for (let v = 0; v < this.matrixDims.y; v++) {
@@ -74,51 +124,80 @@
     <style>
     
     #crosswordArea {
-        margin-bottom: 20%;
-        margin-left: 20%;
-        margin-right: 20%;
         justify-content: center;
+        float: left;
+        width: 70%;
+        margin-top: 2%;
     }
 
+    #nameAndCreate {
+    float: left;
+    width: 25%;
+    justify-content: center;
+    margin-top: 10%;
+    }
+
+    #confirmAndCreate {
+        width: 10rem;
+        height: 5rem;
+        font-family: "Comic Sans MS", "Comic Sans", cursive;
+    }
+    #gameName {
+        width: 18rem;
+        height: 4.6rem;
+        font-family: "Comic Sans MS", "Comic Sans", cursive;
+        font-size: 25px;
+    }
+
+    .nameWrapper{
+    display: flex;
+    justify-content: center;
+  }
+
+  .XYWrapper{
+    display: flex;
+    justify-content: center;
+  }
+
+  .plusMinusWrapper{
+    display: flex;
+    justify-content: center;
+    margin: 1rem;
+  }
+
     #x {
-        width: 4rem;
+        width: 3rem;
         height: 3rem;
+        font-family: "Comic Sans MS", "Comic Sans", cursive;
+        font-size: 30px;
+        text-align: center;
     }
 
     #y {
-        width: 4rem;
+        width: 3rem;
         height: 3rem;
+        font-family: "Comic Sans MS", "Comic Sans", cursive;
+        font-size: 30px;
+        text-align: center;
     }
 
-    input {
-	color: rgb(0, 0, 0);
-	width: 2em;
-	font-size: 2em;
-	border-radius: 2px;
-	border: 2px solid rgb(0, 0, 0);
-	padding: 5px;
-	padding-left: 10px;
-	}
-	input[type=number]::-webkit-inner-spin-button {
-	cursor: pointer;
-	display: block;
-	width: 15px;
-	text-align: center;
-	position: relative;
-	}
-	input[type=number]::-webkit-inner-spin-button::before,
-	input[type=number]::-webkit-inner-spin-button::after {
-	content: "";
-	position: absolute;
-	right: 0;
-	width: 0;
-	height: 0;
-	}
-	input[type=number]::-webkit-inner-spin-button::before {
-	top: 7px;
-	}
-	input[type=number]::-webkit-inner-spin-button::after {
-	bottom: 7px;
-	transform: rotate(180deg);
-	}
+    #minusButtonX, #plusButtonX, #minusButtonY, #plusButtonY{
+        height: 2rem;
+        width: 2rem;
+    }
+    
+    #plusButtonX {
+        margin-right: 1rem;
+    }
+    #minusButtonY {
+        margin-left: 1rem;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+   
     </style>

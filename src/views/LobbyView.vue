@@ -37,6 +37,7 @@
       <button id="create" @click="$router.push('/create/en')">{{'Create'}}</button>
     </div>
   </div>
+
   <div>
     <text id="crossText">{{uiLabels.crossID}}</text> 
     <input type="number" id="selectedid" placeholder="ex. 1234..">
@@ -46,6 +47,15 @@
       {{uiLabels.playPlay}}
     </button>
   </div>
+
+  <div>
+    {{"servertest:"}}
+    <ul v-if="this.crosswordInfo" >
+      {{this.crosswordInfo}}      
+
+    </ul>
+  </div>
+
   <button id="homepagebutton" @click="$router.push('/'+lang)">{{uiLabels.backButton}}</button>
 </template>
 
@@ -74,11 +84,20 @@ export default{
     socket.on("init", (labels) => {
       this.uiLabels = labels
     });
+
+    socket.on('currentCrosswordInfo', data => { // tar emot korsordsinfo från server
+        this.crosswordInfo = data}); 
+        //this.$set(this.crosswordInfo,'currentCrosswordInfo', data)
+    //});
+
   },
   
 
-  data: function(){
+  data: function() {
     return{
+      crosswordInfo: null,
+      games: gameInfo,
+      
       premadeGames: gameInfo,
       /* myGames: myGameInfo, */
       selectedGame: {},
