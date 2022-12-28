@@ -81,7 +81,6 @@ export default {
         this.data = data
       ),
       this.fillPremadeCrossword();
-      this.fillDescriptions();
 
       socket.on('currentCrosswordPackages', data => { // tar emot korsordsinfo från server, ursprung confirmCreate
         this.crosswordPackages = data}); 
@@ -126,15 +125,7 @@ export default {
             this.wordPositions.actual[2][5].letter = "n"; this.wordPositions.actual[2][5].inHorizontal = true
 
         },
-        fillDescriptions: function () {
-          console.log("ordets beskrivning")
-          for (let i=0; i=this.crosswordPack.WordKeypairs.length; i++){
-            
-            console.log(this.crosswordPack.WordKeypairs.beskrivning)
-          }
 
-
-        },
     }
 }
 
