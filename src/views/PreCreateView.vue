@@ -21,22 +21,26 @@
 
     <div id="crosswordArea">
     <Crossword  v-bind:sourceName="sourceName"
-                    v-bind:wordObjects="this.wordObjects" 
-                    v-bind:tempWordObjects="this.tempWordObjects"
                     v-bind:wordPositions="this.wordPositions"
                     v-bind:matrixDims="this.matrixDims"
                     v-bind:word="this.word"
                     v-bind:desc="this.desc">
-        </Crossword>
+    </Crossword>
     </div>
-    <button v-on:click=submitsDim>
+    <button v-on:click="this.submitDims()"> <!-- , $router.push('/kalletest/'+lang) -->
     Confirm and create
     </button>
+<!--     <button v-on:click="testSocketSend()">
+        test socket send
+    </button> -->
 
     </template>
     
     <script>
     import Crossword from '../components/Crossword.vue'
+    import io from 'socket.io-client';
+    const socket = io();
+
 
     export default {
     components: {
@@ -56,8 +60,14 @@
     },
 
     methods: {
-        submitsDim() {
-        console.log("x: " + this.x + ", y: " + this.y);
+        submitDims() {
+            this.storeValues()
+            console.log("x: " + this.x + ", y: " + this.y);
+            socket.emit("matrixDimsTransfer", {matrixDims: this.matrixDims})
+        },
+
+        testSocketSend() {
+            socket.emit("testMessage")
         },
 
         storeValues() {
@@ -97,11 +107,11 @@
             this.wordPositions.actual[v] = [];
             /* wordPositions = [[null, null, null, null]] */
             for (let h = 0; h < this.matrixDims.x; h++) {
-            this.wordPositions.actual[v][h] = {letter: null, 
-                                               inHorizontal: false,
-                                               inVertical: false,
-                                               isFirstLetter: false, 
-                                               wordInOrder: this.wordInOrder} /* if (wordInOrder != 0) { lägg till siffra i hörnet } */
+                this.wordPositions.actual[v][h] =  {letter: null, 
+                                                    inHorizontal: false,
+                                                    inVertical: false,
+                                                    isFirstLetter: false, 
+                                                    wordInOrder: this.wordInOrder} /* if (wordInOrder != 0) { lägg till siffra i hörnet } */
             }
         }
 

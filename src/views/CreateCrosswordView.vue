@@ -31,14 +31,11 @@
   </div>
         
 
-    <div id="div2"> 
+    <div id="div2">                               <!-- ska knapparna ha funktionalitet? om sourceName == PlayView: JA
+                                                       dvs. knapparna är klickbara om vi kommer från PlayView -->
         <Crossword  v-bind:sourceName="sourceName"
-                    v-bind:wordObjects="this.wordObjects" 
-                    v-bind:tempWordObjects="this.tempWordObjects"
                     v-bind:wordPositions="this.wordPositions"
-                    v-bind:matrixDims="this.matrixDims"
-                    v-bind:word="this.word"
-                    v-bind:desc="this.desc">
+                    v-bind:matrixDims="this.matrixDims">
         </Crossword>
     </div>
 
@@ -46,7 +43,7 @@
         <div id="div3">
         <!--<button v-on:click="this.emptyTextFields"> Empty Input </button> ---><!-- gör detta när användaren har valt ett ord istället för en knapp. Det rensar även textfältet -->
         <button v-on:click="this.fillPositionsNull">{{uiLabels.resetCrossword}}</button> <br>
-        <button>{{uiLabels.confirmCreate}}</button>
+        <button id="play" @click="$router.push('/kalletest/'+lang)">{{uiLabels.confirmCreate}}</button>
         </div>
         <br>
 
@@ -63,7 +60,7 @@
 /* LOGG:
 
   2022-12-15
-  * Spara ord- och beskrivningspar så att vi kan skicka med det. Alternativt skicka ett stort 'paket' som innehållar all information om korsordet.
+  * Spara ord- och beskrivningspar så att vi kan skicka med det. Alternativt skicka ett stort 'paket' som innehåller all information om korsordet.
   * Börja med att kolla alla positioner där ordet har en gemensam bokstav med wordPositions.actual. Därefter byt plats på den matchningen och
     en som ligger på en före-detta-null-plats. Ny iterator this.swapIterator. Visualisera: typ som hur pivotelementet rör sig i QuickSort.
   * PlayView: vi borde kunna ha komponenter som element i vårt table. Har kollat med OpenAI! Dvs. vi kan har egenskaper såsom
@@ -131,25 +128,25 @@
     created: function () {
       socket.emit('pageLoaded')
       socket.on("init", (labels) => {
-      this.uiLabels = labels
-    })
+        this.uiLabels = labels
+      })
       socket.on("dataUpdate", (data) =>
         this.data = data
-      ),
-      this.fillPositionsNull();  // fyller matris
+      )
+      this.fillPositionsNull()  // fyller matris
     },
     methods: {
       switchLanguage: function() {
-      if (this.lang === "en")
-        this.lang = "sv"
-      else
-        this.lang = "en"
-      socket.emit("switchLanguage", this.lang)
-    },
+        if (this.lang === "en")
+          this.lang = "sv"
+        else
+          this.lang = "en"
+        socket.emit("switchLanguage", this.lang)
+      },
     /* FÖR ATT FÅ FRAM POP-UP RUTA*/
-    togglePopup: function () {
-      this.showModal = ! this.showModal;
-    },
+      togglePopup: function () {
+        this.showModal = ! this.showModal;
+      },
       findPotentialMatches: function () {
         if (this.word != "") {
           this.matchesIterator = 0;
@@ -309,6 +306,12 @@
             }
         }
         return pos;
+      },
+      testSocketSend: function () {
+        socket.on("matrixDimsTransfer", data => {
+          this.matrixDims = data.matrixDims
+          console.log("matrixDimsTransfer has been found")
+        })
       },
       alertNoMatches: function () {
         alert("no matches! Try another word.")
