@@ -11,10 +11,13 @@
 
 <div id="div2"> 
         <Crossword  v-bind:sourceName="sourceName"
-                    v-bind:wordPositions="this.wordPositions"
+                    v-bind:wordPositions="this.wordPositions" 
                     v-bind:matrixDims="this.matrixDims"
                     v-bind:word="this.word"
-                    v-bind:desc="this.desc">
+                    v-bind:desc="this.desc"> 
+                    
+                    <!-- v-bind:wordPositions="this.allCrosswords.ID.wordPositions", där "this." har tagits från data -->
+                    <!-- v-bind:matrixDims="this.allCrosswords.ID.matrixDims" -->
         </Crossword>
     </div>
 
