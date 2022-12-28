@@ -1,8 +1,10 @@
 <template> 
    <!-- ALL KOD FÖR POPUP-WINDOW-->
-   <div>
+   <div class="header">
     <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage">
+    <span class="logo" v-if="sourceName != 'StartView'"> QUIZCROSS</span>
    </div>
+
    <div class="modal-vue">
       <button id="help" :src="uiLabels.changeLanguage" @click="showModal=true">
         ?
@@ -51,7 +53,7 @@ export default {
 
 <style>
   
-  #help {
+   #help {
     height: 3rem;
     width: 3rem;
     background-color: #FFFDD0;
@@ -64,8 +66,8 @@ export default {
     position: absolute;
     top: 0;
     right:0;
-    margin: 0.5rem;
-  }
+    margin: 0.5rem; 
+  } 
   .modal-vue .overlay {
   position: fixed;
   z-index: 9998;
@@ -99,24 +101,29 @@ export default {
   background-color: #FE5F55;
   border-radius: 5px;
   cursor:pointer;
+  height: 1.8rem;
+  width: 1.8rem;
 }
 .modal-vue .close:hover{
 background-color: #e36f67;
 }
 #flag {
+    position: absolute;
     width: 5rem;
     height: 3.5rem;
-    border-radius: 20%;
+    border-radius: 10%;
     margin: 0.5rem;
-    margin-left:-94%;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left:0;
 }
 .logo {
-  text-transform: uppercase;
-  letter-spacing: 0.25em;
-  font-size: 2.5rem;
+  /*letter-spacing: 0.25em;*/
+  font-size: 1.5rem;
   color: white;
-  padding-top:0.2em;
-  text-align: center;
+  padding-top:0.1em;
+  /*text-align: center;*/
   font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
 </style>

@@ -1,9 +1,8 @@
 <template>
   <header>
-  <div>
-    <Modal v-bind:uiLabels="uiLabels"  v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" > <!-- v-bind:lang="lang", detta låg till vänster men fuckar URLen-->
+    <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
     <button v-on:click="togglePopup"></button>
-    </Modal></div>
+    </Modal>
 </header>
 
   <div class="gameWrapper">
@@ -11,7 +10,7 @@
       {{uiLabels.userCreatedGames}}
         <div id="gameList">
           <div class="scroll">
-          <Game v-for="game in games"
+          <Game v-for="game in premadeGames"
             v-bind:game="game" 
             v-bind:key="game.name"
             v-on:selectedGame="selectGame($event)"/> 
@@ -28,7 +27,7 @@
     <div id="myGames">
         {{uiLabels.myGamesLang}}
       <div class="scroll">
-        <Game v-for="game in games"
+        <Game v-for="game in premadeGames"
             v-bind:game="game" 
             v-bind:key="game.name"
             v-on:selectedGame="selectGame($event)"/> 
@@ -38,6 +37,7 @@
       <button id="create" @click="$router.push('/create/en')">{{'Create'}}</button>
     </div>
   </div>
+
   <div>
     <text id="crossText">{{uiLabels.crossID}}</text> 
     <input type="number" id="selectedid" placeholder="ex. 1234..">
@@ -47,6 +47,28 @@
       {{uiLabels.playPlay}}
     </button>
   </div>
+
+  <div>
+    {{"servertest av testEmit:"}}
+    <ul v-if="this.crosswordInfo" >
+      {{this.crosswordInfo}}      
+
+    </ul>
+  </div>
+
+  <div>
+    <!-- JESSIE: FIXA SÅ:
+          - LOBBY, VID VAL AV KORSNAMN, SKICKAR KORSNAMN OCH ID TILL SERVER
+          - SERVER KOLLAR VILKET PAKET SOM MATCHAR, ANTINGEN NAMN ELLER IDMATCH?
+          - SKICKAR MOTSVARANDE PAKET TILL ACTUALPLAY  -->
+    {{"servertest av confirmCreate:"}}
+    <ul v-if="this.crosswordPackageInfo" >
+      {{this.crosswordPackageInfo}}      
+
+    </ul>
+  </div>
+
+
   <button id="homepagebutton" @click="$router.push('/'+lang)">{{uiLabels.backButton}}</button>
 </template>
 
@@ -64,21 +86,38 @@ export default{
     Modal
   },
   props: {
-  modal: Object,
+  modal: Object
 },
 
   created: 
   function () {
+    //this.lang = this.$route.params.lang
+    //socket.emit('pageLoaded', this.lang)
     socket.emit('pageLoaded')
     socket.on("init", (labels) => {
       this.uiLabels = labels
     });
+
+    socket.on('currentCrosswordInfo', data => { // tar emot korsordsinfo från server, ursprunglien från testEmit
+        this.crosswordInfo = data}); 
+        //this.$set(this.crosswordInfo,'currentCrosswordInfo', data)
+    //});
+
+    socket.on('currentPackageInfoForLobby', data => { // tar emot korsordsinfo från server, ursprung confirmCreate
+        this.crosswordPackageInfo = data}); 
+
   },
   
 
-  data: function(){
+  data: function() {
     return{
-      games: gameInfo,
+     // crosswordInfo: null,
+
+      crosswordPackageInfo: null,
+
+      games: gameInfo,      
+      premadeGames: gameInfo,
+      /* myGames: myGameInfo, */
       selectedGame: {},
       uiLabels: {},
       id: "",
@@ -93,6 +132,11 @@ export default{
     document.getElementById("selectedname").value=games.name
     document.getElementById("selectedid").value=games.id
   },
+  /* listenAddGame: function(games) {
+    socket.on("receiveGameFromCreateView") {
+      games.push()
+    }
+  }, */
 
   switchLanguage: function() {
     if (this.lang === "en")
@@ -100,7 +144,6 @@ export default{
     else
       this.lang = "en"
     socket.emit("switchLanguage", this.lang)
-    //this.$router.push(this.lang)
     },
 /* FÖR ATT FÅ FRAM POP-UP RUTA*/
 togglePopup: function () {
@@ -108,6 +151,7 @@ togglePopup: function () {
   }
 }
 }
+
 </script>
 
 <style>
@@ -129,7 +173,7 @@ header {
   height: 33%;
 }
 
-#help {
+/* #help {
   height: 3rem;
   width: 3rem;
   background-color: #EEF5DB;
@@ -144,7 +188,7 @@ header {
   right:0;
   margin: 0.5rem;
 
-}
+} */
 
 .logo {
   text-transform: uppercase;

@@ -14,10 +14,17 @@ const routes = [
   },
 
     {
-    path: '/poll/:id',
-    name: 'PollView',
-    component: () => import(/* webpackChunkName: "about" */ '../views/PollView.vue')
+    path: '/PreCreate/:lang',
+    name: 'PreCreateView',
+    component: () => import(/* webpackChunkName: "about" */ '../views/PreCreateView.vue')
   },
+
+  {
+    path: '/ActualPlay/:lang',
+    name: 'ActualPlayView',
+    component: () => import(/* webpackChunkName: "about" */ '../views/ActualPlayView.vue')
+  },
+
   {
     path: '/create/:lang',
     name: 'CreateView',
@@ -27,12 +34,12 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/CreateView.vue')
   },
   {
-    path: '/play/:lang',
-    name: 'PlayView',
+    path: '/lobby/:lang',
+    name: 'LobbyView',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/PlayView.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/LobbyView.vue')
   },
   {
   path: '/kalletest/:lang',

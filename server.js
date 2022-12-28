@@ -46,10 +46,18 @@ const io = require('socket.io')(http, {cookie: false});
 const Data = require("./Data.js");
 const sockets = require("./sockets.js");
 
+
 let data = new Data();
 
 io.on('connection', function (socket) {
   sockets(this, socket, data);
+  
+  // I labben var det här alla funktioner fanns. Alltså ex funktioner som lyssnade
+  // på meddelanden från (och skickade medellanden till) clients.
+  // nu finns alla i "sockets.js"
+
+  
+
 });
 
 const PORT = process.env.PORT || 8080;

@@ -49,8 +49,37 @@ function sockets(io, socket, data) {
   socket.on('resetAll', () => {
     data = new Data();
     data.initializeData();
-  })
+  });
+
+
+  // Funktioner för testEmit:
+  socket.on('emittedCrosswordInfo', function(info) {  // lyssnar efter medellanden från clients som heter emittedCrosswordInfo
+    data.storeInfo(info);  // lägger till mottagna infon i egna datan (nödvändigt???? känns som ett steg för mycket)
+
+    io.emit('currentCrosswordInfo', data.getAllCrosswordInfo() ) // "send updated info to all connected clients, note the use of io instead of socket" Fattar dock inte hur detta kan skickas till clients? tnkte att det inte hände förrän nästa steg
+                                    // OBS: I burgare:  io.emit('currentQueue', { orders: data.getAllOrders() }); , 
+                                    // men var väl det som gjorde att det blev dubbla keys  "orders"????
+
+  });
+
+  socket.emit('currentCrosswordInfo', data.getAllCrosswordInfo() ); // Send Info when a client connects
  
+
+
+  // Funktioner för ConfirmCreate:
+  socket.on('emittedCrosswordPackage', function(pack) {
+    data.addPackage(pack); // lägger till paket i this.crosswordPackages med ID som key
+    console.log("i socket.on");
+
+    io.emit('currentCrosswordPackages', data.getAllCrosswordPackages() );      //"send updated info to all connected clients"
+    io.emit('currentPackageInfoForLobby', data.getAllPackageInfoForLobby() );  // Tror alltså den skickar info till ALLA clients som REDAN ÄR CONNECTADE
+                                                                               // dvs REDAN LYSSNAR PÅ AKTUELLA MEDDELLANDET
+  });
+
+  // OBS: I SKELETTKOD ÄR ALLA SOCKET.EMIT INOM BRACKETS I SOCKET.ON ME SAMMA MEDDELLANDE, MEN EJ I BURGER
+  socket.emit('currentCrosswordPackages', data.getAllCrosswordPackages() );    // skickar aktuella info when a client connects, dvs till playview och lobbyview   
+  socket.emit('currentPackageInfoForLobby', data.getAllPackageInfoForLobby() ); 
+
 }
 
 module.exports = sockets;
