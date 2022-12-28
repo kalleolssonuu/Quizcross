@@ -3,27 +3,26 @@
     
     <div id="crosswordArea">
         <div class="plusMinusWrapper" id="PlusMinusButtons">
-    <button id="minusButtonX" v-on:click=decreaseX type="button">
-    -
-    </button>
-    <button id="plusButtonX" v-on:click=increaseX type="button">
-    +
-    </button>
-    <button id="minusButtonY" v-on:click=decreaseY type="button">
-    -
-    </button>
-    <button id="plusButtonY" v-on:click=increaseY type="button">
-    +
-    </button>
-    </div>
+            <button id="minusButtonX" v-on:click=decreaseX type="button">
+            -
+            </button>
+            <button id="plusButtonX" v-on:click=increaseX type="button">
+            +
+            </button>
+            <button id="minusButtonY" v-on:click=decreaseY type="button">
+            -
+            </button>
+            <button id="plusButtonY" v-on:click=increaseY type="button">
+            +
+            </button>
+        </div>
     <Crossword  v-bind:sourceName="sourceName"
                     v-bind:wordPositions="this.wordPositions"
                     v-bind:matrixDims="this.matrixDims"
                     v-bind:word="this.word"
                     v-bind:desc="this.desc">
-        </Crossword>
-        
     </Crossword>
+    
     </div>
     <div class="nameWrapper" id="nameAndCreate">
         <h2>Game name:</h2>
@@ -35,7 +34,7 @@
 </form>
   </div>
     </form>
-    <button v-on:click="this.submitDims()"> <!-- , $router.push('/kalletest/'+lang) -- id="confirmAndCreate">
+    <button v-on:click="this.submitDims()"> <!-- , $router.push('/kalletest/'+lang) -- id="confirmAndCreate"> -->
     Confirm and create
     </button>
     </div>
@@ -43,8 +42,8 @@
     
     <script>
     import Crossword from '../components/Crossword.vue'
-    import io from 'socket.io-client';
-    const socket = io();
+/*     import io from 'socket.io-client';
+    const socket = io(); */
 
 
     export default {
