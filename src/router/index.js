@@ -5,7 +5,12 @@ const routes = [
   {
     path: '/:lang',
     name: 'Start',
-    component: StartView
+    component: StartView,
+  },
+  {
+    path: '/',
+    name: 'StartNoLang', //alternative default URL to load startView
+    component: StartView,
   },
 
     {

@@ -1,7 +1,7 @@
 <template>
   <header>
     <div>
-      <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
+      <Modal v-bind:uiLabels="uiLabels" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" > <!-- v-bind:lang="lang", detta låg till vänster men fuckar URLen-->
       <button v-on:click="togglePopup"></button>
       </Modal>
     </div>
@@ -10,10 +10,6 @@
     <div class="logo"><img src="/img/Logotyp.png"></div>
   </div>
   <div class="wrapper">
-<<<<<<< HEAD
-    <button id="create" @click="$router.push('/create/'+lang)">{{uiLabels.createCross}}</button>
-=======
->>>>>>> 8a31c0ac5556ebe8ebe071c271ab9339a9ee3540
     <button id="play" @click="$router.push('/play/'+lang)">{{uiLabels.playCross}}</button>
     <button id="play" @click="$router.push('/kalletest/'+lang)">{{'Göra korsord test'}}</button>
   </div>
@@ -43,6 +39,9 @@ export default {
   components: {
     Modal
   },
+  props: {
+  modal: Object,
+  },
   data: function () {
     return {
       uiLabels: {},
@@ -57,7 +56,9 @@ export default {
     socket.emit('pageLoaded')
     socket.on("init", (labels) => {
       this.uiLabels = labels
+      
     });
+    //router.push('/en')
     console.log("created har anropats")
   },
   methods: {
@@ -67,6 +68,7 @@ export default {
       else
         this.lang = "en"
       socket.emit("switchLanguage", this.lang)
+     // this.$router.push(this.lang)
     },
     /* FÖR ATT FÅ FRAM POP-UP RUTA*/
     togglePopup: function () {

@@ -14,7 +14,6 @@
           <h3 v-if="sourceName == 'StartView'"> {{uiLabels.whatIsQC}}</h3>
           <h3 v-if="sourceName =='PlayView'"> {{uiLabels.pageDescriptionPlayView}}</h3>
           <h3 v-if="sourceName =='CreateCrosswordView'"> {{uiLabels.pageDescriptionCreateView}}</h3>
-        <p>{{uiLabels.kopplingTillJSON}}</p>
         <button class="close" @click="showModal = false">x</button>
       </div>
     </div>
@@ -35,7 +34,7 @@ export default {
   data: function () {
     return {
       id: "",
-      showModal: false
+      showModal: false,
     }
   },
   methods:{
@@ -44,7 +43,7 @@ export default {
     },
     switchLanguage: function() {
       this.$emit("switchLanguage")
-      //this.$router.push(this.lang)// //visa språk i URL?//
+       //byter språk i URL men det är motsatt språk på hemsidan jämfört med URL-adressen)
   }     
 }
 }
