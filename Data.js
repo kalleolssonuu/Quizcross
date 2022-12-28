@@ -8,6 +8,8 @@ function Data() {
   this.crosses = {};
 
   this.crosswordInfo = {};
+  
+  this.crosswordPackages= {};
 }
 
 /***********************************************
@@ -102,8 +104,7 @@ Data.prototype.getAnswers = function(pollId) {
   return {}
 }
 
-// Funktioner för korsordsifo:
-
+// Funktioner för korsordsifo
 Data.prototype.storeInfo = function (info) {
   this.crosswordInfo = info;  
   
@@ -115,7 +116,33 @@ Data.prototype.storeInfo = function (info) {
 
 Data.prototype.getAllCrosswordInfo = function () {
   return this.crosswordInfo;
+};
+
+
+// Funktioner för packages:
+Data.prototype.addPackage = function(pack) {
+      //lagrar varje mottaget paket i en array med ID som key
+      //  - skapa ID kopplat till IP i annan  funk???
+  
+  let ID = Math.floor(Math.random() * 9000) + 1000;
+
+  this.crosswordPackages[ID] = pack; 
+
+  console.log("i data.addPackage")
+};
+
+Data.prototype.getAllCrosswordPackages = function () { // returnerar info för actualplayview
+  console.log("i data.getAlllCrosswordPackages")
+  return this.crosswordPackages;
+  };
+
+Data.prototype.getAllPackageInfoForLobby = function () { // returerar info för lobbyview
+    // NÅNSTANS MÅSTE GAMENAME SKRIVAS IN!! NU BARA ID
+  console.log("i data.getAllPackageInfoForLobby")
+  return Object.keys(this.crosswordPackages)
+
 }
+
 
 module.exports = Data;
 

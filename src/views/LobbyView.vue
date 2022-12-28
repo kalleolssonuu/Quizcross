@@ -49,12 +49,25 @@
   </div>
 
   <div>
-    {{"servertest:"}}
+    {{"servertest av testEmit:"}}
     <ul v-if="this.crosswordInfo" >
       {{this.crosswordInfo}}      
 
     </ul>
   </div>
+
+  <div>
+    <!-- JESSIE: FIXA SÅ:
+          - LOBBY, VID VAL AV KORSNAMN, SKICKAR KORSNAMN OCH ID TILL SERVER
+          - SERVER KOLLAR VILKET PAKET SOM MATCHAR, ANTINGEN NAMN ELLER IDMATCH?
+          - SKICKAR MOTSVARANDE PAKET TILL ACTUALPLAY  -->
+    {{"servertest av confirmCreate:"}}
+    <ul v-if="this.crosswordPackageInfo" >
+      {{this.crosswordPackageInfo}}      
+
+    </ul>
+  </div>
+
 
   <button id="homepagebutton" @click="$router.push('/'+lang)">{{uiLabels.backButton}}</button>
 </template>
@@ -85,19 +98,24 @@ export default{
       this.uiLabels = labels
     });
 
-    socket.on('currentCrosswordInfo', data => { // tar emot korsordsinfo från server
+    socket.on('currentCrosswordInfo', data => { // tar emot korsordsinfo från server, ursprunglien från testEmit
         this.crosswordInfo = data}); 
         //this.$set(this.crosswordInfo,'currentCrosswordInfo', data)
     //});
+
+    socket.on('currentPackageInfoForLobby', data => { // tar emot korsordsinfo från server, ursprung confirmCreate
+        this.crosswordPackageInfo = data}); 
 
   },
   
 
   data: function() {
     return{
-      crosswordInfo: null,
-      games: gameInfo,
-      
+     // crosswordInfo: null,
+
+      crosswordPackageInfo: null,
+
+      games: gameInfo,      
       premadeGames: gameInfo,
       /* myGames: myGameInfo, */
       selectedGame: {},
