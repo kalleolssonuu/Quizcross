@@ -9,15 +9,29 @@
     </div>
 </header>
 
-<div id="div2"> 
+  <div id="div2"> 
         <Crossword  v-bind:sourceName="sourceName"
                     v-bind:wordPositions="this.wordPositions"
                     v-bind:matrixDims="this.matrixDims"
-                    v-bind:word="this.word"
+                    v-bind:word="this.word"    
                     v-bind:desc="this.desc">
-        </Crossword>
-    </div>
+        </Crossword> <!-- hur få ut rätt word och desc? Typ for-loop "for crosswordpackages.word, gör det ovan"  -->
+  </div>
 
+  <!-- JESSIE: FIXA SÅ SKICKAR ETT PAKET INTE ALLA, SE ANTECK I LOBBY -->
+  <div> 
+    {{"servertest av confirmCreate:"}}
+
+    <ul v-if="this.crosswordPackages" >
+      {{Object.keys(this.crosswordPackages)}}
+
+      <!-- <li v-for="(item,key) in crossworPackages">
+        {{ this.crosswordPackages[ID].package.wordDescPairs }}
+      </li> -->
+    </ul>
+    
+  </div>
+  
 </template>
 
 <script>
@@ -40,19 +54,22 @@ export default {
         matrixDims: {x: 13, y: 10},
         /* wordPositions: [], */
         wordPositions: {actual: [], temp: []},
-        crosswordPack: {}, /* { crossword: this.wordPositions.actual, wordKeypairs: [{ord: "clown", beskrivning: "pajas", riktning: horisontellt}, 
-                                                                                    { ... }, { ... }],
-                                ID: -- någonting med IP-adress -- }
+        // crosswordPack: {}, /* { crossword: this.wordPositions.actual, wordKeypairs: [{ord: "clown", beskrivning: "pajas", riktning: horisontellt}, 
+        //                                                                             { ... }, { ... }],
+        //                         ID: -- någonting med IP-adress -- }
 
-                            */
+        //                     */
         showModal: false,
         uiLabels: {},
-        id: "",
+        // id: "",
         lang: "en",
-        sourceName: "PlayView"
+        sourceName: "PlayView",
+
+        crosswordPackages: null, // OBS SKICKAR JU NU ALLA PAKET DET ÄR FEL, VILL SKICKA ETT
       }
     },
-    created: function () {
+    created: 
+    function () {
       socket.emit('pageLoaded')
       socket.on("init", (labels) => {
       this.uiLabels = labels
@@ -61,7 +78,11 @@ export default {
         this.data = data
       ),
       this.fillPremadeCrossword();
+
+      socket.on('currentCrosswordPackages', data => { // tar emot korsordsinfo från server, ursprung confirmCreate
+        this.crosswordPackages = data}); 
     },
+
     methods: {
         fillPremadeCrossword: function () {
             for (let v = 0; v < this.matrixDims.y; v++) {

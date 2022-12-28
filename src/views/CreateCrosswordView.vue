@@ -21,7 +21,9 @@
     </div>
     <br>
     
-    <button v-on:click="this.findPotentialMatches">{{uiLabels.addWord}}</button> <br>
+    <button v-on:click="this.findPotentialMatches">{{uiLabels.addWord}}</button> 
+    <br>
+
     <div class="solutionsWrapper">
       <img id="showSolutions" :src="uiLabels.showPrevious" v-on:click="this.showPreviousSolution">
       <img id="showSolutions" :src="uiLabels.showNext" v-on:click="this.showNextSolution">
@@ -29,7 +31,10 @@
     <!-- <button id="showSolutions" v-on:click="this.showPreviousSolution">{{uiLabels.showPrevious}}</button>
     <button id="showSolutions" v-on:click="this.showNextSolution">{{uiLabels.showNext}}</button> -->
 
-    <!-- JESSIEs servertest <button v-on:click="this.testEmit"> testEmit </button> -->
+    <button v-on:click="this.confirmWordPosition"> Confirm word Position  </button>
+
+    <!-- <button v-on:click="this.testEmit"> testEmit </button>  -->
+
   </div>
         
 
@@ -44,11 +49,15 @@
 
         
         <div id="div3">
-        <!--<button v-on:click="this.emptyTextFields"> Empty Input </button> ---><!-- gör detta när användaren har valt ett ord istället för en knapp. Det rensar även textfältet -->
-        <button v-on:click="this.fillPositionsNull">{{uiLabels.resetCrossword}}</button> <br>
-        <button v-on:click="sendPackage">
-          {{uiLabels.confirmCreate}}
-        </button>
+          <!--<button v-on:click="this.emptyTextFields"> Empty Input </button> ---><!-- gör detta när användaren har valt ett ord istället för en knapp. Det rensar även textfältet -->
+          <button v-on:click="this.fillPositionsNull">
+            {{uiLabels.resetCrossword}}
+          </button> 
+          <br>
+
+          <button v-on:click="this.confirmCreateCrossword">
+            {{uiLabels.confirmCreate}}  <!--JESSIE OBS OLIKA NAMN-->
+          </button>
         </div>
         <br>
 
@@ -118,16 +127,15 @@
         matrixDims: {x: 13, y: 10},
         /* wordPositions: [], */
         wordPositions: {actual: [], temp: []},
-        crosswordPack: {}, /* { crossword: this.wordPositions.actual, wordKeypairs: [{ord: "clown", beskrivning: "pajas", riktning: horisontellt}, 
-                                                                                    { ... }, { ... }],
-                                ID: -- någonting med IP-adress -- }
-
-                            */
+        
         showModal: false,
-        uiLabels: {},
-        id: "",
+        uiLabels: {},        
         lang: "en",
-        sourceName: "CreateCrosswordView"
+        sourceName: "CreateCrosswordView",
+
+        //crosswordID: "", // skapas på serversida
+        //crosswordPackage: {},   
+        wordDescForPackage: {} // HA 2 SEPARATA LISTOR IST??? HUR "BAKA UPP" VID UPPSKRIVNING AV KORSORFD??
       }
     },
     created: function () {
@@ -286,11 +294,19 @@
             this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
             this.wordInOrder++
             console.log("Amount of words added: " + this.wordInOrder)
-            /* this.crosswordPack ... LÄGG TILL ORD OCH BESKRIVNING */
+            
+            
+            // ÄR JU INTE HÄR MAN VALT PLATS??? MÅR JU BARA LISTA PÅ MÖJLIGA
+            // FÖRSLAG: 
+            //  - FUNCTION confirmwordpos SOM SPARAR wordpos.actual
+            //  - den kan ju även ta bord word och desc? så kan allt arbete ske i den 
+            //    annars måste ju paketet DELS uppdateras här (måste skivka word och desc innann frösvinner)
+            //    och resten i en egen function
+                      
           }
 
-          this.word = ""
-          this.desc = ""
+          // this.word = ""    
+          // this.desc = ""
 
         }
       }, 
@@ -396,19 +412,86 @@
           this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
         }
       },
+
+      // ATT GÖRA/DISKUTERA:
+      //  - ok me ny knapp condirmwordpos? och ok att cleara word och desc där?
+      //  - göra så att confirmcreate tar oss till lobbyview
+      //  - ID på serversida visst? hur göra med IP?
+      //  - Hur "baka upp" infon vi skickar?
+      //      - hur skicka word o desc? nu som key-value par. kolla hur de används i korsord
+      //      - när skickar ett korsord, hur ska actualplayview veta vilket ord och desc som tillhör rätt pos i wordpos?
+      //      - När skickar ettt korsord, även skicka namnet som ska visas i listan i lobby?
+      //        - SE ANTECK I LOBBYVIEW OCH ACTUAL
+      //  - fixa alla sourcenames så de är rätt 
+
+      confirmWordPosition: function () { // BEHÖVS EV EJ EGEN FUNKTION O KNAPP, KAN VA I FINDWORDPOS???
+        this.wordDescForPackage[this.word] = this.desc;     
+
+        this.word = ""    
+        this.desc = ""
+
+        console.log("Lista med words och desc som confirmats är:")
+        console.log(this.wordDescForPackage) // för att se om det är problem med alias när word och desc clearas
+
+        // VILL SKICKA:  
+        //- 1 sourcename
+        //- 1 woPoactueal (inneh¨åller ju pos för alla ord )
+        //- 1 matrixdim
+        //- lista av ALLA ORD och ALLA DESC 
+        //   - Hur ska playview veta vilket ord som hör till vilken start och slutpos i wordpos?
+        //   - VAR ska paketet uppdateras
+        //   - Ha lista med word-desc key-value par eller en lista me ord och en med desc?
+        //- ID (SKAPA I SERVER????????)
+        //   - Var ska detta skapas? Måste kanske skapas i findwordpos om lista me word och desc ska skapas där?
+        //   - hur koppla till IP?
+
+        // I SERVER SKAPAS: lista med crosswordpackages med ID som key
+        // I CREATECROSS SKICKAS: ETT paket crosswordpackage!!!!! När trycker på confirmcreatecrossword
+ 
+        // NEDAN ÄR FEEEEEEEL, bara ett key som skapas för skckar ju bara ett paket jessie idiot
+
+        // this.crosswordID = Math.floor(Math.random() * 9000) + 1000;
+        // console.log(this.crosswordID)
+        // let key = this.crosswordID;        
+        // this.crosswordPackages[key] =  {soName: this.sourceName,   
+        //                                 woPoActual: this.wordPositions.actual,
+        //                                 maDims: this.matrixDims,
+        //                                 wo: this.word,
+        //                                 de: this.desc} ;
+        // return crosswordPackages
+
+      },
+
       testEmit: function() {
         socket.emit("emittedCrosswordInfo", {word: this.word,
-                                             nrOfMatches: this.matchesIterator});
+                                             nrOfMatches: this.matchesIterator,
+                                            desc: this.desc});
         console.log( {word: this.word,
-                      nrOfMatches: this.matchesIterator} )
+                      nrOfMatches: this.matchesIterator,
+                      desc: this.desc} )       
       },
-      confirmCreate: function () {
-        /* här skickar vi vårt paket och skapar ett ID för korsordet? Math.Random()?? */
 
-        /* skickar korsordet med korsordsID till Data.js */
-        /* tar oss till LobbyView */
-        /* alltså inget returvärde */
-      }
+      createID: function() {  // SKAPA I SERVER IST?????
+       this.crosswordID = Math.floor(Math.random() * 9000) + 1000;  
+       
+       return this.crosswordID
+
+      },
+
+      confirmCreateCrossword: function () {    //skickar ETT färdigt korsord som lagras i lista blad alla andra skickade korsord i server
+        socket.emit("emittedCrosswordPackage", {sourceName: this.sourceName,   
+                                                  wordPositionActual: this.wordPositions.actual,
+                                                  matrixDims: this.matrixDims,
+                                                  wordDescPairs: this.wordDescForPackage,
+                                                  })  
+        
+        console.log("i confirmCreateCrossword")
+        // console.log( {soName: this.sourceName,   
+        //               woPoActual: this.wordPositions.actual,
+        //               maDims: this.matrixDims,
+        //               woDePairs: this.wordDescForPackage,
+        //               })
+      },
     }  
 }   
 
