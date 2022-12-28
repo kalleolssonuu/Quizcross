@@ -1,7 +1,7 @@
 <template>
   <header>
   <div>
-    <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
+    <Modal v-bind:uiLabels="uiLabels"  v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" > <!-- v-bind:lang="lang", detta låg till vänster men fuckar URLen-->
     <button v-on:click="togglePopup"></button>
     </Modal></div>
 </header>
@@ -64,13 +64,11 @@ export default{
     Modal
   },
   props: {
-  modal: Object
+  modal: Object,
 },
 
   created: 
   function () {
-    //this.lang = this.$route.params.lang
-    //socket.emit('pageLoaded', this.lang)
     socket.emit('pageLoaded')
     socket.on("init", (labels) => {
       this.uiLabels = labels
@@ -102,6 +100,7 @@ export default{
     else
       this.lang = "en"
     socket.emit("switchLanguage", this.lang)
+    //this.$router.push(this.lang)
     },
 /* FÖR ATT FÅ FRAM POP-UP RUTA*/
 togglePopup: function () {
@@ -109,7 +108,6 @@ togglePopup: function () {
   }
 }
 }
-
 </script>
 
 <style>
