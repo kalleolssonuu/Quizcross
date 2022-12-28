@@ -45,19 +45,16 @@ import WordBox from '../components/WordBox.vue'
     props: {
       wordPositions: Object,
       matrixDims: Object,
-      word: String,
-      desc: String,
       solutionsList: Object,
       sourceName: String
     },
     mounted() {
-    this.wordPositions.actual.forEach((item, yindex) => {
-      console.log("Outer wordPositions.actual index: " + yindex);
-      item.forEach((item, xindex) => {
-        console.log("Inner wordPositions.actual index: " + xindex)
-      })
-    });
-
+    /*   this.wordPositions.actual.forEach((item, yindex) => {
+        console.log("Outer wordPositions.actual index: " + yindex);
+        item.forEach((item, xindex) => {
+          console.log("Inner wordPositions.actual index: " + xindex)
+        })
+      }); */
     },
     created: function () {
       this.tempFunc()
