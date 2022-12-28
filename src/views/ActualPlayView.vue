@@ -17,6 +17,12 @@
                     v-bind:desc="this.desc">
         </Crossword>
     </div>
+  
+<div class="descriptionWrapper">
+  <ol>
+    
+  </ol>
+</div>
 
 </template>
 
@@ -61,6 +67,7 @@ export default {
         this.data = data
       ),
       this.fillPremadeCrossword();
+      this.fillDescriptions();
     },
     methods: {
         fillPremadeCrossword: function () {
@@ -99,6 +106,15 @@ export default {
             this.wordPositions.actual[2][3].letter = "n"; this.wordPositions.actual[2][3].inHorizontal = true
             this.wordPositions.actual[2][4].letter = "o"; this.wordPositions.actual[2][4].inHorizontal = true
             this.wordPositions.actual[2][5].letter = "n"; this.wordPositions.actual[2][5].inHorizontal = true
+
+        },
+        fillDescriptions: function () {
+          console.log("ordets beskrivning")
+          for (let i=0; i=this.crosswordPack.WordKeypairs.length; i++){
+            
+            console.log(this.crosswordPack.WordKeypairs.beskrivning)
+          }
+
 
         },
     }
