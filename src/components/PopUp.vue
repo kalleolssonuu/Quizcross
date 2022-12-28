@@ -1,10 +1,8 @@
 <template> 
    <!-- ALL KOD FÖR POPUP-WINDOW-->
- 
-
    <div class="logo">
     <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage">
-    <h3 v-if="sourceName != 'StartView'"> Quizcross</h3>
+    <span v-if="sourceName != 'StartView'"> Quizcross</span>
    </div>
 
    <div class="modal-vue">
@@ -111,21 +109,21 @@ export default {
 background-color: #e36f67;
 }
 #flag {
-    position: fixed;
+    position: relative;
     width: 5rem;
     height: 3.5rem;
     border-radius: 10%;
     margin: 0.5rem;
-    margin-left:-48%;
+    margin-left: 0;
     cursor: pointer;
 }
 .logo {
   text-transform: uppercase;
-  letter-spacing: 0.25em;
+  /*letter-spacing: 0.25em;*/
   font-size: 1.5rem;
   color: white;
   padding-top:0.1em;
-  text-align: center;
+  /*text-align: center;*/
   font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
 </style>
