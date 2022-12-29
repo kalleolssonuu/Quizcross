@@ -69,14 +69,9 @@ export default {
         matrixDims: {x: 13, y: 10},
         /* wordPositions: [], */
         wordPositions: {actual: [], temp: []},
-        // crosswordPack: {}, /* { crossword: this.wordPositions.actual, wordKeypairs: [{ord: "clown", beskrivning: "pajas", riktning: horisontellt}, 
-        //                                                                             { ... }, { ... }],
-        //                         ID: -- någonting med IP-adress -- }
 
-        //                     */
         showModal: false,
         uiLabels: {},
-        // id: "",
         lang: "en",
         sourceName: "PlayView",
         wordInOrder:1,
