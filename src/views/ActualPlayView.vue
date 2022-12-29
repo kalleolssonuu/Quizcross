@@ -1,6 +1,4 @@
 <template>
-<h3>Hej Kung Charles</h3>
-
 <header>
   <div>
       <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
@@ -22,7 +20,20 @@
   </div>
 
   <!-- JESSIE: FIXA SÅ SKICKAR ETT PAKET INTE ALLA, SE ANTECK I LOBBY -->
-  <div> 
+  <div class ="wordDescriptionWrapper"> 
+    <ol id="horizontalDescriptions">
+      <u>Horisontella ord</u> <!-- lägg till i uiLabels-->
+      <li>pajas</li>
+      <li>motsats till nej</li>
+      <li>tung artilleripjäs</li>
+    </ol>
+    <ol id="verticalDescriptions">
+      <u>Vertikala ord</u>
+      <li>sängklädesplagg</li>
+    </ol>
+    </div>
+
+    <div>
     {{"servertest av confirmCreate:"}}
 
     <ul v-if="this.crosswordPackages" >
@@ -120,11 +131,53 @@ export default {
             this.wordPositions.actual[2][5].letter = "n"; this.wordPositions.actual[2][5].inHorizontal = true
 
         },
+
     }
 }
 
 </script>
 
 <style>
+
+#div2{
+  float:left;
+  width: 50%;
+  margin: 5%;
+
+}
+
+.wordDescriptioWrapper{
+  display: flex;
+}
+
+#horizontalDescriptions{
+  width: 25rem;
+  height: 15rem;
+  border-radius: 5px;
+  border-color: #a6d8d4;
+  margin-left: 5%;
+  margin-top: 6%;
+  color: white;
+  background-color:#43918a;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 20px;
+  position: relative;
+  float:left;
+}
+
+#verticalDescriptions{
+  width: 25rem;
+  height: 15rem;
+  border-radius: 5px;
+  border-color: #a6d8d4;
+  margin-left: 5%;
+  color: white;
+  background-color:#43918a;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 20px;
+  position: relative;
+  float:left;
+}
+
 
 </style>

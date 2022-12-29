@@ -10,6 +10,10 @@
  
  <template>
     <div class="letterbox" @click="testClick">
+       <!-- här måste jag på nåt sätt veta vilket ord i ordningen det är så att rätt siffra kan skrivas ut mha nån funktion.
+            crossword.vue är väl föräldern i det här fallet? har den något som kan skickas ner till barnet kanske-->
+      <span id="number" v-if="isFirstLetter ==true"> 1</span>
+
         <!-- om ärTom = true så blir bokstav = " " -->{{ letter }}
         <!-- om ärTom = false så blir bokstav = {{ letter }} -->
     </div>
@@ -79,6 +83,14 @@
 
 .letterbox:hover {
   cursor: pointer;
+}
+
+#number{
+  font-size: 1rem;
+  position:absolute;
+  margin-left: -0.8rem;
+
+
 }
 
 </style>
