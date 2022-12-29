@@ -78,8 +78,8 @@ import WordBox from '../components/WordBox.vue'
 
 .letterbox {
   background-color: rgb(250, 244, 192);
-  width: clc(100%);
-  height: 3rem;
+  width: 95%;
+  height: 95%;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
   font-weight: bold;
   font-size: 2rem;
@@ -104,10 +104,10 @@ import WordBox from '../components/WordBox.vue'
   margin: 0 auto;
   justify-content: center;
   background-color: #A7CAB1;
-  max-height: 40%;
-  width: 40%;
+  height: 600px;
+  width: 600px;
+  max-height: 600px;
 }
-
 
   </style>
   

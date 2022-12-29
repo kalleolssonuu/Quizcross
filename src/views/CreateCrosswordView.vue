@@ -122,7 +122,7 @@
         wordInOrder: 1,
         wordCollision: false,
         noMatches: false,
-        matrixDims: {x: 13, y: 10},
+        matrixDims: {x: 15, y: 15},
         /* wordPositions: [], */
         wordPositions: {actual: [], temp: []},
         
