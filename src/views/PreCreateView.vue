@@ -1,34 +1,26 @@
 <template>
-    <header>
-  <div>
-      <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
-      <button v-on:click="togglePopup"></button>
-      </Modal>
-    </div>
-</header>
+    <h3>Pre Create Lobby</h3>
     
     <div id="crosswordArea">
+      <h2>{{ x }}   x    {{ y }}</h2>  
         <div class="plusMinusWrapper" id="PlusMinusButtons">
-            <button id="minusButtonX" v-on:click=decreaseX type="button">
-            -
-            </button>
-            <button id="plusButtonX" v-on:click=increaseX type="button">
-            +
-            </button>
-            <button id="minusButtonY" v-on:click=decreaseY type="button">
-            -
-            </button>
-            <button id="plusButtonY" v-on:click=increaseY type="button">
-            +
-            </button>
-        </div>
+
+    <button id="minusButton" v-on:click=decrease type="button">
+    -
+    </button>
+    <button id="plusButton" v-on:click=increase type="button">
+    +
+    </button>
+    </div>
     <Crossword  v-bind:sourceName="sourceName"
+                    v-bind:wordObjects="this.wordObjects" 
+                    v-bind:tempWordObjects="this.tempWordObjects"
                     v-bind:wordPositions="this.wordPositions"
                     v-bind:matrixDims="this.matrixDims"
                     v-bind:word="this.word"
                     v-bind:desc="this.desc">
-    </Crossword>
-    
+        </Crossword>
+        
     </div>
     <div class="nameWrapper" id="nameAndCreate">
         <h2>Game name:</h2>
@@ -40,7 +32,7 @@
 </form>
   </div>
     </form>
-    <button v-on:click="this.submitDims()"> <!-- , $router.push('/kalletest/'+lang) -- id="confirmAndCreate"> -->
+    <button v-on:click=submitsDim id="confirmAndCreate">
     Confirm and create
     </button>
     </div>
@@ -48,37 +40,21 @@
     
     <script>
     import Crossword from '../components/Crossword.vue'
-    import Modal from '../components/PopUp.vue'
-    import io from 'socket.io-client';
-    const socket = io();
-
 
     export default {
-    name: 'PreCreateView',
     components: {
-        Crossword,
-        Modal
+        Crossword
     },
     data: function () {
     return {
     matrixDims: {x: 8, y: 8},
     wordPositions: {actual: [], temp: []},
     x: 8,
-    y: 8,
-    uiLabels: {},
-    id: "",
-    lang: "en",
-    showModal: false,
-    sourceName: "PreCreate"
-
+    y: 8
 
     }
 },
     created: function(){
-        socket.emit('pageLoaded')
-    socket.on("init", (labels) => {
-      this.uiLabels = labels
-    });
         this.fillPositionsNull();
     },
 
@@ -94,24 +70,15 @@
         this.fillPositionsNull()
         },
 
-        increaseX: function() {
+        increase: function() {
             this.x += 1
-            this.storeValues()
-        },
-
-        decreaseX: function() {
-            if(this.x >= 1){
-                this.x -= 1
-                this.storeValues()
-            }
-        },
-        increaseY: function() {
             this.y += 1
             this.storeValues()
         },
 
-        decreaseY: function() {
-            if(this.y >= 1){
+        decrease: function() {
+            if(this.x >= 6){
+                this.x -= 1
                 this.y -= 1
                 this.storeValues()
             }
@@ -124,31 +91,20 @@
             this.wordPositions.actual[v] = [];
             /* wordPositions = [[null, null, null, null]] */
             for (let h = 0; h < this.matrixDims.x; h++) {
-                this.wordPositions.actual[v][h] =  {letter: null, 
-                                                    inHorizontal: false,
-                                                    inVertical: false,
-                                                    isFirstLetter: false, 
-                                                    wordInOrder: this.wordInOrder} /* if (wordInOrder != 0) { lägg till siffra i hörnet } */
+            this.wordPositions.actual[v][h] = {letter: null, 
+                                               inHorizontal: false,
+                                               inVertical: false,
+                                               isFirstLetter: false, 
+                                               wordInOrder: this.wordInOrder} /* if (wordInOrder != 0) { lägg till siffra i hörnet } */
             }
         }
 
         this.wordPositions.temp = []
         console.log(this.wordPositions.actual)
       },
-
-      switchLanguage: function() {
-        if (this.lang === "en")
-        this.lang = "sv"
-        else
-         this.lang = "en"
-        socket.emit("switchLanguage", this.lang)
-    },
-    /* FÖR ATT FÅ FRAM POP-UP RUTA*/
-        togglePopup: function () {
-        this.showModal = ! this.showModal;
-    },
-}
-}
+      
+    }
+    }
     
     </script>
     
@@ -159,6 +115,7 @@
         float: left;
         width: 70%;
         margin-top: 2%;
+
     }
 
     #nameAndCreate {
