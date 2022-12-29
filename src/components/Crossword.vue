@@ -10,7 +10,9 @@
             v-bind:letter="element.letter"
             v-bind:direction="element.direction"
             v-bind:isFirstLetter="element.isFirstLetter"
-            v-bind:sourceName="this.sourceName">
+            v-bind:sourceName="this.sourceName"
+            v-bind:wordInOrder="element.wordInOrder">
+
           </WordBox> 
         </td> 
     </tr>
@@ -46,7 +48,8 @@ import WordBox from '../components/WordBox.vue'
       wordPositions: Object,
       matrixDims: Object,
       solutionsList: Object,
-      sourceName: String
+      sourceName: String,
+      wordInOrder: Number,
     },
     mounted() {
     /*   this.wordPositions.actual.forEach((item, yindex) => {

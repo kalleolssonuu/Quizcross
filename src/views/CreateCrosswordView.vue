@@ -120,7 +120,7 @@
         userIterator: 0,
         matchesIterator: 0,
         swapIterator: 0, 
-        wordInOrder: 0,
+        wordInOrder: 1,
         wordCollision: false,
         noMatches: false,
         matrixDims: {x: 13, y: 10},
@@ -161,6 +161,7 @@
       },
       findPotentialMatches: function () {
         if (this.word != "") {
+        
           this.matchesIterator = 0;
           this.userIterator = 0;
           this.swapIterator = 0;
@@ -227,8 +228,8 @@
                               this.matchesIterator++;
                               console.log("matchesIterator increased to: " + this.matchesIterator)
 
-                              this.wordInOrder++
-                              console.log("Amount of words added: " + this.wordInOrder)
+                              /* this.wordInOrder++
+                              console.log("Amount of words added: " + this.wordInOrder) */
                             }
                           } else {
                             break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
@@ -280,8 +281,8 @@
                               this.matchesIterator++
                               console.log("matchesIterator increased to: " + this.matchesIterator)
 
-                              this.wordInOrder++
-                              console.log("Amount of words added: " + this.wordInOrder)
+                              /* this.wordInOrder++
+                              console.log("Amount of words added: " + this.wordInOrder) */
                               }
                           } else {
                               break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
@@ -296,7 +297,7 @@
               this.alertNoMatches();
           } else {
             this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
-            this.wordInOrder++
+           this.wordInOrder++
             console.log("Amount of words added: " + this.wordInOrder)
             
             
@@ -370,7 +371,7 @@
               newWordPositions[v + i][h].inVertical = true
               if (i == 0) {
                 newWordPositions[v + i][h].isFirstLetter = true
-                newWordPositions[v + i][h].wordInOrder = this.wordInOrder
+                newWordPositions[v + i][h].wordInOrder = JSON.parse(JSON.stringify(this.wordInOrder))
               } else {
                 newWordPositions[v + i][h].isFirstLetter = false
                 newWordPositions[v + i][h].wordInOrder = null
@@ -393,7 +394,7 @@
               newWordPositions[v][h + i].inHorizontal = true
               if (i == 0) {
                 newWordPositions[v][h + i].isFirstLetter = true
-                newWordPositions[v][h + i].wordInOrder = this.wordInOrder
+                newWordPositions[v][h + i].wordInOrder = JSON.parse(JSON.stringify(this.wordInOrder))
               } else {
                 newWordPositions[v][h + i].isFirstLetter = false
                 newWordPositions[v][h + i].wordInOrder = null

@@ -12,7 +12,8 @@
                     v-bind:wordPositions="this.wordPositions" 
                     v-bind:matrixDims="this.matrixDims"
                     v-bind:word="this.word"    
-                    v-bind:desc="this.desc"> 
+                    v-bind:desc="this.desc"
+                    > 
                     
                     <!-- v-bind:wordPositions="this.allCrosswords.ID.wordPositions", där "this." har tagits från data -->
                     <!-- v-bind:matrixDims="this.allCrosswords.ID.matrixDims" -->
@@ -78,6 +79,7 @@ export default {
         // id: "",
         lang: "en",
         sourceName: "PlayView",
+        wordInOrder:1,
 
         crosswordPackages: null, // OBS SKICKAR JU NU ALLA PAKET DET ÄR FEL, VILL SKICKA ETT
       }
