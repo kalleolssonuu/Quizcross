@@ -8,6 +8,8 @@
 </header>
 
 <button v-on:click="this.testUserID"> test IP ID </button>
+<button v-on:click="this.confirmWord"> confirm </button>
+<button v-on:click="this.discardWord"> discard </button>
 
 <div id="div1" class="inputFieldWrapper">
           
@@ -90,22 +92,31 @@
       return {
         word: "",
         desc: "",
-        boxes: {}, /* tänkt att innehålla information till WordBox sen */
+
         userIterator: 0,
         matchesIterator: 0,
         swapIterator: 0, 
         wordInOrder: 1,
+        amountWordsAdded: 0,
+
         wordCollision: false,
         noMatches: false,
+
         matrixDims: {x: 15, y: 15},
         /* wordPositions: [], */
         wordPositions: {actual: [], temp: []},
-        
+        wordPositionsCopy: [],
+        crosswordPackage: {crosswordName: "", 
+                           wordPositions: [],
+                           words: [],
+                           matrixDims: {},
+                           },
+
         showModal: false,
         uiLabels: {},        
         lang: "en",
-        sourceName: "CreateCrosswordView",
 
+        sourceName: "CreateCrosswordView",
         wordDescForPackage: {} // ska ändras
       }
     },
@@ -146,7 +157,7 @@
           const horiz = this.matrixDims.x; /* för att spara plats längre ner */
           const vert = this.matrixDims.y;    /* för att spara plats längre ner */
 
-
+          this.wordPositionsCopy = JSON.parse(JSON.stringify(this.wordPositions.actual))
 
           for (let h = 0; h < horiz; h++) {
             /* console.log("kommit in? horisontellt") */
@@ -278,21 +289,20 @@
           }
         }
       }, 
-      getPositions: function (word, h, v, horizontal) { /* används ej */
-        let pos = {};
+      confirmWord: function () {
+        this.amountWordsAdded++
+        this.wordPositionsCopy = JSON.parse(JSON.stringify(this.wordPositions.actual))
+        this.crosswordPackage.words[this.amountWordsAdded - 1] = {word: this.word, desc: this.desc} 
+                /* ^-- vi har ej räknat med att man kan glömma att bekräfta */
 
-        if (horizontal) {
-            for (let i = 0; i < word.length; i++) {
-                pos = Object.assign(pos, {i: {x: h + i, y: v}
-              })   
-            }
-        } else {
-            for (let i = 0; i < word.length; i++) {
-                pos = Object.assign(pos, {i: {x: h, y: v + i}
-              })
-            }
-        }
-        return pos;
+        this.word = ""
+        this.desc = ""
+        console.log(this.crosswordPackage.words)
+      },                                     /* ^ kan behöva vara - 2 */
+      discardWord: function () {
+        this.word = ""
+        this.desc = ""
+        this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositionsCopy))
       },
       testSocketSend: function () {
         socket.on("matrixDimsTransfer", data => {
