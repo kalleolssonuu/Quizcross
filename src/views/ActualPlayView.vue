@@ -46,6 +46,12 @@
     </ul>
     
   </div>
+
+  
+        <p>
+            <label for="inputWord">Ord</label>
+            <input type="text" id="inputWord" v-model="input" >
+        </p>
   
 </template>
 
@@ -109,7 +115,7 @@ export default {
                                                     inHorizontal: false,
                                                     inVertical: false,
                                                     isFirstLetter: false, 
-                                                    wordInOrder: this.wordInOrder} /* if (wordInOrder != 0) { lägg till siffra i hörnet } */
+                                                    wordInOrder: this.wordInOrder} /* if (wordInOrder != 0) { lägg till siffra i hörnet }, görs nu i wordbox */
                 }
             }
 

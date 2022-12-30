@@ -5,8 +5,7 @@
       <button v-on:click="togglePopup"></button>
       </Modal>
     </div>
-  </header>
-    <h3>Pre Create Lobby</h3>
+</header>
     
     <div id="crosswordArea">
       <h2>{{ x }}   x    {{ y }}</h2>  
@@ -48,7 +47,7 @@
     <script>
     import Crossword from '../components/Crossword.vue'
     import Modal from '../components/PopUp.vue'
-    import io from 'socket.io-client'; 
+    import io from 'socket.io-client';
     const socket = io();
 
     export default {
@@ -56,30 +55,28 @@
         Crossword,
         Modal
     },
-    props: {
-        modal: Object
-    },
     data: function () {
     return {
     matrixDims: {x: 8, y: 8},
     wordPositions: {actual: [], temp: []},
     x: 8,
     y: 8,
-    selectedGame: {},
-    uiLabels: {},
-    id: "",
-    lang: "en",
     showModal: false,
-    sourceName: "CreateView" //OBS ej kopplad till någon socket/index.js/vad det nu är
+        uiLabels: {},
+        // id: "",
+        lang: "en",
+        sourceName: "PreCreate",
+
     }
 },
     created: function(){
+        
+      socket.emit('pageLoaded')
+      socket.on("init", (labels) => {
+      this.uiLabels = labels
+    })
         this.fillPositionsNull();
-        socket.emit('pageLoaded');
-        socket.on("init", (labels) => {
-        this.uiLabels = labels
-        });
-    },
+},
 
     methods: {
         submitsDim() {

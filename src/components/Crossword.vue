@@ -11,7 +11,7 @@
             v-bind:direction="element.direction"
             v-bind:isFirstLetter="element.isFirstLetter"
             v-bind:sourceName="this.sourceName"
-            v-bind:wordInOrder="element.word">
+            v-bind:wordInOrder="element.wordInOrder">
 
           </WordBox> 
         </td> 
@@ -84,6 +84,7 @@ import WordBox from '../components/WordBox.vue'
   font-weight: bold;
   font-size: 2rem;
   border: black 0.15rem solid;
+  color:black;
 }
 
 .letterbox:empty {
@@ -100,7 +101,7 @@ import WordBox from '../components/WordBox.vue'
 
 #crosswordwrapper {
   display: table;
-  table-layout: auto;
+  table-layout: auto; 
   margin: 0 auto;
   justify-content: center;
   background-color: #A7CAB1;
