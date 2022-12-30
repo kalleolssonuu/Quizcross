@@ -1,7 +1,7 @@
 <template>
   <header>
     <div>
-      <Modal v-bind:uiLabels="uiLabels" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" > <!-- v-bind:lang="lang", detta låg till vänster men fuckar URLen-->
+      <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
       <button v-on:click="togglePopup"></button>
       </Modal>
     </div>
@@ -60,7 +60,6 @@ export default {
       this.uiLabels = labels
       
     });
-    //router.push('/en')
     console.log("created har anropats")
   },
   methods: {
@@ -69,8 +68,9 @@ export default {
         this.lang = "sv"
       else
         this.lang = "en"
+
       socket.emit("switchLanguage", this.lang)
-     // this.$router.push(this.lang)
+      this.$router.push(this.lang)
     },
     /* FÖR ATT FÅ FRAM POP-UP RUTA*/
     togglePopup: function () {

@@ -24,6 +24,7 @@
 
 <script>
 
+
 export default {
   name: 'PopUp',
   props: {
@@ -43,9 +44,8 @@ export default {
     togglePopup: function () {
       this.showModal = ! this.showModal;
     },
-    switchLanguage: function() {
+    switchLanguage: function() { 
       this.$emit("switchLanguage")
-       //byter språk i URL men det är motsatt språk på hemsidan jämfört med URL-adressen)
   }     
 }
 }

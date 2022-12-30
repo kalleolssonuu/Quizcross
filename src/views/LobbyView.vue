@@ -83,8 +83,6 @@ export default{
 
   created: 
   function () {
-    //this.lang = this.$route.params.lang
-    //socket.emit('pageLoaded', this.lang)
     socket.emit('pageLoaded')
     socket.on("init", (labels) => {
       this.uiLabels = labels
@@ -128,7 +126,9 @@ export default{
       this.lang = "sv"
     else
       this.lang = "en"
+
     socket.emit("switchLanguage", this.lang)
+    this.$router.push(this.lang)
     },
 /* FÖR ATT FÅ FRAM POP-UP RUTA*/
 togglePopup: function () {

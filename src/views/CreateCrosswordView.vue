@@ -7,6 +7,8 @@
     </div>
 </header>
 
+<button v-on:click="this.testUserID"> test IP ID </button>
+
 <div id="div1" class="inputFieldWrapper">
           
     <div class="inputField"> <!-- måste emitta word så att vi kan använda -->
@@ -37,8 +39,7 @@
   </div>
         
 
-    <div id="div2">                               <!-- ska knapparna ha funktionalitet? om sourceName == PlayView: JA
-                                                       dvs. knapparna är klickbara om vi kommer från PlayView -->
+    <div id="div2"> 
         <Crossword  v-bind:sourceName="sourceName"
                     v-bind:wordPositions="this.wordPositions"
                     v-bind:matrixDims="this.matrixDims">
@@ -67,41 +68,15 @@
   import Crossword from '../components/Crossword.vue'
   import Modal from '../components/PopUp.vue'
   import io from 'socket.io-client';
+  /* import Vue from 'vue'; */
+
   const socket = io();
   
 /* LOGG:
 
-  2022-12-15
-  * Spara ord- och beskrivningspar så att vi kan skicka med det. Alternativt skicka ett stort 'paket' som innehåller all information om korsordet.
-  * Börja med att kolla alla positioner där ordet har en gemensam bokstav med wordPositions.actual. Därefter byt plats på den matchningen och
-    en som ligger på en före-detta-null-plats. Ny iterator this.swapIterator. Visualisera: typ som hur pivotelementet rör sig i QuickSort.
-  * PlayView: vi borde kunna ha komponenter som element i vårt table. Har kollat med OpenAI! Dvs. vi kan har egenskaper såsom
-    'ingår i ett vertikalt ord' eller 'är första bokstaven (viktigt när vi ska sätta en liten siffra för att indikera vilket beskrivning
-    som berör ordet)'.
-  * Indikera första- och sista bokstav i ett ord så att vi kan ha ord som ligger intill varandra och inte behöva kolla omkringliggande ord/riktning?
-
-
-  Gjort idag:
-    - Fixat hela algoritmen (ej fullt optimerad version)
-    - Funderat på funktioner vi kan undersöka vidare
-
-  2022-12-12 (natten 13:e)
-
-  * För att snabba på processen för användaren: 
-  Loopa först igenom alla matchningar där första bokstaven träffar en annan bokstav, alternativt ordna wordPositions.temp så att bokstavsträffar läggs först i listan.
-
-  * Vi behöver ej göra enligt Mikaels instruktioner för att grafiken ska uppdateras löpande. Kanske behöver undersöka server-socket-kommunikation dock.
-  
-
-  Gjort idag:
-    - Fixat loopmekanismen så att man kan se alla wordPosition.temp som har hittats. Lagt till knappar för iterering osv. så att man lättare man undersöka.
-      I princip en massa meckande med olika index, kanske syns bäst i en merge editor vad som har ändrats.
-
-  Nästa steg:
-    - Fixa klart så att få-plats-testet för ord fungerar som det ska. Just nu räcker i vissa fall att ett av platstesten uppfylls för att vi ska generera matchningar. 
-    - Testa att lägga till nya ord i wordPositions.actual via inputfältet
-    - Undersök: hur lätt är det att lägga till egenskaper på de enskilda rutorna? Komponent-i-komponent?
-    - Layout (någon annan?)
+  Från tidigare:
+    * Vi behöver ej göra enligt Mikaels instruktioner för att grafiken ska uppdateras löpande. Kanske behöver undersöka server-socket-kommunikation dock.
+  2022-12-30: Undersök detta.
 
 */
 
@@ -155,6 +130,9 @@
     /* FÖR ATT FÅ FRAM POP-UP RUTA*/
       togglePopup: function () {
         this.showModal = ! this.showModal;
+      },
+      testUserID: function () {
+        console.log(this.$getIPAddress)
       },
       findPotentialMatches: function () {
         if (this.word != "") {
