@@ -1,4 +1,11 @@
 <template>
+    <header>
+    <div>
+      <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
+      <button v-on:click="togglePopup"></button>
+      </Modal>
+    </div>
+  </header>
     <h3>Pre Create Lobby</h3>
     
     <div id="crosswordArea">
@@ -40,22 +47,38 @@
     
     <script>
     import Crossword from '../components/Crossword.vue'
+    import Modal from '../components/PopUp.vue'
+    import io from 'socket.io-client'; 
+    const socket = io();
 
     export default {
     components: {
-        Crossword
+        Crossword,
+        Modal
+    },
+    props: {
+        modal: Object
     },
     data: function () {
     return {
     matrixDims: {x: 8, y: 8},
     wordPositions: {actual: [], temp: []},
     x: 8,
-    y: 8
-
+    y: 8,
+    selectedGame: {},
+    uiLabels: {},
+    id: "",
+    lang: "en",
+    showModal: false,
+    sourceName: "CreateView" //OBS ej kopplad till någon socket/index.js/vad det nu är
     }
 },
     created: function(){
         this.fillPositionsNull();
+        socket.emit('pageLoaded');
+        socket.on("init", (labels) => {
+        this.uiLabels = labels
+        });
     },
 
     methods: {
@@ -101,11 +124,23 @@
 
         this.wordPositions.temp = []
         console.log(this.wordPositions.actual)
-      },
+        },
+        switchLanguage: function() {
+        if (this.lang === "en")
+            this.lang = "sv"
+        else
+            this.lang = "en"
+
+        socket.emit("switchLanguage", this.lang)
+        this.$router.push(this.lang)
+        },
+        /* FÖR ATT FÅ FRAM POP-UP RUTA*/
+        togglePopup: function () {
+    this.showModal = ! this.showModal;
+        },
       
     }
     }
-    
     </script>
     
     <style>

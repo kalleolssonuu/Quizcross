@@ -11,7 +11,7 @@
             v-bind:direction="element.direction"
             v-bind:isFirstLetter="element.isFirstLetter"
             v-bind:sourceName="this.sourceName"
-            v-bind:wordInOrder="element.wordInOrder">
+            v-bind:wordInOrder="element.word">
 
           </WordBox> 
         </td> 
