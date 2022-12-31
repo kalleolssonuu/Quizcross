@@ -8,7 +8,8 @@
             v-bind:xkey="xkey" 
             v-bind:ykey="ykey" 
             v-bind:letter="element.letter"
-            v-bind:direction="element.direction"
+            v-bind:inHorizontal="element.inHorizontal"
+            v-bind:inVertical="element.inVertical"
             v-bind:isFirstLetter="element.isFirstLetter"
             v-bind:sourceName="this.sourceName"
             v-bind:wordInOrder="element.wordInOrder">
