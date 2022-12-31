@@ -8,8 +8,13 @@
 </header>
 
 <button v-on:click="this.testUserID"> test IP ID </button>
-<button v-on:click="this.confirmWord"> confirm </button>
-<button v-on:click="this.discardWord"> discard </button>
+
+
+<button v-if="!this.enableWordButtons" class="button-disabled" disabled> Confirm </button>
+<button v-else v-on:click="this.confirmWord"> Confirm </button>
+
+<button v-if="!this.enableWordButtons" class="button-disabled" disabled> Discard </button>
+<button v-else v-on:click="this.discardWord"> Discard </button>
 
 <div id="div1" class="inputFieldWrapper">
           
@@ -25,7 +30,9 @@
     </div>
     <br>
     
-    <button v-on:click="this.findPotentialMatches">{{uiLabels.addWord}}</button> 
+    <button v-if="this.enableWordButtons" class="button-disabled" disabled> {{uiLabels.addWord}} </button>
+    <button v-else v-on:click="this.findPotentialMatches"> {{uiLabels.addWord}} </button>
+    <!-- <button v-on:click="this.findPotentialMatches">{{uiLabels.addWord}}</button>  -->
     <br>
 
     <div class="solutionsWrapper">
@@ -99,6 +106,7 @@
         wordInOrder: 1,
         amountWordsAdded: 0,
 
+        enableWordButtons: false,
         wordCollision: false,
         noMatches: false,
 
@@ -108,7 +116,7 @@
         wordPositionsCopy: [],
         crosswordPackage: {crosswordName: "", 
                            wordPositions: [],
-                           words: [],
+                           wordDesc: [],
                            matrixDims: {},
                            },
 
@@ -148,6 +156,7 @@
       findPotentialMatches: function () {
         if (this.word != "") {
         
+          this.enableWordButtons = true
           this.matchesIterator = 0;
           this.userIterator = 0;
           this.swapIterator = 0;
@@ -178,6 +187,7 @@
 
                             if (this.wordPositions.actual[v + iv][h].letter === wordSplit[iv]) {
                               this.wordCollision = true
+                              this.letterMatchCounter++
                             }
 
                             console.log("h = " + h)
@@ -195,15 +205,20 @@
                               console.log("this.getNewTempPositionVert(h, v, wordSplit)) --- ")
                               console.log(this.getNewTempPositionVert(h, v, wordSplit))
                             
-                              if (this.wordCollision) {
-                                this.wordPositions.temp.splice(this.swapIterator, 0, this.getNewTempPositionVert(h, v, wordSplit))
-                                /* [this.wordPositions.temp[this.matchesIterator], this.wordPositions.temp[this.swapIterator]] = 
-                                [this.wordPositions.temp[this.swapIterator], this.wordPositions.temp[this.matchesIterator]] */
-                                this.swapIterator++
-                                this.wordCollision = false
-                              } else {
-                                this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionVert(h, v, wordSplit)
+                              if (this.letterMatchCounter != wordSplit.length) {
+                                if (this.wordCollision) {
+                                  this.wordPositions.temp.splice(this.swapIterator, 0, this.getNewTempPositionVert(h, v, wordSplit))
+                                  /* [this.wordPositions.temp[this.matchesIterator], this.wordPositions.temp[this.swapIterator]] = 
+                                  [this.wordPositions.temp[this.swapIterator], this.wordPositions.temp[this.matchesIterator]] */
+                                  this.swapIterator++
+                                  this.wordCollision = false
+                                } else {
+                                  this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionVert(h, v, wordSplit)
+                                }
+                                this.matchesIterator++;
                               }
+
+                              
                                 
                               console.log("this.wordPositions.actual --- ")
                               console.log(this.wordPositions.actual)
@@ -211,7 +226,7 @@
                               console.log("this.wordPositions.temp[this.matchesIterator] --- ")
                               console.log(this.wordPositions.temp[this.matchesIterator])
 
-                              this.matchesIterator++;
+                              
                               console.log("matchesIterator increased to: " + this.matchesIterator)
 
                               /* this.wordInOrder++
@@ -230,6 +245,7 @@
                             
                             if (this.wordPositions.actual[v][h + ih].letter === wordSplit[ih]) {
                               this.wordCollision = true
+                              this.letterMatchCounter++
                             }
 
                             console.log("h = " + h)
@@ -247,14 +263,17 @@
                               console.log("this.getNewTempPositionHoriz(h, v, wordSplit)) --- ")
                               console.log(this.getNewTempPositionHoriz(h, v, wordSplit))
 
-                              if (this.wordCollision) {
-                                this.wordPositions.temp.splice(this.swapIterator, 0, this.getNewTempPositionHoriz(h, v, wordSplit))
-                                /* [this.wordPositions.temp[this.matchesIterator], this.wordPositions.temp[this.swapIterator]] = 
-                                [this.wordPositions.temp[this.swapIterator], this.wordPositions.temp[this.matchesIterator]] */
-                                this.swapIterator++
-                                this.wordCollision = false
-                              } else {
-                                this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionHoriz(h, v, wordSplit)
+                              if (this.letterMatchCounter != wordSplit.length) {
+                                if (this.wordCollision) {
+                                  this.wordPositions.temp.splice(this.swapIterator, 0, this.getNewTempPositionHoriz(h, v, wordSplit))
+                                  /* [this.wordPositions.temp[this.matchesIterator], this.wordPositions.temp[this.swapIterator]] = 
+                                  [this.wordPositions.temp[this.swapIterator], this.wordPositions.temp[this.matchesIterator]] */
+                                  this.swapIterator++
+                                  this.wordCollision = false
+                                } else {
+                                  this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionHoriz(h, v, wordSplit)
+                                }
+                                this.matchesIterator++;
                               }
                             
                               console.log("this.wordPositions.actual --- ")
@@ -264,7 +283,7 @@
                               console.log(this.wordPositions.temp[this.matchesIterator])
 
                               /* this.wordPositions.temp.push(this.getNewTempPositionHoriz(h, v, wordSplit)) */
-                              this.matchesIterator++
+                              
                               console.log("matchesIterator increased to: " + this.matchesIterator)
 
                               /* this.wordInOrder++
@@ -289,20 +308,34 @@
           }
         }
       }, 
+            
+      confirmWordPosition: function () { // lagrar orden och beskrivningarna som vi vill skicka när vi trycker på confirmCreate
+        this.wordDescForPackage[this.word] = this.desc;     
+
+        this.word = ""    
+        this.desc = ""
+
+        console.log("Lista med words och desc som confirmats är:")
+        console.log(this.wordDescForPackage) // för att se om det är problem med alias när word och desc clearas
+      },
+      
       confirmWord: function () {
         this.amountWordsAdded++
         this.wordPositionsCopy = JSON.parse(JSON.stringify(this.wordPositions.actual))
-        this.crosswordPackage.words[this.amountWordsAdded - 1] = {word: this.word, desc: this.desc} 
+        this.crosswordPackage.wordDesc[this.amountWordsAdded - 1] = {word: this.word, desc: this.desc} 
                 /* ^-- vi har ej räknat med att man kan glömma att bekräfta */
 
         this.word = ""
         this.desc = ""
-        console.log(this.crosswordPackage.words)
+        console.log(this.crosswordPackage.wordDesc)
+        this.enableWordButtons = false
       },                                     /* ^ kan behöva vara - 2 */
       discardWord: function () {
         this.word = ""
         this.desc = ""
+        this.wordInOrder--
         this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositionsCopy))
+        this.enableWordButtons = false
       },
       testSocketSend: function () {
         socket.on("matrixDimsTransfer", data => {
@@ -313,8 +346,14 @@
       alertNoMatches: function () {
         alert("no matches! Try another word.")
       },
-      confirmNewWord: function () {
-        socket.emit("updateGrid", this.tempWordObjects, this.matchesIterator) /* Hur ska vi låta användaren iterera över alla möjliga positioner? */
+
+      confirmCreateCrossword: function () {    //skickar ETT färdigt korsord som lagras i lista blad alla andra skickade korsord i server
+        socket.emit("emittedCrosswordPackage", {sourceName: this.sourceName,    // innehåll i paket ska ändras
+                                                  wordPositionActual: this.wordPositions.actual,
+                                                  matrixDims: this.matrixDims,
+                                                  wordDescPairs: this.wordDescForPackage,
+                                                  })
+        console.log("i confirmCreateCrossword")
       },
 
       fillPositionsNull: function () {
@@ -395,26 +434,7 @@
           this.userIterator--
           this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
         }
-      },
-
-      confirmWordPosition: function () { // lagrar orden och beskrivningarna som vi vill skicka när vi trycker på confirmCreate
-        this.wordDescForPackage[this.word] = this.desc;     
-
-        this.word = ""    
-        this.desc = ""
-
-        console.log("Lista med words och desc som confirmats är:")
-        console.log(this.wordDescForPackage) // för att se om det är problem med alias när word och desc clearas
-      },
-
-      confirmCreateCrossword: function () {    //skickar ETT färdigt korsord som lagras i lista blad alla andra skickade korsord i server
-        socket.emit("emittedCrosswordPackage", {sourceName: this.sourceName,    // innehåll i paket ska ändras
-                                                  wordPositionActual: this.wordPositions.actual,
-                                                  matrixDims: this.matrixDims,
-                                                  wordDescPairs: this.wordDescForPackage,
-                                                  })  
-        console.log("i confirmCreateCrossword")
-      },
+      }
     }  
 }   
 
@@ -490,6 +510,13 @@ button {
     cursor:pointer;
     position: relative;   
   }
+
+  .button-disabled {
+    opacity: 30%;
+    cursor: default;
+    background-color: #ba0c00;
+  }
+  
   .solutionsWrapper{
     display: flex;
     justify-content: center;
