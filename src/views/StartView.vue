@@ -11,7 +11,7 @@
   </div>
   <div class="wrapper">
     <!-- <button id="play" @click="$router.push('/actualPlay/'+lang)">{{'Actual PlayView'}}</button> -->
-    <button id="play" @click="$router.push('/preCreate/'+lang)">{{'Create'}}</button>
+    <button id="play" @click="$router.push('/preCreate/'+lang)">{{uiLabels.createCross}}</button>
     <button id="play" @click="$router.push('/lobby/'+lang)">{{uiLabels.playCross}}</button>
     <!-- <button id="play" @click="$router.push('/CreateView/'+lang)">{{'Göra korsord test'}}</button> -->
   </div>
@@ -58,7 +58,6 @@ export default {
     socket.emit('pageLoaded')
     socket.on("init", (labels) => {
       this.uiLabels = labels
-      
     });
     console.log("created har anropats")
   },

@@ -29,17 +29,18 @@
         
     </div>
     <div class="nameWrapper" id="nameAndCreate">
-        <h2>Game name:</h2>
         <br>
         <form id="gameNameAndSize">
             <div id="section1">
                 <form id="myForm">
-                    <input type="text" id="gameName" name="gameName">
+                    <input type="text" id="gameName" name="gameName" placeholder="Choose a username...">
                 </form>
             </div>
         </form>
-        <button id="confirmAndCreate" v-on:click=submitsDim @click="$router.push('/CreateView/'+lang)">{{'Confirm and create'}}</button>
+        <button id="confirmAndCreate" v-on:click=submitsDim @click="$router.push('/CreateView/'+lang)">{{uiLabels.confirmAndCreate}}</button>
+        <button id="returnButton" @click="$router.push('/'+lang)">{{uiLabels.backButton}}</button>
     </div>
+    
 </template>
     
     <script>
@@ -157,6 +158,10 @@
     #confirmAndCreate {
         width: 10rem;
         height: 5rem;
+        background-color: #FE5F55;
+        border-color: #ba0c00;
+        border-radius: 5px;
+        color: white;
         font-family: "Comic Sans MS", "Comic Sans", cursive;
     }
     #gameName {
@@ -165,9 +170,22 @@
         font-family: "Comic Sans MS", "Comic Sans", cursive;
         font-size: 25px;
     }
+    #returnButton{
+        position: absolute;
+        bottom: 50%;
+        width: 10rem;
+        height: 3rem;
+        background-color: #FE5F55;
+        border-color: #ba0c00;
+        border-radius: 5px;
+        color: white;
+        font-family: "Comic Sans MS", "Comic Sans", cursive;
+       
+    }
 
     .nameWrapper{
     display: flex;
+    height: 20rem;
     justify-content: center;
 
   }

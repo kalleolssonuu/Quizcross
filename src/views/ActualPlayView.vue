@@ -51,6 +51,14 @@
     </ul>
     
   </div>
+
+  
+    <p>
+       <label for="inputWord">Ord</label>
+       <input type="text" id="inputWord" v-model="input" >
+   </p>
+
+   <button id="finishedGame" @click="$router.push('/lobby/'+lang)">{{'Avsluta spel'}}</button>  
   
 </template>
 
@@ -67,6 +75,9 @@ export default {
         Crossword,
         Modal
     },
+    props: {
+    modal: Object,
+    },
     data: function () {
       return {
         word: "",
@@ -78,6 +89,7 @@ export default {
 
         showModal: false,
         uiLabels: {},
+        id: "",
         lang: "en",
         sourceName: "PlayView",
         inputDirection: "Horizontal",
@@ -146,6 +158,12 @@ export default {
           this.wordPositions.actual[2][3].letter = "n"; this.wordPositions.actual[2][3].inHorizontal = true
           this.wordPositions.actual[2][4].letter = "o"; this.wordPositions.actual[2][4].inHorizontal = true
           this.wordPositions.actual[2][5].letter = "n"; this.wordPositions.actual[2][5].inHorizontal = true
+        },
+        switchLanguage: function() {
+          if (this.lang === "en")
+            this.lang = "sv"
+          else
+            this.lang = "en"
 
       },
       changeDirection: function() {
@@ -154,7 +172,20 @@ export default {
         } else {
           this.inputDirection = "Horizontal"
         }
-      }
+      },
+        switchLanguage: function() {
+          if (this.lang === "en")
+            this.lang = "sv"
+          else
+            this.lang = "en"
+
+          socket.emit("switchLanguage", this.lang)
+          this.$router.push(this.lang)
+        },
+        /* FÖR ATT FÅ FRAM POP-UP RUTA*/
+        togglePopup: function () {
+          this.showModal = ! this.showModal;
+        },
 
     }
 }
@@ -201,6 +232,30 @@ export default {
   font-size: 20px;
   position: relative;
   float:left;
+}
+
+button {
+    width: 10rem;
+    height: 4rem;
+    border-radius: 15px;
+    border-color: #ba0c00;
+    margin: 1.5rem;
+    color: white;
+    background-color: #FE5F55;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 1rem;
+    cursor:pointer;
+    position: relative;   
+  }
+#finishedGame{
+  width: 10rem;
+  height: 3rem;
+  position: absolute;
+  left: 45%;
+  background-color: #FE5F55;
+  border-radius: 5px;
+  color: white;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
 
 button {

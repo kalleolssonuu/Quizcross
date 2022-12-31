@@ -34,15 +34,14 @@
         
       </div>
 
-      <button id="create" @click="$router.push('/PreCreate/'+lang)">{{'Create'}}</button>
+      <button id="create" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.create}}</button>
     </div>
   </div>
 
   <div>
     <text id="crossText">{{uiLabels.crossID}}</text> 
     <input type="number" id="selectedid" placeholder="ex. 1234..">
-                  
-                
+                 
     <button id="playButton" v-on:click="playCross" @click="$router.push('/ActualPlay/'+lang)">
       {{uiLabels.playPlay}}
     </button>
@@ -315,6 +314,7 @@ textarea {
   left: 0;
   margin: 0.5rem;
   background-color: #FE5F55;
+  border-color: #ba0c00;
   border-radius: 5px;
   color: white;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
