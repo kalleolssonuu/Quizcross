@@ -5,7 +5,7 @@
       <button v-on:click="togglePopup"></button>
       </Modal>
     </div>
-</header>
+    </header>
     
     <div id="crosswordArea">
       <h2>{{ x }}   x    {{ y }}</h2>  
@@ -31,18 +31,16 @@
     <div class="nameWrapper" id="nameAndCreate">
         <h2>Game name:</h2>
         <br>
-    <form id="gameNameAndSize">
-        <div id="section1">
-            <form id="myForm">
-  <input type="text" id="gameName" name="gameName">
-</form>
-  </div>
-    </form>
-    <button v-on:click=submitsDim id="confirmAndCreate">
-    Confirm and create
-    </button>
+        <form id="gameNameAndSize">
+            <div id="section1">
+                <form id="myForm">
+                    <input type="text" id="gameName" name="gameName">
+                </form>
+            </div>
+        </form>
+        <button id="confirmAndCreate" v-on:click=submitsDim @click="$router.push('/CreateView/'+lang)">{{'Confirm and create'}}</button>
     </div>
-    </template>
+</template>
     
     <script>
     import Crossword from '../components/Crossword.vue'
@@ -63,14 +61,13 @@
     y: 8,
     showModal: false,
         uiLabels: {},
-        // id: "",
+        id: "",
         lang: "en",
         sourceName: "PreCreate",
 
     }
 },
-    created: function(){
-        
+    created: function(){  
       socket.emit('pageLoaded')
       socket.on("init", (labels) => {
       this.uiLabels = labels
@@ -133,7 +130,7 @@
         },
         /* FÖR ATT FÅ FRAM POP-UP RUTA*/
         togglePopup: function () {
-    this.showModal = ! this.showModal;
+        this.showModal = ! this.showModal;
         },
       
     }
@@ -172,6 +169,7 @@
     .nameWrapper{
     display: flex;
     justify-content: center;
+
   }
 
   .XYWrapper{
