@@ -10,10 +10,10 @@
     <div class="logo"><img src="/img/Logotyp.png"></div>
   </div>
   <div class="wrapper">
-    <button id="play" @click="$router.push('/actualPlay/'+lang)">{{'Actual PlayView'}}</button>
-    <button id="play" @click="$router.push('/preCreate/'+lang)">{{'Button to pre create view'}}</button>
+    <!-- <button id="play" @click="$router.push('/actualPlay/'+lang)">{{'Actual PlayView'}}</button> -->
+    <button id="play" @click="$router.push('/preCreate/'+lang)">{{'Create'}}</button>
     <button id="play" @click="$router.push('/lobby/'+lang)">{{uiLabels.playCross}}</button>
-    <button id="play" @click="$router.push('/CreateView/'+lang)">{{'Göra korsord test'}}</button>
+    <!-- <button id="play" @click="$router.push('/CreateView/'+lang)">{{'Göra korsord test'}}</button> -->
   </div>
 
     <audio src="01 Manboy.m4a" controls>

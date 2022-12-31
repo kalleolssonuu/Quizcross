@@ -56,7 +56,7 @@
           </button> 
           <br>
 
-          <button v-on:click="this.confirmCreateCrossword">
+          <button v-on:click="this.confirmCreateCrossword" @click="$router.push('/lobby/'+lang)">
             {{uiLabels.confirmCreate}}  <!--JESSIE OBS OLIKA NAMN-->
           </button>
         </div>
