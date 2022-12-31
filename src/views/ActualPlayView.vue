@@ -48,10 +48,12 @@
   </div>
 
   
-        <p>
-            <label for="inputWord">Ord</label>
-            <input type="text" id="inputWord" v-model="input" >
-        </p>
+    <p>
+       <label for="inputWord">Ord</label>
+       <input type="text" id="inputWord" v-model="input" >
+   </p>
+
+   <button id="finishedGame" @click="$router.push('/'+lang)">{{'Avsluta spel'}}</button>  
   
 </template>
 
@@ -190,6 +192,17 @@ export default {
   font-size: 20px;
   position: relative;
   float:left;
+}
+
+#finishedGame{
+  width: 10rem;
+  height: 3rem;
+  position: absolute;
+  left: 45%;
+  background-color: #FE5F55;
+  border-radius: 5px;
+  color: white;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
 
 
