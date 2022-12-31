@@ -5,8 +5,8 @@
     <tr v-for="(list, ykey) in wordPositions.actual" v-bind:key="'y' + ykey">
         <td v-for="(element, xkey) in list" v-bind:key="'x' + xkey">
           <WordBox class="letterbox" 
-            v-bind:xkey="xkey" 
-            v-bind:ykey="ykey" 
+            v-bind:xkey="xkey"
+            v-bind:ykey="ykey"
             v-bind:letter="element.letter"
             v-bind:inHorizontal="element.inHorizontal"
             v-bind:inVertical="element.inVertical"
@@ -18,16 +18,6 @@
         </td> 
     </tr>
   </table>
-
-
-<!--     <table id="crosswordwrapper"> nedan lista är hur wordPositions kommer se ut i verkligheten
-      <tr v-for="(list, key) in [['C','L', 'O', 'W', 'N', ''],['','A','','', '', ''],['','K','A','N', 'O', 'N'],
-                                  ['J', 'A', '', '', '', ''], ['', 'N', '', '', '', '']]" v-bind:key="key">
-        <td class="letterbox" v-for="(letter, key) in list" v-bind:key="key"> 
-          {{ letter }}
-        </td>
-      </tr>
-    </table> -->
 
 </div>
 </template>
