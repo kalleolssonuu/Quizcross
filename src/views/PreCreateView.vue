@@ -5,7 +5,7 @@
       <button v-on:click="togglePopup"></button>
       </Modal>
     </div>
-    </header>
+</header>
     
     <div id="crosswordArea">
       <h2>{{ x }}   x    {{ y }}</h2>  
@@ -29,19 +29,20 @@
         
     </div>
     <div class="nameWrapper" id="nameAndCreate">
+        <h2>Game name:</h2>
         <br>
-        <form id="gameNameAndSize">
-            <div id="section1">
-                <form id="myForm">
-                    <input type="text" id="gameName" name="gameName" placeholder="Choose a username...">
-                </form>
-            </div>
-        </form>
-        <button id="confirmAndCreate" v-on:click=submitsDim @click="$router.push('/CreateView/'+lang)">{{uiLabels.confirmAndCreate}}</button>
-        <button id="returnButton" @click="$router.push('/'+lang)">{{uiLabels.backButton}}</button>
+    <form id="gameNameAndSize">
+        <div id="section1">
+            <form id="myForm">
+  <input type="text" id="gameName" name="gameName">
+</form>
+  </div>
+    </form>
+    <button v-on:click=submitsDim id="confirmAndCreate">
+    Confirm and create
+    </button>
     </div>
-    
-</template>
+    </template>
     
     <script>
     import Crossword from '../components/Crossword.vue'
@@ -62,13 +63,13 @@
     y: 8,
     showModal: false,
         uiLabels: {},
-        id: "",
+        // id: "",
         lang: "en",
-        sourceName: "PreCreate",
-
+        sourceName: "PreCreate"
     }
 },
-    created: function(){  
+    created: function(){
+        
       socket.emit('pageLoaded')
       socket.on("init", (labels) => {
       this.uiLabels = labels
@@ -131,7 +132,7 @@
         },
         /* FÖR ATT FÅ FRAM POP-UP RUTA*/
         togglePopup: function () {
-        this.showModal = ! this.showModal;
+    this.showModal = ! this.showModal;
         },
       
     }
@@ -158,10 +159,6 @@
     #confirmAndCreate {
         width: 10rem;
         height: 5rem;
-        background-color: #FE5F55;
-        border-color: #ba0c00;
-        border-radius: 5px;
-        color: white;
         font-family: "Comic Sans MS", "Comic Sans", cursive;
     }
     #gameName {
@@ -170,24 +167,10 @@
         font-family: "Comic Sans MS", "Comic Sans", cursive;
         font-size: 25px;
     }
-    #returnButton{
-        position: absolute;
-        bottom: 50%;
-        width: 10rem;
-        height: 3rem;
-        background-color: #FE5F55;
-        border-color: #ba0c00;
-        border-radius: 5px;
-        color: white;
-        font-family: "Comic Sans MS", "Comic Sans", cursive;
-       
-    }
 
     .nameWrapper{
     display: flex;
-    height: 20rem;
     justify-content: center;
-
   }
 
   .XYWrapper{

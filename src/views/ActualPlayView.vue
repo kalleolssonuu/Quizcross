@@ -159,20 +159,13 @@ export default {
           this.wordPositions.actual[2][4].letter = "o"; this.wordPositions.actual[2][4].inHorizontal = true
           this.wordPositions.actual[2][5].letter = "n"; this.wordPositions.actual[2][5].inHorizontal = true
         },
-        switchLanguage: function() {
-          if (this.lang === "en")
-            this.lang = "sv"
-          else
-            this.lang = "en"
-
-      },
-      changeDirection: function() {
-        if (this.inputDirection === "Horizontal") {
-          this.inputDirection = "Vertical"
-        } else {
-          this.inputDirection = "Horizontal"
-        }
-      },
+        changeDirection: function() {
+          if (this.inputDirection === "Horizontal") {
+            this.inputDirection = "Vertical"
+          } else {
+            this.inputDirection = "Horizontal"
+          }
+        },
         switchLanguage: function() {
           if (this.lang === "en")
             this.lang = "sv"

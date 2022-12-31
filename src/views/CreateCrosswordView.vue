@@ -39,9 +39,7 @@
       <img id="showSolutions" :src="uiLabels.showPrevious" v-on:click="this.showPreviousSolution">
       <img id="showSolutions" :src="uiLabels.showNext" v-on:click="this.showNextSolution">
     </div>
-    <!-- <button id="showSolutions" v-on:click="this.showPreviousSolution">{{uiLabels.showPrevious}}</button>
-    <button id="showSolutions" v-on:click="this.showNextSolution">{{uiLabels.showNext}}</button> -->
-
+    
     <button v-on:click="this.confirmWordPosition"> Confirm word Position  </button>
 
 
@@ -102,7 +100,7 @@
 
         userIterator: 0,
         matchesIterator: 0,
-        swapIterator: 0, 
+        prioIterator: 0, 
         wordInOrder: 1,
         amountWordsAdded: 0,
 
@@ -111,7 +109,6 @@
         noMatches: false,
 
         matrixDims: {x: 15, y: 15},
-        /* wordPositions: [], */
         wordPositions: {actual: [], temp: []},
         wordPositionsCopy: [],
         crosswordPackage: {crosswordName: "", 
@@ -125,7 +122,6 @@
         lang: "en",
 
         sourceName: "CreateCrosswordView",
-        wordDescForPackage: {} // ska ändras
       }
     },
     created: function () {
@@ -207,10 +203,10 @@
                             
                               if (this.letterMatchCounter != wordSplit.length) {
                                 if (this.wordCollision) {
-                                  this.wordPositions.temp.splice(this.swapIterator, 0, this.getNewTempPositionVert(h, v, wordSplit))
+                                  this.wordPositions.temp.splice(this.prioIterator, 0, this.getNewTempPositionVert(h, v, wordSplit))
                                   /* [this.wordPositions.temp[this.matchesIterator], this.wordPositions.temp[this.swapIterator]] = 
                                   [this.wordPositions.temp[this.swapIterator], this.wordPositions.temp[this.matchesIterator]] */
-                                  this.swapIterator++
+                                  this.prioIterator++
                                   this.wordCollision = false
                                 } else {
                                   this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionVert(h, v, wordSplit)
@@ -265,10 +261,10 @@
 
                               if (this.letterMatchCounter != wordSplit.length) {
                                 if (this.wordCollision) {
-                                  this.wordPositions.temp.splice(this.swapIterator, 0, this.getNewTempPositionHoriz(h, v, wordSplit))
+                                  this.wordPositions.temp.splice(this.prioIterator, 0, this.getNewTempPositionHoriz(h, v, wordSplit))
                                   /* [this.wordPositions.temp[this.matchesIterator], this.wordPositions.temp[this.swapIterator]] = 
                                   [this.wordPositions.temp[this.swapIterator], this.wordPositions.temp[this.matchesIterator]] */
-                                  this.swapIterator++
+                                  this.prioIterator++
                                   this.wordCollision = false
                                 } else {
                                   this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionHoriz(h, v, wordSplit)
@@ -323,7 +319,6 @@
         this.amountWordsAdded++
         this.wordPositionsCopy = JSON.parse(JSON.stringify(this.wordPositions.actual))
         this.crosswordPackage.wordDesc[this.amountWordsAdded - 1] = {word: this.word, desc: this.desc} 
-                /* ^-- vi har ej räknat med att man kan glömma att bekräfta */
 
         this.word = ""
         this.desc = ""
