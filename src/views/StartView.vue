@@ -58,7 +58,6 @@ export default {
     socket.emit('pageLoaded')
     socket.on("init", (labels) => {
       this.uiLabels = labels
-      
     });
     console.log("created har anropats")
   },

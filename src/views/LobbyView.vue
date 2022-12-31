@@ -34,7 +34,7 @@
         
       </div>
 
-      <button id="create" @click="$router.push('/PreCreate/'+lang)">{{'Create'}}</button>
+      <button id="create" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.create}}</button>
     </div>
   </div>
 

@@ -70,6 +70,9 @@ export default {
         Crossword,
         Modal
     },
+    props: {
+    modal: Object,
+    },
     data: function () {
       return {
         word: "",
@@ -84,7 +87,7 @@ export default {
         //                     */
         showModal: false,
         uiLabels: {},
-        // id: "",
+        id: "",
         lang: "en",
         sourceName: "PlayView",
         wordInOrder:1,
@@ -144,7 +147,19 @@ export default {
             this.wordPositions.actual[2][3].letter = "n"; this.wordPositions.actual[2][3].inHorizontal = true
             this.wordPositions.actual[2][4].letter = "o"; this.wordPositions.actual[2][4].inHorizontal = true
             this.wordPositions.actual[2][5].letter = "n"; this.wordPositions.actual[2][5].inHorizontal = true
+        },
+        switchLanguage: function() {
+          if (this.lang === "en")
+            this.lang = "sv"
+          else
+            this.lang = "en"
 
+          socket.emit("switchLanguage", this.lang)
+          this.$router.push(this.lang)
+        },
+        /* FÖR ATT FÅ FRAM POP-UP RUTA*/
+        togglePopup: function () {
+          this.showModal = ! this.showModal;
         },
 
     }

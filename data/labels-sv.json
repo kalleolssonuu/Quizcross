@@ -4,12 +4,13 @@
 	"playCross": "Spela",
 
 	
-	"//PlayView": "Här är PlayViews översättningar",
+	"//LobbyView": "Här är LobbyViews översättningar",
 	"userCreatedGames": "Användarskapade spel",
 	"myGamesLang": "Mina spel",
 	"selectedGameLang": "Valt spel: ",
 	"crossID": "Korsords-ID",
 	"playPlay": "Spela",
+	"create": "Skapa",
 	"backButton": "Tillbaka",
 
 
@@ -21,8 +22,8 @@
 
 
 	"//CreateCrosswordView": "Här är CreateCrosswordViews översättningar",
-	"yourWord": "Ditt ord",
-	"wordDescription": "Ordets förklaring",
+	"yourWord": "Ditt ord:",
+	"wordDescription": "Beskrivning:",
 	"addWord": "Lägg till ordet i korsordet",
 	"showNext": "/img/ShowNextSv.png",
 	"showPrevious": "/img/ShowPreviousSv.png",

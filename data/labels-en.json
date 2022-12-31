@@ -4,12 +4,13 @@
 	"playCross": "Play",
 
 
-	"//PlayView": "Här är PlayViews översättningar",
+	"//LobbyView": "Här är LobbyViews översättningar",
 	"userCreatedGames": "User created games",
 	"myGamesLang": "My games",
 	"selectedGameLang": "Selected game: ",
 	"crossID": "Crossword ID",
 	"playPlay": "Play",
+	"create": "Create",
 	"backButton": "Back",
 
 
@@ -20,8 +21,8 @@
 
 
 	"//CreateCrosswordView": "Här är CreateCrosswordViews översättningar",
-	"yourWord": "Your word",
-	"wordDescription": "Word description",
+	"yourWord": "Your word:",
+	"wordDescription": "Word description:",
 	"addWord": "Add word to crossword",
 	"showNext": "/img/ShowNextEn.png",
 	"showPrevious": "/img/ShowPreviousEn.png",

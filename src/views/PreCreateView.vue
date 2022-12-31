@@ -172,7 +172,7 @@
     }
     #returnButton{
         position: absolute;
-        bottom: 53%;
+        bottom: 50%;
         width: 10rem;
         height: 3rem;
         background-color: #FE5F55;
@@ -187,7 +187,6 @@
     display: flex;
     height: 20rem;
     justify-content: center;
-    padding-bottom: 1rem;
 
   }
 
