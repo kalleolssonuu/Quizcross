@@ -53,7 +53,7 @@
        <input type="text" id="inputWord" v-model="input" >
    </p>
 
-   <button id="finishedGame" @click="$router.push('/'+lang)">{{'Avsluta spel'}}</button>  
+   <button id="finishedGame" @click="$router.push('/lobby/'+lang)">{{'Avsluta spel'}}</button>  
   
 </template>
 

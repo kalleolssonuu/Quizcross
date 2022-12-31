@@ -27,5 +27,8 @@
 	"showNext": "/img/ShowNextSv.png",
 	"showPrevious": "/img/ShowPreviousSv.png",
 	"resetCrossword": "Återställ korsordet",
-	"confirmCreate": "Bekräfta och skapa korsordet"
+	"confirmCreate": "Bekräfta och skapa korsordet",
+
+	"//PreCreateView": "Här är PreCreateViews översättningar",
+	"confirmAndCreate": "Spara och spela"
 }
