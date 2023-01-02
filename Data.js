@@ -5,9 +5,9 @@ const languages = ["en", "se"];
 // Store data in an object to keep the global namespace clean
 function Data() {
   this.polls = {};
-  this.crosses = {};
-  
-  this.crosswordPackages= {}; // här lagras varje korsordspaket med ID som key
+  this.crosses = {}; /* {userID: {crosswordID: {all info}
+                                 }
+                        } */
 }
 
 /***********************************************
@@ -33,6 +33,12 @@ Data.prototype.createPoll = function(pollId, lang="en") {
   }
   return this.polls[pollId];
 }
+
+Data.prototype.getCrosswordFromID = function(userID, crosswordID) {
+  /* ta fram användarID på samma sätt som när ID:t skapas. Returnera korsord med crosswordID */
+  return this.crosses[crosswordID]
+}
+
 Data.prototype.playCross = function(playId, lang="en") {
   if (typeof this.crosses[playId] === "undefined") {
     let cross = {};
@@ -129,6 +135,7 @@ Data.prototype.getAllPackageInfoForLobby = function () { // returerar info för 
 
 
 module.exports = Data;
+
 
 
 

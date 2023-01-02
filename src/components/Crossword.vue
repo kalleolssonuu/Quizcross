@@ -5,16 +5,16 @@
     <tr v-for="(list, ykey) in wordPositions.actual" v-bind:key="'y' + ykey">
         <td v-for="(element, xkey) in list" v-bind:key="'x' + xkey">
           <WordBox class="letterbox" 
-            v-bind:xkey="xkey"
-            v-bind:ykey="ykey"
+            v-bind:xkey="xkey" 
+            v-bind:ykey="ykey" 
             v-bind:letter="element.letter"
+            v-bind:direction="element.direction"
             v-bind:inHorizontal="element.inHorizontal"
             v-bind:inVertical="element.inVertical"
             v-bind:isFirstLetter="element.isFirstLetter"
-            v-bind:sourceName="this.sourceName"
-            v-bind:wordInOrder="element.wordInOrder">
-
-          </WordBox> 
+            v-bind:wordInOrder="element.wordInOrder"
+            v-bind:sourceName="this.sourceName">
+          </WordBox>
         </td> 
     </tr>
   </table>
@@ -40,15 +40,15 @@ import WordBox from '../components/WordBox.vue'
       matrixDims: Object,
       solutionsList: Object,
       sourceName: String,
-      wordInOrder: Number,
+      wordInOrder: Number
     },
     mounted() {
-    /*   this.wordPositions.actual.forEach((item, yindex) => {
-        console.log("Outer wordPositions.actual index: " + yindex);
-        item.forEach((item, xindex) => {
-          console.log("Inner wordPositions.actual index: " + xindex)
-        })
-      }); */
+/*     this.wordPositions.actual.forEach((item, yindex) => {
+      console.log("Outer wordPositions.actual index: " + yindex);
+      item.forEach((item, xindex) => {
+        console.log("Inner wordPositions.actual index: " + xindex)
+      })
+    }); */
     },
     created: function () {
       this.tempFunc()
@@ -92,7 +92,7 @@ import WordBox from '../components/WordBox.vue'
 
 #crosswordwrapper {
   display: table;
-  table-layout: auto; 
+  table-layout: auto;
   margin: 0 auto;
   justify-content: center;
   background-color: #A7CAB1;
@@ -100,6 +100,7 @@ import WordBox from '../components/WordBox.vue'
   width: 600px;
   max-height: 600px;
 }
+
 
   </style>
   

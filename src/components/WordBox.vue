@@ -25,6 +25,7 @@
         xkey: Number,
         ykey: Number,
         letter: String,
+        direction: String,
         inHorizontal: Boolean,
         inVertical: Boolean,
         isFirstLetter: Boolean,

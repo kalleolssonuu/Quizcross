@@ -7,7 +7,7 @@
     </div>
 </header>
 
-  <h1>Change input direction: </h1>
+  Change input direction: 
   <button v-on:click="changeDirection">
     {{ inputDirection }}
   </button>
@@ -118,7 +118,7 @@ export default {
         console.log("Inside of loadusercrossword")
         this.userCrossword = JSON.parse(JSON.stringify(this.wordPositions.actual))
         this.userCrossword.forEach((item, index) => {
-          item[index].letter = "c"
+          item[index].letter = null
         })
         console.log(this.userCrossword)
       },
@@ -131,7 +131,7 @@ export default {
                                                   inHorizontal: false,
                                                   inVertical: false,
                                                   isFirstLetter: false, 
-                                                  wordInOrder: this.wordInOrder} /* if (wordInOrder != 0) { lägg till siffra i hörnet } */
+                                                  wordInOrder: 1} /* if (wordInOrder != 0) { lägg till siffra i hörnet } */
               }
           }
 
@@ -191,7 +191,6 @@ export default {
   float:left;
   width: 50%;
   margin: 5%;
-
 }
 
 .wordDescriptioWrapper{
