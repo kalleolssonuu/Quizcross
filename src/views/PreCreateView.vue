@@ -19,13 +19,9 @@
     </button>
     </div>
     <Crossword  v-bind:sourceName="sourceName"
-                    v-bind:wordObjects="this.wordObjects" 
-                    v-bind:tempWordObjects="this.tempWordObjects"
-                    v-bind:wordPositions="this.wordPositions"
-                    v-bind:matrixDims="this.matrixDims"
-                    v-bind:word="this.word"
-                    v-bind:desc="this.desc">
-        </Crossword>
+                v-bind:wordPositions="this.wordPositions.actual"
+                v-bind:matrixDims="this.matrixDims">
+    </Crossword>
         
     </div>
     <div class="nameWrapper" id="nameAndCreate">
@@ -37,7 +33,7 @@
                 </form>
             </div>
         </form>
-    <button v-on:click=submitsDim id="confirmAndCreate" @click="$router.push('/CreateView/'+lang)">
+    <button v-on:click=submitDims id="confirmAndCreate" @click="$router.push('/CreateView/'+lang)">
     {{uiLabels.confirmAndCreate}}
     </button>
     <button id="returnButton" @click="$router.push('/'+lang)">{{uiLabels.backButton}}</button>
@@ -67,7 +63,7 @@
         lang: "en",
         sourceName: "PreCreate"
     }
-},
+    },
     created: function(){
         
       socket.emit('pageLoaded')
@@ -75,10 +71,10 @@
       this.uiLabels = labels
     })
         this.fillPositionsNull();
-},
+    },
 
     methods: {
-        submitsDim() {
+        submitDims() {
         console.log("x: " + this.x + ", y: " + this.y);
         console.log(this.matrixDims)
         },
@@ -106,33 +102,35 @@
 
         fillPositionsNull: function () { //tar x och y som inparametrar med input
             this.wordPositions.actual = []
-        for (let v = 0; v < this.matrixDims.y; v++) {
-            this.wordPositions.actual[v] = [];
-            /* wordPositions = [[null, null, null, null]] */
-            for (let h = 0; h < this.matrixDims.x; h++) {
-            this.wordPositions.actual[v][h] = {letter: null, 
-                                               inHorizontal: false,
-                                               inVertical: false,
-                                               isFirstLetter: false, 
-                                               wordInOrder: this.wordInOrder} /* if (wordInOrder != 0) { lägg till siffra i hörnet } */
+            for (let v = 0; v < this.matrixDims.y; v++) {
+                this.wordPositions.actual[v] = [];
+                /* wordPositions = [[null, null, null, null]] */
+                for (let h = 0; h < this.matrixDims.x; h++) {
+                this.wordPositions.actual[v][h] = {letter: null, 
+                                                inHorizontal: false,
+                                                inVertical: false,
+                                                isFirstLetter: false, 
+                                                wordInOrder: this.wordInOrder} /* if (wordInOrder != 0) { lägg till siffra i hörnet } */
+                }
             }
-        }
 
-        this.wordPositions.temp = []
-        console.log(this.wordPositions.actual)
+            this.wordPositions.temp = []
+            console.log(this.wordPositions.actual)
         },
+
         switchLanguage: function() {
-        if (this.lang === "en")
-            this.lang = "sv"
-        else
-            this.lang = "en"
+            if (this.lang === "en")
+                this.lang = "sv"
+            else
+                this.lang = "en"
 
-        socket.emit("switchLanguage", this.lang)
-        this.$router.push(this.lang)
+            socket.emit("switchLanguage", this.lang)
+            this.$router.push(this.lang)
         },
+
         /* FÖR ATT FÅ FRAM POP-UP RUTA*/
         togglePopup: function () {
-    this.showModal = ! this.showModal;
+            this.showModal = ! this.showModal;
         },
       
     }
@@ -223,7 +221,7 @@
         text-align: center;
     }
 
-    #minusButton, #plusButton{
+    #minusButton, #plusButton {
         height: 2rem;
         width: 2rem;
     }
@@ -235,4 +233,4 @@
 }
 
    
-    </style>
+</style>
