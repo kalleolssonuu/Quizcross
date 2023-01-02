@@ -29,17 +29,16 @@
         
     </div>
     <div class="nameWrapper" id="nameAndCreate">
-        <h2>Game name:</h2>
         <br>
     <form id="gameNameAndSize">
         <div id="section1">
             <form id="myForm">
-  <input type="text" id="gameName" name="gameName">
+  <input type="text" id="gameName" name="gameName" placeholder="Enter game name here...">
 </form>
   </div>
     </form>
-    <button v-on:click=submitsDim id="confirmAndCreate">
-    Confirm and create
+    <button v-on:click=submitsDim id="confirmAndCreate" @click="$router.push('/CreateView/'+lang)">
+    {{uiLabels.confirmAndCreate}}
     </button>
     </div>
     </template>
@@ -200,16 +199,9 @@
         text-align: center;
     }
 
-    #minusButtonX, #plusButtonX, #minusButtonY, #plusButtonY{
+    #minusButton, #plusButton{
         height: 2rem;
         width: 2rem;
-    }
-    
-    #plusButtonX {
-        margin-right: 1rem;
-    }
-    #minusButtonY {
-        margin-left: 1rem;
     }
 
     input::-webkit-outer-spin-button,

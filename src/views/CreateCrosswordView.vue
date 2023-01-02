@@ -10,12 +10,6 @@
 <button v-on:click="this.testUserID"> test IP ID </button>
 
 
-<button v-if="!this.enableWordButtons" class="button-disabled" disabled> Confirm </button>
-<button v-else v-on:click="this.confirmWord"> Confirm </button>
-
-<button v-if="!this.enableWordButtons" class="button-disabled" disabled> Discard </button>
-<button v-else v-on:click="this.discardWord"> Discard </button>
-
 <div id="div1" class="inputFieldWrapper">
           
     <div class="inputField"> <!-- måste emitta word så att vi kan använda -->
@@ -40,7 +34,11 @@
       <img id="showSolutions" :src="uiLabels.showNext" v-on:click="this.showNextSolution">
     </div>
     
-    <button v-on:click="this.confirmWordPosition"> Confirm word Position  </button>
+    <button v-if="!this.enableWordButtons" class="button-disabled" disabled> Confirm </button>
+    <button v-else v-on:click="this.confirmWord"> Confirm </button>
+
+    <button v-if="!this.enableWordButtons" class="button-disabled" disabled> Discard </button>
+    <button v-else v-on:click="this.discardWord"> Discard </button>
 
 
   </div>
@@ -56,7 +54,7 @@
         
         <div id="div3">
           <!--<button v-on:click="this.emptyTextFields"> Empty Input </button> ---><!-- gör detta när användaren har valt ett ord istället för en knapp. Det rensar även textfältet -->
-          <button v-on:click="this.fillPositionsNull">
+          <button v-on:click="this.resetData">
             {{uiLabels.resetCrossword}}
           </button> 
           <br>
@@ -78,7 +76,37 @@
   /* import Vue from 'vue'; */
 
   const socket = io();
-  
+ /*  const initialData = {
+    word: "",
+    desc: "",
+
+    userIterator: 0,
+    matchesIterator: 0,
+    prioIterator: 0, 
+    wordInOrder: 1,
+    amountWordsAdded: 0,
+
+    enableWordButtons: false,
+    wordCollision: false,
+    noMatches: false,
+
+    matrixDims: {x: 15, y: 15},
+    wordPositions: {actual: [], temp: []},
+    wordPositionsCopy: [],
+    crosswordPackage: {crosswordName: "", 
+                        wordPositions: [],
+                        wordDesc: [],
+                        matrixDims: {},
+                        },
+
+    showModal: false,
+    uiLabels: {},        
+    lang: "en",
+
+    sourceName: "CreateCrosswordView",
+  } */
+
+
 /* LOGG:
 
   Från tidigare:
@@ -142,13 +170,19 @@
           this.lang = "en"
         socket.emit("switchLanguage", this.lang)
       },
-    /* FÖR ATT FÅ FRAM POP-UP RUTA*/
+
       togglePopup: function () {
         this.showModal = ! this.showModal;
       },
+
       testUserID: function () {
         console.log(this.$getIPAddress)
       },
+
+      resetData: function () {
+        location.reload()
+      },
+
       findPotentialMatches: function () {
         if (this.word != "") {
         
@@ -298,9 +332,8 @@
               this.alertNoMatches();
           } else {
             this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
-           this.wordInOrder++
             console.log("Amount of words added: " + this.wordInOrder)
-  
+            this.wordInOrder++
           }
         }
       }, 
@@ -324,7 +357,8 @@
         this.desc = ""
         console.log(this.crosswordPackage.wordDesc)
         this.enableWordButtons = false
-      },                                     /* ^ kan behöva vara - 2 */
+      }, 
+                                          /* ^ kan behöva vara - 2 */
       discardWord: function () {
         this.word = ""
         this.desc = ""
@@ -332,12 +366,14 @@
         this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositionsCopy))
         this.enableWordButtons = false
       },
+
       testSocketSend: function () {
         socket.on("matrixDimsTransfer", data => {
           this.matrixDims = data.matrixDims
           console.log("matrixDimsTransfer has been found")
         })
       },
+
       alertNoMatches: function () {
         alert("no matches! Try another word.")
       },
@@ -367,6 +403,7 @@
         this.wordPositions.temp = []
         console.log(this.wordPositions.actual)
       },
+
       getNewTempPositionVert: function (h, v, wordSplit) {
         if (this.wordPositions.temp != []) {
           let newWordPositions = JSON.parse(JSON.stringify(this.wordPositions.actual))
@@ -390,6 +427,7 @@
           return newWordPositions
         }
       },
+
       getNewTempPositionHoriz: function (h, v, wordSplit) {
         if (this.wordPositions != []) {
           let newWordPositions = JSON.parse(JSON.stringify(this.wordPositions.actual))
@@ -414,6 +452,7 @@
         }
 
       },
+
       showNextSolution: function () {
         if (this.userIterator == this.matchesIterator - 1) {
           this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
@@ -422,6 +461,7 @@
           this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
         }
       },
+      
       showPreviousSolution: function () {
         if (this.userIterator == 0) {
           this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
