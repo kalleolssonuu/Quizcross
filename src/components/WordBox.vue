@@ -1,8 +1,7 @@
  <template>
 
-  <div class="letterbox" @click="testClick">
-      <!-- här måste jag på nåt sätt veta vilket ord i ordningen det är så att rätt siffra kan skrivas ut mha nån funktion.
-          crossword.vue är väl föräldern i det här fallet? har den något som kan skickas ner till barnet kanske-->
+  <div class="letterbox" :class="{ 'selected': selected }" 
+  @click="testClick">
     <span id="number-horiz" v-if="isFirstLetter && inHorizontal"> {{ wordInOrder }} </span>
     <span id="number-vert" v-if="isFirstLetter && inVertical"> {{ wordInOrder }} </span>
     {{letter}}
@@ -18,6 +17,7 @@
     data: function() {
       return {
         name: 'WordBox',
+        selected: false,
       }
     },
     props: {
@@ -41,6 +41,7 @@
         } else {
           alert("test noclick")
         }
+        this.selected = !this.selected
       },
       occupyWordBox: function () {
         /* Den här positionen är kopplad till ett eller två ord. Utifrån angiven riktning vill vi börja skriva och matcha bokstav för bokstav
@@ -68,6 +69,9 @@
   border: black 0.15rem solid;
 } */
 
+.selected {
+  background-color: rgb(245, 236, 159);
+}
 
 .letterbox:empty {
   background-color: white;
