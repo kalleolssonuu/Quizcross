@@ -5,7 +5,6 @@
           crossword.vue är väl föräldern i det här fallet? har den något som kan skickas ner till barnet kanske-->
     <span id="number-horiz" v-if="isFirstLetter && inHorizontal"> {{ wordInOrder }} </span>
     <span id="number-vert" v-if="isFirstLetter && inVertical"> {{ wordInOrder }} </span>
-    
     {{letter}}
   </div>
 
@@ -18,7 +17,7 @@
   export default {
     data: function() {
       return {
-        name: 'WordBox'
+        name: 'WordBox',
       }
     },
     props: {
