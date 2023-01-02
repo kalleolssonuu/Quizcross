@@ -15,6 +15,28 @@
           v-bind:wordInOrder="element.wordInOrder"
           v-bind:sourceName="this.sourceName">
         </WordBox>
+        <WordBox v-if="this.sourceName == 'PlayView'" class="letterbox letterbox-PlayView"
+          v-bind:xkey="xkey" 
+          v-bind:ykey="ykey" 
+          v-bind:letter="element.letter"
+          v-bind:direction="element.direction"
+          v-bind:inHorizontal="element.inHorizontal"
+          v-bind:inVertical="element.inVertical"
+          v-bind:isFirstLetter="element.isFirstLetter"
+          v-bind:wordInOrder="element.wordInOrder"
+          v-bind:sourceName="this.sourceName">
+        </WordBox>
+        <WordBox v-if="this.sourceName == 'PreCreate'" class="letterbox"
+          v-bind:xkey="xkey" 
+          v-bind:ykey="ykey" 
+          v-bind:letter="element.letter"
+          v-bind:direction="element.direction"
+          v-bind:inHorizontal="element.inHorizontal"
+          v-bind:inVertical="element.inVertical"
+          v-bind:isFirstLetter="element.isFirstLetter"
+          v-bind:wordInOrder="element.wordInOrder"
+          v-bind:sourceName="this.sourceName">
+        </WordBox>
       </td> 
     </tr>
   </table>
@@ -68,7 +90,7 @@ import WordBox from '../components/WordBox.vue'
   <style scoped>
 
 .letterbox {
-  background-color: rgb(250, 244, 192);
+  background-color: white;
   width: 95%;
   height: 95%;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
@@ -79,7 +101,7 @@ import WordBox from '../components/WordBox.vue'
 }
 
 .letterbox-CreateView {
-  background-color: white;
+  
 }
 
 .letterbox-CreateView:hover {
