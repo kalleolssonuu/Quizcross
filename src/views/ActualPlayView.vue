@@ -7,22 +7,18 @@
     </div>
 </header>
 
-  Change input direction: 
+  Change input direction: <!-- uiLabels + layout-fix -->
   <button v-on:click="changeDirection">
     {{ inputDirection }}
   </button>
 
-  <div id="div2"> 
+  <div id="div2">
         <Crossword  v-bind:sourceName="sourceName"
-                    v-bind:wordPositions="this.wordPositions" 
+                    v-bind:wordPositions="this.userCrossword"
                     v-bind:matrixDims="this.matrixDims"
                     v-bind:word="this.word"    
-                    v-bind:desc="this.desc"
-                    > 
-                    
-                    <!-- v-bind:wordPositions="data.allCrosswords.ID.wordPositions" -->
-                    <!-- v-bind:matrixDims="data.allCrosswords.ID.matrixDims" -->
-        </Crossword> <!-- hur få ut rätt word och desc? Typ for-loop "for crosswordpackages.word, gör det ovan"  -->
+                    v-bind:desc="this.desc"> 
+        </Crossword>
   </div>
 
   <!-- JESSIE: FIXA SÅ SKICKAR ETT PAKET INTE ALLA, SE ANTECK I LOBBY -->
@@ -101,20 +97,34 @@ export default {
         this.data = data
       ),
       this.fillPremadeCrossword();
+      this.userCrossword = this.getUserCrossword()
 
       socket.on('currentCrosswordPackages', data => { // tar emot korsordsinfo från server, ursprung confirmCreate
         this.crosswordPackages = data}); 
-      /* this.loadUserCrossword() */
+      /* this.getUserCrossword() */
     },
 
     methods: {
-      loadUserCrossword: function () {
-        console.log("Inside of loadusercrossword")
-        this.userCrossword = JSON.parse(JSON.stringify(this.wordPositions.actual))
-        this.userCrossword.forEach((item, index) => {
-          item[index].letter = null
+      getUserCrossword: function () {
+        /* console.log("Inside of getUserCrossword") */
+
+                        console.log("JSON test: " + JSON.parse(JSON.stringify(this.wordPositions.actual)))
+
+        let tempUserCrossword = JSON.parse(JSON.stringify(this.wordPositions.actual))
+
+                        console.log("tempUserCrossword before nullify: " + tempUserCrossword)
+                        console.log("test get property-value before nullify: " + tempUserCrossword[0][0].letter)
+
+        tempUserCrossword.forEach((outerList) => {
+          outerList.forEach(element => {
+            element.letter = null
+          })
         })
-        console.log(this.userCrossword)
+
+                        console.log("tempUserCrossword after nullify: " + tempUserCrossword)
+                        console.log("test get property-value before nullify: " + tempUserCrossword[0][0].letter)
+
+        return tempUserCrossword
       },
       fillPremadeCrossword: function () {
           for (let v = 0; v < this.matrixDims.y; v++) {
@@ -124,7 +134,7 @@ export default {
               this.wordPositions.actual[v][h] = {letter: null, 
                                                   inHorizontal: false,
                                                   inVertical: false,
-                                                  isFirstLetter: false, 
+                                                  isFirstLetter: false,
                                                   wordInOrder: 1} /* if (wordInOrder != 0) { lägg till siffra i hörnet } */
               }
           }

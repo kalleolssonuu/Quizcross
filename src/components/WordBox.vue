@@ -1,11 +1,22 @@
  <template>
 
   <div class="letterbox" @click="testClick">
+
+    <!-- 
+
+    <button v-if="!this.enableWordButtons" class="button-disabled" disabled> Confirm </button>
+    <button v-else v-on:click="this.confirmWord"> Confirm </button>
+
+    <button v-if="!this.enableWordButtons" class="button-disabled" disabled> Discard </button>
+    <button v-else v-on:click="this.discardWord"> Discard </button> 
+  
+  -->
+
       <!-- här måste jag på nåt sätt veta vilket ord i ordningen det är så att rätt siffra kan skrivas ut mha nån funktion.
           crossword.vue är väl föräldern i det här fallet? har den något som kan skickas ner till barnet kanske-->
     <span id="number-horiz" v-if="isFirstLetter && inHorizontal"> {{ wordInOrder }} </span>
     <span id="number-vert" v-if="isFirstLetter && inVertical"> {{ wordInOrder }} </span>
-    {{letter}}
+    {{ letter }}
   </div>
 
 
@@ -43,10 +54,7 @@
         }
       },
       occupyWordBox: function () {
-        /* Den här positionen är kopplad till ett eller två ord. Utifrån angiven riktning vill vi börja skriva och matcha bokstav för bokstav
-          med det ord som är 'osynligt' på de positionerna. Om vi matchar = visa ordet för användaren och ge poäng. 
-          Sätt färg på rutan efter vilken användare det är, och markera den som ockuperad. 
-          this.$emit(this.xkey, this.ykey) */
+
       }
     }
 }
@@ -68,11 +76,6 @@
   border: black 0.15rem solid;
 } */
 
-
-.letterbox:empty {
-  background-color: white;
-  /* background-color: #A7CAB1; */
-}
 
 .letterbox:hover {
   cursor: pointer;
