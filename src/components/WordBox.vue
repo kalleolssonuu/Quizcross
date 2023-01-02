@@ -33,7 +33,6 @@
     data: function() {
       return {
         name: 'WordBox',
-        selected: false,
       }
     },
     props: {
@@ -57,7 +56,6 @@
         } else {
           alert("test noclick")
         }
-        this.selected = !this.selected
       },
       occupyWordBox: function () {
 
@@ -79,10 +77,6 @@
   font-size: 2rem;
   border: black 0.15rem solid;
 } */
-
-.selected {
-  background-color: rgb(245, 236, 159);
-}
 
 #nullLetter {
   background-color: red;
