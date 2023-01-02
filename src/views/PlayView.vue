@@ -14,7 +14,7 @@
 
   <div id="div2">
         <Crossword  v-bind:sourceName="this.sourceName"
-                    v-bind:wordPositions="this.userCrossword"
+                    v-bind:wordPositions="this.wordPositions.actual"
                     v-bind:matrixDims="this.matrixDims"
                     v-bind:word="this.word"    
                     v-bind:desc="this.desc"> 

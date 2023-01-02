@@ -109,7 +109,7 @@ import WordBox from '../components/WordBox.vue'
 }
 
 .letterbox-PlayView {
-  
+  cursor: default;
 }
 
 #crossword {

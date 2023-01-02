@@ -1,11 +1,11 @@
  <template>
 
-  <div v-if="(!this.inHorizontal) && (!this.inVertical) && (this.sourceName == 'PlayView')" id="nullLetter" @click="testClick">
-    <!-- <span id="number" v-if="isFirstLetter"> {{ wordInOrder }} </span>
-    {{ letter }} -->
+  <div v-if="(!this.inHorizontal) && (!this.inVertical)" id="nullLetter">
+    <div v-if="(this.sourceName == 'PlayView')" @click="testClick">
+      
+    </div>
   </div>
-
-  <div v-else @click='testClick'>
+  <div v-else>
     <span id="number" v-if="isFirstLetter"> {{ wordInOrder }} </span>
     {{ letter }}
   </div>
@@ -66,7 +66,7 @@
 
 #nullLetter {
   background-color: #A7CAB1;
-  border: 0cm;
+  border: none;
 }
 
 .letterbox:hover {
@@ -74,10 +74,13 @@
 }
 
 #number{
+  position: relative;
+  top: 0;
+  left: 0;
   font-size: 1rem;
-  position:absolute;
-  margin-left: -0.6rem;
-  z-index: 1;
+  color: black;
+  display: flex;
+  align-items: center;
 }
 
 </style>
