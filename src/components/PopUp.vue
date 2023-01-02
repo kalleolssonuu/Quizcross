@@ -16,6 +16,7 @@
           <h3 v-if="sourceName == 'StartView'"> {{uiLabels.whatIsQC}}</h3>
           <h3 v-if="sourceName =='PlayView'"> {{uiLabels.pageDescriptionPlayView}}</h3>
           <h3 v-if="sourceName =='CreateCrosswordView'"> {{uiLabels.pageDescriptionCreateView}}</h3>
+          <h3 v-if="sourceName =='PreCreate'"> {{uiLabels.pageDescriptionPreCreateView}}</h3>
         <button class="close" @click="showModal = false">x</button>
       </div>
     </div>

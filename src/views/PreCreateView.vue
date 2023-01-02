@@ -5,7 +5,7 @@
       <button v-on:click="togglePopup"></button>
       </Modal>
     </div>
-</header>
+    </header>
     
     <div id="crosswordArea">
       <h2>{{ x }}   x    {{ y }}</h2>  
@@ -29,19 +29,20 @@
         
     </div>
     <div class="nameWrapper" id="nameAndCreate">
-        <br>
-    <form id="gameNameAndSize">
-        <div id="section1">
-            <form id="myForm">
-  <input type="text" id="gameName" name="gameName" placeholder="Enter game name here...">
-</form>
-  </div>
-    </form>
+            <br>
+        <form id="gameNameAndSize">
+            <div id="section1">
+                <form id="myForm">
+                    <input type="text" id="gameName" name="gameName" placeholder="Enter game name here...">
+                </form>
+            </div>
+        </form>
     <button v-on:click=submitsDim id="confirmAndCreate" @click="$router.push('/CreateView/'+lang)">
     {{uiLabels.confirmAndCreate}}
     </button>
-    </div>
-    </template>
+    <button id="returnButton" @click="$router.push('/'+lang)">{{uiLabels.backButton}}</button>
+</div>
+</template>
     
     <script>
     import Crossword from '../components/Crossword.vue'
@@ -158,18 +159,41 @@
     #confirmAndCreate {
         width: 10rem;
         height: 5rem;
+        bottom: 60%;
+        right: 5%;
         font-family: "Comic Sans MS", "Comic Sans", cursive;
+        border-color: #ba0c00;
+        background-color: #FE5F55;
+        border-radius: 15px;
+        color: white;
+        position: absolute;
     }
     #gameName {
         width: 18rem;
         height: 4.6rem;
+        bottom: 60%;
+        right: 16%;
         font-family: "Comic Sans MS", "Comic Sans", cursive;
         font-size: 25px;
+        border-radius: 15px;
+        position: absolute;
     }
-
+    #returnButton {
+        bottom: 53%;
+        right: 18%;
+        margin: 0.5rem;
+        background-color: #FE5F55;
+        border-color: #ba0c00;
+        border-radius: 5px;
+        color: white;
+        font-family: "Comic Sans MS", "Comic Sans", cursive;
+        position: absolute;
+        }
     .nameWrapper{
     display: flex;
     justify-content: center;
+    height: 15rem;
+    width: 20rem;
   }
 
   .XYWrapper{
