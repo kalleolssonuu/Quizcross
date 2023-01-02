@@ -59,7 +59,7 @@
           </button> 
           <br>
 
-          <button v-on:click="this.confirmCreateCrossword" @click="$router.push('/lobby/'+lang)">
+          <button v-on:click="this.confirmCreateCrossword" @click="$router.push('/Lobby/'+lang)">
             {{uiLabels.confirmCreate}}  <!--JESSIE OBS OLIKA NAMN-->
           </button>
         </div>
@@ -109,9 +109,15 @@
 
 /* LOGG:
 
-  Från tidigare:
-    * Vi behöver ej göra enligt Mikaels instruktioner för att grafiken ska uppdateras löpande. Kanske behöver undersöka server-socket-kommunikation dock.
-  2022-12-30: Undersök detta.
+  2023-01-02
+  Fixa sista problemen med algoritmen.
+  - Lilla siffran blir fel vid genomgång av wordPositions.temp
+  - Orden hamnar ett steg förskjutet
+  - isFirstLetter --> rätt siffra i hörnet
+  * Undersök möjlighet att öka iterator vid confirm istället
+
+  - Visa beskrivningar löpande så att användaren alltid får se vad den skapar
+  - Layout i olika Views, knappar osv.
 
 */
 
@@ -396,7 +402,7 @@
                                                inHorizontal: false,
                                                inVertical: false,
                                                isFirstLetter: false, 
-                                               wordInOrder: this.wordInOrder} /* if (wordInOrder != 0) { lägg till siffra i hörnet } */
+                                               wordInOrder: this.wordInOrder}
             }
         }
 

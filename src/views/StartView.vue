@@ -11,8 +11,8 @@
   </div>
   <div class="wrapper">
     <!-- <button id="play" @click="$router.push('/actualPlay/'+lang)">{{'Actual PlayView'}}</button> -->
-    <button id="play" @click="$router.push('/preCreate/'+lang)">{{uiLabels.createCross}}</button>
-    <button id="play" @click="$router.push('/lobby/'+lang)">{{uiLabels.playCross}}</button>
+    <button id="play" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.createCross}}</button>
+    <button id="play" @click="$router.push('/Lobby/'+lang)">{{uiLabels.playCross}}</button>
     <!-- <button id="play" @click="$router.push('/CreateView/'+lang)">{{'Göra korsord test'}}</button> -->
   </div>
 

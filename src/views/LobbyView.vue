@@ -42,7 +42,7 @@
     <text id="crossText">{{uiLabels.crossID}}</text> 
     <input type="number" id="selectedid" placeholder="ex. 1234..">
                  
-    <button id="playButton" v-on:click="playCross" @click="$router.push('/ActualPlay/'+lang)">
+    <button id="playButton" v-on:click="playCross" @click="$router.push('/PlayView/'+lang)">
       {{uiLabels.playPlay}}
     </button>
   </div>

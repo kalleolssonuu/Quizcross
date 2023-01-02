@@ -1,27 +1,13 @@
  <template>
 
-  <div id="WordBoxBody">
+  <div v-if="(!this.inHorizontal) && (!this.inVertical) && (this.sourceName == 'PlayView')" id="nullLetter" @click="testClick">
+    <!-- <span id="number" v-if="isFirstLetter"> {{ wordInOrder }} </span>
+    {{ letter }} -->
+  </div>
 
-    <div v-if="this.letter != null && this.sourceName" id="notNullLetter" @click="testClick">
-
-      <!-- 
-
-      <button v-if="!this.enableWordButtons" class="button-disabled" disabled> Confirm </button>
-      <button v-else v-on:click="this.confirmWord"> Confirm </button>
-
-      <button v-if="!this.enableWordButtons" class="button-disabled" disabled> Discard </button>
-      <button v-else v-on:click="this.discardWord"> Discard </button> 
-    
-    -->
-
-        <!-- här måste jag på nåt sätt veta vilket ord i ordningen det är så att rätt siffra kan skrivas ut mha nån funktion.
-            crossword.vue är väl föräldern i det här fallet? har den något som kan skickas ner till barnet kanske-->
-
-        <span id="number" v-if="isFirstLetter"> {{ wordInOrder }} </span>
-        {{ letter }}
-
-
-    </div>
+  <div v-else @click='testClick'>
+    <span id="number" v-if="isFirstLetter"> {{ wordInOrder }} </span>
+    {{ letter }}
   </div>
 
  </template>
@@ -51,7 +37,7 @@
     },
     methods: {
       testClick: function() { /* ÄNDRA SENARE SÅ ATT ENDAST PlayView ÄR TILLÅTET SOM sourceName */
-        if ((this.sourceName == "CreateCrosswordView" || this.sourceName == "PlayView") && this.isFirstLetter == true) {
+        if ((this.sourceName == "CreateView" || this.sourceName == "PlayView") && this.isFirstLetter == true) {
           alert("x coordinate: " + this.xkey + ", y coordinate: " + this.ykey)
         } else {
           alert("test noclick")
@@ -79,13 +65,8 @@
 } */
 
 #nullLetter {
-  background-color: red;
-}
-
-#notNullLetter {
-  background-color: green;
-  height: 100%;
-  width: 100%;
+  background-color: #A7CAB1;
+  border: 0cm;
 }
 
 .letterbox:hover {

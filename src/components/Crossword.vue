@@ -27,7 +27,7 @@
           v-bind:sourceName="this.sourceName">
         </WordBox>
         <WordBox v-if="this.sourceName == 'PreCreate'" class="letterbox"
-          v-bind:xkey="xkey" 
+          v-bind:xkey="xkey"
           v-bind:ykey="ykey" 
           v-bind:letter="element.letter"
           v-bind:direction="element.direction"

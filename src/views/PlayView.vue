@@ -13,7 +13,7 @@
   </button>
 
   <div id="div2">
-        <Crossword  v-bind:sourceName="sourceName"
+        <Crossword  v-bind:sourceName="this.sourceName"
                     v-bind:wordPositions="this.userCrossword"
                     v-bind:matrixDims="this.matrixDims"
                     v-bind:word="this.word"    
@@ -73,6 +73,7 @@ export default {
         word: "",
         desc: "",
         matrixDims: {x: 13, y: 10},
+        occupiedPosition: {x: null, y: null},
         /* wordPositions: [], */
         wordPositions: {actual: [], temp: []},
         userCrossword: [],
@@ -145,9 +146,9 @@ export default {
           this.wordPositions.actual[0][1].letter = "l"; this.wordPositions.actual[0][1].inHorizontal = true; this.wordPositions.actual[0][1].inVertical = true
           this.wordPositions.actual[0][1].isFirstLetter = true
 
-          this.wordPositions.actual[0][2].letter = "o"; this.wordPositions.actual[0][0].inHorizontal = true
-          this.wordPositions.actual[0][3].letter = "w"; this.wordPositions.actual[0][0].inHorizontal = true
-          this.wordPositions.actual[0][4].letter = "n"; this.wordPositions.actual[0][0].inHorizontal = true
+          this.wordPositions.actual[0][2].letter = "o"; this.wordPositions.actual[0][2].inHorizontal = true
+          this.wordPositions.actual[0][3].letter = "w"; this.wordPositions.actual[0][3].inHorizontal = true
+          this.wordPositions.actual[0][4].letter = "n"; this.wordPositions.actual[0][4].inHorizontal = true
 
           this.wordPositions.actual[1][1].letter = "a"; this.wordPositions.actual[1][1].inHorizontal = false; this.wordPositions.actual[1][1].inVertical = true
           this.wordPositions.actual[2][1].letter = "k"; this.wordPositions.actual[2][1].inHorizontal = true; this.wordPositions.actual[2][1].inVertical = true
