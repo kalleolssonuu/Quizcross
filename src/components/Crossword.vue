@@ -2,20 +2,20 @@
 <div>
   
   <table id="crosswordwrapper">
-    <tr v-for="(list, ykey) in wordPositions.actual" v-bind:key="'y' + ykey">
-        <td v-for="(element, xkey) in list" v-bind:key="'x' + xkey">
-          <WordBox class="letterbox"
-            v-bind:xkey="xkey" 
-            v-bind:ykey="ykey" 
-            v-bind:letter="element.letter"
-            v-bind:direction="element.direction"
-            v-bind:inHorizontal="element.inHorizontal"
-            v-bind:inVertical="element.inVertical"
-            v-bind:isFirstLetter="element.isFirstLetter"
-            v-bind:wordInOrder="element.wordInOrder"
-            v-bind:sourceName="this.sourceName">
-          </WordBox>
-        </td> 
+    <tr v-for="(list, ykey) in wordPositions" v-bind:key="'y' + ykey">
+      <td v-for="(element, xkey) in list" v-bind:key="'x' + xkey">
+        <WordBox v-if="this.sourceName == 'CreateView'" class="letterbox letterbox-CreateView"
+          v-bind:xkey="xkey" 
+          v-bind:ykey="ykey" 
+          v-bind:letter="element.letter"
+          v-bind:direction="element.direction"
+          v-bind:inHorizontal="element.inHorizontal"
+          v-bind:inVertical="element.inVertical"
+          v-bind:isFirstLetter="element.isFirstLetter"
+          v-bind:wordInOrder="element.wordInOrder"
+          v-bind:sourceName="this.sourceName">
+        </WordBox>
+      </td> 
     </tr>
   </table>
 
@@ -36,7 +36,7 @@ import WordBox from '../components/WordBox.vue'
       WordBox, 
     },
     props: {
-      wordPositions: Object,
+      wordPositions: Array,
       matrixDims: Object,
       solutionsList: Object,
       sourceName: String,
@@ -78,9 +78,16 @@ import WordBox from '../components/WordBox.vue'
   color:black;
 }
 
-.letterbox:empty {
+.letterbox-CreateView {
   background-color: white;
-  /* background-color: #A7CAB1; */
+}
+
+.letterbox-CreateView:hover {
+  cursor: default;
+}
+
+.letterbox-PlayView {
+  
 }
 
 #crossword {
