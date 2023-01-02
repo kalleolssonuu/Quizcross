@@ -129,7 +129,7 @@ Data.prototype.getAllCrosswordPackages = function () { // returnerar info för a
 Data.prototype.getAllPackageInfoForLobby = function () { // returerar info för lobbyview
     // NÅNSTANS MÅSTE GAMENAME SKRIVAS IN!! NU BARA ID
   console.log("i data.getAllPackageInfoForLobby")
-  return Object.keys(this.crosswordPackages)
+ // return Object.keys(this.crosswordPackages)
 
 }
 

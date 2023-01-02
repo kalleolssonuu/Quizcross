@@ -29,17 +29,16 @@
         
     </div>
     <div class="nameWrapper" id="nameAndCreate">
-        <h2>Game name:</h2>
         <br>
     <form id="gameNameAndSize">
         <div id="section1">
             <form id="myForm">
-  <input type="text" id="gameName" name="gameName">
+  <input type="text" id="gameName" name="gameName" placeholder="Enter game name here...">
 </form>
   </div>
     </form>
-    <button v-on:click=submitsDim id="confirmAndCreate">
-    Confirm and create
+    <button v-on:click=submitsDim id="confirmAndCreate" @click="$router.push('/CreateView/'+lang)">
+    {{uiLabels.confirmAndCreate}}
     </button>
     </div>
     </template>
