@@ -200,16 +200,9 @@
         text-align: center;
     }
 
-    #minusButtonX, #plusButtonX, #minusButtonY, #plusButtonY{
+    #minusButton, #plusButton{
         height: 2rem;
         width: 2rem;
-    }
-    
-    #plusButtonX {
-        margin-right: 1rem;
-    }
-    #minusButtonY {
-        margin-left: 1rem;
     }
 
     input::-webkit-outer-spin-button,
