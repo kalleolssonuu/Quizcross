@@ -1,24 +1,28 @@
  <template>
 
-  <div class="letterbox" @click="testClick">
+  <div id="WordBoxBody">
 
-    <!-- 
+    <div v-if="this.letter != null && this.sourceName" id="notNullLetter" @click="testClick">
 
-    <button v-if="!this.enableWordButtons" class="button-disabled" disabled> Confirm </button>
-    <button v-else v-on:click="this.confirmWord"> Confirm </button>
+      <!-- 
 
-    <button v-if="!this.enableWordButtons" class="button-disabled" disabled> Discard </button>
-    <button v-else v-on:click="this.discardWord"> Discard </button> 
-  
-  -->
+      <button v-if="!this.enableWordButtons" class="button-disabled" disabled> Confirm </button>
+      <button v-else v-on:click="this.confirmWord"> Confirm </button>
 
-      <!-- här måste jag på nåt sätt veta vilket ord i ordningen det är så att rätt siffra kan skrivas ut mha nån funktion.
-          crossword.vue är väl föräldern i det här fallet? har den något som kan skickas ner till barnet kanske-->
-    <span id="number-horiz" v-if="isFirstLetter && inHorizontal"> {{ wordInOrder }} </span>
-    <span id="number-vert" v-if="isFirstLetter && inVertical"> {{ wordInOrder }} </span>
-    {{ letter }}
+      <button v-if="!this.enableWordButtons" class="button-disabled" disabled> Discard </button>
+      <button v-else v-on:click="this.discardWord"> Discard </button> 
+    
+    -->
+
+        <!-- här måste jag på nåt sätt veta vilket ord i ordningen det är så att rätt siffra kan skrivas ut mha nån funktion.
+            crossword.vue är väl föräldern i det här fallet? har den något som kan skickas ner till barnet kanske-->
+
+        <span id="number" v-if="isFirstLetter"> {{ wordInOrder }} </span>
+        {{ letter }}
+
+
+    </div>
   </div>
-
 
  </template>
 
@@ -64,8 +68,6 @@
 
 <style>
 
-
-
 /* .letterbox {
   background-color: rgb(250, 244, 192);
   height: 3rem;
@@ -77,22 +79,24 @@
 } */
 
 
+#nullLetter {
+  background-color: red;
+}
+
+#notNullLetter {
+  background-color: green;
+  height: 100%;
+  width: 100%;
+}
+
 .letterbox:hover {
   cursor: pointer;
 }
 
-#number-horiz{
+#number{
   font-size: 1rem;
   position:absolute;
   margin-left: -0.6rem;
-  z-index: 1;
-}
-
-#number-vert{
-  font-size: 1rem;
-  position:absolute;
-  margin-left: -0.6rem;
-  margin-bottom: 0.3rem;
   z-index: 1;
 }
 

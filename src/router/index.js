@@ -22,7 +22,7 @@ const routes = [
   {
     path: '/PlayView/:lang',
     name: 'PlayView',
-    component: () => import(/* webpackChunkName: "about" */ '../views/ActualPlayView.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/PlayView.vue')
   },
 
   {

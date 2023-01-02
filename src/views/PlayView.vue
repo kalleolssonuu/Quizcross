@@ -60,7 +60,7 @@ import Crossword from '../components/Crossword.vue'
   const socket = io();
 
 export default {
-    name: 'CreateCrosswordView',
+    name: 'PlayView',
     components: {
         Crossword,
         Modal
@@ -197,7 +197,7 @@ export default {
   margin: 5%;
 }
 
-.wordDescriptioWrapper{
+.wordDescriptionWrapper{
   display: flex;
 }
 
