@@ -18,9 +18,6 @@
 	"pageDescriptionPlayView": "Välj bland förskapade och egenskapade korsord. Tryck sedan på 'Spela' för att lösa korsordet.\n Tryck på 'Skapa' om du vill skapa ett nytt korsord",
 	"pageDescriptionCreateView":"Fyll i ord med motsvarande beskrivning och lägg till i korsordet. Använd knapparna 'Visa nästa och 'Visa senaste' för att bestämma ordets plats i korsordet.",
 	"pageDescriptionPreCreateView": "Använd + och - knapparna för att välja den önskade storleken på ditt korsord",
-	
-
-
 
 	"//CreateCrosswordView": "Här är CreateCrosswordViews översättningar",
 	"yourWord": "Ditt ord:",
@@ -32,5 +29,12 @@
 	"confirmCreate": "Bekräfta och skapa korsordet",
 
 	"//PreCreateView": "Här är PreCreateViews översättningar",
-	"confirmAndCreate": "Spara och spela"
+	"confirmAndCreate": "Spara och spela",
+
+	"//ActualPlayView": "Här är ActualPlayviews översättningar",
+	"inputDirectionHorizontal": "Horisontell",
+	"inputDirectionVertical": "Vertikal",
+	"horizontalWords": "Horisontella ord:",
+	"verticalWords": "Vertikala ord:",
+	"finishedGame": "Avsluta spel"
 }

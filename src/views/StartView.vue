@@ -52,7 +52,6 @@ export default {
     socket.on("init", (labels) => {
       this.uiLabels = labels
     });
-    console.log("created har anropats")
   },
   methods: {
     switchLanguage: function() {

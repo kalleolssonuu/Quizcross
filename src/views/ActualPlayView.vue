@@ -1,14 +1,14 @@
 <template>
 <header>
   <div>
-      <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
+      <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage">
       <button v-on:click="togglePopup"></button>
       </Modal>
     </div>
 </header>
 
   Change input direction: 
-  <button v-on:click="changeDirection">
+  <button id="changeDirection" v-on:click="changeDirection">
     {{ inputDirection }}
   </button>
 
@@ -28,13 +28,13 @@
   <!-- JESSIE: FIXA SÅ SKICKAR ETT PAKET INTE ALLA, SE ANTECK I LOBBY -->
   <div class ="wordDescriptionWrapper"> 
     <ol id="horizontalDescriptions">
-      <u>Horisontella ord</u> <!-- lägg till i uiLabels-->
+      {{uiLabels.horizontalWords}}
       <li>pajas</li>
       <li>motsats till nej</li>
       <li>tung artilleripjäs</li>
     </ol>
     <ol id="verticalDescriptions">
-      <u>Vertikala ord</u>
+      {{uiLabels.verticalWords}}
       <li>sängklädesplagg</li>
     </ol>
     </div>
@@ -52,7 +52,7 @@
     
   </div>
 
-   <button id="finishedGame" @click="$router.push('/lobby/'+lang)">{{'Avsluta spel'}}</button>  
+   <button id="finishedGame" @click="$router.push('/lobby/'+lang)">{{uiLabels.finishedGame}}</button>  
   
 </template>
 
@@ -96,7 +96,7 @@ export default {
       socket.emit('pageLoaded')
       socket.on("init", (labels) => {
       this.uiLabels = labels
-    })
+      });
       socket.on("dataUpdate", (data) =>
         this.data = data
       ),
@@ -220,7 +220,7 @@ export default {
   float:left;
 }
 
-button {
+#changeDirection {
     width: 10rem;
     height: 4rem;
     border-radius: 15px;
@@ -239,23 +239,9 @@ button {
   position: absolute;
   left: 45%;
   background-color: #FE5F55;
+  border-color: #ba0c00;
   border-radius: 5px;
   color: white;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
-
-button {
-    width: 10rem;
-    height: 4rem;
-    border-radius: 15px;
-    border-color: #ba0c00;
-    margin: 1.5rem;
-    color: white;
-    background-color: #FE5F55;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-size: 1rem;
-    cursor:pointer;
-    position: relative;   
-  }
-
 </style>
