@@ -113,8 +113,6 @@
     #crosswordArea {
         justify-content: center;
         float: left;
-        width: 70%;
-        margin-top: 2%;
 
     }
 

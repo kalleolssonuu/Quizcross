@@ -1,6 +1,8 @@
 <template>
 <div>
-  
+  {{ matrixDims }}
+  {{ dimsX }}
+  {{ dimsY }}
   <table id="crosswordwrapper">
     <tr v-for="(list, ykey) in wordPositions.actual" v-bind:key="'y' + ykey">
         <td v-for="(element, xkey) in list" v-bind:key="'x' + xkey">
@@ -38,6 +40,8 @@ import WordBox from '../components/WordBox.vue'
     data: function() {
       return {
         /* sourceName: "" */
+        dimsX: String(600 / this.matrixDims.x) + "px",
+        dimsY: String(600 / this.matrixDims.y) + "px"
       }
     },  
     name: 'CrossWord',
@@ -58,6 +62,10 @@ import WordBox from '../components/WordBox.vue'
           console.log("Inner wordPositions.actual index: " + xindex)
         })
       }); */
+    const element = document.querySelector(':root');
+    element.style.setProperty('--dimsX', this.matrixDims);
+    element.style.setProperty('--dimsY', this.matrixDims);
+    console.log(this.matrixDims)
     },
     created: function () {
       this.tempFunc()
@@ -76,13 +84,21 @@ import WordBox from '../components/WordBox.vue'
   <!-- Add "scoped" attribute to limit CSS to this component only -->
   <style scoped>
 
+:root {
+  --X: var(--dimsX);
+  --Y: var(--dimsY);
+
+}
+
 .letterbox {
   background-color: rgb(250, 244, 192);
-  width: 95%;
-  height: 95%;
+  min-width: var(--X);
+  min-height: var(--Y);
+  max-width: var(--X);
+  max-height: var(--Y);
   font-family: "Comic Sans MS", "Comic Sans", cursive;
   font-weight: bold;
-  font-size: 2rem;
+  font-size: 1.5rem;
   border: black 0.15rem solid;
 }
 
@@ -99,9 +115,7 @@ import WordBox from '../components/WordBox.vue'
 }
 
 #crosswordwrapper {
-  display: table;
   table-layout: auto;
-  margin: 0 auto;
   justify-content: center;
   background-color: #A7CAB1;
   height: 600px;
