@@ -159,7 +159,8 @@
       }
     },
     created: function () {
-      socket.emit('pageLoaded')
+      this.lang = this.$route.params.lang;
+      socket.emit('pageLoaded', this.lang)
       socket.on("init", (labels) => {
         this.uiLabels = labels
       })
@@ -408,7 +409,6 @@
         this.wordPositions.temp = []
         console.log(this.wordPositions.actual)
       },
-
       getNewTempPositionVert: function (h, v, wordSplit) {
         if (this.wordPositions.temp != []) {
           let newWordPositions = JSON.parse(JSON.stringify(this.wordPositions.actual))
@@ -432,7 +432,6 @@
           return newWordPositions
         }
       },
-
       getNewTempPositionHoriz: function (h, v, wordSplit) {
         if (this.wordPositions != []) {
           let newWordPositions = JSON.parse(JSON.stringify(this.wordPositions.actual))
@@ -457,7 +456,6 @@
         }
 
       },
-
       showNextSolution: function () {
         if (this.userIterator == this.matchesIterator - 1) {
           this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
