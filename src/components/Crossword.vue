@@ -4,30 +4,8 @@
   <table id="crosswordwrapper">
     <tr v-for="(list, ykey) in wordPositions" v-bind:key="'y' + ykey">
       <td v-for="(element, xkey) in list" v-bind:key="'x' + xkey">
-        <WordBox v-if="this.sourceName == 'CreateView'" class="letterbox letterbox-CreateView"
+        <WordBox
           v-bind:xkey="xkey" 
-          v-bind:ykey="ykey" 
-          v-bind:letter="element.letter"
-          v-bind:direction="element.direction"
-          v-bind:inHorizontal="element.inHorizontal"
-          v-bind:inVertical="element.inVertical"
-          v-bind:isFirstLetter="element.isFirstLetter"
-          v-bind:wordInOrder="element.wordInOrder"
-          v-bind:sourceName="this.sourceName">
-        </WordBox>
-        <WordBox v-if="this.sourceName == 'PlayView'" class="letterbox letterbox-PlayView"
-          v-bind:xkey="xkey" 
-          v-bind:ykey="ykey" 
-          v-bind:letter="element.letter"
-          v-bind:direction="element.direction"
-          v-bind:inHorizontal="element.inHorizontal"
-          v-bind:inVertical="element.inVertical"
-          v-bind:isFirstLetter="element.isFirstLetter"
-          v-bind:wordInOrder="element.wordInOrder"
-          v-bind:sourceName="this.sourceName">
-        </WordBox>
-        <WordBox v-if="this.sourceName == 'PreCreate'" class="letterbox"
-          v-bind:xkey="xkey"
           v-bind:ykey="ykey" 
           v-bind:letter="element.letter"
           v-bind:direction="element.direction"
@@ -44,7 +22,10 @@
 </div>
 </template>
   
-  <script>
+
+
+<script>
+
 import WordBox from '../components/WordBox.vue' 
 
   export default {
@@ -98,34 +79,10 @@ import WordBox from '../components/WordBox.vue'
   <!-- Add "scoped" attribute to limit CSS to this component only -->
   <style scoped>
 
-.letterbox {
-  background-color: white;
- width: 95%;
-  height: 95%;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
-  font-weight: bold;
-  font-size: 1rem;
-  border: black 0.15rem solid;
-  color:black;
-}
-
-/* .letterbox-CreateView {
-  
-} */
-
-.letterbox-CreateView:hover {
-  cursor: default;
-}
-
-.letterbox-PlayView {
-  cursor: default;
-}
-
 #crossword {
   display: table;
   height: 20rem;
   width: 20rem;
-
 }
 
 #crosswordwrapper {

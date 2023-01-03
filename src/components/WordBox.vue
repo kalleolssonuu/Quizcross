@@ -1,13 +1,27 @@
  <template>
 
-  <div v-if="(!this.inHorizontal) && (!this.inVertical)" id="nullLetter">
-    <div v-if="(this.sourceName == 'PlayView')" @click="testClick">
-      
-    </div>
+  <div v-if="(this.sourceName == 'PlayView')" class="box">
+      <div v-if="(!this.inHorizontal) && (!this.inVertical)" id="nullLetter">
+        
+      </div>
+      <div v-else @click="testClick" class="box letter">
+        <span id="number" v-if="isFirstLetter"> {{ wordInOrder }} </span>
+        {{ letter }}
+      </div>
   </div>
-  <div v-else>
-    <span id="number" v-if="isFirstLetter"> {{ wordInOrder }} </span>
-    {{ letter }}
+
+  <div v-else-if="(this.sourceName == 'CreateView')" class="box">
+    <div class="box letter">
+        <span id="number" v-if="isFirstLetter"> {{ wordInOrder }} </span>
+        {{ letter }}
+    </div>
+      
+  </div>
+  <div v-else-if="(this.sourceName == 'PreCreate')" class="box">
+    <div class="box letter">
+
+    </div>
+      
   </div>
 
  </template>
@@ -53,19 +67,23 @@
 
 <style>
 
-/* .letterbox {
-  background-color: rgb(250, 244, 192);
-  height: 3rem;
-  width: 3rem;
+.box {
+  width: 95%;
+  height: 95%;
+}
+
+.box.letter {
   font-family: "Comic Sans MS", "Comic Sans", cursive;
   font-weight: bold;
-  font-size: 2rem;
+  font-size: 1rem;
+  background-color: white;
   border: black 0.15rem solid;
-} */
+  color:black;
+}
 
 #nullLetter {
   background-color: #A7CAB1;
-  border: none;
+/*   border: 0cm; */
 }
 
 .letterbox:hover {
