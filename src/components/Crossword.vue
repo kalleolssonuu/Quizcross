@@ -13,7 +13,8 @@
           v-bind:inVertical="element.inVertical"
           v-bind:isFirstLetter="element.isFirstLetter"
           v-bind:wordInOrder="element.wordInOrder"
-          v-bind:sourceName="this.sourceName">
+          v-bind:sourceName="this.sourceName"
+          v-bind:matrixDims="this.matrixDims">
         </WordBox>
       </td> 
     </tr>
