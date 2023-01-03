@@ -7,7 +7,7 @@
     </div>
 </header>
 
-<button v-on:click="this.testUserID"> test IP ID </button>
+<!-- <button v-on:click="this.testUserID"> test IP ID </button>  -->
 <button v-on:click="this.confirmWord"> confirm </button>
 <button v-on:click="this.discardWord"> discard </button>
 
@@ -142,9 +142,10 @@
       togglePopup: function () {
         this.showModal = ! this.showModal;
       },
-      testUserID: function () {
-        console.log(this.$getIPAddress)
-      },
+      // testUserID: function () {
+      //   //console.log(this.$getIPAddress)
+      //   // console.log(this.$getClientIP())
+      // },
       findPotentialMatches: function () {
         if (this.word != "") {
         

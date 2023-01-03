@@ -44,7 +44,12 @@
         {{ this.crosswordPackages[ID].package.wordDescPairs }}
       </li> -->
     </ul>
-    
+
+    <!-- {{"servertest av uppdaterade positioner" }}
+    <ul v-if="this.occupiedWordboxes" >
+      {{this.occupiedWordboxes}}
+    </ul>
+     -->
   </div>
 
   
@@ -88,8 +93,11 @@ export default {
         wordInOrder:1,
 
         crosswordPackages: null, // OBS SKICKAR JU NU ALLA PAKET DET ÄR FEL, VILL SKICKA ETT
+
+        occupiedWordboxes: [],
       }
     },
+
     created: 
     function () {
       socket.emit('pageLoaded')
@@ -101,11 +109,29 @@ export default {
       ),
       this.fillPremadeCrossword();
 
+      // sockets för skapadet av korsord-ish
       socket.on('currentCrosswordPackages', data => { // tar emot korsordsinfo från server, ursprung confirmCreate
         this.crosswordPackages = data}); 
-    },
+      
+      // OBS NEDAN KANSKE ONÖDIG, SKA JU FÅ ETT HELT NYTT KORSORD FRÅN DATA!!! 
+      //  - DVS GÅR SAMMA VÄG SOM TIDIGARE?
+      //  - samma socket som tidigare?
+      //  - alternativt ny socket pga nytt meddelande? även om det även i detta fall är ett helt korsord som skickas.
+      
+      // sockets för uppdaterande av ockuperade positioner vid spelande av korsord
+      socket.on("currentOccupied", data => {
+        this.occupiedWordboxes = data})
 
+    },
     methods: {
+        updateOccupied: function() { // ska aktiveras när en klient klickar på en ruta          
+        //  this.occupiedWordboxes 
+
+         // socket.emit('updatedOccupied', this.occupiedWordboxes )
+          socket.emit('updatedOccupied', "hejhej" )
+
+        },
+
         fillPremadeCrossword: function () {
             for (let v = 0; v < this.matrixDims.y; v++) {
                 this.wordPositions.actual[v] = [];
@@ -144,6 +170,7 @@ export default {
             this.wordPositions.actual[2][5].letter = "n"; this.wordPositions.actual[2][5].inHorizontal = true
 
         },
+
 
     }
 }

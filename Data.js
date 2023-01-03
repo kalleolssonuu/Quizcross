@@ -7,7 +7,8 @@ function Data() {
   this.polls = {};
   this.crosses = {};
   
-  this.crosswordPackages= {}; // här lagras varje korsordspaket med ID som key
+  this.crosswordPackages = {}; // här lagras varje korsordspaket med ID som key
+  this.occupiedWordboxes = null; // info om vilka rutor som är occupied i actualplayview
 }
 
 /***********************************************
@@ -124,8 +125,25 @@ Data.prototype.getAllPackageInfoForLobby = function () { // returerar info för 
     // NÅNSTANS MÅSTE GAMENAME SKRIVAS IN!! NU BARA ID
   console.log("i data.getAllPackageInfoForLobby")
   return Object.keys(this.crosswordPackages)
+};
 
-}
+
+//FUNKTIONER FÖR UPPDATERADE POSITIONER I ACTUALPLAYVIEW
+Data.prototype.updateOccupied = function(d) {
+  
+  this.occupiedWordboxes = d;
+  
+  console.log(this.occupiedWordboxes)
+  
+};
+
+Data.prototype.getAllOccupied = function () {
+  console.log('i getAllOccupied')
+
+  
+ // this.occupiedWordboxes
+  return this.occupiedWordboxes
+};
 
 
 module.exports = Data;
