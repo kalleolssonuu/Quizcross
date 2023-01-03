@@ -16,7 +16,8 @@
           v-bind:isFirstLetter="element.isFirstLetter"
           v-bind:wordInOrder="element.wordInOrder"
           v-bind:sourceName="this.sourceName"
-          v-bind:matrixDims="this.matrixDims">
+          v-bind:dimsX="this.dimsX"
+          v-bind:dimsY="this.dimsY">
         </WordBox>
       </td> 
     </tr>
@@ -41,10 +42,10 @@ import WordBox from '../components/WordBox.vue'
         dimsX: String(600 / this.matrixDims.x) + "px",
         dimsY: String(600 / this.matrixDims.y) + "px"
       }
-    },  
+    },
     name: 'CrossWord',
     components: {
-      WordBox, 
+      WordBox,
     },
     props: {
       wordPositions: Array,
@@ -76,37 +77,15 @@ import WordBox from '../components/WordBox.vue'
         console.log("test")
       }
     },
-
-    computed: {
-    cellWidth() {
-      return (600 / this.matrixDims.x) + 'px'
-    },
-    cellHeight() {
-      return (600 / this.matrixDims.y) + 'px'
-    },
-  },
   }
   </script>
-  
-  <!-- Add "scoped" attribute to limit CSS to this component only -->
-  <style scoped>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
 
 :root {
   --dimsX: 1em;
   --dimsY: 1em;
-
-}
-
-.letterbox {
-  background-color: rgb(250, 244, 192);
-  min-width: var(--dimsX);
-  min-height: var(--dimsY);
-  max-width: var(--dimsX);
-  max-height: var(--dimsY);
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
-  font-weight: bold;
-  font-size: 1.5rem;
-  border: black 0.15rem solid;
 }
 
 .letterbox:empty {
