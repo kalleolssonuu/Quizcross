@@ -32,7 +32,7 @@ Data.prototype.createPoll = function(pollId, lang="en") {
     poll.questions = [];
     poll.answers = [];
     poll.currentQuestion = 0;              
-    this.polls[pollId] = poll;
+    this.polls[pollId] = poll;  // här lagras polls så som våra lagras, med pollid
     console.log("poll created", pollId, poll);
   }
   return this.polls[pollId];
