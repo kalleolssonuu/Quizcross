@@ -45,6 +45,12 @@
         {{ this.crosswordPackages[ID].package.wordDescPairs }}
       </li> -->
     </ul>
+
+        <!-- {{"servertest av uppdaterade positioner" }}
+    <ul v-if="this.occupiedWordboxes" >
+      {{this.occupiedWordboxes}}
+    </ul>
+     -->
     
   </div>
 
@@ -100,12 +106,29 @@ export default {
       this.fillPremadeCrossword();
       this.userCrossword = this.getUserCrossword()
 
+      // sockets för skapadet av korsord-ish
       socket.on('currentCrosswordPackages', data => { // tar emot korsordsinfo från server, ursprung confirmCreate
         this.crosswordPackages = data}); 
-      /* this.getUserCrossword() */
+        /* this.getUserCrossword() */
+      
+      // OBS NEDAN KANSKE ONÖDIG, SKA JU FÅ ETT HELT NYTT KORSORD FRÅN DATA!!! 
+      //  - DVS GÅR SAMMA VÄG SOM TIDIGARE?
+      //  - samma socket som tidigare?
+      //  - alternativt ny socket pga nytt meddelande? även om det även i detta fall är ett helt korsord som skickas.
+      
+      // sockets för uppdaterande av ockuperade positioner vid spelande av korsord
+      socket.on("currentOccupied", data => {
+        this.occupiedWordboxes = data})
     },
 
     methods: {
+      updateOccupied: function() { // ska aktiveras när en klient klickar på en ruta          
+        //  this.occupiedWordboxes 
+
+         // socket.emit('updatedOccupied', this.occupiedWordboxes )
+          socket.emit('updatedOccupied', "hejhej" )
+        },
+
       getUserCrossword: function () {
         /* console.log("Inside of getUserCrossword") */
 
@@ -127,6 +150,7 @@ export default {
 
         return tempUserCrossword
       },
+
       fillPremadeCrossword: function () {
           for (let v = 0; v < this.matrixDims.y; v++) {
               this.wordPositions.actual[v] = [];
@@ -164,6 +188,7 @@ export default {
           this.wordPositions.actual[2][4].letter = "o"; this.wordPositions.actual[2][4].inHorizontal = true
           this.wordPositions.actual[2][5].letter = "n"; this.wordPositions.actual[2][5].inHorizontal = true
         },
+
         changeDirection: function() {
           if (this.inputDirection === "Horizontal") {
             this.inputDirection = "Vertical"
@@ -171,6 +196,7 @@ export default {
             this.inputDirection = "Horizontal"
           }
         },
+
         switchLanguage: function() {
           if (this.lang === "en")
             this.lang = "sv"
@@ -180,6 +206,7 @@ export default {
           socket.emit("switchLanguage", this.lang)
           this.$router.push(this.lang)
         },
+        
         /* FÖR ATT FÅ FRAM POP-UP RUTA*/
         togglePopup: function () {
           this.showModal = ! this.showModal;
