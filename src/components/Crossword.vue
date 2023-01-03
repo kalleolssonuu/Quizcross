@@ -1,6 +1,8 @@
 <template>
 <div>
-  
+  {{ matrixDims }}
+  {{ dimsX }}
+  {{ dimsY }}
   <table id="crosswordwrapper">
     <tr v-for="(list, ykey) in wordPositions" v-bind:key="'y' + ykey">
       <td v-for="(element, xkey) in list" v-bind:key="'x' + xkey">
@@ -13,12 +15,17 @@
           v-bind:inVertical="element.inVertical"
           v-bind:isFirstLetter="element.isFirstLetter"
           v-bind:wordInOrder="element.wordInOrder"
-          v-bind:sourceName="this.sourceName">
+          v-bind:sourceName="this.sourceName"
+          v-bind:dimsX="this.dimsX"
+          v-bind:dimsY="this.dimsY">
         </WordBox>
       </td> 
     </tr>
   </table>
 
+</div>
+<div class="letterbox">
+  Hej
 </div>
 </template>
   
@@ -32,11 +39,13 @@ import WordBox from '../components/WordBox.vue'
     data: function() {
       return {
         /* sourceName: "" */
+        dimsX: String(600 / this.matrixDims.x) + "px",
+        dimsY: String(600 / this.matrixDims.y) + "px"
       }
-    },  
+    },
     name: 'CrossWord',
     components: {
-      WordBox, 
+      WordBox,
     },
     props: {
       wordPositions: Array,
@@ -46,12 +55,16 @@ import WordBox from '../components/WordBox.vue'
       wordInOrder: Number
     },
     mounted() {
-/*     this.wordPositions.actual.forEach((item, yindex) => {
-      console.log("Outer wordPositions.actual index: " + yindex);
-      item.forEach((item, xindex) => {
-        console.log("Inner wordPositions.actual index: " + xindex)
-      })
-    }); */
+    /*   this.wordPositions.actual.forEach((item, yindex) => {
+        console.log("Outer wordPositions.actual index: " + yindex);
+        item.forEach((item, xindex) => {
+          console.log("Inner wordPositions.actual index: " + xindex)
+        })
+      }); */
+    const element = document.querySelector(':root');
+    element.style.setProperty('--dimsX', this.dimsX);
+    element.style.setProperty('--dimsY', this.dimsY);
+    console.log(this.matrixDims)
     },
     created: function () {
       this.tempFunc()
@@ -64,20 +77,21 @@ import WordBox from '../components/WordBox.vue'
         console.log("test")
       }
     },
-
-    computed: {
-    cellWidth() {
-      return (600 / this.matrixDims.x) + 'px'
-    },
-    cellHeight() {
-      return (600 / this.matrixDims.y) + 'px'
-    },
-  },
   }
   </script>
-  
-  <!-- Add "scoped" attribute to limit CSS to this component only -->
-  <style scoped>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+
+:root {
+  --dimsX: 1em;
+  --dimsY: 1em;
+}
+
+.letterbox:empty {
+  background-color: white;
+  /* background-color: #A7CAB1; */
+}
 
 #crossword {
   display: table;
@@ -86,9 +100,7 @@ import WordBox from '../components/WordBox.vue'
 }
 
 #crosswordwrapper {
-  display: table;
   table-layout: auto;
-  margin: 0 auto;
   justify-content: center;
   background-color: #A7CAB1;
   height: 600px;
