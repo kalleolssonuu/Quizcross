@@ -364,7 +364,6 @@
         console.log(this.crosswordPackage.wordDesc)
         this.enableWordButtons = false
       }, 
-
       discardWord: function () {
         this.word = ""
         this.desc = ""
@@ -467,7 +466,6 @@
           this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
         }
       },
-
       showPreviousSolution: function () {
         if (this.userIterator == 0) {
           this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))

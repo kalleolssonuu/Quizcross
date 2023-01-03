@@ -82,7 +82,16 @@ import WordBox from '../components/WordBox.vue'
       testLog: function() {
         console.log("test")
       }
-    }
+    },
+
+    computed: {
+    cellWidth() {
+      return (600 / this.matrixDims.x) + 'px'
+    },
+    cellHeight() {
+      return (600 / this.matrixDims.y) + 'px'
+    },
+  },
   }
   </script>
   
@@ -91,18 +100,18 @@ import WordBox from '../components/WordBox.vue'
 
 .letterbox {
   background-color: white;
-  width: 95%;
+ width: 95%;
   height: 95%;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
   font-weight: bold;
-  font-size: 2rem;
+  font-size: 1rem;
   border: black 0.15rem solid;
   color:black;
 }
 
-.letterbox-CreateView {
+/* .letterbox-CreateView {
   
-}
+} */
 
 .letterbox-CreateView:hover {
   cursor: default;
