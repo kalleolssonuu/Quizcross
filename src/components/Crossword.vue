@@ -22,6 +22,9 @@
   </table>
 
 </div>
+<div class="letterbox">
+  Hej
+</div>
 </template>
   
 
@@ -57,8 +60,8 @@ import WordBox from '../components/WordBox.vue'
         })
       }); */
     const element = document.querySelector(':root');
-    element.style.setProperty('--dimsX', this.matrixDims);
-    element.style.setProperty('--dimsY', this.matrixDims);
+    element.style.setProperty('--dimsX', this.dimsX);
+    element.style.setProperty('--dimsY', this.dimsY);
     console.log(this.matrixDims)
     },
     created: function () {
@@ -88,17 +91,17 @@ import WordBox from '../components/WordBox.vue'
   <style scoped>
 
 :root {
-  --X: var(--dimsX);
-  --Y: var(--dimsY);
+  --dimsX: 1em;
+  --dimsY: 1em;
 
 }
 
 .letterbox {
   background-color: rgb(250, 244, 192);
-  min-width: var(--X);
-  min-height: var(--Y);
-  max-width: var(--X);
-  max-height: var(--Y);
+  min-width: var(--dimsX);
+  min-height: var(--dimsY);
+  max-width: var(--dimsX);
+  max-height: var(--dimsY);
   font-family: "Comic Sans MS", "Comic Sans", cursive;
   font-weight: bold;
   font-size: 1.5rem;
