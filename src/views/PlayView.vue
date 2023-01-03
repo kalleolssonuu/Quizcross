@@ -7,22 +7,18 @@
     </div>
 </header>
 
-  Change input direction: 
+  Change input direction: <!-- uiLabels + layout-fix -->
   <button v-on:click="changeDirection">
     {{ inputDirection }}
   </button>
 
-  <div id="div2"> 
-        <Crossword  v-bind:sourceName="sourceName"
-                    v-bind:wordPositions="this.wordPositions" 
+  <div id="div2">
+        <Crossword  v-bind:sourceName="this.sourceName"
+                    v-bind:wordPositions="this.wordPositions.actual"
                     v-bind:matrixDims="this.matrixDims"
                     v-bind:word="this.word"    
-                    v-bind:desc="this.desc"
-                    > 
-                    
-                    <!-- v-bind:wordPositions="data.allCrosswords.ID.wordPositions" -->
-                    <!-- v-bind:matrixDims="data.allCrosswords.ID.matrixDims" -->
-        </Crossword> <!-- hur få ut rätt word och desc? Typ for-loop "for crosswordpackages.word, gör det ovan"  -->
+                    v-bind:desc="this.desc"> 
+        </Crossword>
   </div>
 
   <!-- JESSIE: FIXA SÅ SKICKAR ETT PAKET INTE ALLA, SE ANTECK I LOBBY -->
@@ -64,7 +60,7 @@ import Crossword from '../components/Crossword.vue'
   const socket = io();
 
 export default {
-    name: 'CreateCrosswordView',
+    name: 'PlayView',
     components: {
         Crossword,
         Modal
@@ -77,6 +73,7 @@ export default {
         word: "",
         desc: "",
         matrixDims: {x: 13, y: 10},
+        occupiedPosition: {x: null, y: null},
         /* wordPositions: [], */
         wordPositions: {actual: [], temp: []},
         userCrossword: [],
@@ -101,20 +98,34 @@ export default {
         this.data = data
       ),
       this.fillPremadeCrossword();
+      this.userCrossword = this.getUserCrossword()
 
       socket.on('currentCrosswordPackages', data => { // tar emot korsordsinfo från server, ursprung confirmCreate
         this.crosswordPackages = data}); 
-      /* this.loadUserCrossword() */
+      /* this.getUserCrossword() */
     },
 
     methods: {
-      loadUserCrossword: function () {
-        console.log("Inside of loadusercrossword")
-        this.userCrossword = JSON.parse(JSON.stringify(this.wordPositions.actual))
-        this.userCrossword.forEach((item, index) => {
-          item[index].letter = null
+      getUserCrossword: function () {
+        /* console.log("Inside of getUserCrossword") */
+
+                        console.log("JSON test: " + JSON.parse(JSON.stringify(this.wordPositions.actual)))
+
+        let tempUserCrossword = JSON.parse(JSON.stringify(this.wordPositions.actual))
+
+                        console.log("tempUserCrossword before nullify: " + tempUserCrossword)
+                        console.log("test get property-value before nullify: " + tempUserCrossword[0][0].letter)
+
+        tempUserCrossword.forEach((outerList) => {
+          outerList.forEach(element => {
+            element.letter = null
+          })
         })
-        console.log(this.userCrossword)
+
+                        console.log("tempUserCrossword after nullify: " + tempUserCrossword)
+                        console.log("test get property-value before nullify: " + tempUserCrossword[0][0].letter)
+
+        return tempUserCrossword
       },
       fillPremadeCrossword: function () {
           for (let v = 0; v < this.matrixDims.y; v++) {
@@ -124,7 +135,7 @@ export default {
               this.wordPositions.actual[v][h] = {letter: null, 
                                                   inHorizontal: false,
                                                   inVertical: false,
-                                                  isFirstLetter: false, 
+                                                  isFirstLetter: false,
                                                   wordInOrder: 1} /* if (wordInOrder != 0) { lägg till siffra i hörnet } */
               }
           }
@@ -135,9 +146,9 @@ export default {
           this.wordPositions.actual[0][1].letter = "l"; this.wordPositions.actual[0][1].inHorizontal = true; this.wordPositions.actual[0][1].inVertical = true
           this.wordPositions.actual[0][1].isFirstLetter = true
 
-          this.wordPositions.actual[0][2].letter = "o"; this.wordPositions.actual[0][0].inHorizontal = true
-          this.wordPositions.actual[0][3].letter = "w"; this.wordPositions.actual[0][0].inHorizontal = true
-          this.wordPositions.actual[0][4].letter = "n"; this.wordPositions.actual[0][0].inHorizontal = true
+          this.wordPositions.actual[0][2].letter = "o"; this.wordPositions.actual[0][2].inHorizontal = true
+          this.wordPositions.actual[0][3].letter = "w"; this.wordPositions.actual[0][3].inHorizontal = true
+          this.wordPositions.actual[0][4].letter = "n"; this.wordPositions.actual[0][4].inHorizontal = true
 
           this.wordPositions.actual[1][1].letter = "a"; this.wordPositions.actual[1][1].inHorizontal = false; this.wordPositions.actual[1][1].inVertical = true
           this.wordPositions.actual[2][1].letter = "k"; this.wordPositions.actual[2][1].inHorizontal = true; this.wordPositions.actual[2][1].inVertical = true
@@ -187,7 +198,7 @@ export default {
   margin: 5%;
 }
 
-.wordDescriptioWrapper{
+.wordDescriptionWrapper{
   display: flex;
 }
 

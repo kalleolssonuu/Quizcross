@@ -20,13 +20,13 @@ const routes = [
   },
 
   {
-    path: '/ActualPlay/:lang',
-    name: 'ActualPlayView',
+    path: '/PlayView/:lang',
+    name: 'PlayView',
     component: () => import(/* webpackChunkName: "about" */ '../views/PlayView.vue')
   },
 
   {
-    path: '/lobby/:lang',
+    path: '/Lobby/:lang',
     name: 'LobbyView',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -35,7 +35,7 @@ const routes = [
   },
   {
   path: '/CreateView/:lang',
-  name: 'CreateCrosswordView',
+  name: 'CreateView',
   // route level code-splitting
   // this generates a separate chunk (about.[hash].js) for this route
   // which is lazy-loaded when the route is visited.

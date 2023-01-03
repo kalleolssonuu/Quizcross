@@ -46,7 +46,7 @@
 
     <div id="div2"> 
         <Crossword  v-bind:sourceName="sourceName"
-                    v-bind:wordPositions="this.wordPositions"
+                    v-bind:wordPositions="this.wordPositions.actual"
                     v-bind:matrixDims="this.matrixDims">
         </Crossword>
     </div>
@@ -59,7 +59,7 @@
           </button> 
           <br>
 
-          <button v-on:click="this.confirmCreateCrossword" @click="$router.push('/lobby/'+lang)">
+          <button v-on:click="this.confirmCreateCrossword" @click="$router.push('/Lobby/'+lang)">
             {{uiLabels.confirmCreate}}  <!--JESSIE OBS OLIKA NAMN-->
           </button>
         </div>
@@ -109,14 +109,20 @@
 
 /* LOGG:
 
-  Från tidigare:
-    * Vi behöver ej göra enligt Mikaels instruktioner för att grafiken ska uppdateras löpande. Kanske behöver undersöka server-socket-kommunikation dock.
-  2022-12-30: Undersök detta.
+  2023-01-02
+  Fixa sista problemen med algoritmen.
+  - Lilla siffran blir fel vid genomgång av wordPositions.temp
+  - Orden hamnar ett steg förskjutet
+  - isFirstLetter --> rätt siffra i hörnet
+  * Undersök möjlighet att öka iterator vid confirm istället
+
+  - Visa beskrivningar löpande så att användaren alltid får se vad den skapar
+  - Layout i olika Views, knappar osv.
 
 */
 
   export default {
-    name: 'CreateCrosswordView',
+    name: 'CreateView',
     components: {
         Crossword,
         Modal
@@ -149,7 +155,7 @@
         uiLabels: {},        
         lang: "en",
 
-        sourceName: "CreateCrosswordView",
+        sourceName: "CreateView",
       }
     },
     created: function () {
@@ -341,7 +347,7 @@
       confirmWordPosition: function () { // lagrar orden och beskrivningarna som vi vill skicka när vi trycker på confirmCreate
         this.wordDescForPackage[this.word] = this.desc;     
 
-        this.word = ""    
+        this.word = ""
         this.desc = ""
 
         console.log("Lista med words och desc som confirmats är:")
@@ -358,7 +364,6 @@
         console.log(this.crosswordPackage.wordDesc)
         this.enableWordButtons = false
       }, 
-                                          /* ^ kan behöva vara - 2 */
       discardWord: function () {
         this.word = ""
         this.desc = ""
@@ -396,7 +401,7 @@
                                                inHorizontal: false,
                                                inVertical: false,
                                                isFirstLetter: false, 
-                                               wordInOrder: this.wordInOrder} /* if (wordInOrder != 0) { lägg till siffra i hörnet } */
+                                               wordInOrder: this.wordInOrder}
             }
         }
 
@@ -461,7 +466,6 @@
           this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
         }
       },
-      
       showPreviousSolution: function () {
         if (this.userIterator == 0) {
           this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
@@ -476,6 +480,35 @@
 </script>
 
 <style>
+
+button {
+  width: 10rem;
+  height: 4rem;
+  border-radius: 15px;
+  border-color: #ba0c00;
+  margin: 1.5rem;
+  color: white;
+  background-color: #FE5F55;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 1rem;
+  cursor:pointer;
+  position: relative;   
+}
+
+.button-disabled {
+  opacity: 30%;
+  cursor: default;
+  background-color: #ba0c00;
+}
+
+#descInput {
+  height: 2rem;
+  width: 9rem;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 1rem;
+  text-align: center; 
+}
+
 #div1 {
   float: left;
   width: 25%;
@@ -494,12 +527,6 @@
   margin-top: 10%;
 }
 
-.language{
-    height: 1rem;
-    width: 1rem;
-    cursor:pointer;
-    margin: 0.5rem;
-}
 #flag {
   width: 5rem;
   height: 3.5rem;
@@ -507,21 +534,28 @@
 }
 
 #help {
-    height: 3rem;
-    width: 3rem;
-    background-color: #FFFDD0;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-size: 30px;
-    text-align: center;
+  height: 3rem;
+  width: 3rem;
+  background-color: #FFFDD0;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 30px;
+  text-align: center;
+  cursor:pointer;
+  border-radius: 50%;
+  border-color: black;
+  color: black;
+  position: absolute;
+  top: 0;
+  right:0;
+  margin: 0.5rem;
+}
+
+.language{
+    height: 1rem;
+    width: 1rem;
     cursor:pointer;
-    border-radius: 50%;
-    border-color: black;
-    color: black;
-    position: absolute;
-    top: 0;
-    right:0;
     margin: 0.5rem;
-  }
+}
 
 .logo {
   text-transform: uppercase;
@@ -532,36 +566,19 @@
   text-align: center;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
-button {
-    width: 10rem;
-    height: 4rem;
-    border-radius: 15px;
-    border-color: #ba0c00;
-    margin: 1.5rem;
-    color: white;
-    background-color: #FE5F55;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-size: 1rem;
-    cursor:pointer;
-    position: relative;   
-  }
 
-  .button-disabled {
-    opacity: 30%;
-    cursor: default;
-    background-color: #ba0c00;
-  }
-  
-  .solutionsWrapper{
-    display: flex;
-    justify-content: center;
-  }
-  #showSolutions {
-    width: 5rem;
-    height: 4.5rem;
-    cursor:pointer; 
-    margin: 0.5rem;
-  }
+#showSolutions {
+  width: 5rem;
+  height: 4.5rem;
+  cursor:pointer; 
+  margin: 0.5rem;
+}
+
+.solutionsWrapper{
+  display: flex;
+  justify-content: center;
+}
+ 
 
   #wordInput {
     height: 2rem;
@@ -570,12 +587,4 @@ button {
     font-size: 1rem;
     text-align: center; 
  }
-
-  #descInput {
-    height: 2rem;
-    width: 9rem;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-size: 1rem;
-    text-align: center; 
-  }
 </style>
