@@ -65,8 +65,8 @@
     }
     },
     created: function(){
-        
-      socket.emit('pageLoaded')
+        this.lang = this.$route.params.lang;
+      socket.emit('pageLoaded', this.lang)
       socket.on("init", (labels) => {
       this.uiLabels = labels
     })
@@ -142,8 +142,6 @@
     #crosswordArea {
         justify-content: center;
         float: left;
-        width: 70%;
-        margin-top: 2%;
 
     }
 
