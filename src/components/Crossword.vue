@@ -100,7 +100,7 @@ import WordBox from '../components/WordBox.vue'
 
 .letterbox {
   background-color: white;
- width: 95%;
+  width: 95%;
   height: 95%;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
   font-weight: bold;
