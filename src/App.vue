@@ -13,10 +13,11 @@ body {
   background-color: #A7CAB1
 }
 #app {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  color: white;
 }
 
 </style>

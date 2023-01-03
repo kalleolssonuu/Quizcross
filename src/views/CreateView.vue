@@ -7,6 +7,9 @@
     </div>
 </header>
 
+<button v-on:click="this.testUserID"> test IP ID </button>
+
+
 <div id="div1" class="inputFieldWrapper">
           
     <div class="inputField"> <!-- måste emitta word så att vi kan använda -->
@@ -21,26 +24,29 @@
     </div>
     <br>
     
-    <button v-on:click="this.findPotentialMatches">{{uiLabels.addWord}}</button> 
+    <button v-if="this.enableWordButtons" class="button-disabled" disabled> {{uiLabels.addWord}} </button>
+    <button v-else v-on:click="this.findPotentialMatches"> {{uiLabels.addWord}} </button>
+    <!-- <button v-on:click="this.findPotentialMatches">{{uiLabels.addWord}}</button>  -->
     <br>
 
     <div class="solutionsWrapper">
       <img id="showSolutions" :src="uiLabels.showPrevious" v-on:click="this.showPreviousSolution">
       <img id="showSolutions" :src="uiLabels.showNext" v-on:click="this.showNextSolution">
     </div>
-    <!-- <button id="showSolutions" v-on:click="this.showPreviousSolution">{{uiLabels.showPrevious}}</button>
-    <button id="showSolutions" v-on:click="this.showNextSolution">{{uiLabels.showNext}}</button> -->
+    
+    <button v-if="!this.enableWordButtons" class="button-disabled" disabled> Confirm </button>
+    <button v-else v-on:click="this.confirmWord"> Confirm </button>
 
-    <button v-on:click="this.confirmWordPosition"> Confirm word Position  </button>
+    <button v-if="!this.enableWordButtons" class="button-disabled" disabled> Discard </button>
+    <button v-else v-on:click="this.discardWord"> Discard </button>
 
 
   </div>
         
 
-    <div id="div2">                               <!-- ska knapparna ha funktionalitet? om sourceName == PlayView: JA
-                                                       dvs. knapparna är klickbara om vi kommer från PlayView -->
+    <div id="div2"> 
         <Crossword  v-bind:sourceName="sourceName"
-                    v-bind:wordPositions="this.wordPositions"
+                    v-bind:wordPositions="this.wordPositions.actual"
                     v-bind:matrixDims="this.matrixDims">
         </Crossword>
     </div>
@@ -48,12 +54,12 @@
         
         <div id="div3">
           <!--<button v-on:click="this.emptyTextFields"> Empty Input </button> ---><!-- gör detta när användaren har valt ett ord istället för en knapp. Det rensar även textfältet -->
-          <button v-on:click="this.fillPositionsNull">
+          <button v-on:click="this.resetData">
             {{uiLabels.resetCrossword}}
           </button> 
           <br>
 
-          <button v-on:click="this.confirmCreateCrossword">
+          <button v-on:click="this.confirmCreateCrossword" @click="$router.push('/Lobby/'+lang)">
             {{uiLabels.confirmCreate}}  <!--JESSIE OBS OLIKA NAMN-->
           </button>
         </div>
@@ -67,46 +73,56 @@
   import Crossword from '../components/Crossword.vue'
   import Modal from '../components/PopUp.vue'
   import io from 'socket.io-client';
+  /* import Vue from 'vue'; */
+
   const socket = io();
-  
+ /*  const initialData = {
+    word: "",
+    desc: "",
+
+    userIterator: 0,
+    matchesIterator: 0,
+    prioIterator: 0, 
+    wordInOrder: 1,
+    amountWordsAdded: 0,
+
+    enableWordButtons: false,
+    wordCollision: false,
+    noMatches: false,
+
+    matrixDims: {x: 15, y: 15},
+    wordPositions: {actual: [], temp: []},
+    wordPositionsCopy: [],
+    crosswordPackage: {crosswordName: "", 
+                        wordPositions: [],
+                        wordDesc: [],
+                        matrixDims: {},
+                        },
+
+    showModal: false,
+    uiLabels: {},        
+    lang: "en",
+
+    sourceName: "CreateCrosswordView",
+  } */
+
+
 /* LOGG:
 
-  2022-12-15
-  * Spara ord- och beskrivningspar så att vi kan skicka med det. Alternativt skicka ett stort 'paket' som innehåller all information om korsordet.
-  * Börja med att kolla alla positioner där ordet har en gemensam bokstav med wordPositions.actual. Därefter byt plats på den matchningen och
-    en som ligger på en före-detta-null-plats. Ny iterator this.swapIterator. Visualisera: typ som hur pivotelementet rör sig i QuickSort.
-  * PlayView: vi borde kunna ha komponenter som element i vårt table. Har kollat med OpenAI! Dvs. vi kan har egenskaper såsom
-    'ingår i ett vertikalt ord' eller 'är första bokstaven (viktigt när vi ska sätta en liten siffra för att indikera vilket beskrivning
-    som berör ordet)'.
-  * Indikera första- och sista bokstav i ett ord så att vi kan ha ord som ligger intill varandra och inte behöva kolla omkringliggande ord/riktning?
+  2023-01-02
+  Fixa sista problemen med algoritmen.
+  - Lilla siffran blir fel vid genomgång av wordPositions.temp
+  - Orden hamnar ett steg förskjutet
+  - isFirstLetter --> rätt siffra i hörnet
+  * Undersök möjlighet att öka iterator vid confirm istället
 
-
-  Gjort idag:
-    - Fixat hela algoritmen (ej fullt optimerad version)
-    - Funderat på funktioner vi kan undersöka vidare
-
-  2022-12-12 (natten 13:e)
-
-  * För att snabba på processen för användaren: 
-  Loopa först igenom alla matchningar där första bokstaven träffar en annan bokstav, alternativt ordna wordPositions.temp så att bokstavsträffar läggs först i listan.
-
-  * Vi behöver ej göra enligt Mikaels instruktioner för att grafiken ska uppdateras löpande. Kanske behöver undersöka server-socket-kommunikation dock.
-  
-
-  Gjort idag:
-    - Fixat loopmekanismen så att man kan se alla wordPosition.temp som har hittats. Lagt till knappar för iterering osv. så att man lättare man undersöka.
-      I princip en massa meckande med olika index, kanske syns bäst i en merge editor vad som har ändrats.
-
-  Nästa steg:
-    - Fixa klart så att få-plats-testet för ord fungerar som det ska. Just nu räcker i vissa fall att ett av platstesten uppfylls för att vi ska generera matchningar. 
-    - Testa att lägga till nya ord i wordPositions.actual via inputfältet
-    - Undersök: hur lätt är det att lägga till egenskaper på de enskilda rutorna? Komponent-i-komponent?
-    - Layout (någon annan?)
+  - Visa beskrivningar löpande så att användaren alltid får se vad den skapar
+  - Layout i olika Views, knappar osv.
 
 */
 
   export default {
-    name: 'CreateCrosswordView',
+    name: 'CreateView',
     components: {
         Crossword,
         Modal
@@ -115,23 +131,31 @@
       return {
         word: "",
         desc: "",
-        boxes: {}, /* tänkt att innehålla information till WordBox sen */
+
         userIterator: 0,
         matchesIterator: 0,
-        swapIterator: 0, 
+        prioIterator: 0, 
         wordInOrder: 1,
+        amountWordsAdded: 0,
+
+        enableWordButtons: false,
         wordCollision: false,
         noMatches: false,
+
         matrixDims: {x: 15, y: 15},
-        /* wordPositions: [], */
         wordPositions: {actual: [], temp: []},
-        
+        wordPositionsCopy: [],
+        crosswordPackage: {crosswordName: "", 
+                           wordPositions: [],
+                           wordDesc: [],
+                           matrixDims: {},
+                           },
+
         showModal: false,
         uiLabels: {},        
         lang: "en",
-        sourceName: "CreateCrosswordView",
 
-        wordDescForPackage: {} // ska ändras
+        sourceName: "CreateView",
       }
     },
     created: function () {
@@ -152,13 +176,23 @@
           this.lang = "en"
         socket.emit("switchLanguage", this.lang)
       },
-    /* FÖR ATT FÅ FRAM POP-UP RUTA*/
+
       togglePopup: function () {
         this.showModal = ! this.showModal;
       },
+
+      testUserID: function () {
+        console.log(this.$getIPAddress)
+      },
+
+      resetData: function () {
+        location.reload()
+      },
+
       findPotentialMatches: function () {
         if (this.word != "") {
         
+          this.enableWordButtons = true
           this.matchesIterator = 0;
           this.userIterator = 0;
           this.swapIterator = 0;
@@ -168,7 +202,7 @@
           const horiz = this.matrixDims.x; /* för att spara plats längre ner */
           const vert = this.matrixDims.y;    /* för att spara plats längre ner */
 
-
+          this.wordPositionsCopy = JSON.parse(JSON.stringify(this.wordPositions.actual))
 
           for (let h = 0; h < horiz; h++) {
             /* console.log("kommit in? horisontellt") */
@@ -189,6 +223,7 @@
 
                             if (this.wordPositions.actual[v + iv][h].letter === wordSplit[iv]) {
                               this.wordCollision = true
+                              this.letterMatchCounter++
                             }
 
                             console.log("h = " + h)
@@ -206,15 +241,20 @@
                               console.log("this.getNewTempPositionVert(h, v, wordSplit)) --- ")
                               console.log(this.getNewTempPositionVert(h, v, wordSplit))
                             
-                              if (this.wordCollision) {
-                                this.wordPositions.temp.splice(this.swapIterator, 0, this.getNewTempPositionVert(h, v, wordSplit))
-                                /* [this.wordPositions.temp[this.matchesIterator], this.wordPositions.temp[this.swapIterator]] = 
-                                [this.wordPositions.temp[this.swapIterator], this.wordPositions.temp[this.matchesIterator]] */
-                                this.swapIterator++
-                                this.wordCollision = false
-                              } else {
-                                this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionVert(h, v, wordSplit)
+                              if (this.letterMatchCounter != wordSplit.length) {
+                                if (this.wordCollision) {
+                                  this.wordPositions.temp.splice(this.prioIterator, 0, this.getNewTempPositionVert(h, v, wordSplit))
+                                  /* [this.wordPositions.temp[this.matchesIterator], this.wordPositions.temp[this.swapIterator]] = 
+                                  [this.wordPositions.temp[this.swapIterator], this.wordPositions.temp[this.matchesIterator]] */
+                                  this.prioIterator++
+                                  this.wordCollision = false
+                                } else {
+                                  this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionVert(h, v, wordSplit)
+                                }
+                                this.matchesIterator++;
                               }
+
+                              
                                 
                               console.log("this.wordPositions.actual --- ")
                               console.log(this.wordPositions.actual)
@@ -222,7 +262,7 @@
                               console.log("this.wordPositions.temp[this.matchesIterator] --- ")
                               console.log(this.wordPositions.temp[this.matchesIterator])
 
-                              this.matchesIterator++;
+                              
                               console.log("matchesIterator increased to: " + this.matchesIterator)
 
                               /* this.wordInOrder++
@@ -241,6 +281,7 @@
                             
                             if (this.wordPositions.actual[v][h + ih].letter === wordSplit[ih]) {
                               this.wordCollision = true
+                              this.letterMatchCounter++
                             }
 
                             console.log("h = " + h)
@@ -258,14 +299,17 @@
                               console.log("this.getNewTempPositionHoriz(h, v, wordSplit)) --- ")
                               console.log(this.getNewTempPositionHoriz(h, v, wordSplit))
 
-                              if (this.wordCollision) {
-                                this.wordPositions.temp.splice(this.swapIterator, 0, this.getNewTempPositionHoriz(h, v, wordSplit))
-                                /* [this.wordPositions.temp[this.matchesIterator], this.wordPositions.temp[this.swapIterator]] = 
-                                [this.wordPositions.temp[this.swapIterator], this.wordPositions.temp[this.matchesIterator]] */
-                                this.swapIterator++
-                                this.wordCollision = false
-                              } else {
-                                this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionHoriz(h, v, wordSplit)
+                              if (this.letterMatchCounter != wordSplit.length) {
+                                if (this.wordCollision) {
+                                  this.wordPositions.temp.splice(this.prioIterator, 0, this.getNewTempPositionHoriz(h, v, wordSplit))
+                                  /* [this.wordPositions.temp[this.matchesIterator], this.wordPositions.temp[this.swapIterator]] = 
+                                  [this.wordPositions.temp[this.swapIterator], this.wordPositions.temp[this.matchesIterator]] */
+                                  this.prioIterator++
+                                  this.wordCollision = false
+                                } else {
+                                  this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionHoriz(h, v, wordSplit)
+                                }
+                                this.matchesIterator++;
                               }
                             
                               console.log("this.wordPositions.actual --- ")
@@ -275,7 +319,7 @@
                               console.log(this.wordPositions.temp[this.matchesIterator])
 
                               /* this.wordPositions.temp.push(this.getNewTempPositionHoriz(h, v, wordSplit)) */
-                              this.matchesIterator++
+                              
                               console.log("matchesIterator increased to: " + this.matchesIterator)
 
                               /* this.wordInOrder++
@@ -294,39 +338,58 @@
               this.alertNoMatches();
           } else {
             this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
-           this.wordInOrder++
             console.log("Amount of words added: " + this.wordInOrder)
-  
+            this.wordInOrder++
           }
         }
       }, 
-      getPositions: function (word, h, v, horizontal) { /* används ej */
-        let pos = {};
+            
+      confirmWordPosition: function () { // lagrar orden och beskrivningarna som vi vill skicka när vi trycker på confirmCreate
+        this.wordDescForPackage[this.word] = this.desc;     
 
-        if (horizontal) {
-            for (let i = 0; i < word.length; i++) {
-                pos = Object.assign(pos, {i: {x: h + i, y: v}
-              })   
-            }
-        } else {
-            for (let i = 0; i < word.length; i++) {
-                pos = Object.assign(pos, {i: {x: h, y: v + i}
-              })
-            }
-        }
-        return pos;
+        this.word = ""
+        this.desc = ""
+
+        console.log("Lista med words och desc som confirmats är:")
+        console.log(this.wordDescForPackage) // för att se om det är problem med alias när word och desc clearas
       },
+      
+      confirmWord: function () {
+        this.amountWordsAdded++
+        this.wordPositionsCopy = JSON.parse(JSON.stringify(this.wordPositions.actual))
+        this.crosswordPackage.wordDesc[this.amountWordsAdded - 1] = {word: this.word, desc: this.desc} 
+
+        this.word = ""
+        this.desc = ""
+        console.log(this.crosswordPackage.wordDesc)
+        this.enableWordButtons = false
+      }, 
+      discardWord: function () {
+        this.word = ""
+        this.desc = ""
+        this.wordInOrder--
+        this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositionsCopy))
+        this.enableWordButtons = false
+      },
+
       testSocketSend: function () {
         socket.on("matrixDimsTransfer", data => {
           this.matrixDims = data.matrixDims
           console.log("matrixDimsTransfer has been found")
         })
       },
+
       alertNoMatches: function () {
         alert("no matches! Try another word.")
       },
-      confirmNewWord: function () {
-        socket.emit("updateGrid", this.tempWordObjects, this.matchesIterator) /* Hur ska vi låta användaren iterera över alla möjliga positioner? */
+
+      confirmCreateCrossword: function () {    //skickar ETT färdigt korsord som lagras i lista blad alla andra skickade korsord i server
+        socket.emit("emittedCrosswordPackage", {sourceName: this.sourceName,    // innehåll i paket ska ändras
+                                                  wordPositionActual: this.wordPositions.actual,
+                                                  matrixDims: this.matrixDims,
+                                                  wordDescPairs: this.wordDescForPackage,
+                                                  })
+        console.log("i confirmCreateCrossword")
       },
 
       fillPositionsNull: function () {
@@ -338,7 +401,7 @@
                                                inHorizontal: false,
                                                inVertical: false,
                                                isFirstLetter: false, 
-                                               wordInOrder: this.wordInOrder} /* if (wordInOrder != 0) { lägg till siffra i hörnet } */
+                                               wordInOrder: this.wordInOrder}
             }
         }
 
@@ -407,32 +470,42 @@
           this.userIterator--
           this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
         }
-      },
-
-      confirmWordPosition: function () { // lagrar orden och beskrivningarna som vi vill skicka när vi trycker på confirmCreate
-        this.wordDescForPackage[this.word] = this.desc;     
-
-        this.word = ""    
-        this.desc = ""
-
-        console.log("Lista med words och desc som confirmats är:")
-        console.log(this.wordDescForPackage) // för att se om det är problem med alias när word och desc clearas
-      },
-
-      confirmCreateCrossword: function () {    //skickar ETT färdigt korsord som lagras i lista blad alla andra skickade korsord i server
-        socket.emit("emittedCrosswordPackage", {sourceName: this.sourceName,    // innehåll i paket ska ändras
-                                                  wordPositionActual: this.wordPositions.actual,
-                                                  matrixDims: this.matrixDims,
-                                                  wordDescPairs: this.wordDescForPackage,
-                                                  })  
-        console.log("i confirmCreateCrossword")
-      },
+      }
     }  
 }   
 
 </script>
 
 <style>
+
+button {
+  width: 10rem;
+  height: 4rem;
+  border-radius: 15px;
+  border-color: #ba0c00;
+  margin: 1.5rem;
+  color: white;
+  background-color: #FE5F55;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 1rem;
+  cursor:pointer;
+  position: relative;   
+}
+
+.button-disabled {
+  opacity: 30%;
+  cursor: default;
+  background-color: #ba0c00;
+}
+
+#descInput {
+  height: 2rem;
+  width: 9rem;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 1rem;
+  text-align: center; 
+}
+
 #div1 {
   float: left;
   width: 25%;
@@ -451,12 +524,6 @@
   margin-top: 10%;
 }
 
-.language{
-    height: 1rem;
-    width: 1rem;
-    cursor:pointer;
-    margin: 0.5rem;
-}
 #flag {
   width: 5rem;
   height: 3.5rem;
@@ -464,21 +531,28 @@
 }
 
 #help {
-    height: 3rem;
-    width: 3rem;
-    background-color: #FFFDD0;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-size: 30px;
-    text-align: center;
+  height: 3rem;
+  width: 3rem;
+  background-color: #FFFDD0;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 30px;
+  text-align: center;
+  cursor:pointer;
+  border-radius: 50%;
+  border-color: black;
+  color: black;
+  position: absolute;
+  top: 0;
+  right:0;
+  margin: 0.5rem;
+}
+
+.language{
+    height: 1rem;
+    width: 1rem;
     cursor:pointer;
-    border-radius: 50%;
-    border-color: black;
-    color: black;
-    position: absolute;
-    top: 0;
-    right:0;
     margin: 0.5rem;
-  }
+}
 
 .logo {
   text-transform: uppercase;
@@ -489,29 +563,19 @@
   text-align: center;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
-button {
-    width: 10rem;
-    height: 4rem;
-    border-radius: 15px;
-    border-color: #ba0c00;
-    margin: 1.5rem;
-    color: white;
-    background-color: #FE5F55;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-size: 1rem;
-    cursor:pointer;
-    position: relative;   
-  }
-  .solutionsWrapper{
-    display: flex;
-    justify-content: center;
-  }
-  #showSolutions {
-    width: 5rem;
-    height: 4.5rem;
-    cursor:pointer; 
-    margin: 0.5rem;
-  }
+
+#showSolutions {
+  width: 5rem;
+  height: 4.5rem;
+  cursor:pointer; 
+  margin: 0.5rem;
+}
+
+.solutionsWrapper{
+  display: flex;
+  justify-content: center;
+}
+ 
 
   #wordInput {
     height: 2rem;
@@ -520,12 +584,4 @@ button {
     font-size: 1rem;
     text-align: center; 
  }
-
-  #descInput {
-    height: 2rem;
-    width: 9rem;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-size: 1rem;
-    text-align: center; 
-  }
 </style>

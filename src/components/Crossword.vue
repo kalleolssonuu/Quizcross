@@ -4,36 +4,30 @@
   {{ dimsX }}
   {{ dimsY }}
   <table id="crosswordwrapper">
-    <tr v-for="(list, ykey) in wordPositions.actual" v-bind:key="'y' + ykey">
-        <td v-for="(element, xkey) in list" v-bind:key="'x' + xkey">
-          <WordBox class="letterbox" 
-            v-bind:xkey="xkey" 
-            v-bind:ykey="ykey" 
-            v-bind:letter="element.letter"
-            v-bind:direction="element.direction"
-            v-bind:isFirstLetter="element.isFirstLetter"
-            v-bind:sourceName="this.sourceName"
-            v-bind:wordInOrder="element.wordInOrder">
-
-          </WordBox> 
-        </td> 
+    <tr v-for="(list, ykey) in wordPositions" v-bind:key="'y' + ykey">
+      <td v-for="(element, xkey) in list" v-bind:key="'x' + xkey">
+        <WordBox
+          v-bind:xkey="xkey" 
+          v-bind:ykey="ykey" 
+          v-bind:letter="element.letter"
+          v-bind:direction="element.direction"
+          v-bind:inHorizontal="element.inHorizontal"
+          v-bind:inVertical="element.inVertical"
+          v-bind:isFirstLetter="element.isFirstLetter"
+          v-bind:wordInOrder="element.wordInOrder"
+          v-bind:sourceName="this.sourceName">
+        </WordBox>
+      </td> 
     </tr>
   </table>
-
-
-<!--     <table id="crosswordwrapper"> nedan lista är hur wordPositions kommer se ut i verkligheten
-      <tr v-for="(list, key) in [['C','L', 'O', 'W', 'N', ''],['','A','','', '', ''],['','K','A','N', 'O', 'N'],
-                                  ['J', 'A', '', '', '', ''], ['', 'N', '', '', '', '']]" v-bind:key="key">
-        <td class="letterbox" v-for="(letter, key) in list" v-bind:key="key"> 
-          {{ letter }}
-        </td>
-      </tr>
-    </table> -->
 
 </div>
 </template>
   
-  <script>
+
+
+<script>
+
 import WordBox from '../components/WordBox.vue' 
 
   export default {
@@ -49,11 +43,11 @@ import WordBox from '../components/WordBox.vue'
       WordBox, 
     },
     props: {
-      wordPositions: Object,
+      wordPositions: Array,
       matrixDims: Object,
       solutionsList: Object,
       sourceName: String,
-      wordInOrder: Number,
+      wordInOrder: Number
     },
     mounted() {
     /*   this.wordPositions.actual.forEach((item, yindex) => {
@@ -77,7 +71,16 @@ import WordBox from '../components/WordBox.vue'
       testLog: function() {
         console.log("test")
       }
-    }
+    },
+
+    computed: {
+    cellWidth() {
+      return (600 / this.matrixDims.x) + 'px'
+    },
+    cellHeight() {
+      return (600 / this.matrixDims.y) + 'px'
+    },
+  },
   }
   </script>
   
@@ -111,7 +114,6 @@ import WordBox from '../components/WordBox.vue'
   display: table;
   height: 20rem;
   width: 20rem;
-
 }
 
 #crosswordwrapper {
@@ -122,6 +124,7 @@ import WordBox from '../components/WordBox.vue'
   width: 600px;
   max-height: 600px;
 }
+
 
   </style>
   

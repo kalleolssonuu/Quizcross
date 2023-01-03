@@ -7,17 +7,18 @@
     </div>
 </header>
 
-  <div id="div2"> 
-        <Crossword  v-bind:sourceName="sourceName"
-                    v-bind:wordPositions="this.wordPositions" 
+  Change input direction: <!-- uiLabels + layout-fix -->
+  <button v-on:click="changeDirection">
+    {{ inputDirection }}
+  </button>
+
+  <div id="div2">
+        <Crossword  v-bind:sourceName="this.sourceName"
+                    v-bind:wordPositions="this.userCrossword"
                     v-bind:matrixDims="this.matrixDims"
                     v-bind:word="this.word"    
-                    v-bind:desc="this.desc"
-                    > 
-                    
-                    <!-- v-bind:wordPositions="this.allCrosswords.ID.wordPositions", där "this." har tagits från data -->
-                    <!-- v-bind:matrixDims="this.allCrosswords.ID.matrixDims" -->
-        </Crossword> <!-- hur få ut rätt word och desc? Typ for-loop "for crosswordpackages.word, gör det ovan"  -->
+                    v-bind:desc="this.desc"> 
+        </Crossword>
   </div>
 
   <!-- JESSIE: FIXA SÅ SKICKAR ETT PAKET INTE ALLA, SE ANTECK I LOBBY -->
@@ -44,8 +45,16 @@
         {{ this.crosswordPackages[ID].package.wordDescPairs }}
       </li> -->
     </ul>
+
+        <!-- {{"servertest av uppdaterade positioner" }}
+    <ul v-if="this.occupiedWordboxes" >
+      {{this.occupiedWordboxes}}
+    </ul>
+     -->
     
   </div>
+
+   <button id="finishedGame" @click="$router.push('/lobby/'+lang)">{{'Avsluta spel'}}</button>  
   
 </template>
 
@@ -57,24 +66,30 @@ import Crossword from '../components/Crossword.vue'
   const socket = io();
 
 export default {
-    name: 'CreateCrosswordView',
+    name: 'PlayView',
     components: {
         Crossword,
         Modal
+    },
+    props: {
+    modal: Object,
     },
     data: function () {
       return {
         word: "",
         desc: "",
         matrixDims: {x: 13, y: 10},
+        occupiedPosition: {x: null, y: null},
         /* wordPositions: [], */
         wordPositions: {actual: [], temp: []},
+        userCrossword: [],
 
         showModal: false,
         uiLabels: {},
+        id: "",
         lang: "en",
         sourceName: "PlayView",
-        wordInOrder:1,
+        inputDirection: "Horizontal",
 
         crosswordPackages: null, // OBS SKICKAR JU NU ALLA PAKET DET ÄR FEL, VILL SKICKA ETT
       }
@@ -89,49 +104,112 @@ export default {
         this.data = data
       ),
       this.fillPremadeCrossword();
+      this.userCrossword = this.getUserCrossword()
 
+      // sockets för skapadet av korsord-ish
       socket.on('currentCrosswordPackages', data => { // tar emot korsordsinfo från server, ursprung confirmCreate
         this.crosswordPackages = data}); 
+        /* this.getUserCrossword() */
+      
+      // OBS NEDAN KANSKE ONÖDIG, SKA JU FÅ ETT HELT NYTT KORSORD FRÅN DATA!!! 
+      //  - DVS GÅR SAMMA VÄG SOM TIDIGARE?
+      //  - samma socket som tidigare?
+      //  - alternativt ny socket pga nytt meddelande? även om det även i detta fall är ett helt korsord som skickas.
+      
+      // sockets för uppdaterande av ockuperade positioner vid spelande av korsord
+      socket.on("currentOccupied", data => {
+        this.occupiedWordboxes = data})
     },
 
     methods: {
-        fillPremadeCrossword: function () {
-            for (let v = 0; v < this.matrixDims.y; v++) {
-                this.wordPositions.actual[v] = [];
-                /* wordPositions = [[null, null, null, null]] */
-                for (let h = 0; h < this.matrixDims.x; h++) {
-                this.wordPositions.actual[v][h] = {letter: null, 
-                                                    inHorizontal: false,
-                                                    inVertical: false,
-                                                    isFirstLetter: false, 
-                                                    wordInOrder: this.wordInOrder} /* if (wordInOrder != 0) { lägg till siffra i hörnet } */
-                }
-            }
+      updateOccupied: function() { // ska aktiveras när en klient klickar på en ruta          
+        //  this.occupiedWordboxes 
 
-            this.wordPositions.actual[0][0].letter = "c"; this.wordPositions.actual[0][0].inHorizontal = true
-            this.wordPositions.actual[0][0].isFirstLetter = true
+         // socket.emit('updatedOccupied', this.occupiedWordboxes )
+          socket.emit('updatedOccupied', "hejhej" )
+        },
 
-            this.wordPositions.actual[0][1].letter = "l"; this.wordPositions.actual[0][1].inHorizontal = true; this.wordPositions.actual[0][1].inVertical = true
-            this.wordPositions.actual[0][1].isFirstLetter = true
+      getUserCrossword: function () {
+        /* console.log("Inside of getUserCrossword") */
 
-            this.wordPositions.actual[0][2].letter = "o"; this.wordPositions.actual[0][0].inHorizontal = true
-            this.wordPositions.actual[0][3].letter = "w"; this.wordPositions.actual[0][0].inHorizontal = true
-            this.wordPositions.actual[0][4].letter = "n"; this.wordPositions.actual[0][0].inHorizontal = true
+                        console.log("JSON test: " + JSON.parse(JSON.stringify(this.wordPositions.actual)))
 
-            this.wordPositions.actual[1][1].letter = "a"; this.wordPositions.actual[1][1].inHorizontal = false; this.wordPositions.actual[1][1].inVertical = true
-            this.wordPositions.actual[2][1].letter = "k"; this.wordPositions.actual[2][1].inHorizontal = true; this.wordPositions.actual[2][1].inVertical = true
-            this.wordPositions.actual[2][1].isFirstLetter = true
+        let tempUserCrossword = JSON.parse(JSON.stringify(this.wordPositions.actual))
 
-            this.wordPositions.actual[3][1].letter = "a"; this.wordPositions.actual[3][1].inHorizontal = true; this.wordPositions.actual[3][1].inVertical = true
-            this.wordPositions.actual[4][1].letter = "n"; this.wordPositions.actual[4][1].inHorizontal = false; this.wordPositions.actual[4][1].inVertical = true
-            this.wordPositions.actual[3][0].letter = "j"; this.wordPositions.actual[3][0].inHorizontal = true /* från JA */
-            this.wordPositions.actual[3][0].isFirstLetter = true
+                        console.log("tempUserCrossword before nullify: " + tempUserCrossword)
+                        console.log("test get property-value before nullify: " + tempUserCrossword[0][0].letter)
 
-            this.wordPositions.actual[2][2].letter = "a"; this.wordPositions.actual[2][2].inHorizontal = true /* från KANON */
-            this.wordPositions.actual[2][3].letter = "n"; this.wordPositions.actual[2][3].inHorizontal = true
-            this.wordPositions.actual[2][4].letter = "o"; this.wordPositions.actual[2][4].inHorizontal = true
-            this.wordPositions.actual[2][5].letter = "n"; this.wordPositions.actual[2][5].inHorizontal = true
+        tempUserCrossword.forEach((outerList) => {
+          outerList.forEach(element => {
+            element.letter = null
+          })
+        })
 
+                        console.log("tempUserCrossword after nullify: " + tempUserCrossword)
+                        console.log("test get property-value before nullify: " + tempUserCrossword[0][0].letter)
+
+        return tempUserCrossword
+      },
+
+      fillPremadeCrossword: function () {
+          for (let v = 0; v < this.matrixDims.y; v++) {
+              this.wordPositions.actual[v] = [];
+              /* wordPositions = [[null, null, null, null]] */
+              for (let h = 0; h < this.matrixDims.x; h++) {
+              this.wordPositions.actual[v][h] = {letter: null, 
+                                                  inHorizontal: false,
+                                                  inVertical: false,
+                                                  isFirstLetter: false,
+                                                  wordInOrder: 1} /* if (wordInOrder != 0) { lägg till siffra i hörnet } */
+              }
+          }
+
+          this.wordPositions.actual[0][0].letter = "c"; this.wordPositions.actual[0][0].inHorizontal = true
+          this.wordPositions.actual[0][0].isFirstLetter = true
+
+          this.wordPositions.actual[0][1].letter = "l"; this.wordPositions.actual[0][1].inHorizontal = true; this.wordPositions.actual[0][1].inVertical = true
+          this.wordPositions.actual[0][1].isFirstLetter = true
+
+          this.wordPositions.actual[0][2].letter = "o"; this.wordPositions.actual[0][2].inHorizontal = true
+          this.wordPositions.actual[0][3].letter = "w"; this.wordPositions.actual[0][3].inHorizontal = true
+          this.wordPositions.actual[0][4].letter = "n"; this.wordPositions.actual[0][4].inHorizontal = true
+
+          this.wordPositions.actual[1][1].letter = "a"; this.wordPositions.actual[1][1].inHorizontal = false; this.wordPositions.actual[1][1].inVertical = true
+          this.wordPositions.actual[2][1].letter = "k"; this.wordPositions.actual[2][1].inHorizontal = true; this.wordPositions.actual[2][1].inVertical = true
+          this.wordPositions.actual[2][1].isFirstLetter = true
+
+          this.wordPositions.actual[3][1].letter = "a"; this.wordPositions.actual[3][1].inHorizontal = true; this.wordPositions.actual[3][1].inVertical = true
+          this.wordPositions.actual[4][1].letter = "n"; this.wordPositions.actual[4][1].inHorizontal = false; this.wordPositions.actual[4][1].inVertical = true
+          this.wordPositions.actual[3][0].letter = "j"; this.wordPositions.actual[3][0].inHorizontal = true /* från JA */
+          this.wordPositions.actual[3][0].isFirstLetter = true
+
+          this.wordPositions.actual[2][2].letter = "a"; this.wordPositions.actual[2][2].inHorizontal = true /* från KANON */
+          this.wordPositions.actual[2][3].letter = "n"; this.wordPositions.actual[2][3].inHorizontal = true
+          this.wordPositions.actual[2][4].letter = "o"; this.wordPositions.actual[2][4].inHorizontal = true
+          this.wordPositions.actual[2][5].letter = "n"; this.wordPositions.actual[2][5].inHorizontal = true
+        },
+
+        changeDirection: function() {
+          if (this.inputDirection === "Horizontal") {
+            this.inputDirection = "Vertical"
+          } else {
+            this.inputDirection = "Horizontal"
+          }
+        },
+
+        switchLanguage: function() {
+          if (this.lang === "en")
+            this.lang = "sv"
+          else
+            this.lang = "en"
+
+          socket.emit("switchLanguage", this.lang)
+          this.$router.push(this.lang)
+        },
+        
+        /* FÖR ATT FÅ FRAM POP-UP RUTA*/
+        togglePopup: function () {
+          this.showModal = ! this.showModal;
         },
 
     }
@@ -145,10 +223,9 @@ export default {
   float:left;
   width: 50%;
   margin: 5%;
-
 }
 
-.wordDescriptioWrapper{
+.wordDescriptionWrapper{
   display: flex;
 }
 
@@ -181,5 +258,42 @@ export default {
   float:left;
 }
 
+button {
+    width: 10rem;
+    height: 4rem;
+    border-radius: 15px;
+    border-color: #ba0c00;
+    margin: 1.5rem;
+    color: white;
+    background-color: #FE5F55;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 1rem;
+    cursor:pointer;
+    position: relative;   
+  }
+#finishedGame{
+  width: 10rem;
+  height: 3rem;
+  position: absolute;
+  left: 45%;
+  background-color: #FE5F55;
+  border-radius: 5px;
+  color: white;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+
+button {
+    width: 10rem;
+    height: 4rem;
+    border-radius: 15px;
+    border-color: #ba0c00;
+    margin: 1.5rem;
+    color: white;
+    background-color: #FE5F55;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 1rem;
+    cursor:pointer;
+    position: relative;   
+  }
 
 </style>
