@@ -1,7 +1,6 @@
  <template>
 
-  <div class="letterbox" :class="{ 'selected': selected }" 
-  @click="testClick">
+  <div class="letterbox" @click="testClick">
     <span id="number-horiz" v-if="isFirstLetter && inHorizontal"> {{ wordInOrder }} </span>
     <span id="number-vert" v-if="isFirstLetter && inVertical"> {{ wordInOrder }} </span>
     {{letter}}
@@ -17,14 +16,12 @@
     data: function() {
       return {
         name: 'WordBox',
-        selected: false,
       }
     },
     props: {
         xkey: Number,
         ykey: Number,
         letter: String,
-        direction: String,
         inHorizontal: Boolean,
         inVertical: Boolean,
         isFirstLetter: Boolean,
@@ -41,7 +38,6 @@
         } else {
           alert("test noclick")
         }
-        this.selected = !this.selected
       },
       occupyWordBox: function () {
         /* Den här positionen är kopplad till ett eller två ord. Utifrån angiven riktning vill vi börja skriva och matcha bokstav för bokstav
@@ -69,9 +65,6 @@
   border: black 0.15rem solid;
 } */
 
-.selected {
-  background-color: rgb(245, 236, 159);
-}
 
 .letterbox:empty {
   background-color: white;
