@@ -10,24 +10,16 @@
     <div class="logo"><img src="/img/Logotyp.png"></div>
   </div>
   <div class="wrapper">
-    <button id="play" @click="$router.push('/actualPlay/'+lang)">{{'Actual PlayView'}}</button>
-    <button id="play" @click="$router.push('/preCreate/'+lang)">{{'Button to pre create view'}}</button>
-    <button id="play" @click="$router.push('/lobby/'+lang)">{{uiLabels.playCross}}</button>
-    <button id="play" @click="$router.push('/CreateView/'+lang)">{{'Göra korsord test'}}</button>
+    <!-- <button id="play" @click="$router.push('/actualPlay/'+lang)">{{'Actual PlayView'}}</button> -->
+    <button id="play" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.createCross}}</button>
+    <button id="play" @click="$router.push('/Lobby/'+lang)">{{uiLabels.playCross}}</button>
+    <!-- <button id="play" @click="$router.push('/CreateView/'+lang)">{{'Göra korsord test'}}</button> -->
   </div>
 
-    <audio src="01 Manboy.m4a" controls>
-    <embed
-    src="01 Manboy.m4a"
-    loop="true"
-    height="0"
-    hidden>
-  </audio>
-
-  <div>
-    <button @click="playMusic">Play Music</button>
-    <audio ref="audio" src="01 Manboy.m4a"></audio>
-  </div>
+  <audio ref="audioPlayer" src="01 Manboy.m4a"></audio>
+  <button @click="togglePlayback">
+    {{ playbackToggle ? 'Pause Music' : 'Play Music' }}
+  </button>
 
 </template>
 
@@ -50,7 +42,8 @@ export default {
       id: "",
       lang: "en",
       showModal: false,
-      sourceName: 'StartView'
+      sourceName: 'StartView',
+      playbackToggle: false
     }
   },
 
@@ -58,7 +51,6 @@ export default {
     socket.emit('pageLoaded')
     socket.on("init", (labels) => {
       this.uiLabels = labels
-      
     });
     console.log("created har anropats")
   },
@@ -76,15 +68,11 @@ export default {
     togglePopup: function () {
       this.showModal = ! this.showModal;
     },
-    playMusic() {
-      if (this.isMusicPlaying) {
-        // stop music
-        this.isMusicPlaying = false;
-      } else {
-        // play music
-        this.isMusicPlaying = true;
-      }
-    },
+
+    togglePlayback() {
+      this.playbackToggle ? this.$refs.audioPlayer.pause() : this.$refs.audioPlayer.play();
+      this.playbackToggle = !this.playbackToggle;
+    }
   }
 }
 </script>

@@ -15,7 +15,7 @@ export default{
     },
     data: function(){
         return{
-
+            crosswordPack: {}
         }
     },
     methods:{

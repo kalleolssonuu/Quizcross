@@ -2,31 +2,44 @@
 <div>
   
   <table id="crosswordwrapper">
-    <tr v-for="(list, ykey) in wordPositions.actual" v-bind:key="'y' + ykey">
-        <td v-for="(element, xkey) in list" v-bind:key="'x' + xkey">
-          <WordBox class="letterbox" 
-            v-bind:xkey="xkey" 
-            v-bind:ykey="ykey" 
-            v-bind:letter="element.letter"
-            v-bind:direction="element.direction"
-            v-bind:isFirstLetter="element.isFirstLetter"
-            v-bind:sourceName="this.sourceName"
-            v-bind:wordInOrder="element.wordInOrder">
-
-          </WordBox> 
-        </td> 
+    <tr v-for="(list, ykey) in wordPositions" v-bind:key="'y' + ykey">
+      <td v-for="(element, xkey) in list" v-bind:key="'x' + xkey">
+        <WordBox v-if="this.sourceName == 'CreateView'" class="letterbox letterbox-CreateView"
+          v-bind:xkey="xkey" 
+          v-bind:ykey="ykey" 
+          v-bind:letter="element.letter"
+          v-bind:direction="element.direction"
+          v-bind:inHorizontal="element.inHorizontal"
+          v-bind:inVertical="element.inVertical"
+          v-bind:isFirstLetter="element.isFirstLetter"
+          v-bind:wordInOrder="element.wordInOrder"
+          v-bind:sourceName="this.sourceName">
+        </WordBox>
+        <WordBox v-if="this.sourceName == 'PlayView'" class="letterbox letterbox-PlayView"
+          v-bind:xkey="xkey" 
+          v-bind:ykey="ykey" 
+          v-bind:letter="element.letter"
+          v-bind:direction="element.direction"
+          v-bind:inHorizontal="element.inHorizontal"
+          v-bind:inVertical="element.inVertical"
+          v-bind:isFirstLetter="element.isFirstLetter"
+          v-bind:wordInOrder="element.wordInOrder"
+          v-bind:sourceName="this.sourceName">
+        </WordBox>
+        <WordBox v-if="this.sourceName == 'PreCreate'" class="letterbox"
+          v-bind:xkey="xkey"
+          v-bind:ykey="ykey" 
+          v-bind:letter="element.letter"
+          v-bind:direction="element.direction"
+          v-bind:inHorizontal="element.inHorizontal"
+          v-bind:inVertical="element.inVertical"
+          v-bind:isFirstLetter="element.isFirstLetter"
+          v-bind:wordInOrder="element.wordInOrder"
+          v-bind:sourceName="this.sourceName">
+        </WordBox>
+      </td> 
     </tr>
   </table>
-
-
-<!--     <table id="crosswordwrapper"> nedan lista är hur wordPositions kommer se ut i verkligheten
-      <tr v-for="(list, key) in [['C','L', 'O', 'W', 'N', ''],['','A','','', '', ''],['','K','A','N', 'O', 'N'],
-                                  ['J', 'A', '', '', '', ''], ['', 'N', '', '', '', '']]" v-bind:key="key">
-        <td class="letterbox" v-for="(letter, key) in list" v-bind:key="key"> 
-          {{ letter }}
-        </td>
-      </tr>
-    </table> -->
 
 </div>
 </template>
@@ -45,19 +58,19 @@ import WordBox from '../components/WordBox.vue'
       WordBox, 
     },
     props: {
-      wordPositions: Object,
+      wordPositions: Array,
       matrixDims: Object,
       solutionsList: Object,
       sourceName: String,
-      wordInOrder: Number,
+      wordInOrder: Number
     },
     mounted() {
-    /*   this.wordPositions.actual.forEach((item, yindex) => {
-        console.log("Outer wordPositions.actual index: " + yindex);
-        item.forEach((item, xindex) => {
-          console.log("Inner wordPositions.actual index: " + xindex)
-        })
-      }); */
+/*     this.wordPositions.actual.forEach((item, yindex) => {
+      console.log("Outer wordPositions.actual index: " + yindex);
+      item.forEach((item, xindex) => {
+        console.log("Inner wordPositions.actual index: " + xindex)
+      })
+    }); */
     },
     created: function () {
       this.tempFunc()
@@ -77,7 +90,7 @@ import WordBox from '../components/WordBox.vue'
   <style scoped>
 
 .letterbox {
-  background-color: rgb(250, 244, 192);
+  background-color: white;
   width: 95%;
   height: 95%;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
@@ -87,9 +100,16 @@ import WordBox from '../components/WordBox.vue'
   color:black;
 }
 
-.letterbox:empty {
-  background-color: white;
-  /* background-color: #A7CAB1; */
+.letterbox-CreateView {
+  
+}
+
+.letterbox-CreateView:hover {
+  cursor: default;
+}
+
+.letterbox-PlayView {
+  cursor: default;
 }
 
 #crossword {
@@ -101,7 +121,7 @@ import WordBox from '../components/WordBox.vue'
 
 #crosswordwrapper {
   display: table;
-  table-layout: auto; 
+  table-layout: auto;
   margin: 0 auto;
   justify-content: center;
   background-color: #A7CAB1;
@@ -109,6 +129,7 @@ import WordBox from '../components/WordBox.vue'
   width: 600px;
   max-height: 600px;
 }
+
 
   </style>
   

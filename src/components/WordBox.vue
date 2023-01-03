@@ -1,23 +1,14 @@
-<!-- 
-    - knappen ska bara vara tryckbar om man är i playvue
-    - ockuperad om nån har tryckt på den
-    - egenskap: "är första bokstav", "horosontell/vertikal", om första bokstav: siffra
-    - pil
-    - conditional style grej
-    
- -->
- 
- 
  <template>
-    <div class="letterbox" @click="testClick">
-       <!-- här måste jag på nåt sätt veta vilket ord i ordningen det är så att rätt siffra kan skrivas ut mha nån funktion.
-            crossword.vue är väl föräldern i det här fallet? har den något som kan skickas ner till barnet kanske-->
-      <span id="number" v-if="isFirstLetter ==true"> {{ wordInOrder }}</span>
 
-        <!-- om ärTom = true så blir bokstav = " " -->{{letter}}
-        <!-- om ärTom = false så blir bokstav = {{ letter }} -->
+  <div v-if="(!this.inHorizontal) && (!this.inVertical)" id="nullLetter">
+    <div v-if="(this.sourceName == 'PlayView')" @click="testClick">
+      
     </div>
-
+  </div>
+  <div v-else>
+    <span id="number" v-if="isFirstLetter"> {{ wordInOrder }} </span>
+    {{ letter }}
+  </div>
 
  </template>
 
@@ -27,7 +18,7 @@
   export default {
     data: function() {
       return {
-        name: 'WordBox'
+        name: 'WordBox',
       }
     },
     props: {
@@ -35,6 +26,8 @@
         ykey: Number,
         letter: String,
         direction: String,
+        inHorizontal: Boolean,
+        inVertical: Boolean,
         isFirstLetter: Boolean,
         sourceName: String,
         wordInOrder: Number,
@@ -44,17 +37,14 @@
     },
     methods: {
       testClick: function() { /* ÄNDRA SENARE SÅ ATT ENDAST PlayView ÄR TILLÅTET SOM sourceName */
-        if ((this.sourceName == "CreateCrosswordView" || this.sourceName == "PlayView") && this.isFirstLetter == true) {
+        if ((this.sourceName == "CreateView" || this.sourceName == "PlayView") && this.isFirstLetter == true) {
           alert("x coordinate: " + this.xkey + ", y coordinate: " + this.ykey)
         } else {
           alert("test noclick")
         }
       },
       occupyWordBox: function () {
-        /* Den här positionen är kopplad till ett eller två ord. Utifrån angiven riktning vill vi börja skriva och matcha bokstav för bokstav
-          med det ord som är 'osynligt' på de positionerna. Om vi matchar = visa ordet för användaren och ge poäng. 
-          Sätt färg på rutan efter vilken användare det är, och markera den som ockuperad. 
-          this.$emit(this.xkey, this.ykey) */
+
       }
     }
 }
@@ -63,8 +53,6 @@
 
 
 <style>
-
-
 
 /* .letterbox {
   background-color: rgb(250, 244, 192);
@@ -76,10 +64,9 @@
   border: black 0.15rem solid;
 } */
 
-
-.letterbox:empty {
-  background-color: white;
-  /* background-color: #A7CAB1; */
+#nullLetter {
+  background-color: #A7CAB1;
+  border: none;
 }
 
 .letterbox:hover {
@@ -87,11 +74,13 @@
 }
 
 #number{
+  position: relative;
+  top: 0;
+  left: 0;
   font-size: 1rem;
-  position:absolute;
-  margin-left: -0.8rem;
-
-
+  color: black;
+  display: flex;
+  align-items: center;
 }
 
 </style>
