@@ -16,8 +16,7 @@
           v-bind:isFirstLetter="element.isFirstLetter"
           v-bind:wordInOrder="element.wordInOrder"
           v-bind:sourceName="this.sourceName"
-          v-bind:dimsX="this.dimsX"
-          v-bind:dimsY="this.dimsY">
+          v-bind:matrixDims="this.matrixDims">
         </WordBox>
       </td> 
     </tr>
@@ -39,8 +38,8 @@ import WordBox from '../components/WordBox.vue'
     data: function() {
       return {
         /* sourceName: "" */
-        dimsX: String(600 / this.matrixDims.x) + "px",
-        dimsY: String(600 / this.matrixDims.y) + "px"
+        dimsX: String(40 / this.matrixDims.x) + "rem",
+        dimsY: String(40 / this.matrixDims.y) + "rem"
       }
     },
     name: 'CrossWord',
@@ -54,18 +53,7 @@ import WordBox from '../components/WordBox.vue'
       sourceName: String,
       wordInOrder: Number
     },
-    mounted() {
-    /*   this.wordPositions.actual.forEach((item, yindex) => {
-        console.log("Outer wordPositions.actual index: " + yindex);
-        item.forEach((item, xindex) => {
-          console.log("Inner wordPositions.actual index: " + xindex)
-        })
-      }); */
-    const element = document.querySelector(':root');
-    element.style.setProperty('--dimsX', this.dimsX);
-    element.style.setProperty('--dimsY', this.dimsY);
-    console.log(this.matrixDims)
-    },
+    
     created: function () {
       this.tempFunc()
     },
@@ -93,19 +81,15 @@ import WordBox from '../components/WordBox.vue'
   /* background-color: #A7CAB1; */
 }
 
-#crossword {
-  display: table;
-  height: 20rem;
-  width: 20rem;
-}
 
 #crosswordwrapper {
   table-layout: auto;
   justify-content: center;
   background-color: #A7CAB1;
-  height: 600px;
-  width: 600px;
-  max-height: 600px;
+  height: 40rem;
+  width: 40rem;
+  max-height: 40rem;
+  max-width: 40rem;
 }
 
 

@@ -8,7 +8,7 @@
     </header>
     
     <div id="crosswordArea">
-      <h2>{{ x }}   x    {{ y }}</h2>  
+      <h2>{{ dimsX }}   x    {{ dimsY }}</h2>  
         <div class="plusMinusWrapper" id="PlusMinusButtons">
 
     <button id="minusButton" v-on:click=decrease type="button">
@@ -55,8 +55,6 @@
     return {
     matrixDims: {x: 8, y: 8},
     wordPositions: {actual: [], temp: []},
-    x: 8,
-    y: 8,
     showModal: false,
         uiLabels: {},
         // id: "",
@@ -79,23 +77,17 @@
         console.log(this.matrixDims)
         },
 
-        storeValues() {
-        this.matrixDims.x = this.x
-        this.matrixDims.y = this.y
-        this.fillPositionsNull()
-        },
-
         increase: function() {
-            this.x += 1
-            this.y += 1
-            this.storeValues()
+            this.matrixDims.x ++
+            this.matrixDims.y ++
+            this.fillPositionsNull()
         },
 
         decrease: function() {
-            if(this.x >= 6){
-                this.x -= 1
-                this.y -= 1
-                this.storeValues()
+            if(this.matrixDims.x >= 6){
+                this.matrixDims.x --
+                this.matrixDims.y --
+                this.fillPositionsNull()
             }
         },
 
@@ -141,7 +133,6 @@
     
     #crosswordArea {
         justify-content: center;
-        float: left;
 
     }
 

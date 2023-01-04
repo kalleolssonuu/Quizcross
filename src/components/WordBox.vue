@@ -34,6 +34,8 @@
     data: function() {
       return {
         name: 'WordBox',
+        dimsX: String(40 / this.matrixDims.x) + "rem",
+        dimsY: String(40 / this.matrixDims.y) + "rem"
       }
     },
     props: {
@@ -61,7 +63,19 @@
       occupyWordBox: function () {
 
       }
-    }
+    },
+    mounted() {
+    /*   this.wordPositions.actual.forEach((item, yindex) => {
+        console.log("Outer wordPositions.actual index: " + yindex);
+        item.forEach((item, xindex) => {
+          console.log("Inner wordPositions.actual index: " + xindex)
+        })
+      }); */
+    const element = document.querySelector(':root');
+    element.style.setProperty('--dimsX', this.dimsX);
+    element.style.setProperty('--dimsY', this.dimsY);
+    console.log(this.matrixDims)
+    },
 }
 
 </script>
