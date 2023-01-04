@@ -4,7 +4,7 @@
   {{ dimsX }}
   {{ dimsY }}
   <table id="crosswordwrapper">
-    <tr v-for="(list, ykey) in wordPositions" v-bind:key="'y' + ykey">
+    <tr v-for="(list, ykey) in crossword" v-bind:key="'y' + ykey">
       <td v-for="(element, xkey) in list" v-bind:key="'x' + xkey">
         <WordBox
           v-bind:xkey="xkey" 
@@ -48,7 +48,7 @@ import WordBox from '../components/WordBox.vue'
       WordBox,
     },
     props: {
-      wordPositions: Array,
+      crossword: Array,
       matrixDims: Object,
       solutionsList: Object,
       sourceName: String,

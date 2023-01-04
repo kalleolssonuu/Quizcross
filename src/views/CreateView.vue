@@ -46,7 +46,7 @@
   
       <div id="div2"> 
           <Crossword  v-bind:sourceName="sourceName"
-                      v-bind:wordPositions="this.wordPositions.actual.list"
+                      v-bind:crossword="this.crossword.actual.posList"
                       v-bind:matrixDims="this.matrixDims">
           </Crossword>
       </div>
@@ -91,10 +91,10 @@
       noMatches: false,
   
       matrixDims: {x: 15, y: 15},
-      wordPositions: {actual.list: [], temp: []},
-      wordPositionsCopy: [],
+      crossword: {actual.posList: [], temp: []},
+      crosswordCopy: [],
       crosswordPackage: {crosswordName: "", 
-                          wordPositions: [],
+                          crossword: [],
                           wordDesc: [],
                           matrixDims: {},
                           },
@@ -111,7 +111,7 @@
   
     2023-01-02
     Fixa sista problemen med algoritmen.
-    - Lilla siffran blir fel vid genomgång av wordPositions.temp
+    - Lilla siffran blir fel vid genomgång av crossword.temp
     - Orden hamnar ett steg förskjutet
     - isFirstLetter --> rätt siffra i hörnet
     * Undersök möjlighet att öka iterator vid confirm istället
@@ -145,20 +145,16 @@
           noMatches: false,
   
           matrixDims: {x: 15, y: 15},
-          wordPositions: {actual: {list: [], 
-                                             startPos: {x: 0, 
-                                                        y: 0
-                                                       }
+          crossword: {actual: {posList: [], 
+                                   startPos: {x: 0, 
+                                              y: 0
+                                             }
                                   }, 
-                          temp: {list: [], 
-                                 startPos: {x: 0, 
-                                            y:0
-                                           }
-                                }
+                          temp: []
                          },
-          wordPositionsCopy: [],
+          crosswordCopy: [],
           crosswordPackage: {crosswordName: "", 
-                             wordPositions: [],
+                             crossword: [],
                              wordDesc: [],
                              matrixDims: {},
                              },
@@ -215,21 +211,21 @@
             const horiz = this.matrixDims.x; /* för att spara plats längre ner */
             const vert = this.matrixDims.y;    /* för att spara plats längre ner */
   
-            this.wordPositionsCopy = JSON.parse(JSON.stringify(this.wordPositions.actual.list))
+            this.crosswordCopy = JSON.parse(JSON.stringify(this.crossword.actual.posList))
             
   
             for (let h = 0; h < horiz; h++) {
             for (let v = 0; v < vert; v++) {
   
-                if (this.wordPositions.actual.list[v][h].letter === wordSplit[0] || this.wordPositions.actual.list[v][h].letter === null) {
+                if (this.crossword.actual.posList[v][h].letter === wordSplit[0] || this.crossword.actual.posList[v][h].letter === null) {
   
                     if (wordSplit.length <= vert - v) { /* FÅR PLATS VERTIKALT? */
                         /* h = 1, v = 0 */
                         for (let iv = 0; iv < wordSplit.length; iv++) {
   
-                            if ((this.wordPositions.actual.list[v + iv][h].letter === wordSplit[iv]) || (this.wordPositions.actual.list[v + iv][h].letter === null)) { /* räcker med att spara första och sista positionen för ordet! */
+                            if ((this.crossword.actual.posList[v + iv][h].letter === wordSplit[iv]) || (this.crossword.actual.posList[v + iv][h].letter === null)) { /* räcker med att spara första och sista positionen för ordet! */
   
-                              if (this.wordPositions.actual.list[v + iv][h].letter === wordSplit[iv]) {
+                              if (this.crossword.actual.posList[v + iv][h].letter === wordSplit[iv]) {
                                 this.wordCollision = true
                                 this.letterMatchCounter++
                               }
@@ -238,11 +234,11 @@
                                 if (this.letterMatchCounter != wordSplit.length) {
                                   if (this.wordCollision) {
                                     console.log("lägger till prio. h = " + h + ", v = " + v + ", prioIterator = " + this.prioIterator)
-                                    this.wordPositions.temp.list.splice(this.prioIterator, 0, this.getNewTempPositionVert(h, v, wordSplit))
+                                    this.crossword.temp.splice(this.prioIterator, 0, this.getNewTempPositionVert(h, v, wordSplit))
                                     this.prioIterator++
   
                                   } else {
-                                    this.wordPositions.temp.list[this.matchesIterator] = this.getNewTempPositionVert(h, v, wordSplit)
+                                    this.crossword.temp[this.matchesIterator] = this.getNewTempPositionVert(h, v, wordSplit)
                                   }
                                   this.matchesIterator++;
                                 }
@@ -259,9 +255,9 @@
                         
                       for (let ih = 0; ih < wordSplit.length; ih++) {
   
-                            if ((this.wordPositions.actual.list[v][h + ih].letter === wordSplit[ih]) || (this.wordPositions.actual.list[v][h + ih].letter === null)) { /* räcker med att spara första och sista positionen för ordet! */
+                            if ((this.crossword.actual.posList[v][h + ih].letter === wordSplit[ih]) || (this.crossword.actual.posList[v][h + ih].letter === null)) { /* räcker med att spara första och sista positionen för ordet! */
                               
-                              if (this.wordPositions.actual.list[v][h + ih].letter === wordSplit[ih]) {
+                              if (this.crossword.actual.posList[v][h + ih].letter === wordSplit[ih]) {
                                 this.wordCollision = true
                                 this.letterMatchCounter++
                               }
@@ -271,11 +267,11 @@
                                 if (this.letterMatchCounter != wordSplit.length) {
                                   if (this.wordCollision) {
                                     console.log("lägger till prio. h = " + h + ", v = " + v + ", prioIterator = " + this.prioIterator)
-                                    this.wordPositions.temp.list.splice(this.prioIterator, 0, this.getNewTempPositionHoriz(h, v, wordSplit))
+                                    this.crossword.temp.splice(this.prioIterator, 0, this.getNewTempPositionHoriz(h, v, wordSplit))
                                     this.prioIterator++
   
                                   } else {
-                                    this.wordPositions.temp.list[this.matchesIterator] = this.getNewTempPositionHoriz(h, v, wordSplit)
+                                    this.crossword.temp[this.matchesIterator] = this.getNewTempPositionHoriz(h, v, wordSplit)
                                   }
                                   this.matchesIterator++;
                                 }
@@ -287,9 +283,9 @@
                     }
                     this.letterMatchCounter = 0
                     this.wordCollision = false
-                    this.wordPositions.actual.list[h][v].wordInOrderOld = null
-                    this.wordPositions.temp.startPos.x = h
-                    this.wordPositions.temp.startPos.y = v
+                    this.crossword.actual.posList[h][v].wordInOrderOld = null
+                    this.crossword.temp[this.userIterator].startPos.x = h
+                    this.crossword.temp[this.userIterator].startPos.y = v
                 }
             }
             }
@@ -297,15 +293,18 @@
   
             this.prioIterator = 0
   
-            if (this.wordPositions.temp.list.length == 0) {
+            if (this.crossword.temp.length == 0) {
                 this.alertNoMatches();
             } else {
-              this.wordPositions.actual.list = JSON.parse(JSON.stringify(this.wordPositions.temp.list[this.userIterator]))
-              const startPos = this.wordPositions.temp.list[this.userIterator].startPos
+              this.crossword.actual.posList = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].posList))
+              const startPos = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].startPos))
+              console.log("startPos = " + String(startPos))
   
-              if (this.wordPositions.actual.list[startPos.y][startPos.x].wordInOrder != this.wordPositions.actual.list[startPos.y][startPos.x].wordInOrderOld) {
-                this.wordPositions.actual.list[startPos.y][startPos.x].wordInOrder = JSON.parse(JSON.stringify(this.wordPositions.actual.list[startPos.y][startPos.x].wordInOrderOld))
-                this.wordPositions.actual.list[startPos.y][startPos.x].wordInOrderOld = null
+              if (this.crossword.actual.posList[startPos.y][startPos.x].wordInOrder != this.wordInOrder &&
+                  this.crossword.actual.posList[startPos.y][startPos.x].wordInOrder != null) {
+                    
+                this.crossword.actual.posList[startPos.y][startPos.x].wordInOrder = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].posList[startPos.y][startPos.x].wordInOrder))
+                /* this.crossword.actual.posList[startPos.y][startPos.x].wordInOrderOld = null */
                 this.wordInOrder--
               }
               console.log("Amount of words added: " + this.amountWordsAdded)
@@ -313,10 +312,11 @@
               this.wordInOrder++
             }
           }
+          console.log(this.crossword.actual.posList)
         }, 
      
         confirmWord: function () {
-          this.wordPositionsCopy = JSON.parse(JSON.stringify(this.wordPositions.actual.list))
+          this.crosswordCopy = JSON.parse(JSON.stringify(this.crossword.actual.posList))
   
           this.crosswordPackage.wordDesc[this.amountWordsAdded] = {word: this.word, desc: this.desc}
           this.amountWordsAdded++
@@ -331,7 +331,7 @@
           this.word = ""
           this.desc = ""
           this.amountWordsAdded--
-          this.wordPositions.actual.list = JSON.parse(JSON.stringify(this.wordPositionsCopy))
+          this.crossword.actual.posList = JSON.parse(JSON.stringify(this.crosswordCopy))
           this.enableWordButtons = false
         },
   
@@ -346,9 +346,9 @@
           alert("no matches! Try another word.")
         },
   
-        confirmCreateCrossword: function () {    //skickar ETT färdigt korsord som lagras i lista blad alla andra skickade korsord i server
+        confirmCreateCrossword: function () {    //skickar ETT färdigt korsord som lagras i posLista blad alla andra skickade korsord i server
           socket.emit("emittedCrosswordPackage", {sourceName: this.sourceName,    // innehåll i paket ska ändras
-                                                    wordPositionActual: this.wordPositions.actual.list,
+                                                    wordPositionActual: this.crossword.actual.posList,
                                                     matrixDims: this.matrixDims,
                                                     wordDescPairs: this.wordDescForPackage,
                                                     })
@@ -357,63 +357,64 @@
   
         fillPositionsNull: function () {
           for (let v = 0; v < this.matrixDims.y; v++) {
-              this.wordPositions.actual.list[v] = [];
-              /* wordPositions = [[null, null, null, null]] */
+              this.crossword.actual.posList[v] = [];
+              /* crossword = [[null, null, null, null]] */
               for (let h = 0; h < this.matrixDims.x; h++) {
-              this.wordPositions.actual.list[v][h] = {letter: null, 
+              this.crossword.actual.posList[v][h] = {letter: null, 
                                                  inHorizontal: false,
                                                  inVertical: false,
                                                  isFirstLetter: false, 
-                                                 wordInOrder: this.wordInOrder,
-                                                 wordInOrderOld: this.wordInOrder}
+                                                 wordInOrder: null}
               }
           }
   
-          this.wordPositions.temp.list = []
-          console.log(this.wordPositions.actual.list)
+          this.crossword.temp = []
+          console.log(this.crossword.actual.posList)
         },
   
         getNewTempPositionVert: function (h, v, wordSplit) {
-          if (this.wordPositions.temp.list != []) {
-            let newWordPositions = JSON.parse(JSON.stringify(this.wordPositions.actual.list))
+          if (this.crossword.temp != []) {
+            let newCrossword = {posList: JSON.parse(JSON.stringify(this.crossword.actual.posList)), startPos: {x: h, y: v}}
   
             for (let i = 0; i < wordSplit.length; i++) {
-                newWordPositions[v + i][h].letter = wordSplit[i]
-                newWordPositions[v + i][h].inVertical = true
+                newCrossword.posList[v + i][h].letter = wordSplit[i]
+                newCrossword.posList[v + i][h].inVertical = true
                 if (i == 0) {
-                  newWordPositions[v + i][h].isFirstLetter = true
-                  if (newWordPositions[v][h].wordInOrder != null) {
-                    newWordPositions[v][h].wordInOrderOld = JSON.parse(JSON.stringify(this.wordPositions.actual.list[v][h].wordInOrder))
+                  newCrossword.posList[v][h].isFirstLetter = true
+                  if (newCrossword.posList[v][h].wordInOrder != null) {
+                    newCrossword.posList[v][h].wordInOrder = JSON.parse(JSON.stringify(this.crossword.actual.posList[v][h].wordInOrder))
+                  } else {
+                    newCrossword.posList[v][h].wordInOrder = JSON.parse(JSON.stringify(this.wordInOrder))
                   }
-                  newWordPositions[v + i][h].wordInOrder = JSON.parse(JSON.stringify(this.wordInOrder))
                 } else {
-                  newWordPositions[v + i][h].isFirstLetter = false
-                  newWordPositions[v + i][h].wordInOrder = null
+                  newCrossword.posList[v + i][h].isFirstLetter = false
+                  newCrossword.posList[v + i][h].wordInOrder = null
                 }
             }
-            return newWordPositions
+            return newCrossword
           }
         },
   
         getNewTempPositionHoriz: function (h, v, wordSplit) {
-          if (this.wordPositions.list != []) {
-            let newWordPositions = JSON.parse(JSON.stringify(this.wordPositions.actual.list))
+          if (this.crossword.posList != []) {
+            let newCrossword = {posList: JSON.parse(JSON.stringify(this.crossword.actual.posList)), startPos: {x: h, y: v}}
   
             for (let i = 0; i < wordSplit.length; i++) {
-                newWordPositions[v][h + i].letter = wordSplit[i]
-                newWordPositions[v][h + i].inHorizontal = true
+              newCrossword.posList[v][h + i].letter = wordSplit[i]
+              newCrossword.posList[v][h + i].inHorizontal = true
                 if (i == 0) {
-                  newWordPositions[v][h + i].isFirstLetter = true
-                  if (newWordPositions[v][h].wordInOrder != null) {
-                    newWordPositions[v][h].wordInOrderOld = JSON.parse(JSON.stringify(this.wordPositions.actual.list[v][h].wordInOrder))
+                  newCrossword.posList[v][h + i].isFirstLetter = true
+                  if (newCrossword.posList[v][h].wordInOrder != null) {
+                    newCrossword.posList[v][h].wordInOrder = JSON.parse(JSON.stringify(this.crossword.actual.posList[v][h].wordInOrder))
+                  } else {
+                    newCrossword.posList[v][h].wordInOrder = JSON.parse(JSON.stringify(this.wordInOrder))
                   }
-                  newWordPositions[v][h + i].wordInOrder = JSON.parse(JSON.stringify(this.wordInOrder))
                 } else {
-                  newWordPositions[v][h + i].isFirstLetter = false
-                  newWordPositions[v][h + i].wordInOrder = null
+                  newCrossword.posList[v][h + i].isFirstLetter = false
+                  newCrossword.posList[v][h + i].wordInOrder = null
                 }
             }
-            return newWordPositions
+            return newCrossword
           }
         },
   
@@ -421,10 +422,10 @@
   
           if (this.enableWordButtons) {
             if (this.userIterator == this.matchesIterator - 1) {
-              this.wordPositions.actual.list = JSON.parse(JSON.stringify(this.wordPositions.temp.list[this.userIterator]))
+              this.crossword.actual.posList = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].posList))
             } else {
               this.userIterator++
-              this.wordPositions.actual.list = JSON.parse(JSON.stringify(this.wordPositions.temp.list[this.userIterator]))
+              this.crossword.actual.posList = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].posList))
             }
           }
           
@@ -433,10 +434,10 @@
         showPreviousSolution: function () {
           if (this.enableWordButtons) {  
             if (this.userIterator == 0) {
-              this.wordPositions.actual.list = JSON.parse(JSON.stringify(this.wordPositions.temp.list[this.userIterator]))
+              this.crossword.actual.posList = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].posList))
             } else {
               this.userIterator--
-              this.wordPositions.actual.list = JSON.parse(JSON.stringify(this.wordPositions.temp.list[this.userIterator]))
+              this.crossword.actual.posList = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].posList))
             }
           }
         }
