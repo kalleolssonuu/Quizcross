@@ -24,7 +24,7 @@
     </div>
     <br>
     
-    <button v-if="this.enableWordButtons || this.word =='' || this.desc==''"  class="button-disabled" disabled> {{uiLabels.addWord}} </button>
+    <button v-if="this.enableWordButtons || this.word =='' || this.desc==''""  class="button-disabled" disabled> {{uiLabels.addWord}} </button>
     <button v-else v-on:click="this.findPotentialMatches"> {{uiLabels.addWord}} </button>
     <!-- <button v-on:click="this.findPotentialMatches">{{uiLabels.addWord}}</button>  -->
     <br>
@@ -46,7 +46,7 @@
 
     <div id="div2"> 
         <Crossword  v-bind:sourceName="sourceName"
-                    v-bind:wordPositions="this.wordPositions.actual.list"
+                    v-bind:wordPositions="this.wordPositions.actual"
                     v-bind:matrixDims="this.matrixDims">
         </Crossword>
     </div>
@@ -91,7 +91,7 @@
     noMatches: false,
 
     matrixDims: {x: 15, y: 15},
-    wordPositions: {actual.list: [], temp: []},
+    wordPositions: {actual: [], temp: []},
     wordPositionsCopy: [],
     crosswordPackage: {crosswordName: "", 
                         wordPositions: [],
@@ -136,7 +136,6 @@
         matchesIterator: 0,
         prioIterator: 0, 
         wordInOrder: 1,
-        wordInOrderCopy: 1,
         amountWordsAdded: 0,
         letterMatchCounter: 0,
 
@@ -145,17 +144,7 @@
         noMatches: false,
 
         matrixDims: {x: 15, y: 15},
-        wordPositions: {actual: {list: [], 
-                                           startPos: {x: 0, 
-                                                      y: 0
-                                                     }
-                                }, 
-                        temp: {list: [], 
-                               startPos: {x: 0, 
-                                          y:0
-                                         }
-                              }
-                       },
+        wordPositions: {actual: [], temp: []},
         wordPositionsCopy: [],
         crosswordPackage: {crosswordName: "", 
                            wordPositions: [],
@@ -215,21 +204,21 @@
           const horiz = this.matrixDims.x; /* för att spara plats längre ner */
           const vert = this.matrixDims.y;    /* för att spara plats längre ner */
 
-          this.wordPositionsCopy = JSON.parse(JSON.stringify(this.wordPositions.actual.list))
+          this.wordPositionsCopy = JSON.parse(JSON.stringify(this.wordPositions.actual))
           
 
           for (let h = 0; h < horiz; h++) {
           for (let v = 0; v < vert; v++) {
 
-              if (this.wordPositions.actual.list[v][h].letter === wordSplit[0] || this.wordPositions.actual.list[v][h].letter === null) {
+              if (this.wordPositions.actual[v][h].letter === wordSplit[0] || this.wordPositions.actual[v][h].letter === null) {
 
                   if (wordSplit.length <= vert - v) { /* FÅR PLATS VERTIKALT? */
                       /* h = 1, v = 0 */
                       for (let iv = 0; iv < wordSplit.length; iv++) {
 
-                          if ((this.wordPositions.actual.list[v + iv][h].letter === wordSplit[iv]) || (this.wordPositions.actual.list[v + iv][h].letter === null)) { /* räcker med att spara första och sista positionen för ordet! */
+                          if ((this.wordPositions.actual[v + iv][h].letter === wordSplit[iv]) || (this.wordPositions.actual[v + iv][h].letter === null)) { /* räcker med att spara första och sista positionen för ordet! */
 
-                            if (this.wordPositions.actual.list[v + iv][h].letter === wordSplit[iv]) {
+                            if (this.wordPositions.actual[v + iv][h].letter === wordSplit[iv]) {
                               this.wordCollision = true
                               this.letterMatchCounter++
                             }
@@ -238,11 +227,11 @@
                               if (this.letterMatchCounter != wordSplit.length) {
                                 if (this.wordCollision) {
                                   console.log("lägger till prio. h = " + h + ", v = " + v + ", prioIterator = " + this.prioIterator)
-                                  this.wordPositions.temp.list.splice(this.prioIterator, 0, this.getNewTempPositionVert(h, v, wordSplit))
+                                  this.wordPositions.temp.splice(this.prioIterator, 0, this.getNewTempPositionVert(h, v, wordSplit))
                                   this.prioIterator++
 
                                 } else {
-                                  this.wordPositions.temp.list[this.matchesIterator] = this.getNewTempPositionVert(h, v, wordSplit)
+                                  this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionVert(h, v, wordSplit)
                                 }
                                 this.matchesIterator++;
                               }
@@ -259,9 +248,9 @@
                       
                     for (let ih = 0; ih < wordSplit.length; ih++) {
 
-                          if ((this.wordPositions.actual.list[v][h + ih].letter === wordSplit[ih]) || (this.wordPositions.actual.list[v][h + ih].letter === null)) { /* räcker med att spara första och sista positionen för ordet! */
+                          if ((this.wordPositions.actual[v][h + ih].letter === wordSplit[ih]) || (this.wordPositions.actual[v][h + ih].letter === null)) { /* räcker med att spara första och sista positionen för ordet! */
                             
-                            if (this.wordPositions.actual.list[v][h + ih].letter === wordSplit[ih]) {
+                            if (this.wordPositions.actual[v][h + ih].letter === wordSplit[ih]) {
                               this.wordCollision = true
                               this.letterMatchCounter++
                             }
@@ -271,11 +260,11 @@
                               if (this.letterMatchCounter != wordSplit.length) {
                                 if (this.wordCollision) {
                                   console.log("lägger till prio. h = " + h + ", v = " + v + ", prioIterator = " + this.prioIterator)
-                                  this.wordPositions.temp.list.splice(this.prioIterator, 0, this.getNewTempPositionHoriz(h, v, wordSplit))
+                                  this.wordPositions.temp.splice(this.prioIterator, 0, this.getNewTempPositionHoriz(h, v, wordSplit))
                                   this.prioIterator++
 
                                 } else {
-                                  this.wordPositions.temp.list[this.matchesIterator] = this.getNewTempPositionHoriz(h, v, wordSplit)
+                                  this.wordPositions.temp[this.matchesIterator] = this.getNewTempPositionHoriz(h, v, wordSplit)
                                 }
                                 this.matchesIterator++;
                               }
@@ -287,37 +276,33 @@
                   }
                   this.letterMatchCounter = 0
                   this.wordCollision = false
-                  this.wordPositions.actual.list[h][v].wordInOrderOld = null
-                  this.wordPositions.temp.startPos.x = h
-                  this.wordPositions.temp.startPos.y = v
               }
           }
           }
-
-
           this.prioIterator = 0
 
-          if (this.wordPositions.temp.list.length == 0) {
+          if (this.wordPositions.temp.length == 0) {
               this.alertNoMatches();
           } else {
-            this.wordPositions.actual.list = JSON.parse(JSON.stringify(this.wordPositions.temp.list[this.userIterator]))
-            const startPos = this.wordPositions.temp.list[this.userIterator].startPos
-
-            if (this.wordPositions.actual.list[startPos.y][startPos.x].wordInOrder != this.wordPositions.actual.list[startPos.y][startPos.x].wordInOrderOld) {
-              this.wordPositions.actual.list[startPos.y][startPos.x].wordInOrder = JSON.parse(JSON.stringify(this.wordPositions.actual.list[startPos.y][startPos.x].wordInOrderOld))
-              this.wordPositions.actual.list[startPos.y][startPos.x].wordInOrderOld = null
-              this.wordInOrder--
-            }
-            console.log("Amount of words added: " + this.amountWordsAdded)
-            console.log("wordInOrder: " + this.wordInOrder)
+            this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
+            console.log("Amount of words added: " + this.wordInOrder)
             this.wordInOrder++
           }
         }
       }, 
-   
-      confirmWord: function () {
-        this.wordPositionsCopy = JSON.parse(JSON.stringify(this.wordPositions.actual.list))
+            
+      confirmWordPosition: function () { // lagrar orden och beskrivningarna som vi vill skicka när vi trycker på confirmCreate
+        this.wordDescForPackage[this.word] = this.desc;     
 
+        this.word = ""
+        this.desc = ""
+
+        console.log("Lista med words och desc som confirmats är:")
+        console.log(this.wordDescForPackage) // för att se om det är problem med alias när word och desc clearas
+      },
+      
+      confirmWord: function () {
+        this.wordPositionsCopy = JSON.parse(JSON.stringify(this.wordPositions.actual))
         this.crosswordPackage.wordDesc[this.amountWordsAdded] = {word: this.word, desc: this.desc}
         this.amountWordsAdded++
 
@@ -325,13 +310,12 @@
         this.desc = ""
         console.log(this.crosswordPackage.wordDesc)
         this.enableWordButtons = false
-      },
-
+      }, 
       discardWord: function () {
         this.word = ""
         this.desc = ""
-        this.amountWordsAdded--
-        this.wordPositions.actual.list = JSON.parse(JSON.stringify(this.wordPositionsCopy))
+        this.wordInOrder--
+        this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositionsCopy))
         this.enableWordButtons = false
       },
 
@@ -348,7 +332,7 @@
 
       confirmCreateCrossword: function () {    //skickar ETT färdigt korsord som lagras i lista blad alla andra skickade korsord i server
         socket.emit("emittedCrosswordPackage", {sourceName: this.sourceName,    // innehåll i paket ska ändras
-                                                  wordPositionActual: this.wordPositions.actual.list,
+                                                  wordPositionActual: this.wordPositions.actual,
                                                   matrixDims: this.matrixDims,
                                                   wordDescPairs: this.wordDescForPackage,
                                                   })
@@ -357,34 +341,30 @@
 
       fillPositionsNull: function () {
         for (let v = 0; v < this.matrixDims.y; v++) {
-            this.wordPositions.actual.list[v] = [];
+            this.wordPositions.actual[v] = [];
             /* wordPositions = [[null, null, null, null]] */
             for (let h = 0; h < this.matrixDims.x; h++) {
-            this.wordPositions.actual.list[v][h] = {letter: null, 
+            this.wordPositions.actual[v][h] = {letter: null, 
                                                inHorizontal: false,
                                                inVertical: false,
                                                isFirstLetter: false, 
-                                               wordInOrder: this.wordInOrder,
-                                               wordInOrderOld: this.wordInOrder}
+                                               wordInOrder: this.wordInOrder}
             }
         }
 
-        this.wordPositions.temp.list = []
-        console.log(this.wordPositions.actual.list)
+        this.wordPositions.temp = []
+        console.log(this.wordPositions.actual)
       },
 
       getNewTempPositionVert: function (h, v, wordSplit) {
-        if (this.wordPositions.temp.list != []) {
-          let newWordPositions = JSON.parse(JSON.stringify(this.wordPositions.actual.list))
+        if (this.wordPositions.temp != []) {
+          let newWordPositions = JSON.parse(JSON.stringify(this.wordPositions.actual))
 
           for (let i = 0; i < wordSplit.length; i++) {
               newWordPositions[v + i][h].letter = wordSplit[i]
               newWordPositions[v + i][h].inVertical = true
               if (i == 0) {
                 newWordPositions[v + i][h].isFirstLetter = true
-                if (newWordPositions[v][h].wordInOrder != null) {
-                  newWordPositions[v][h].wordInOrderOld = JSON.parse(JSON.stringify(this.wordPositions.actual.list[v][h].wordInOrder))
-                }
                 newWordPositions[v + i][h].wordInOrder = JSON.parse(JSON.stringify(this.wordInOrder))
               } else {
                 newWordPositions[v + i][h].isFirstLetter = false
@@ -396,17 +376,14 @@
       },
 
       getNewTempPositionHoriz: function (h, v, wordSplit) {
-        if (this.wordPositions.list != []) {
-          let newWordPositions = JSON.parse(JSON.stringify(this.wordPositions.actual.list))
+        if (this.wordPositions != []) {
+          let newWordPositions = JSON.parse(JSON.stringify(this.wordPositions.actual))
 
           for (let i = 0; i < wordSplit.length; i++) {
               newWordPositions[v][h + i].letter = wordSplit[i]
               newWordPositions[v][h + i].inHorizontal = true
               if (i == 0) {
                 newWordPositions[v][h + i].isFirstLetter = true
-                if (newWordPositions[v][h].wordInOrder != null) {
-                  newWordPositions[v][h].wordInOrderOld = JSON.parse(JSON.stringify(this.wordPositions.actual.list[v][h].wordInOrder))
-                }
                 newWordPositions[v][h + i].wordInOrder = JSON.parse(JSON.stringify(this.wordInOrder))
               } else {
                 newWordPositions[v][h + i].isFirstLetter = false
@@ -421,10 +398,10 @@
 
         if (this.enableWordButtons) {
           if (this.userIterator == this.matchesIterator - 1) {
-            this.wordPositions.actual.list = JSON.parse(JSON.stringify(this.wordPositions.temp.list[this.userIterator]))
+            this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
           } else {
             this.userIterator++
-            this.wordPositions.actual.list = JSON.parse(JSON.stringify(this.wordPositions.temp.list[this.userIterator]))
+            this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
           }
         }
         
@@ -433,10 +410,10 @@
       showPreviousSolution: function () {
         if (this.enableWordButtons) {  
           if (this.userIterator == 0) {
-            this.wordPositions.actual.list = JSON.parse(JSON.stringify(this.wordPositions.temp.list[this.userIterator]))
+            this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
           } else {
             this.userIterator--
-            this.wordPositions.actual.list = JSON.parse(JSON.stringify(this.wordPositions.temp.list[this.userIterator]))
+            this.wordPositions.actual = JSON.parse(JSON.stringify(this.wordPositions.temp[this.userIterator]))
           }
         }
       }
