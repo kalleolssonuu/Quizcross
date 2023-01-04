@@ -167,7 +167,7 @@
           uiLabels: {},        
           lang: "en",
   
-        sourceName: "CreateView",
+          sourceName: "CreateView",
       }
     },
     created: function () {
