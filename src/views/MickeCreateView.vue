@@ -1,31 +1,45 @@
 <template>
+
   <header>
     <div class="logo">Quizcross</div>
     <button class="language" v-on:click="switchLanguage">{{uiLabels.changeLanguage}}</button>
   </header>
+  
   <div>
+
+    <!-- här bestäms id för spelet -->
     Poll link: 
     <input type="text" v-model="pollId">
+
+
+      <!-- createpoll skickar in pollid och lang och poll skapas i server -->
     <button v-on:click="createPoll">
       Create poll
     </button>
+
     <div>
       {{uiLabels.question}}:
       <input type="text" v-model="question">
+
       <div>
         Answers:
         <input v-for="(_, i) in answers" 
                v-model="answers[i]" 
                v-bind:key="'answer'+i">
+
         <button v-on:click="addAnswer">
           Add answer alternative
         </button>
       </div>
+
     </div>
+
     <button v-on:click="addQuestion">
       Add question
     </button>
+
     <input type="number" v-model="questionNumber">
+    
     <button v-on:click="runQuestion">
       Run question
     </button>
@@ -52,7 +66,9 @@ export default {
     }
   },
   created: function () {
-    this.lang = this.$route.params.lang;
+    this.lang = this.$route.params.lang; // är detta att den sparar det aktuella språket som lang? 
+                                          //asså är det kvar sen sidan innan fattar ej
+                                          // ja verkar som det eftersom micke ej hade 
     socket.emit("pageLoaded", this.lang);
     socket.on("init", (labels) => {
       this.uiLabels = labels
