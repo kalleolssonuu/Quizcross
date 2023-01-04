@@ -16,31 +16,26 @@
             v-on:selectedGame="selectGame($event)"/> 
       </div>
       <div class="wrapper">
-      <text id="selectedText">{{uiLabels.selectedGameLang}}</text>
-      <textarea readonly id="selectedname">
-
-      </textarea>
+    
+        <input v-model="searchTerm" placeholder="search for game">
+        <button v-on:click="searchGame"> search game</button>
       </div>
       </div>
     </div>
 
-    <div id="myGames">
-        {{uiLabels.myGamesLang}}
-      <div class="scroll">
-        <Game v-for="game in premadeGames"
-            v-bind:game="game" 
-            v-bind:key="game.name"
-            v-on:selectedGame="selectGame($event)"/> 
-        
-      </div>
 
       <button id="create" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.create}}</button>
-    </div>
+
   </div>
 
   <div>
-    <text id="crossText">{{uiLabels.crossID}}</text> 
-    <input type="number" id="selectedid" placeholder="ex. 1234..">
+    <text id="crossText">{{gameName}}</text> 
+    <input type="number" id="selectedid" placeholder="game name">
+
+ 
+      <textarea readonly id="selectedGame">
+
+      </textarea>
                  
     <button id="playButton" v-on:click="playCross" @click="$router.push('/PlayView/'+lang)">
       {{uiLabels.playPlay}}
@@ -122,6 +117,14 @@ export default{
     return{
       crosswordPackageInfo: null,
       id: "", // för participantid
+      
+      gameName: "",
+
+      shownGames:"",
+
+      allGames: ["Hugos spel","Elins spel","Kung Charles spel","Emils spel"],
+
+      searchTerm: "",
 
       games: gameInfo,      
       premadeGames: gameInfo,
@@ -135,10 +138,19 @@ export default{
     }
   },
   methods: {
+   
+    searchGame: function() {
+      this.shownGames = this.allGames.filter(item => item.toLowerCase().includes(this.searchTerm.toLowerCase()));
+
+      console.log("sökta spel" + this.shownGames)
+
+    },
+
   selectGame: function (games){ 
     console.log(this.selectedGame)
-    document.getElementById("selectedname").value=games.name
-    document.getElementById("selectedid").value=games.id
+    this.gameName=games.name;
+    document.getElementById("selectedGame").value=this.gameName;
+   /*  document.getElementById("selectedid").value=games.id */
   },
   /* listenAddGame: function(games) {
     socket.on("receiveGameFromCreateView") {

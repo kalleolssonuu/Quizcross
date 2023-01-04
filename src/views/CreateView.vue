@@ -331,6 +331,7 @@
           this.word = ""
           this.desc = ""
           this.amountWordsAdded--
+          this.wordInOrder--
           this.crossword.actual.posList = JSON.parse(JSON.stringify(this.crosswordCopy))
           this.enableWordButtons = false
         },
