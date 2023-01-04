@@ -24,7 +24,7 @@
     </div>
     <br>
     
-    <button v-if="this.enableWordButtons || this.word =='' || this.desc==''""  class="button-disabled" disabled> {{uiLabels.addWord}} </button>
+    <button v-if="this.enableWordButtons || this.word =='' || this.desc==''"  class="button-disabled" disabled> {{uiLabels.addWord}} </button>
     <button v-else v-on:click="this.findPotentialMatches"> {{uiLabels.addWord}} </button>
     <!-- <button v-on:click="this.findPotentialMatches">{{uiLabels.addWord}}</button>  -->
     <br>
