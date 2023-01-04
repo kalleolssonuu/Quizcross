@@ -1,48 +1,46 @@
 <template>
   <header>
-    <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
+    <Modal 
+          v-bind:uiLabels="uiLabels" 
+          v-bind:lang="lang" 
+          v-bind:sourceName="sourceName" 
+          v-on:switchLanguage="switchLanguage" >
     <button v-on:click="togglePopup"></button>
     </Modal>
-</header>
+  </header>
 
-  <div class="gameWrapper">
-    <div id="userGames">
-      {{uiLabels.userCreatedGames}}
-
+<div class="gameWrapper">
+    <div id="allGamesList">
+      {{uiLabels.gameList}}
         <div id="gameList">
           <div class="scroll">
-            <Game v-for="game in premadeGames"
-              v-bind:game="game" 
-              v-bind:key="game.name"
-              v-on:selectedGame="selectGame($event)"/> 
-          </div>
-
-          <div class="wrapper">
-            <text id="selectedText">{{uiLabels.selectedGameLang}}</text>
-            <textarea readonly id="selectedname">
-            </textarea>
-          </div>
-      </div>
-    </div>
-
-    <div id="myGames">
-        {{uiLabels.myGamesLang}}
-      <div class="scroll">
-        <Game v-for="game in premadeGames"
+          <Game v-for="game in premadeGames"
             v-bind:game="game" 
             v-bind:key="game.name"
             v-on:selectedGame="selectGame($event)"/> 
-        
+          </div>
+      <div class="wrapper">
+    
+        <input v-model="searchTerm" id="searchInput" placeholder="search for game">
+        <button v-on:click="searchGame" id="searchButton" > search game</button> <!-- är vore det fint med en sån där sök-ikon -->
       </div>
-
-      <button id="create" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.create}}</button>
+      </div>
     </div>
   </div>
+
+
+      <button id="create" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.create}}</button>
+
+
 
   <div>
     <text id="crossText">{{uiLabels.crossID}}</text> 
     <input type="text" v-model="gameID" id="selectedid" placeholder="ex: jjjessiesSpel">
-                 
+     
+    <textarea readonly id="selectedGame">
+
+    </textarea>
+
     <button id="playButton" @click="$router.push('/playView/'+lang+'/'+ gameID)"> 
       {{uiLabels.playPlay}}
     </button>    
@@ -96,6 +94,14 @@ export default{
       gameID: "", 
       lang: "",
 
+      gameName: "",
+
+      shownGames:"",
+
+      allGames: ["Hugos spel","Elins spel","Kung Charles spel","Emils spel"],
+
+      searchTerm: "",
+
       games: gameInfo,      
       premadeGames: gameInfo,
       /* myGames: myGameInfo, */
@@ -103,14 +109,23 @@ export default{
       uiLabels: {},     
       
       showModal: false,
-      sourceName: "PlayView"
+      sourceName: "LobbyView"
     }
   },
   methods: {
+   
+    searchGame: function() {
+      this.shownGames = this.allGames.filter(item => item.toLowerCase().includes(this.searchTerm.toLowerCase));
+
+      console.log("sökta spel" + this.shownGames)
+
+    },
+
   selectGame: function (games){ 
     console.log(this.selectedGame)
-    document.getElementById("selectedname").value=games.name
-    document.getElementById("selectedid").value=games.id
+    this.gameName=games.name;
+    document.getElementById("selectedGame").value=this.gameName;
+   /*  document.getElementById("selectedid").value=games.id */
   },
   /* listenAddGame: function(games) {
     socket.on("receiveGameFromCreateView") {
@@ -192,34 +207,22 @@ header {
   
 }
 
-#userGames {
-  width: 18rem;
+#allGamesList {
+  width: 40rem;
   height: 30rem;
-  border-radius: 5px;
+  border-radius: 0.5rem;
   border-color: #a6d8d4;
   margin: 2.5rem;
   color: white;
   background-color: #43918a;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
-  font-size: 25px;
-  position: relative;
-}
-#myGames {
-  width: 18rem;
-  height: 30rem;
-  border-radius: 5px;
-  border-color: #a6d8d4;
-  margin: 2.5rem;
-  color: white;
-  background-color: #43918a;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
-  font-size: 25px;
+  font-size: 2rem;
   position: relative;
 }
 div.scroll {
-              margin:4px;
+              margin:0.5rem;
               background-color: #ffffff;
-              width: 17.5rem;
+              width: 39rem;
               height: 24rem;
               overflow-x: hidden;
               overflow-y: auto;
@@ -261,14 +264,14 @@ textarea {
   font-size: 1rem;
   color: #43918a;
 }
-#selectedText{
+#selectedGame{
   font-size: 1rem;
   width: 2rem;
   position: relative;
   text-align: center;
 }
 
-#selectedid{
+#searchInput{
   width: 10rem;
   height: 1.5rem;
   border-radius: 5px;
@@ -279,6 +282,13 @@ textarea {
   font-size: 1rem;
   color: #43918a;
   border-color: #2d635f;
+}
+
+#searchButton{
+  width: 7rem;
+  height: 1.5rem;
+  border-radius: 5px;
+  
 }
 #crossText{
   font-size: 1.25rem;
