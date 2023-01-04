@@ -24,20 +24,29 @@
     </Crossword>
         
     </div>
+
     <div class="nameWrapper" id="nameAndCreate">
             <br>
         <form id="gameNameAndSize">
             <div id="section1">
                 <form id="myForm">
-                    <input type="text" id="gameName" name="gameName" placeholder="Enter game name here...">
+                    <input type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Enter game name here...">
                 </form>
             </div>
         </form>
-    <button v-on:click=submitDims id="confirmAndCreate" @click="$router.push('/CreateView/'+lang)">
+    
+    <!-- jessies testknapp
+    <button v-on:click="this.confirmNameDims()">
     {{uiLabels.confirmAndCreate}}
-    </button>
+    </button> -->
+
+    <button id="confirmAndCreate" @click="$router.push('/CreateView/'+lang+'/'+gameID+'/'+ JSON.stringify(matrixDims))">
+        {{uiLabels.confirmAndCreate}}
+    </button> 
+
     <button id="returnButton" @click="$router.push('/'+lang)">{{uiLabels.backButton}}</button>
 </div>
+
 </template>
     
     <script>
@@ -53,19 +62,22 @@
     },
     data: function () {
     return {
-    matrixDims: {x: 8, y: 8},
-    wordPositions: {actual: [], temp: []},
-    x: 8,
-    y: 8,
-    showModal: false,
+ 
+        matrixDims: {x: 8, y: 8},
+        wordPositions: {actual: [], temp: []},
+        x: 8,
+        y: 8,
+        showModal: false,
         uiLabels: {},
-        // id: "",
-        lang: "en",
+        
+        gameID: "",   
+        lang: "",
         sourceName: "PreCreate"
     }
     },
     created: function(){
         this.lang = this.$route.params.lang;
+
       socket.emit('pageLoaded', this.lang)
       socket.on("init", (labels) => {
       this.uiLabels = labels
@@ -74,10 +86,18 @@
     },
 
     methods: {
-        submitDims() {
-        console.log("x: " + this.x + ", y: " + this.y);
-        console.log(this.matrixDims)
-        },
+        // confirmNameDims: function () {
+        //     console.log(this.matrixDims)
+        //     console.log(this.gameName)
+
+        //     socket.emit("newCross")
+
+        // },
+
+        // submitDims() {
+        // console.log("x: " + this.x + ", y: " + this.y);
+        // console.log(this.matrixDims)
+        // },
 
         storeValues() {
         this.matrixDims.x = this.x

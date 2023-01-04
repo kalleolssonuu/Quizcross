@@ -1,4 +1,5 @@
 <template>
+
   <header>
     <div>
       <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
@@ -6,9 +7,11 @@
       </Modal>
     </div>
   </header>
+
   <div id="homepic">
     <div class="logo"><img src="/img/Logotyp.png"></div>
   </div>
+
   <div class="wrapper">
     <!-- <button id="play" @click="$router.push('/actualPlay/'+lang)">{{'Actual PlayView'}}</button> -->
     <button id="play" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.createCross}}</button>
@@ -39,7 +42,7 @@ export default {
   data: function () {
     return {
       uiLabels: {},
-      id: "",
+      
       lang: "en",
       showModal: false,
       sourceName: 'StartView',
@@ -48,11 +51,6 @@ export default {
   },
 
   created: function () {
-    //this.lang = this.$route.params.lang;
-      // this.$route: object me info about the current route
-      // this.$route.params: obj that contains the dynamic parameters that were matched in the route.
-      // så tänk id som är input i mickes Homeview
-      
     socket.emit('pageLoaded')
     socket.on("init", (labels) => {
       this.uiLabels = labels
@@ -60,7 +58,7 @@ export default {
     console.log("created har anropats")
   },
   methods: {
-    switchLanguage: function() {  // JESSIE FRÅGA OM DET DU SKRIVIT I MICKECREATE
+    switchLanguage: function() {  
       if (this.lang === "en")
         this.lang = "sv"
       else
