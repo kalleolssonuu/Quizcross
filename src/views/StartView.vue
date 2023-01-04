@@ -18,7 +18,7 @@
 
   <audio ref="audioPlayer" src="01 Manboy.m4a"></audio>
   <button @click="togglePlayback">
-    {{ playbackToggle ? src='Pause Music': 'Play Music' }}
+    {{ playbackToggle ? 'Pause Music': 'Play Music' }}
   </button>
 
 </template>

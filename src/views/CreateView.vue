@@ -14,13 +14,13 @@
           
     <div class="inputField"> <!-- måste emitta word så att vi kan använda -->
       <h2>{{uiLabels.yourWord}}</h2>
-      <input type="text" id="wordInput" v-model="word" required="required" placeholder="Word sv/en">
+      <input type="text" id="textInput" v-model="word" required="required" placeholder="Word sv/en">
     </div>
     <br>
 
     <div class="inputField" style="display: inline-block">
         <h2>{{uiLabels.wordDescription}}</h2>
-        <input type="text"  id="descInput" v-model="desc" required="required" placeholder="Word desc sv/en">
+        <input type="text"  id="textInput" v-model="desc" required="required" placeholder="Word desc sv/en">
     </div>
     <br>
     
@@ -443,14 +443,15 @@ button {
   cursor: default;
   background-color: #ba0c00;
 }
-
+/* 
 #descInput {
   height: 2rem;
   width: 9rem;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
   font-size: 1rem;
   text-align: center; 
-}
+  border-radius: 1rem;
+} */
 
 #div1 {
   float: left;
@@ -523,11 +524,13 @@ button {
 }
  
 
-  #wordInput {
+  #textInput {
     height: 2rem;
     width: 9rem;
     font-family: "Comic Sans MS", "Comic Sans", cursive;
     font-size: 1rem;
     text-align: center; 
+    border-radius: 1rem;
+    border-color: #43918a;
  }
 </style>
