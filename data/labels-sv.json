@@ -4,7 +4,7 @@
 	"playCross": "Spela",
 
 	
-	"//LobbyView": "Här är LobbyViews översättningar",
+	"//lobbyView": "Här är LobbyViews översättningar",
 	"userCreatedGames": "Användarskapade spel",
 	"myGamesLang": "Mina spel",
 	"selectedGameLang": "Valt spel: ",
@@ -12,6 +12,7 @@
 	"playPlay": "Spela",
 	"create": "Skapa",
 	"backButton": "Tillbaka",
+	"participateGame": "Participate in Game",
 
 	"//PopUp": "Här är PopUps översättningar",
 	"whatIsQC": "Tryck på 'Skapa' för att skapa ett nytt korsord!\nTryck på 'Spela' för att välja ett korsord att spela",

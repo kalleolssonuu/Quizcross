@@ -48,6 +48,11 @@ export default {
   },
 
   created: function () {
+    //this.lang = this.$route.params.lang;
+      // this.$route: object me info about the current route
+      // this.$route.params: obj that contains the dynamic parameters that were matched in the route.
+      // så tänk id som är input i mickes Homeview
+      
     socket.emit('pageLoaded')
     socket.on("init", (labels) => {
       this.uiLabels = labels
@@ -55,7 +60,7 @@ export default {
     console.log("created har anropats")
   },
   methods: {
-    switchLanguage: function() {
+    switchLanguage: function() {  // JESSIE FRÅGA OM DET DU SKRIVIT I MICKECREATE
       if (this.lang === "en")
         this.lang = "sv"
       else

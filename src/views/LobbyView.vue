@@ -45,6 +45,7 @@
     <button id="playButton" v-on:click="playCross" @click="$router.push('/PlayView/'+lang)">
       {{uiLabels.playPlay}}
     </button>
+    
   </div>
 
   <div>
@@ -55,6 +56,29 @@
     {{"servertest av confirmCreate:"}}
     <ul v-if="this.crosswordPackageInfo" >
       {{this.crosswordPackageInfo}}   
+    </ul>
+    
+    <ul>
+
+      <label>
+        Write poll id: 
+        <input type="text" v-model="id">
+      </label>
+
+      <router-link v-bind:to="'/playView/'+id"> {{uiLabels.participateGame}} </router-link>
+      <!-- router-link is used to create links for navigating between routes 
+            - så eftersom id är dynamiskt blir det olika länkar beroende på vilket id som skrivs in, 
+            - betyder det att den skapar nya playviews med varje nytt id?? 
+            - Lösa:
+              - betyder det nu att alla som har tillgång till ett id spelar samma spel? men behöver väl fortfarnde skicka paket med ändringar?
+              - hur bestäms id från createview
+              - fixa så även språket hänger med, se hur playknappen är skapad nu
+              - obs kolla hela språkgrejen så det sker rätt, det där micke sa. se kommentarer i created i startview
+              - användarid?
+              - diskutera hur micke gör allt i servern i data!!! vi gör typ inget där men kanske ej behövs?
+
+      -->
+
     </ul>
 
   </div>
@@ -83,7 +107,8 @@ export default{
   created: 
   function () {
     socket.emit('pageLoaded')
-    socket.on("init", (labels) => {
+
+    socket.on("init", (labels) => {  // VAD GÖR DENNA FÖRSTÅ DET
       this.uiLabels = labels
     });
 
@@ -96,13 +121,14 @@ export default{
   data: function() {
     return{
       crosswordPackageInfo: null,
+      id: "", // för participantid
 
       games: gameInfo,      
       premadeGames: gameInfo,
       /* myGames: myGameInfo, */
       selectedGame: {},
       uiLabels: {},
-      id: "",
+     
       lang: "en",
       showModal: false,
       sourceName: "PlayView"
