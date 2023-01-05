@@ -30,7 +30,8 @@
         <form id="gameNameAndSize">
             <div id="section1">
                 <form id="myForm">                    
-                    <input type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Enter game name here...">
+                    <input v-if="this.lang == 'en'" type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Enter game name here...">
+                    <input v-else type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Ge korsordet ett namn...">
                 </form>
             </div>
         </form>
@@ -64,7 +65,7 @@
     return {
     matrixDims: {x: 8, y: 8},    
     x: 8,
-   y: 8,
+    y: 8,
    crossword: {actual: {posList: [], 
                                    startPos: {x: 0, 
                                               y: 0
@@ -105,9 +106,11 @@
         // },
 
         increase: function() {
+            if(this.matrixDims.x <= 25){
             this.matrixDims.x ++
             this.matrixDims.y ++
             this.fillPositionsNull()
+        }
         },
 
         decrease: function() {

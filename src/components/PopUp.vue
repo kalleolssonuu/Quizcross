@@ -112,8 +112,8 @@ background-color: #e36f67;
 }
 #flag {
     position: absolute;
-    width: 5rem;
-    height: 3.5rem;
+    width: 4rem;
+    height: 3rem;
     border-radius: 10%;
     margin: 0.5rem;
     cursor: pointer;

@@ -40,7 +40,10 @@
       return {
         name: 'WordBox',
         dimsX: String(40 / this.matrixDims.x) + "rem",
-        dimsY: String(40 / this.matrixDims.y) + "rem"
+        dimsY: String(40 / this.matrixDims.y) + "rem",
+        borderSize: String((40 / this.matrixDims.y) / 34) + 'rem',
+        fontSize: String((40 / this.matrixDims.y) * 0.4) + 'rem',
+        numberSize: String((40 / this.matrixDims.y) * 0.3) + 'rem'
       }
     },
     props: {
@@ -81,8 +84,12 @@
     const element = document.querySelector(':root');
     element.style.setProperty('--dimsX', this.dimsX);
     element.style.setProperty('--dimsY', this.dimsY);
+    element.style.setProperty('--borderSize', this.borderSize);
+    element.style.setProperty('--fontSize', this.fontSize);
+    element.style.setProperty('--numberSize', this.numberSize);
     console.log(this.matrixDims)
     },
+    
 }
 
 </script>
@@ -93,6 +100,8 @@
 :root {
   --dimsX: 1em;
   --dimsY: 1em;
+  --borderSize: 0.1rem;
+  --fontSize: 1rem;
 }
 
 .box {
@@ -112,9 +121,9 @@
   position: relative;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
   font-weight: bold;
-  font-size: 1rem;
+  font-size: var(--fontSize);
   background-color: white;
-  border: black 0.15rem solid;
+  border: black var(--borderSize) solid;
   color: black;
 }
 
@@ -149,7 +158,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  font-size: 1rem;
+  font-size: var(--numberSize);
   color: black;
   display: flex;
   align-items: center;
