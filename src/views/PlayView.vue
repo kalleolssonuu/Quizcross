@@ -117,25 +117,32 @@ export default {
       // sockets för skapadet av korsord-ish
       socket.on('currentCrosswordPackages', data => { // tar emot korsordsinfo från server, ursprung confirmCreate
         this.crosswordPackages = data}); 
-        /* this.getUserCrossword() */
-      
-      // OBS NEDAN KANSKE ONÖDIG, SKA JU FÅ ETT HELT NYTT KORSORD FRÅN DATA!!! 
-      //  - DVS GÅR SAMMA VÄG SOM TIDIGARE?
-      //  - samma socket som tidigare?
-      //  - alternativt ny socket pga nytt meddelande? även om det även i detta fall är ett helt korsord som skickas.
-      
-      // sockets för uppdaterande av ockuperade positioner vid spelande av korsord
       socket.on("currentOccupied", data => {
         this.occupiedWordboxes = data})
+      window.addEventListener('keydown', this.enterLetterFromKeyPress)
     },
+    beforeUnmount() {
+      window.removeEventListener('keydown', this.enterLetterFromKeyPress)
+    },
+    /* watch: {
+      userCrossword(newValue) {
+        this.userCrossword = newValue
 
+      }
+    }, */
     methods: {
       updateOccupied: function() { // ska aktiveras när en klient klickar på en ruta          
         //  this.occupiedWordboxes 
 
          // socket.emit('updatedOccupied', this.occupiedWordboxes )
           socket.emit('updatedOccupied', "hejhej" )
-        },
+      },
+      enterLetterFromKeyPress: function (event) {
+        console.log("Inuti event click handler, event.key = " + event.key) /* FUnKAR!! */
+        Vue.set(this.userCrossword[this.occupiedPosition.y, this.occupiedPosition.x].letter, event.key)
+        
+        console.log(this.userCrossword[this.occupiedPosition.y, this.occupiedPosition.x].letter)
+      },
 
       getUserCrossword: function () {
         /* console.log("Inside of getUserCrossword") */

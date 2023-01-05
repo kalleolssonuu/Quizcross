@@ -14,13 +14,15 @@
             
       <div class="inputField"> <!-- måste emitta word så att vi kan använda -->
         <h2>{{uiLabels.yourWord}}</h2>
-        <input type="text" id="wordInput" v-model="word" required="required" placeholder="Word sv/en">
+        <input v-if="this.lang == 'en'" type="text" id="wordInput" v-model="word" required="required" placeholder="Word here: ">
+        <input v-else type="text" id="wordInput" v-model="word" required="required" placeholder="Ord här: ">
       </div>
       <br>
   
       <div class="inputField" style="display: inline-block">
           <h2>{{uiLabels.wordDescription}}</h2>
-          <input type="text"  id="descInput" v-model="desc" required="required" placeholder="Word desc sv/en">
+          <input v-if="this.lang == 'en'" type="text"  id="descInput" v-model="desc" required="required" placeholder="Description here: ">
+          <input v-else type="text" id="descInput" v-model="desc" required="required" placeholder="Beskrivning här: ">
       </div>
       <br>
       
@@ -34,11 +36,11 @@
         <img id="showSolutions" :src="uiLabels.showNext" v-on:click="this.showNextSolution">
       </div>
       
-      <button v-if="!this.enableWordButtons" class="button-disabled" disabled> Confirm </button>
-      <button v-else v-on:click="this.confirmWord"> Confirm </button>
+      <button v-if="!this.enableWordButtons" class="button-disabled" disabled> {{uiLabels.confirm}} </button>
+      <button v-else v-on:click="this.confirmWord"> {{uiLabels.confirm}} </button>
   
-      <button v-if="!this.enableWordButtons" class="button-disabled" disabled> Discard </button>
-      <button v-else v-on:click="this.discardWord"> Discard </button>
+      <button v-if="!this.enableWordButtons" class="button-disabled" disabled> {{uiLabels.discard}} </button>
+      <button v-else v-on:click="this.discardWord"> {{uiLabels.discard}} </button>
   
   
     </div>

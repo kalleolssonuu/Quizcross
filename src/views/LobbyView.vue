@@ -21,8 +21,9 @@
           </div>
       <div class="wrapper">
     
-        <input v-model="searchTerm" id="searchInput" placeholder="search for game">
-        <button v-on:click="searchGame" id="searchButton" > search game</button> <!-- är vore det fint med en sån där sök-ikon -->
+        <input v-if="this.lang == 'en'" v-model="searchTerm" id="searchInput" placeholder="Search for a game">
+        <input v-else v-model="searchTerm" id="searchInput" placeholder="Sök efter ett spel">
+        <button v-on:click="searchGame" id="searchButton" > Search game</button> <!-- är vore det fint med en sån där sök-ikon -->
       </div>
       </div>
     </div>
