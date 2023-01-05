@@ -14,6 +14,7 @@
 
   <div id="div2">
         <Crossword  v-on:sendPosition="this.storePosition($event)"
+                    v-on:updateLayout="this.updateLayout($event)"
         
                     v-bind:sourceName="this.sourceName"
                     v-bind:crossword="this.userCrossword"
@@ -90,7 +91,7 @@ export default {
                             }, 
                     temp: []
                     },
-        userCrossword: [],
+        userCrossword: [], 
 
         showModal: false,
         uiLabels: {},
@@ -102,12 +103,13 @@ export default {
         crosswordPackages: null, // OBS SKICKAR JU NU ALLA PAKET DET ÄR FEL, VILL SKICKA ETT
       }
     },
+
     created: 
     function () {
       socket.emit('pageLoaded')
       socket.on("init", (labels) => {
-      this.uiLabels = labels
-    })
+        this.uiLabels = labels
+      })
       socket.on("dataUpdate", (data) =>
         this.data = data
       ),
@@ -137,31 +139,58 @@ export default {
          // socket.emit('updatedOccupied', this.occupiedWordboxes )
           socket.emit('updatedOccupied', "hejhej" )
       },
+
+
       enterLetterFromKeyPress: function (event) {
-        console.log("Inuti event click handler, event.key = " + event.key) /* FUnKAR!! */
-       this.set(this.userCrossword[this.occupiedPosition.y, this.occupiedPosition.x].letter, event.key)
-        
-        console.log(this.userCrossword[this.occupiedPosition.y, this.occupiedPosition.x].letter)
+        console.log("Inuti event click handler, event.key = " + event.key)
+
+        if (this.inputDirection == "Horizontal" && typeof(event.key) == "string") {
+          this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].letter = event.key.toUpperCase()
+          
+          if (this.crossword.actual.posList[this.occupiedPosition.y][this.occupiedPosition.x + 1].letter != null ||
+              this.crossword.actual.posList[this.occupiedPosition.y][this.occupiedPosition.x + 1].letter != undefined) {
+            this.occupiedPosition.x++
+          }
+
+        } else {
+          this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].letter = event.key.toUpperCase()
+          if (this.crossword.actual.posList[this.occupiedPosition.y + 1][this.occupiedPosition.x].letter != null || 
+              this.crossword.actual.posList[this.occupiedPosition.y + 1][this.occupiedPosition.x].letter != undefined) {
+            this.occupiedPosition.y++
+          }
+        }
+        console.log(this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].letter)
+
+
+        let allMatchesCorrect = true
+        for (let v = 0; v < this.matrixDims.y; v++) {
+            for (let h = 0; h < this.matrixDims.x; h++) {
+
+              if (typeof(this.crossword.actual.posList[v][h].letter) == "string") {
+                this.crossword.actual.posList[v][h].letter = JSON.parse(JSON.stringify(this.crossword.actual.posList[v][h].letter.toUpperCase()))
+              }
+              
+              if (this.crossword.actual.posList[v][h].letter != this.userCrossword[v][h].letter) {
+                allMatchesCorrect = false
+              }
+            }
+        }
+
+        if (allMatchesCorrect) {
+          alert("du har löst korsordet")
+        }
+
       },
 
       getUserCrossword: function () {
-        /* console.log("Inside of getUserCrossword") */
-
-                        console.log("JSON test: " + JSON.parse(JSON.stringify(this.crossword.actual.posList)))
 
         let tempUserCrossword = JSON.parse(JSON.stringify(this.crossword.actual.posList))
-
-                        console.log("tempUserCrossword before nullify: " + tempUserCrossword)
-                        console.log("test get property-value before nullify: " + tempUserCrossword[0][0].letter)
 
         tempUserCrossword.forEach((outerList) => {
           outerList.forEach(element => {
             element.letter = null
           })
         })
-
-                        console.log("tempUserCrossword after nullify: " + tempUserCrossword)
-                        console.log("test get property-value before nullify: " + tempUserCrossword[0][0].letter)
 
         return tempUserCrossword
       },

@@ -3,6 +3,8 @@
   {{ matrixDims }}
   {{ dimsX }}
   {{ dimsY }}
+
+  <!-- {{ crossword[0][0].letter }} -->
   <table id="crosswordwrapper">
     <tr v-for="(list, ykey) in crossword" v-bind:key="'y' + ykey">
       <td v-for="(element, xkey) in list" v-bind:key="'x' + xkey">
@@ -69,6 +71,10 @@ import WordBox from '../components/WordBox.vue'
       sendPositionToPlayView: function (event) {
         this.$emit("sendPosition", event)
         console.log("Event from Crossword" + event)
+      },
+      updateLayout: function() {
+        this.on("updateLayout", event)
+        this.$set(this.crossword[this.occupiedPosition.y][this.occupiedPosition.x], this.crossword[this.occupiedPosition.y][this.occupiedPosition.x].letter, event.key)
       }
     },
     watch: {
