@@ -64,7 +64,7 @@
     return {
     matrixDims: {x: 8, y: 8},    
     x: 8,
-   y: 8,
+    y: 8,
    crossword: {actual: {posList: [], 
                                    startPos: {x: 0, 
                                               y: 0
@@ -105,9 +105,11 @@
         // },
 
         increase: function() {
+            if(this.matrixDims.x <= 25){
             this.matrixDims.x ++
             this.matrixDims.y ++
             this.fillPositionsNull()
+        }
         },
 
         decrease: function() {
@@ -120,6 +122,7 @@
 
 
         fillPositionsNull: function () {
+            this.crossword.actual.posList = []
           for (let v = 0; v < this.matrixDims.y; v++) {
               this.crossword.actual.posList[v] = [];
               /* crossword = [[null, null, null, null]] */
