@@ -534,9 +534,11 @@
     letter-spacing: 0.25em;
     font-size: 2.5rem;
     color: white;
-    padding-top:0.2em;
-    text-align: center;
+    background-color: #FE5F55;
     font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 1rem;
+    cursor:pointer;
+    position: relative;   
   }
   
   #showSolutions {

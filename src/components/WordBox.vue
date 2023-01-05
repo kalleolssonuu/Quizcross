@@ -4,15 +4,20 @@
       <div v-if="(!this.inHorizontal) && (!this.inVertical)" id="nullLetter">
         
       </div>
-      <div v-else @click="testClick" class="box letter">
-        <span id="number" v-if="isFirstLetter"> {{ wordInOrder }} </span>
-        {{ letter }}
+      <div v-else class="box letter">
+            <div v-if="this.isFirstLetter" @click="testClick" id="clickable">
+                <span id="number"> {{ wordInOrder }} </span>
+                {{ letter }}
+            </div>
+            <div v-else>
+                {{ letter }}
+            </div>
       </div>
   </div>
 
   <div v-else-if="(this.sourceName == 'CreateView')" class="box">
     <div class="box letter">
-        <div v-if="isFirstLetter" id="number"> {{ wordInOrder }} </div>
+        <div v-if="this.isFirstLetter" id="number"> {{ wordInOrder }} </div>
         {{ letter }}
     </div>
       
@@ -20,7 +25,7 @@
 
   <div v-else-if="(this.sourceName == 'PreCreate')" class="box">
     <div class="box letter">
-      {{ }}
+      
     </div>
       
   </div>
@@ -35,7 +40,10 @@
       return {
         name: 'WordBox',
         dimsX: String(40 / this.matrixDims.x) + "rem",
-        dimsY: String(40 / this.matrixDims.y) + "rem"
+        dimsY: String(40 / this.matrixDims.y) + "rem",
+        borderSize: String((40 / this.matrixDims.y) / 34) + 'rem',
+        fontSize: String((40 / this.matrixDims.y) * 0.4) + 'rem',
+        numberSize: String((40 / this.matrixDims.y) * 0.3) + 'rem'
       }
     },
     props: {
@@ -59,6 +67,8 @@
         } else {
           alert("test noclick")
         }
+        this.$emit("PositionFromBox", {x: this.xkey, y: this.ykey})
+        console.log("Event from WordBox? : " + {x: this.xkey, y: this.ykey})
       },
       occupyWordBox: function () {
 
@@ -74,8 +84,12 @@
     const element = document.querySelector(':root');
     element.style.setProperty('--dimsX', this.dimsX);
     element.style.setProperty('--dimsY', this.dimsY);
+    element.style.setProperty('--borderSize', this.borderSize);
+    element.style.setProperty('--fontSize', this.fontSize);
+    element.style.setProperty('--numberSize', this.numberSize);
     console.log(this.matrixDims)
     },
+    
 }
 
 </script>
@@ -86,27 +100,37 @@
 :root {
   --dimsX: 1em;
   --dimsY: 1em;
+  --borderSize: 0.1rem;
+  --fontSize: 1rem;
 }
 
 .box {
-  min-width: var(--dimsX);
-  min-height: var(--dimsY);
-  max-width: var(--dimsX);
-  max-height: var(--dimsY);
+  /* min-width: var(--dimsX); */
+  /* min-height: var(--dimsY); */
+  width: var(--dimsX);
+  height: var(--dimsY);
   border: #A7CAB1 0.15rem solid;
 }
 
 .box.letter {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-weight: bold;
-    font-size: 1rem;
-    background-color: white;
-    border: black 0.15rem solid;
-    color: black;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-weight: bold;
+  font-size: var(--fontSize);
+  background-color: white;
+  border: black var(--borderSize) solid;
+  color: black;
+}
+
+#clickable {
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
 }
 
 /* .letterbox {
@@ -134,7 +158,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  font-size: 1rem;
+  font-size: var(--numberSize);
   color: black;
   display: flex;
   align-items: center;

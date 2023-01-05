@@ -7,6 +7,8 @@
     <tr v-for="(list, ykey) in crossword" v-bind:key="'y' + ykey">
       <td v-for="(element, xkey) in list" v-bind:key="'x' + xkey">
         <WordBox
+          v-on:PositionFromBox="this.sendPositionToPlayView($event)"
+
           v-bind:xkey="xkey" 
           v-bind:ykey="ykey" 
           v-bind:letter="element.letter"
@@ -38,8 +40,8 @@ import WordBox from '../components/WordBox.vue'
     data: function() {
       return {
         /* sourceName: "" */
-        dimsX: String(40 / this.matrixDims.x) + "rem",
-        dimsY: String(40 / this.matrixDims.y) + "rem"
+        dimsX: 1,
+        dimsY: 1
       }
     },
     name: 'CrossWord',
@@ -63,8 +65,21 @@ import WordBox from '../components/WordBox.vue'
       },
       testLog: function() {
         console.log("test")
+      },
+      sendPositionToPlayView: function (event) {
+        this.$emit("sendPosition", event)
+        console.log("Event from Crossword" + event)
       }
     },
+    watch: {
+    matrixDims: {
+    handler: function () {
+      this.dimsX = String(40 / this.matrixDims.x) + "rem"
+      this.dimsY = String(40 / this.matrixDims.y) + "rem"
+    },
+    deep: true
+  }
+}
   }
   </script>
 
@@ -88,8 +103,6 @@ import WordBox from '../components/WordBox.vue'
   background-color: #A7CAB1;
   height: 40rem;
   width: 40rem;
-  max-height: 40rem;
-  max-width: 40rem;
 }
 
 
