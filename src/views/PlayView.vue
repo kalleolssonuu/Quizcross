@@ -14,7 +14,7 @@
 
   <div id="div2">
         <Crossword  v-bind:sourceName="this.sourceName"
-                    v-bind:wordPositions="this.userCrossword"
+                    v-bind:crossword="this.userCrossword"
                     v-bind:matrixDims="this.matrixDims"
                     v-bind:word="this.word"    
                     v-bind:desc="this.desc"> 
@@ -80,8 +80,14 @@ export default {
         desc: "",
         matrixDims: {x: 13, y: 10},
         occupiedPosition: {x: null, y: null},
-        /* wordPositions: [], */
-        wordPositions: {actual: [], temp: []},
+       
+        crossword: {actual: {posList: [], 
+                                   startPos: {x: 0, 
+                                              y: 0
+                                             }
+                                  }, 
+                          temp: []
+                         },
         userCrossword: [],
 
         showModal: false,
@@ -132,9 +138,9 @@ export default {
       getUserCrossword: function () {
         /* console.log("Inside of getUserCrossword") */
 
-                        console.log("JSON test: " + JSON.parse(JSON.stringify(this.wordPositions.actual)))
+                        console.log("JSON test: " + JSON.parse(JSON.stringify(this.crossword.actual.posList)))
 
-        let tempUserCrossword = JSON.parse(JSON.stringify(this.wordPositions.actual))
+        let tempUserCrossword = JSON.parse(JSON.stringify(this.crossword.actual.posList))
 
                         console.log("tempUserCrossword before nullify: " + tempUserCrossword)
                         console.log("test get property-value before nullify: " + tempUserCrossword[0][0].letter)
@@ -153,10 +159,10 @@ export default {
 
       fillPremadeCrossword: function () {
           for (let v = 0; v < this.matrixDims.y; v++) {
-              this.wordPositions.actual[v] = [];
-              /* wordPositions = [[null, null, null, null]] */
+              this.crossword.actual.posList[v] = [];
+              /* crossword = [[null, null, null, null]] */
               for (let h = 0; h < this.matrixDims.x; h++) {
-              this.wordPositions.actual[v][h] = {letter: null, 
+              this.crossword.actual.posList[v][h] = {letter: null, 
                                                   inHorizontal: false,
                                                   inVertical: false,
                                                   isFirstLetter: false,
@@ -164,29 +170,29 @@ export default {
               }
           }
 
-          this.wordPositions.actual[0][0].letter = "c"; this.wordPositions.actual[0][0].inHorizontal = true
-          this.wordPositions.actual[0][0].isFirstLetter = true
+          this.crossword.actual.posList[0][0].letter = "c"; this.crossword.actual.posList[0][0].inHorizontal = true
+          this.crossword.actual.posList[0][0].isFirstLetter = true
 
-          this.wordPositions.actual[0][1].letter = "l"; this.wordPositions.actual[0][1].inHorizontal = true; this.wordPositions.actual[0][1].inVertical = true
-          this.wordPositions.actual[0][1].isFirstLetter = true
+          this.crossword.actual.posList[0][1].letter = "l"; this.crossword.actual.posList[0][1].inHorizontal = true; this.crossword.actual.posList[0][1].inVertical = true
+          this.crossword.actual.posList[0][1].isFirstLetter = true
 
-          this.wordPositions.actual[0][2].letter = "o"; this.wordPositions.actual[0][2].inHorizontal = true
-          this.wordPositions.actual[0][3].letter = "w"; this.wordPositions.actual[0][3].inHorizontal = true
-          this.wordPositions.actual[0][4].letter = "n"; this.wordPositions.actual[0][4].inHorizontal = true
+          this.crossword.actual.posList[0][2].letter = "o"; this.crossword.actual.posList[0][2].inHorizontal = true
+          this.crossword.actual.posList[0][3].letter = "w"; this.crossword.actual.posList[0][3].inHorizontal = true
+          this.crossword.actual.posList[0][4].letter = "n"; this.crossword.actual.posList[0][4].inHorizontal = true
 
-          this.wordPositions.actual[1][1].letter = "a"; this.wordPositions.actual[1][1].inHorizontal = false; this.wordPositions.actual[1][1].inVertical = true
-          this.wordPositions.actual[2][1].letter = "k"; this.wordPositions.actual[2][1].inHorizontal = true; this.wordPositions.actual[2][1].inVertical = true
-          this.wordPositions.actual[2][1].isFirstLetter = true
+          this.crossword.actual.posList[1][1].letter = "a"; this.crossword.actual.posList[1][1].inHorizontal = false; this.crossword.actual.posList[1][1].inVertical = true
+          this.crossword.actual.posList[2][1].letter = "k"; this.crossword.actual.posList[2][1].inHorizontal = true; this.crossword.actual.posList[2][1].inVertical = true
+          this.crossword.actual.posList[2][1].isFirstLetter = true
 
-          this.wordPositions.actual[3][1].letter = "a"; this.wordPositions.actual[3][1].inHorizontal = true; this.wordPositions.actual[3][1].inVertical = true
-          this.wordPositions.actual[4][1].letter = "n"; this.wordPositions.actual[4][1].inHorizontal = false; this.wordPositions.actual[4][1].inVertical = true
-          this.wordPositions.actual[3][0].letter = "j"; this.wordPositions.actual[3][0].inHorizontal = true /* från JA */
-          this.wordPositions.actual[3][0].isFirstLetter = true
+          this.crossword.actual.posList[3][1].letter = "a"; this.crossword.actual.posList[3][1].inHorizontal = true; this.crossword.actual.posList[3][1].inVertical = true
+          this.crossword.actual.posList[4][1].letter = "n"; this.crossword.actual.posList[4][1].inHorizontal = false; this.crossword.actual.posList[4][1].inVertical = true
+          this.crossword.actual.posList[3][0].letter = "j"; this.crossword.actual.posList[3][0].inHorizontal = true /* från JA */
+          this.crossword.actual.posList[3][0].isFirstLetter = true
 
-          this.wordPositions.actual[2][2].letter = "a"; this.wordPositions.actual[2][2].inHorizontal = true /* från KANON */
-          this.wordPositions.actual[2][3].letter = "n"; this.wordPositions.actual[2][3].inHorizontal = true
-          this.wordPositions.actual[2][4].letter = "o"; this.wordPositions.actual[2][4].inHorizontal = true
-          this.wordPositions.actual[2][5].letter = "n"; this.wordPositions.actual[2][5].inHorizontal = true
+          this.crossword.actual.posList[2][2].letter = "a"; this.crossword.actual.posList[2][2].inHorizontal = true /* från KANON */
+          this.crossword.actual.posList[2][3].letter = "n"; this.crossword.actual.posList[2][3].inHorizontal = true
+          this.crossword.actual.posList[2][4].letter = "o"; this.crossword.actual.posList[2][4].inHorizontal = true
+          this.crossword.actual.posList[2][5].letter = "n"; this.crossword.actual.posList[2][5].inHorizontal = true
         },
 
         changeDirection: function() {

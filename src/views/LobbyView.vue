@@ -1,83 +1,58 @@
 <template>
   <header>
-    <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
+    <Modal 
+          v-bind:uiLabels="uiLabels" 
+          v-bind:lang="lang" 
+          v-bind:sourceName="sourceName" 
+          v-on:switchLanguage="switchLanguage" >
     <button v-on:click="togglePopup"></button>
     </Modal>
-</header>
+  </header>
 
-  <div class="gameWrapper">
-    <div id="userGames">
-      {{uiLabels.userCreatedGames}}
+<div class="gameWrapper">
+    <div id="allGamesList">
+      {{uiLabels.gameList}}
         <div id="gameList">
           <div class="scroll">
           <Game v-for="game in premadeGames"
             v-bind:game="game" 
             v-bind:key="game.name"
             v-on:selectedGame="selectGame($event)"/> 
-      </div>
+          </div>
       <div class="wrapper">
     
-        <input v-model="searchTerm" placeholder="search for game">
-        <button v-on:click="searchGame"> search game</button>
+        <input v-model="searchTerm" id="searchInput" placeholder="search for game">
+        <button v-on:click="searchGame" id="searchButton" > search game</button> <!-- är vore det fint med en sån där sök-ikon -->
       </div>
       </div>
     </div>
+  </div>
 
 
       <button id="create" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.create}}</button>
 
-  </div>
+
 
   <div>
-    <text id="crossText">{{gameName}}</text> 
-    <input type="number" id="selectedid" placeholder="game name">
+    <text id="crossText">{{uiLabels.crossID}}</text> 
+    <input type="text" v-model="gameID" id="selectedid" placeholder="ex: jjjessiesSpel">
+     
+    <textarea readonly id="selectedGame">
 
- 
-      <textarea readonly id="selectedGame">
+    </textarea>
 
-      </textarea>
-                 
-    <button id="playButton" v-on:click="playCross" @click="$router.push('/PlayView/'+lang)">
+    <button id="playButton" @click="$router.push('/playView/'+lang+'/'+ gameID)"> 
       {{uiLabels.playPlay}}
-    </button>
-    
+    </button>    
   </div>
 
   <div>
-    <!-- JESSIE: FIXA SÅ:
-          - LOBBY, VID VAL AV KORSNAMN, SKICKAR KORSNAMN OCH ID TILL SERVER
-          - SERVER KOLLAR VILKET PAKET SOM MATCHAR, ANTINGEN NAMN ELLER IDMATCH?
-          - SKICKAR MOTSVARANDE PAKET TILL ACTUALPLAY  -->
     {{"servertest av confirmCreate:"}}
     <ul v-if="this.crosswordPackageInfo" >
       {{this.crosswordPackageInfo}}   
     </ul>
-    
-    <ul>
-
-      <label>
-        Write poll id: 
-        <input type="text" v-model="id">
-      </label>
-
-      <router-link v-bind:to="'/playView/'+id"> {{uiLabels.participateGame}} </router-link>
-      <!-- router-link is used to create links for navigating between routes 
-            - så eftersom id är dynamiskt blir det olika länkar beroende på vilket id som skrivs in, 
-            - betyder det att den skapar nya playviews med varje nytt id?? 
-            - Lösa:
-              - betyder det nu att alla som har tillgång till ett id spelar samma spel? men behöver väl fortfarnde skicka paket med ändringar?
-              - hur bestäms id från createview
-              - fixa så även språket hänger med, se hur playknappen är skapad nu
-              - obs kolla hela språkgrejen så det sker rätt, det där micke sa. se kommentarer i created i startview
-              - användarid?
-              - diskutera hur micke gör allt i servern i data!!! vi gör typ inget där men kanske ej behövs?
-
-      -->
-
-    </ul>
 
   </div>
-
 
   <button id="homepagebutton" @click="$router.push('/'+lang)">{{uiLabels.backButton}}</button>
 </template>
@@ -101,13 +76,13 @@ export default{
 
   created: 
   function () {
-    socket.emit('pageLoaded')
+    this.lang = this.$route.params.lang; 
 
+    socket.emit('pageLoaded')
     socket.on("init", (labels) => {  // VAD GÖR DENNA FÖRSTÅ DET
       this.uiLabels = labels
     });
-
-    socket.on('currentPackageInfoForLobby', data => { // tar emot korsordsinfo från server, ursprung confirmCreate
+    socket.on('currentPackageInfoForLobby', data => { // JESSIE ÄNDRA DET ENDA SOM SKA SKICKAS EFTER KLICK CONFIRMCREATE ÄR JU ID, LÖSA ME URL IST?
         this.crosswordPackageInfo = data
     }); 
 
@@ -115,9 +90,10 @@ export default{
 
   data: function() {
     return{
-      crosswordPackageInfo: null,
-      id: "", // för participantid
-      
+      crosswordPackageInfo: null, // JESSIE ÄNDRA
+      gameID: "", 
+      lang: "",
+
       gameName: "",
 
       shownGames:"",
@@ -130,11 +106,10 @@ export default{
       premadeGames: gameInfo,
       /* myGames: myGameInfo, */
       selectedGame: {},
-      uiLabels: {},
-     
-      lang: "en",
+      uiLabels: {},     
+      
       showModal: false,
-      sourceName: "PlayView"
+      sourceName: "LobbyView"
     }
   },
   methods: {
@@ -142,7 +117,7 @@ export default{
     searchGame: function() {
       this.shownGames = this.allGames.filter(item => item.toLowerCase().includes(this.searchTerm.toLowerCase()));
 
-      console.log("sökta spel" + this.shownGames)
+      console.log("sökta spel " + this.shownGames)
 
     },
 
@@ -232,34 +207,22 @@ header {
   
 }
 
-#userGames {
-  width: 18rem;
+#allGamesList {
+  width: 40rem;
   height: 30rem;
-  border-radius: 5px;
+  border-radius: 0.5rem;
   border-color: #a6d8d4;
   margin: 2.5rem;
   color: white;
   background-color: #43918a;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
-  font-size: 25px;
-  position: relative;
-}
-#myGames {
-  width: 18rem;
-  height: 30rem;
-  border-radius: 5px;
-  border-color: #a6d8d4;
-  margin: 2.5rem;
-  color: white;
-  background-color: #43918a;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
-  font-size: 25px;
+  font-size: 2rem;
   position: relative;
 }
 div.scroll {
-              margin:4px;
+              margin:0.5rem;
               background-color: #ffffff;
-              width: 17.5rem;
+              width: 39rem;
               height: 24rem;
               overflow-x: hidden;
               overflow-y: auto;
@@ -301,14 +264,14 @@ textarea {
   font-size: 1rem;
   color: #43918a;
 }
-#selectedText{
+#selectedGame{
   font-size: 1rem;
   width: 2rem;
   position: relative;
   text-align: center;
 }
 
-#selectedid{
+#searchInput{
   width: 10rem;
   height: 1.5rem;
   border-radius: 5px;
@@ -319,6 +282,13 @@ textarea {
   font-size: 1rem;
   color: #43918a;
   border-color: #2d635f;
+}
+
+#searchButton{
+  width: 7rem;
+  height: 1.5rem;
+  border-radius: 5px;
+  
 }
 #crossText{
   font-size: 1.25rem;

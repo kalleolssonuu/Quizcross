@@ -14,6 +14,8 @@ function sockets(io, socket, data) {
 
   socket.on('createPoll', function(d) {
     socket.emit('pollCreated', data.createPoll(d.pollId, d.lang));
+    // create poll skapar ett tomt poll och skickar ut lista med det pollet i sig
+    // dvs:  return this.polls[pollId];
   });
 
   socket.on('playCross', function(d) {
