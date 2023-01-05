@@ -30,7 +30,8 @@
         <form id="gameNameAndSize">
             <div id="section1">
                 <form id="myForm">                    
-                    <input type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Enter game name here...">
+                    <input v-if="this.lang == 'en'" type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Enter game name here...">
+                    <input v-else type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Ge korsordet ett namn...">
                 </form>
             </div>
         </form>
@@ -123,19 +124,19 @@
 
         fillPositionsNull: function () {
             this.crossword.actual.posList = []
-          for (let v = 0; v < this.matrixDims.y; v++) {
-              this.crossword.actual.posList[v] = [];
-              /* crossword = [[null, null, null, null]] */
-              for (let h = 0; h < this.matrixDims.x; h++) {
-              this.crossword.actual.posList[v][h] = {letter: null, 
-                                                 inHorizontal: false,
-                                                 inVertical: false,
-                                                 isFirstLetter: false, 
-                                                 wordInOrder: null}
-              }
-          }
+            
+            for (let v = 0; v < this.matrixDims.y; v++) {
+                this.crossword.actual.posList[v] = [];
+                /* crossword = [[null, null, null, null]] */
+                for (let h = 0; h < this.matrixDims.x; h++) {
+                this.crossword.actual.posList[v][h] = {letter: null, 
+                                                    inHorizontal: false,
+                                                    inVertical: false,
+                                                    isFirstLetter: false, 
+                                                    wordInOrder: null}
+                }
+            }
   
-          this.crossword.temp = []
           console.log(this.crossword.actual.posList)
         },
 

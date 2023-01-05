@@ -14,13 +14,15 @@
             
       <div class="inputField"> <!-- måste emitta word så att vi kan använda -->
         <h2>{{uiLabels.yourWord}}</h2>
-        <input type="text" id="wordInput" v-model="word" required="required" placeholder="Word sv/en">
+        <input v-if="this.lang == 'en'" type="text" id="wordInput" v-model="word" required="required" placeholder="Word here: ">
+        <input v-else type="text" id="wordInput" v-model="word" required="required" placeholder="Ord här: ">
       </div>
       <br>
   
       <div class="inputField" style="display: inline-block">
           <h2>{{uiLabels.wordDescription}}</h2>
-          <input type="text"  id="descInput" v-model="desc" required="required" placeholder="Word desc sv/en">
+          <input v-if="this.lang == 'en'" type="text"  id="descInput" v-model="desc" required="required" placeholder="Description here: ">
+          <input v-else type="text" id="descInput" v-model="desc" required="required" placeholder="Beskrivning här: ">
       </div>
       <br>
       
@@ -34,11 +36,11 @@
         <img id="showSolutions" :src="uiLabels.showNext" v-on:click="this.showNextSolution">
       </div>
       
-      <button v-if="!this.enableWordButtons" class="button-disabled" disabled> Confirm </button>
-      <button v-else v-on:click="this.confirmWord"> Confirm </button>
+      <button v-if="!this.enableWordButtons" class="button-disabled" disabled> {{uiLabels.confirm}} </button>
+      <button v-else v-on:click="this.confirmWord"> {{uiLabels.confirm}} </button>
   
-      <button v-if="!this.enableWordButtons" class="button-disabled" disabled> Discard </button>
-      <button v-else v-on:click="this.discardWord"> Discard </button>
+      <button v-if="!this.enableWordButtons" class="button-disabled" disabled> {{uiLabels.discard}} </button>
+      <button v-else v-on:click="this.discardWord"> {{uiLabels.discard}} </button>
   
   
     </div>
@@ -138,7 +140,7 @@
           prioIterator: 0, 
           wordInOrder: 1,
           wordInOrderCopy: 1,
-          amountWordsAdded: 0,
+          amountWordsAdded: 1,
           letterMatchCounter: 0,
   
           enableWordButtons: false,
@@ -286,8 +288,8 @@
                     this.letterMatchCounter = 0
                     this.wordCollision = false
                     this.crossword.actual.posList[h][v].wordInOrderOld = null
-                    this.crossword.temp[this.userIterator].startPos.x = h
-                    this.crossword.temp[this.userIterator].startPos.y = v
+                    this.crossword.temp[this.matchesIterator-1].startPos.x = h
+                    this.crossword.temp[this.matchesIterator-1].startPos.y = v
                 }
             }
             }
@@ -300,14 +302,16 @@
             } else {
               this.crossword.actual.posList = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].posList))
               const startPos = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].startPos))
-              console.log("startPos = " + String(startPos))
-  
+              console.log("startPos.x = " + String(startPos.x) + String(startPos.y))
+              console.log("word in order på startpos: " + this.crossword.actual.posList[startPos.y][startPos.x].wordInOrder)
+              
               if (this.crossword.actual.posList[startPos.y][startPos.x].wordInOrder != this.wordInOrder &&
                   this.crossword.actual.posList[startPos.y][startPos.x].wordInOrder != null) {
+
                     
                 this.crossword.actual.posList[startPos.y][startPos.x].wordInOrder = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].posList[startPos.y][startPos.x].wordInOrder))
-                /* this.crossword.actual.posList[startPos.y][startPos.x].wordInOrderOld = null */
                 this.wordInOrder--
+                console.log("wordInOrder subtraheras till: " + this.wordInOrder)
               }
               console.log("Amount of words added: " + this.amountWordsAdded)
               console.log("wordInOrder: " + this.wordInOrder)
