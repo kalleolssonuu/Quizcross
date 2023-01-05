@@ -3,6 +3,8 @@
   {{ matrixDims }}
   {{ dimsX }}
   {{ dimsY }}
+
+  <!-- {{ crossword[0][0].letter }} -->
   <table id="crosswordwrapper">
     <tr v-for="(list, ykey) in crossword" v-bind:key="'y' + ykey">
       <td v-for="(element, xkey) in list" v-bind:key="'x' + xkey">
@@ -25,9 +27,6 @@
   </table>
 
 </div>
-<div class="letterbox">
-  Hej
-</div>
 </template>
   
 
@@ -40,8 +39,8 @@ import WordBox from '../components/WordBox.vue'
     data: function() {
       return {
         /* sourceName: "" */
-        dimsX: 1,
-        dimsY: 1
+        dimsX: '',
+        dimsY: ''
       }
     },
     name: 'CrossWord',
@@ -55,7 +54,11 @@ import WordBox from '../components/WordBox.vue'
       sourceName: String,
       wordInOrder: Number
     },
-    
+    watcher: {
+      crossword: {
+
+      }
+    },
     created: function () {
       this.tempFunc()
     },
@@ -69,6 +72,10 @@ import WordBox from '../components/WordBox.vue'
       sendPositionToPlayView: function (event) {
         this.$emit("sendPosition", event)
         console.log("Event from Crossword" + event)
+      },
+      updateLayout: function(event) {
+        this.on("updateLayout", event)
+        this.$set(this.crossword[this.occupiedPosition.y][this.occupiedPosition.x], this.crossword[this.occupiedPosition.y][this.occupiedPosition.x].letter, event.key)
       }
     },
     watch: {
@@ -103,6 +110,9 @@ import WordBox from '../components/WordBox.vue'
   background-color: #A7CAB1;
   height: 40rem;
   width: 40rem;
+}
+table {
+  border-spacing: 0;
 }
 
 
