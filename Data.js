@@ -8,7 +8,7 @@ function Data() {
 
   this.occupiedWordboxes = null; // info om vilka rutor som är occupied i actualplayview
 
- // this.crosswordPackages = {}; // togs denna bort för att byta ut mot crosses? varför byttes ej namn i funktion?
+  this.crosswordPackages = {}; // togs denna bort för att byta ut mot crosses? varför byttes ej namn i funktion?
   this.crosses = {}; /* {userID: {crosswordID: {all info}
                                  }
                         } */

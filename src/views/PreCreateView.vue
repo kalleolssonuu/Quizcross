@@ -30,7 +30,8 @@
         <form id="gameNameAndSize">
             <div id="section1">
                 <form id="myForm">                    
-                    <input type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Enter game name here...">
+                    <input v-if="this.lang == 'en'" type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Enter game name here...">
+                    <input v-else type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Ge korsordet ett namn...">
                 </form>
             </div>
         </form>
