@@ -34,55 +34,25 @@
 
 
   <div>
-    <text id="crossText">{{gameName}}</text> 
-    <input type="number" id="selectedid" placeholder="game name">
+    <text id="crossText">{{uiLabels.crossID}}</text> 
+    <input type="text" v-model="gameID" id="selectedid" placeholder="ex: jjjessiesSpel">
+     
+    <textarea readonly id="selectedGame">
 
- 
-      <textarea readonly id="selectedGame">
+    </textarea>
 
-      </textarea>
-                 
-    <button id="playButton" v-on:click="playCross" @click="$router.push('/PlayView/'+lang)">
+    <button id="playButton" @click="$router.push('/playView/'+lang+'/'+ gameID)"> 
       {{uiLabels.playPlay}}
-    </button>
-    
+    </button>    
   </div>
 
   <div>
-    <!-- JESSIE: FIXA SÅ:
-          - LOBBY, VID VAL AV KORSNAMN, SKICKAR KORSNAMN OCH ID TILL SERVER
-          - SERVER KOLLAR VILKET PAKET SOM MATCHAR, ANTINGEN NAMN ELLER IDMATCH?
-          - SKICKAR MOTSVARANDE PAKET TILL ACTUALPLAY  -->
     {{"servertest av confirmCreate:"}}
     <ul v-if="this.crosswordPackageInfo" >
       {{this.crosswordPackageInfo}}   
     </ul>
-    
-    <ul>
-
-      <label>
-        Write poll id: 
-        <input type="text" v-model="id">
-      </label>
-
-      <router-link v-bind:to="'/playView/'+id"> {{uiLabels.participateGame}} </router-link>
-      <!-- router-link is used to create links for navigating between routes 
-            - så eftersom id är dynamiskt blir det olika länkar beroende på vilket id som skrivs in, 
-            - betyder det att den skapar nya playviews med varje nytt id?? 
-            - Lösa:
-              - betyder det nu att alla som har tillgång till ett id spelar samma spel? men behöver väl fortfarnde skicka paket med ändringar?
-              - hur bestäms id från createview
-              - fixa så även språket hänger med, se hur playknappen är skapad nu
-              - obs kolla hela språkgrejen så det sker rätt, det där micke sa. se kommentarer i created i startview
-              - användarid?
-              - diskutera hur micke gör allt i servern i data!!! vi gör typ inget där men kanske ej behövs?
-
-      -->
-
-    </ul>
 
   </div>
-
 
   <button id="homepagebutton" @click="$router.push('/'+lang)">{{uiLabels.backButton}}</button>
 </template>
@@ -106,13 +76,13 @@ export default{
 
   created: 
   function () {
-    socket.emit('pageLoaded')
+    this.lang = this.$route.params.lang; 
 
+    socket.emit('pageLoaded')
     socket.on("init", (labels) => {  // VAD GÖR DENNA FÖRSTÅ DET
       this.uiLabels = labels
     });
-
-    socket.on('currentPackageInfoForLobby', data => { // tar emot korsordsinfo från server, ursprung confirmCreate
+    socket.on('currentPackageInfoForLobby', data => { // JESSIE ÄNDRA DET ENDA SOM SKA SKICKAS EFTER KLICK CONFIRMCREATE ÄR JU ID, LÖSA ME URL IST?
         this.crosswordPackageInfo = data
     }); 
 
@@ -120,9 +90,10 @@ export default{
 
   data: function() {
     return{
-      crosswordPackageInfo: null,
-      id: "", // för participantid
-      
+      crosswordPackageInfo: null, // JESSIE ÄNDRA
+      gameID: "", 
+      lang: "",
+
       gameName: "",
 
       shownGames:"",
@@ -135,9 +106,8 @@ export default{
       premadeGames: gameInfo,
       /* myGames: myGameInfo, */
       selectedGame: {},
-      uiLabels: {},
-     
-      lang: "en",
+      uiLabels: {},     
+      
       showModal: false,
       sourceName: "LobbyView"
     }
@@ -145,9 +115,9 @@ export default{
   methods: {
    
     searchGame: function() {
-      this.shownGames = this.allGames.filter(item => item.toLowerCase().includes(this.searchTerm.toLowerCase));
+      this.shownGames = this.allGames.filter(item => item.toLowerCase().includes(this.searchTerm.toLowerCase()));
 
-      console.log("sökta spel" + this.shownGames)
+      console.log("sökta spel " + this.shownGames)
 
     },
 

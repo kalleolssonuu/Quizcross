@@ -58,10 +58,11 @@
               {{uiLabels.resetCrossword}}
             </button> 
             <br>
-  
-            <button v-on:click="this.confirmCreateCrossword" @click="$router.push('/Lobby/'+lang)">
-              {{uiLabels.confirmCreate}}  <!--JESSIE OBS OLIKA NAMN-->
+            
+            <button v-on:click="this.confirmCreateCrossword" @click="$router.push('/Lobby/'+lang)"> <!-- JESSIE ÄNDRA SKICKA MED ID?????? -->
+            {{uiLabels.confirmCreate}}  <!--JESSIE OBS OLIKA NAMN - Jessie igen: vet ej vad jag menade med denna kommentar --> 
             </button>
+
           </div>
           <br>
   
@@ -144,7 +145,8 @@
           wordCollision: false,
           noMatches: false,
   
-          matrixDims: {x: 15, y: 15},
+          matrixDims: null,
+
           crossword: {actual: {posList: [], 
                                    startPos: {x: 0, 
                                               y: 0
@@ -160,14 +162,18 @@
                              },
   
           showModal: false,
-          uiLabels: {},        
-          lang: "en",
-  
+          uiLabels: {},
+          
+          gameID:"",
+          lang: "",  
           sourceName: "CreateView",
       }
     },
     created: function () {
       this.lang = this.$route.params.lang;
+      this.gameID = this.$route.params.gameID;
+      this.matrixDims = JSON.parse(this.$route.params.dims);
+
       socket.emit('pageLoaded', this.lang)
       socket.on("init", (labels) => {
         this.uiLabels = labels
@@ -189,11 +195,7 @@
         togglePopup: function () {
           this.showModal = ! this.showModal;
         },
-  
-        testUserID: function () {
-          console.log(this.$getIPAddress)
-        },
-  
+    
         resetData: function () {
           location.reload()
         },
@@ -336,7 +338,7 @@
           this.enableWordButtons = false
         },
   
-        testSocketSend: function () {
+        testSocketSend: function () { // till någon, vad är detta? används ej?
           socket.on("matrixDimsTransfer", data => {
             this.matrixDims = data.matrixDims
             console.log("matrixDimsTransfer has been found")
@@ -347,7 +349,7 @@
           alert("no matches! Try another word.")
         },
   
-        confirmCreateCrossword: function () {    //skickar ETT färdigt korsord som lagras i posLista blad alla andra skickade korsord i server
+        confirmCreateCrossword: function () {    //JESSIE ÄNDRA
           socket.emit("emittedCrosswordPackage", {sourceName: this.sourceName,    // innehåll i paket ska ändras
                                                     wordPositionActual: this.crossword.actual.posList,
                                                     matrixDims: this.matrixDims,

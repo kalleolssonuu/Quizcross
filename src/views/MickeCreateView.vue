@@ -12,7 +12,8 @@
     <input type="text" v-model="pollId">
 
 
-      <!-- createpoll skickar in pollid och lang och poll skapas i server -->
+      <!-- createpoll skickar in pollid och lang och  
+        TOMT poll skapas i server i lista this.polls med pollID som key -->
     <button v-on:click="createPoll">
       Create poll
     </button>
@@ -43,6 +44,8 @@
     <button v-on:click="runQuestion">
       Run question
     </button>
+
+
     {{data}}
     <router-link v-bind:to="'/result/'+pollId">Check result</router-link>
   </div>
@@ -78,7 +81,9 @@ export default {
     )
     socket.on("pollCreated", (data) =>
       this.data = data)
-  },
+      // data består av:  this.polls[pollId];
+  },  // som är ett tomt poll me pollid
+
   methods: {
     createPoll: function () {
       socket.emit("createPoll", {pollId: this.pollId, lang: this.lang })
