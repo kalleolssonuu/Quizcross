@@ -8,8 +8,7 @@
     </header>
     
     <div id="crosswordArea">
-        <!-- ÄNDRAT -->
-      <h2>{{ dimsX }}   x    {{ dimsY }}</h2>   
+        <h2>{{ dimsX }}   x    {{ dimsY }}</h2>   
         <div class="plusMinusWrapper" id="PlusMinusButtons">
 
     <button id="minusButton" v-on:click=decrease type="button">
@@ -30,8 +29,7 @@
             <br>
         <form id="gameNameAndSize">
             <div id="section1">
-                <form id="myForm">
-                    <!-- MIN ÄNDRING -->
+                <form id="myForm">                    
                     <input type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Enter game name here...">
                 </form>
             </div>
@@ -42,8 +40,6 @@
     {{uiLabels.confirmAndCreate}}
     </button> -->
 
-    <!-- ÄNDRAT: men bara v:on:vlick submitdims, som jag tror bara loggar? -->
-    <!-- samt min ändring att ska pusha gameid till create -->
     <button id="confirmAndCreate" @click="$router.push('/CreateView/'+lang+'/'+gameID+'/'+ JSON.stringify(matrixDims))">
         {{uiLabels.confirmAndCreate}}
     </button> 
@@ -66,8 +62,7 @@
     },
     data: function () {
     return {
-    matrixDims: {x: 8, y: 8},
-    // ändrat:
+    matrixDims: {x: 8, y: 8},    
     x: 8,
    y: 8,
    crossword: {actual: {posList: [], 
@@ -80,7 +75,6 @@
     showModal: false,
         uiLabels: {},
         
-        // äbdrat mina ändringar
         gameID: "",   
         lang: "",
         sourceName: "PreCreate"
@@ -102,7 +96,7 @@
         // console.log(this.matrixDims)
         // },
 
-        // ändrat, denna var förut: pls increase och decrease var annorlunda
+
 
         // storeValues() {
         // this.matrixDims.x = this.x
