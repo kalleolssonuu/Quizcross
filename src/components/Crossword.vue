@@ -57,7 +57,11 @@ import WordBox from '../components/WordBox.vue'
       sourceName: String,
       wordInOrder: Number
     },
-    
+    watcher: {
+      crossword: {
+
+      }
+    },
     created: function () {
       this.tempFunc()
     },
@@ -72,7 +76,7 @@ import WordBox from '../components/WordBox.vue'
         this.$emit("sendPosition", event)
         console.log("Event from Crossword" + event)
       },
-      updateLayout: function() {
+      updateLayout: function(event) {
         this.on("updateLayout", event)
         this.$set(this.crossword[this.occupiedPosition.y][this.occupiedPosition.x], this.crossword[this.occupiedPosition.y][this.occupiedPosition.x].letter, event.key)
       }
