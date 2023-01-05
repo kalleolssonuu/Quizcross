@@ -1,5 +1,4 @@
 <template>
-
   <header>
     <div class="logo">Quizcross</div>
     <button class="language" v-on:click="switchLanguage">{{uiLabels.changeLanguage}}</button>
@@ -27,7 +26,6 @@
         <input v-for="(_, i) in answers" 
                v-model="answers[i]" 
                v-bind:key="'answer'+i">
-
         <button v-on:click="addAnswer">
           Add answer alternative
         </button>

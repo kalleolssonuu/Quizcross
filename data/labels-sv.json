@@ -33,5 +33,12 @@
 	"confirmCreate": "Bekräfta och skapa korsordet",
 
 	"//PreCreateView": "Här är PreCreateViews översättningar",
-	"confirmAndCreate": "Spara och spela"
+	"confirmAndCreate": "Spara och spela",
+
+	"//ActualPlayView": "Här är ActualPlayviews översättningar",
+	"inputDirectionHorizontal": "Horisontell",
+	"inputDirectionVertical": "Vertikal",
+	"horizontalWords": "Horisontella ord:",
+	"verticalWords": "Vertikala ord:",
+	"finishedGame": "Avsluta spel"
 }

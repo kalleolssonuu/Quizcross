@@ -34,6 +34,10 @@
 	"//PreCreateView": "Här är PreCreateViews översättningar",
 	"confirmAndCreate": "Confirm and create",
 
-	"//PlayView": "Här är PlayViews översättningar"
-
+	"//ActualPlayView": "Här är ActualPlayviews översättningar",
+	"inputDirectionHorizontal": "Horisontell",
+	"inputDirectionVertical": "Vertikal",
+	"horizontalWords": "Horizontal words:",
+	"verticalWords": "Vertical words:",
+	"finishedGame": "Quit crossword"
 }

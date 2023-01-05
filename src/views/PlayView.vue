@@ -2,9 +2,9 @@
 <header>
   <div>
       <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
-      <button v-on:click="togglePopup"></button>
+        <button v-on:click="togglePopup"></button>
       </Modal>
-    </div>
+  </div>
 </header>
 
   Change input direction: <!-- uiLabels + layout-fix -->
@@ -13,7 +13,9 @@
   </button>
 
   <div id="div2">
-        <Crossword  v-bind:sourceName="this.sourceName"
+        <Crossword  v-on:sendPosition="this.storePosition($event)"
+        
+                    v-bind:sourceName="this.sourceName"
                     v-bind:crossword="this.userCrossword"
                     v-bind:matrixDims="this.matrixDims"
                     v-bind:word="this.word"    
@@ -82,12 +84,12 @@ export default {
         occupiedPosition: {x: null, y: null},
        
         crossword: {actual: {posList: [], 
-                                   startPos: {x: 0, 
-                                              y: 0
-                                             }
-                                  }, 
-                          temp: []
-                         },
+                             startPos: {x: 0, 
+                                        y: 0
+                                       }
+                            }, 
+                    temp: []
+                    },
         userCrossword: [],
 
         showModal: false,
@@ -201,6 +203,14 @@ export default {
           } else {
             this.inputDirection = "Horizontal"
           }
+        },
+
+        storePosition: function (event) {
+          this.occupiedPosition.x = event.x
+          this.occupiedPosition.y = event.y
+          console.log("Occupied position test: " + this.occupiedPosition)
+          console.log("... x = " + this.occupiedPosition.x)
+          console.log("... y = " + this.occupiedPosition.y)
         },
 
         switchLanguage: function() {
