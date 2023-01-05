@@ -1,12 +1,28 @@
  <template>
 
-  <div class="letterbox" :class="{ 'selected': selected }" 
-  @click="testClick">
-    <span id="number-horiz" v-if="isFirstLetter && inHorizontal"> {{ wordInOrder }} </span>
-    <span id="number-vert" v-if="isFirstLetter && inVertical"> {{ wordInOrder }} </span>
-    {{letter}}
-  </div>
+  <div id="WordBoxBody">
 
+    <div v-if="this.letter != null && this.sourceName" id="notNullLetter" @click="testClick">
+
+      <!-- 
+
+      <button v-if="!this.enableWordButtons" class="button-disabled" disabled> Confirm </button>
+      <button v-else v-on:click="this.confirmWord"> Confirm </button>
+
+      <button v-if="!this.enableWordButtons" class="button-disabled" disabled> Discard </button>
+      <button v-else v-on:click="this.discardWord"> Discard </button> 
+    
+    -->
+
+        <!-- här måste jag på nåt sätt veta vilket ord i ordningen det är så att rätt siffra kan skrivas ut mha nån funktion.
+            crossword.vue är väl föräldern i det här fallet? har den något som kan skickas ner till barnet kanske-->
+
+        <span id="number" v-if="isFirstLetter"> {{ wordInOrder }} </span>
+        {{ letter }}
+
+
+    </div>
+  </div>
 
  </template>
 
@@ -17,7 +33,6 @@
     data: function() {
       return {
         name: 'WordBox',
-        selected: false,
       }
     },
     props: {
@@ -41,13 +56,9 @@
         } else {
           alert("test noclick")
         }
-        this.selected = !this.selected
       },
       occupyWordBox: function () {
-        /* Den här positionen är kopplad till ett eller två ord. Utifrån angiven riktning vill vi börja skriva och matcha bokstav för bokstav
-          med det ord som är 'osynligt' på de positionerna. Om vi matchar = visa ordet för användaren och ge poäng. 
-          Sätt färg på rutan efter vilken användare det är, och markera den som ockuperad. 
-          this.$emit(this.xkey, this.ykey) */
+
       }
     }
 }
@@ -56,8 +67,6 @@
 
 
 <style>
-
-
 
 /* .letterbox {
   background-color: rgb(250, 244, 192);
@@ -69,31 +78,24 @@
   border: black 0.15rem solid;
 } */
 
-.selected {
-  background-color: rgb(245, 236, 159);
+#nullLetter {
+  background-color: red;
 }
 
-.letterbox:empty {
-  background-color: white;
-  /* background-color: #A7CAB1; */
+#notNullLetter {
+  background-color: green;
+  height: 100%;
+  width: 100%;
 }
 
 .letterbox:hover {
   cursor: pointer;
 }
 
-#number-horiz{
+#number{
   font-size: 1rem;
   position:absolute;
   margin-left: -0.6rem;
-  z-index: 1;
-}
-
-#number-vert{
-  font-size: 1rem;
-  position:absolute;
-  margin-left: -0.6rem;
-  margin-bottom: 0.3rem;
   z-index: 1;
 }
 

@@ -1,40 +1,36 @@
 <template>
 <header>
   <div>
-      <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage">
+      <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
       <button v-on:click="togglePopup"></button>
       </Modal>
     </div>
 </header>
 
-  Change input direction: 
-  <button id="changeDirection" v-on:click="changeDirection">
+  Change input direction: <!-- uiLabels + layout-fix -->
+  <button v-on:click="changeDirection">
     {{ inputDirection }}
   </button>
 
-  <div id="div2"> 
+  <div id="div2">
         <Crossword  v-bind:sourceName="sourceName"
-                    v-bind:wordPositions="this.wordPositions" 
+                    v-bind:wordPositions="this.userCrossword"
                     v-bind:matrixDims="this.matrixDims"
                     v-bind:word="this.word"    
-                    v-bind:desc="this.desc"
-                    > 
-                    
-                    <!-- v-bind:wordPositions="data.allCrosswords.ID.wordPositions" -->
-                    <!-- v-bind:matrixDims="data.allCrosswords.ID.matrixDims" -->
-        </Crossword> <!-- hur få ut rätt word och desc? Typ for-loop "for crosswordpackages.word, gör det ovan"  -->
+                    v-bind:desc="this.desc"> 
+        </Crossword>
   </div>
 
   <!-- JESSIE: FIXA SÅ SKICKAR ETT PAKET INTE ALLA, SE ANTECK I LOBBY -->
   <div class ="wordDescriptionWrapper"> 
     <ol id="horizontalDescriptions">
-      {{uiLabels.horizontalWords}}
+      <u>Horisontella ord</u> <!-- lägg till i uiLabels-->
       <li>pajas</li>
       <li>motsats till nej</li>
       <li>tung artilleripjäs</li>
     </ol>
     <ol id="verticalDescriptions">
-      {{uiLabels.verticalWords}}
+      <u>Vertikala ord</u>
       <li>sängklädesplagg</li>
     </ol>
     </div>
@@ -52,7 +48,7 @@
     
   </div>
 
-   <button id="finishedGame" @click="$router.push('/lobby/'+lang)">{{uiLabels.finishedGame}}</button>  
+   <button id="finishedGame" @click="$router.push('/lobby/'+lang)">{{'Avsluta spel'}}</button>  
   
 </template>
 
@@ -64,7 +60,7 @@ import Crossword from '../components/Crossword.vue'
   const socket = io();
 
 export default {
-    name: 'CreateCrosswordView',
+    name: 'PlayView',
     components: {
         Crossword,
         Modal
@@ -96,25 +92,39 @@ export default {
       socket.emit('pageLoaded')
       socket.on("init", (labels) => {
       this.uiLabels = labels
-      });
+    })
       socket.on("dataUpdate", (data) =>
         this.data = data
       ),
       this.fillPremadeCrossword();
+      this.userCrossword = this.getUserCrossword()
 
       socket.on('currentCrosswordPackages', data => { // tar emot korsordsinfo från server, ursprung confirmCreate
         this.crosswordPackages = data}); 
-      /* this.loadUserCrossword() */
+      /* this.getUserCrossword() */
     },
 
     methods: {
-      loadUserCrossword: function () {
-        console.log("Inside of loadusercrossword")
-        this.userCrossword = JSON.parse(JSON.stringify(this.wordPositions.actual))
-        this.userCrossword.forEach((item, index) => {
-          item[index].letter = null
+      getUserCrossword: function () {
+        /* console.log("Inside of getUserCrossword") */
+
+                        console.log("JSON test: " + JSON.parse(JSON.stringify(this.wordPositions.actual)))
+
+        let tempUserCrossword = JSON.parse(JSON.stringify(this.wordPositions.actual))
+
+                        console.log("tempUserCrossword before nullify: " + tempUserCrossword)
+                        console.log("test get property-value before nullify: " + tempUserCrossword[0][0].letter)
+
+        tempUserCrossword.forEach((outerList) => {
+          outerList.forEach(element => {
+            element.letter = null
+          })
         })
-        console.log(this.userCrossword)
+
+                        console.log("tempUserCrossword after nullify: " + tempUserCrossword)
+                        console.log("test get property-value before nullify: " + tempUserCrossword[0][0].letter)
+
+        return tempUserCrossword
       },
       fillPremadeCrossword: function () {
           for (let v = 0; v < this.matrixDims.y; v++) {
@@ -124,7 +134,7 @@ export default {
               this.wordPositions.actual[v][h] = {letter: null, 
                                                   inHorizontal: false,
                                                   inVertical: false,
-                                                  isFirstLetter: false, 
+                                                  isFirstLetter: false,
                                                   wordInOrder: 1} /* if (wordInOrder != 0) { lägg till siffra i hörnet } */
               }
           }
@@ -187,7 +197,7 @@ export default {
   margin: 5%;
 }
 
-.wordDescriptioWrapper{
+.wordDescriptionWrapper{
   display: flex;
 }
 
@@ -220,7 +230,7 @@ export default {
   float:left;
 }
 
-#changeDirection {
+button {
     width: 10rem;
     height: 4rem;
     border-radius: 15px;
@@ -239,9 +249,23 @@ export default {
   position: absolute;
   left: 45%;
   background-color: #FE5F55;
-  border-color: #ba0c00;
   border-radius: 5px;
   color: white;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
+
+button {
+    width: 10rem;
+    height: 4rem;
+    border-radius: 15px;
+    border-color: #ba0c00;
+    margin: 1.5rem;
+    color: white;
+    background-color: #FE5F55;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 1rem;
+    cursor:pointer;
+    position: relative;   
+  }
+
 </style>
