@@ -139,7 +139,7 @@ export default {
       },
       enterLetterFromKeyPress: function (event) {
         console.log("Inuti event click handler, event.key = " + event.key) /* FUnKAR!! */
-        Vue.set(this.userCrossword[this.occupiedPosition.y, this.occupiedPosition.x].letter, event.key)
+        this.set(this.userCrossword[this.occupiedPosition.y, this.occupiedPosition.x].letter, event.key)
         
         console.log(this.userCrossword[this.occupiedPosition.y, this.occupiedPosition.x].letter)
       },
