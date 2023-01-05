@@ -8,7 +8,7 @@
     </header>
     
     <div id="crosswordArea">
-      <h2>{{ dimsX }}   x    {{ dimsY }}</h2>  
+        <h2>{{ dimsX }}   x    {{ dimsY }}</h2>   
         <div class="plusMinusWrapper" id="PlusMinusButtons">
 
     <button id="minusButton" v-on:click=decrease type="button">
@@ -19,25 +19,34 @@
     </button>
     </div>
     <Crossword  v-bind:sourceName="sourceName"
-                v-bind:wordPositions="this.wordPositions.actual"
-                v-bind:matrixDims="this.matrixDims">
-    </Crossword>
+                      v-bind:crossword="this.crossword.actual.posList"
+                      v-bind:matrixDims="this.matrixDims">
+          </Crossword>
         
     </div>
+
     <div class="nameWrapper" id="nameAndCreate">
             <br>
         <form id="gameNameAndSize">
             <div id="section1">
-                <form id="myForm">
-                    <input type="text" id="gameName" name="gameName" placeholder="Enter game name here...">
+                <form id="myForm">                    
+                    <input type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Enter game name here...">
                 </form>
             </div>
         </form>
-    <button v-on:click=submitDims id="confirmAndCreate" @click="$router.push('/CreateView/'+lang)">
+    
+    <!-- jessies testknapp
+    <button v-on:click="this.confirmNameDims()">
     {{uiLabels.confirmAndCreate}}
-    </button>
+    </button> -->
+
+    <button id="confirmAndCreate" @click="$router.push('/CreateView/'+lang+'/'+gameID+'/'+ JSON.stringify(matrixDims))">
+        {{uiLabels.confirmAndCreate}}
+    </button> 
+
     <button id="returnButton" @click="$router.push('/'+lang)">{{uiLabels.backButton}}</button>
 </div>
+
 </template>
     
     <script>
@@ -53,17 +62,27 @@
     },
     data: function () {
     return {
-    matrixDims: {x: 8, y: 8},
-    wordPositions: {actual: [], temp: []},
+    matrixDims: {x: 8, y: 8},    
+    x: 8,
+   y: 8,
+   crossword: {actual: {posList: [], 
+                                   startPos: {x: 0, 
+                                              y: 0
+                                             }
+                                  }, 
+                          temp: []
+                         },
     showModal: false,
         uiLabels: {},
-        // id: "",
-        lang: "en",
+        
+        gameID: "",   
+        lang: "",
         sourceName: "PreCreate"
     }
     },
     created: function(){
         this.lang = this.$route.params.lang;
+
       socket.emit('pageLoaded', this.lang)
       socket.on("init", (labels) => {
       this.uiLabels = labels
@@ -72,10 +91,18 @@
     },
 
     methods: {
-        submitDims() {
-        console.log("x: " + this.x + ", y: " + this.y);
-        console.log(this.matrixDims)
-        },
+        // submitDims() { 
+        // console.log("x: " + this.x + ", y: " + this.y);
+        // console.log(this.matrixDims)
+        // },
+
+
+
+        // storeValues() {
+        // this.matrixDims.x = this.x
+        // this.matrixDims.y = this.y
+        // this.fillPositionsNull()
+        // },
 
         increase: function() {
             this.matrixDims.x ++
@@ -92,22 +119,21 @@
         },
 
 
-        fillPositionsNull: function () { //tar x och y som inparametrar med input
-            this.wordPositions.actual = []
-            for (let v = 0; v < this.matrixDims.y; v++) {
-                this.wordPositions.actual[v] = [];
-                /* wordPositions = [[null, null, null, null]] */
-                for (let h = 0; h < this.matrixDims.x; h++) {
-                this.wordPositions.actual[v][h] = {letter: null, 
-                                                inHorizontal: false,
-                                                inVertical: false,
-                                                isFirstLetter: false, 
-                                                wordInOrder: this.wordInOrder} /* if (wordInOrder != 0) { lägg till siffra i hörnet } */
-                }
-            }
-
-            this.wordPositions.temp = []
-            console.log(this.wordPositions.actual)
+        fillPositionsNull: function () {
+          for (let v = 0; v < this.matrixDims.y; v++) {
+              this.crossword.actual.posList[v] = [];
+              /* crossword = [[null, null, null, null]] */
+              for (let h = 0; h < this.matrixDims.x; h++) {
+              this.crossword.actual.posList[v][h] = {letter: null, 
+                                                 inHorizontal: false,
+                                                 inVertical: false,
+                                                 isFirstLetter: false, 
+                                                 wordInOrder: null}
+              }
+          }
+  
+          this.crossword.temp = []
+          console.log(this.crossword.actual.posList)
         },
 
         switchLanguage: function() {
