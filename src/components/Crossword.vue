@@ -7,6 +7,8 @@
     <tr v-for="(list, ykey) in crossword" v-bind:key="'y' + ykey">
       <td v-for="(element, xkey) in list" v-bind:key="'x' + xkey">
         <WordBox
+          v-on:PositionFromBox="this.sendPositionToPlayView($event)"
+
           v-bind:xkey="xkey" 
           v-bind:ykey="ykey" 
           v-bind:letter="element.letter"
@@ -63,6 +65,10 @@ import WordBox from '../components/WordBox.vue'
       },
       testLog: function() {
         console.log("test")
+      },
+      sendPositionToPlayView: function (event) {
+        this.$emit("sendPosition", event)
+        console.log("Event from Crossword" + event)
       }
     },
   }
