@@ -2,9 +2,9 @@
 <header>
   <div>
       <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
-      <button v-on:click="togglePopup"></button>
+        <button v-on:click="togglePopup"></button>
       </Modal>
-    </div>
+  </div>
 </header>
 
   Change input direction: <!-- uiLabels + layout-fix -->
