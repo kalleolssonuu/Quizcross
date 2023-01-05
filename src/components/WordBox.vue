@@ -18,7 +18,7 @@
       
   </div>
 
-  <div v-else-if="(this.sourceName == 'PreCreate')" class="box" @click="testClick">
+  <div v-else-if="(this.sourceName == 'PreCreate')" class="box">
     <div class="box letter">
       
     </div>
