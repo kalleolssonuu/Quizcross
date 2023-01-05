@@ -150,7 +150,8 @@ export default {
           if (this.crossword.actual.posList[this.occupiedPosition.y][this.occupiedPosition.x + 1].letter != null ||
               this.crossword.actual.posList[this.occupiedPosition.y][this.occupiedPosition.x + 1].letter != undefined) {
             this.occupiedPosition.x++
-          }
+          } /* Om BACKSPACE, rensa? Därefter rensa + gå tillbaka ett steg */
+            /* Möjligtvis kolla en massa olika knappar, typ piltangenter osv. */
 
         } else {
           this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].letter = event.key.toUpperCase()
@@ -169,7 +170,7 @@ export default {
               if (typeof(this.crossword.actual.posList[v][h].letter) == "string") {
                 this.crossword.actual.posList[v][h].letter = JSON.parse(JSON.stringify(this.crossword.actual.posList[v][h].letter.toUpperCase()))
               }
-              
+
               if (this.crossword.actual.posList[v][h].letter != this.userCrossword[v][h].letter) {
                 allMatchesCorrect = false
               }
