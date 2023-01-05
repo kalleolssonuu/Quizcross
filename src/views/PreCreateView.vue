@@ -8,7 +8,7 @@
     </header>
     
     <div id="crosswordArea">
-        <h2>{{ dimsX }}   x    {{ dimsY }}</h2>   
+        <h2>{{ matrixDims.x }}   x    {{ matrixDims.y }}</h2>   
         <div class="plusMinusWrapper" id="PlusMinusButtons">
 
     <button id="minusButton" v-on:click=decrease type="button">
@@ -167,10 +167,7 @@
     }
 
     #nameAndCreate {
-    float: left;
-    width: 25%;
     justify-content: center;
-    margin-top: 10%;
     }
 
     #confirmAndCreate {
@@ -207,10 +204,8 @@
         position: absolute;
         }
     .nameWrapper{
-    display: flex;
+    display: relative;
     justify-content: center;
-    height: 15rem;
-    width: 20rem;
   }
 
   .XYWrapper{

@@ -42,6 +42,7 @@
         dimsX: String(40 / this.matrixDims.x) + "rem",
         dimsY: String(40 / this.matrixDims.y) + "rem",
         borderSize: String((40 / this.matrixDims.y) / 34) + 'rem',
+        outerBorderSize: String((40 / this.matrixDims.y) / 50) + 'rem',
         fontSize: String((40 / this.matrixDims.y) * 0.4) + 'rem',
         numberSize: String((40 / this.matrixDims.y) * 0.3) + 'rem'
       }
@@ -85,6 +86,7 @@
     element.style.setProperty('--dimsX', this.dimsX);
     element.style.setProperty('--dimsY', this.dimsY);
     element.style.setProperty('--borderSize', this.borderSize);
+    element.style.setProperty('--outerBorderSize', this.outerBorderSize);
     element.style.setProperty('--fontSize', this.fontSize);
     element.style.setProperty('--numberSize', this.numberSize);
     console.log(this.matrixDims)
@@ -109,7 +111,6 @@
   /* min-height: var(--dimsY); */
   width: var(--dimsX);
   height: var(--dimsY);
-  border: #A7CAB1 0.15rem solid;
 }
 
 .box.letter {
@@ -164,5 +165,7 @@
   align-items: center;
   z-index: 1;
 }
+
+
 
 </style>
