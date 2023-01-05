@@ -4,22 +4,26 @@
 	"playCross": "Spela",
 
 	
-	"//LobbyView": "Här är LobbyViews översättningar",
-	"userCreatedGames": "Användarskapade spel",
-	"myGamesLang": "Mina spel",
+	"//lobbyView": "Här är LobbyViews översättningar",
+	"gameList": "Alla korsord",
 	"selectedGameLang": "Valt spel: ",
 	"crossID": "Korsords-ID",
 	"playPlay": "Spela",
 	"create": "Skapa",
 	"backButton": "Tillbaka",
+	"participateGame": "Participate in Game",
 
 	"//PopUp": "Här är PopUps översättningar",
 	"whatIsQC": "Tryck på 'Skapa' för att skapa ett nytt korsord!\nTryck på 'Spela' för att välja ett korsord att spela",
-	"pageDescriptionPlayView": "Välj bland förskapade och egenskapade korsord. Tryck sedan på 'Spela' för att lösa korsordet.\n Tryck på 'Skapa' om du vill skapa ett nytt korsord",
+	"pageDescriptionLobbyView": "Välj bland förskapade och egenskapade korsord. Tryck sedan på 'Spela' för att lösa korsordet.\n Tryck på 'Skapa' om du vill skapa ett nytt korsord",
 	"pageDescriptionCreateView":"Fyll i ord med motsvarande beskrivning och lägg till i korsordet. Använd knapparna 'Visa nästa och 'Visa senaste' för att bestämma ordets plats i korsordet.",
 	"pageDescriptionPreCreateView": "Använd + och - knapparna för att välja den önskade storleken på ditt korsord",
+	"pageDescriptionPlayView": "Välj riktning och...",
+	
 
-	"//CreateCrosswordView": "Här är CreateCrosswordViews översättningar",
+
+
+	"//CreateView": "Här är CreateCrosswordViews översättningar",
 	"yourWord": "Ditt ord:",
 	"wordDescription": "Beskrivning:",
 	"addWord": "Lägg till ordet i korsordet",

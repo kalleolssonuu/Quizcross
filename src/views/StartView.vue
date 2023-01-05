@@ -1,4 +1,5 @@
 <template>
+
   <header>
     <div>
       <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
@@ -6,19 +7,21 @@
       </Modal>
     </div>
   </header>
+
   <div id="homepic">
     <div class="logo"><img src="/img/Logotyp.png"></div>
   </div>
+
   <div class="wrapper">
     <!-- <button id="play" @click="$router.push('/actualPlay/'+lang)">{{'Actual PlayView'}}</button> -->
-    <button id="play" @click="$router.push('/preCreate/'+lang)">{{uiLabels.createCross}}</button>
-    <button id="play" @click="$router.push('/lobby/'+lang)">{{uiLabels.playCross}}</button>
+    <button id="play" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.createCross}}</button>
+    <button id="play" @click="$router.push('/Lobby/'+lang)">{{uiLabels.playCross}}</button>
     <!-- <button id="play" @click="$router.push('/CreateView/'+lang)">{{'Göra korsord test'}}</button> -->
   </div>
 
   <audio ref="audioPlayer" src="01 Manboy.m4a"></audio>
   <button @click="togglePlayback">
-    {{ playbackToggle ? 'Pause Music' : 'Play Music' }}
+    {{ playbackToggle ? 'Pause Music': 'Play Music' }}
   </button>
 
 </template>
@@ -39,7 +42,7 @@ export default {
   data: function () {
     return {
       uiLabels: {},
-      id: "",
+      
       lang: "en",
       showModal: false,
       sourceName: 'StartView',
@@ -54,7 +57,7 @@ export default {
     });
   },
   methods: {
-    switchLanguage: function() {
+    switchLanguage: function() {  
       if (this.lang === "en")
         this.lang = "sv"
       else

@@ -5,23 +5,24 @@
 
 
 	"//LobbyView": "Här är LobbyViews översättningar",
-	"userCreatedGames": "User created games",
-	"myGamesLang": "My games",
+	"gameList": "All crosswords",
 	"selectedGameLang": "Selected game: ",
 	"crossID": "Crossword ID",
 	"playPlay": "Play",
 	"create": "Create",
 	"backButton": "Back",
+	"participateGame": "Delta i spel",
 
 
 	"//PopUp": "Här är PopUps översättningar",
 	"whatIsQC": "Press 'Create' to create a new crossword. Press 'Play' to choose a crossword to play",
-	"pageDescriptionPlayView": "Choose between user created crosswords and your own crosswords. Press 'Play' to solve the chosen crossword. Press 'Create' to create a new crossword",
+	"pageDescriptionLobbyView": "Choose between user created crosswords and your own crosswords. Press 'Play' to solve the chosen crossword. Press 'Create' to create a new crossword",
 	"pageDescriptionCreateView":"Enter a word and a description and add the word to the crossword. Use the 'Show next' and 'Show previous' buttons to place the word where you want it.",
 	"pageDescriptionPreCreateView": "Use the + and - buttons to choose the desired size of your crossword",
+	"pageDescriptionPlayView": "Choose direction and...",
 
 
-	"//CreateCrosswordView": "Här är CreateCrosswordViews översättningar",
+	"//CreateView": "Här är Views översättningar",
 	"yourWord": "Your word:",
 	"wordDescription": "Word description:",
 	"addWord": "Add word to crossword",

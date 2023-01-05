@@ -29,6 +29,7 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(hotMiddleware(compiler, {
       log: console.log
   }));
+  
 }
 else {
   app.use(express.static(path.join(__dirname, 'dist/')));
