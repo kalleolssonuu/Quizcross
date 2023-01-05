@@ -120,19 +120,20 @@
 
 
         fillPositionsNull: function () {
-          for (let v = 0; v < this.matrixDims.y; v++) {
-              this.crossword.actual.posList[v] = [];
-              /* crossword = [[null, null, null, null]] */
-              for (let h = 0; h < this.matrixDims.x; h++) {
-              this.crossword.actual.posList[v][h] = {letter: null, 
-                                                 inHorizontal: false,
-                                                 inVertical: false,
-                                                 isFirstLetter: false, 
-                                                 wordInOrder: null}
-              }
-          }
+            this.crossword.actual.posList = []
+            
+            for (let v = 0; v < this.matrixDims.y; v++) {
+                this.crossword.actual.posList[v] = [];
+                /* crossword = [[null, null, null, null]] */
+                for (let h = 0; h < this.matrixDims.x; h++) {
+                this.crossword.actual.posList[v][h] = {letter: null, 
+                                                    inHorizontal: false,
+                                                    inVertical: false,
+                                                    isFirstLetter: false, 
+                                                    wordInOrder: null}
+                }
+            }
   
-          this.crossword.temp = []
           console.log(this.crossword.actual.posList)
         },
 
