@@ -25,9 +25,6 @@
   </table>
 
 </div>
-<div class="letterbox">
-  Hej
-</div>
 </template>
   
 
@@ -40,8 +37,8 @@ import WordBox from '../components/WordBox.vue'
     data: function() {
       return {
         /* sourceName: "" */
-        dimsX: 1,
-        dimsY: 1
+        dimsX: '',
+        dimsY: ''
       }
     },
     name: 'CrossWord',
@@ -103,6 +100,9 @@ import WordBox from '../components/WordBox.vue'
   background-color: #A7CAB1;
   height: 40rem;
   width: 40rem;
+}
+table {
+  border-spacing: 0;
 }
 
 
