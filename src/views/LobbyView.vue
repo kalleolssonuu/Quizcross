@@ -145,9 +145,9 @@ export default{
   methods: {
    
     searchGame: function() {
-      this.shownGames = this.allGames.filter(item => item.toLowerCase().includes(this.searchTerm.toLowerCase));
+      this.shownGames = this.allGames.filter(item => item.toLowerCase().includes(this.searchTerm.toLowerCase()));
 
-      console.log("sökta spel" + this.shownGames)
+      console.log("sökta spel " + this.shownGames)
 
     },
 
