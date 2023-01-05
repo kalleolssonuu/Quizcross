@@ -1,4 +1,5 @@
 <template>
+
   <header>
     <div>
       <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
@@ -6,28 +7,22 @@
       </Modal>
     </div>
   </header>
+
   <div id="homepic">
     <div class="logo"><img src="/img/Logotyp.png"></div>
   </div>
+
   <div class="wrapper">
     <!-- <button id="play" @click="$router.push('/actualPlay/'+lang)">{{'Actual PlayView'}}</button> -->
-    <button id="play" @click="$router.push('/preCreate/'+lang)">{{uiLabels.createCross}}</button>
-    <button id="play" @click="$router.push('/lobby/'+lang)">{{uiLabels.playCross}}</button>
+    <button id="play" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.createCross}}</button>
+    <button id="play" @click="$router.push('/Lobby/'+lang)">{{uiLabels.playCross}}</button>
     <!-- <button id="play" @click="$router.push('/CreateView/'+lang)">{{'Göra korsord test'}}</button> -->
   </div>
 
-    <audio src="01 Manboy.m4a" controls>
-    <embed
-    src="01 Manboy.m4a"
-    loop="true"
-    height="0"
-    hidden>
-  </audio>
-
-  <div>
-    <button @click="playMusic">Play Music</button>
-    <audio ref="audio" src="01 Manboy.m4a"></audio>
-  </div>
+  <audio ref="audioPlayer" src="01 Manboy.m4a"></audio>
+  <button @click="togglePlayback">
+    {{ playbackToggle ? 'Pause Music': 'Play Music' }}
+  </button>
 
 </template>
 
@@ -47,10 +42,11 @@ export default {
   data: function () {
     return {
       uiLabels: {},
-      id: "",
+      
       lang: "en",
       showModal: false,
-      sourceName: 'StartView'
+      sourceName: 'StartView',
+      playbackToggle: false
     }
   },
 
@@ -59,10 +55,9 @@ export default {
     socket.on("init", (labels) => {
       this.uiLabels = labels
     });
-    console.log("created har anropats")
   },
   methods: {
-    switchLanguage: function() {
+    switchLanguage: function() {  
       if (this.lang === "en")
         this.lang = "sv"
       else
@@ -75,15 +70,11 @@ export default {
     togglePopup: function () {
       this.showModal = ! this.showModal;
     },
-    playMusic() {
-      if (this.isMusicPlaying) {
-        // stop music
-        this.isMusicPlaying = false;
-      } else {
-        // play music
-        this.isMusicPlaying = true;
-      }
-    },
+
+    togglePlayback() {
+      this.playbackToggle ? this.$refs.audioPlayer.pause() : this.$refs.audioPlayer.play();
+      this.playbackToggle = !this.playbackToggle;
+    }
   }
 }
 </script>

@@ -15,7 +15,7 @@ export default{
     },
     data: function(){
         return{
-
+            crosswordPack: {}
         }
     },
     methods:{
@@ -33,13 +33,13 @@ export default{
  background-color:#43918a;
  text-align: center;
  width: 90%;
- height: 2rem;
+ height: 4rem;
  cursor: pointer;
  border-width: 0ch;
  color:white;
  margin-left: 5%;
  margin-right: 5%;
- margin-top: 5%;
+ margin-top: 2%;
  font-family: "Comic Sans MS", "Comic Sans", cursive;
  font-size: medium;
  border-radius: 0.25rem;

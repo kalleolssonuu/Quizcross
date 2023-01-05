@@ -14,19 +14,19 @@ const routes = [
   },
 
     {
-    path: '/PreCreate/:lang',
+    path: '/PreCreate/:lang/',
     name: 'PreCreateView',
     component: () => import(/* webpackChunkName: "about" */ '../views/PreCreateView.vue')
   },
 
   {
-    path: '/ActualPlay/:lang',
-    name: 'ActualPlayView',
-    component: () => import(/* webpackChunkName: "about" */ '../views/ActualPlayView.vue')
+    path: '/PlayView/:lang/:gameID',
+    name: 'PlayView',
+    component: () => import(/* webpackChunkName: "about" */ '../views/PlayView.vue')
   },
 
   {
-    path: '/lobby/:lang',
+    path: '/Lobby/:lang',
     name: 'LobbyView',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -34,20 +34,22 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/LobbyView.vue')
   },
   {
-  path: '/CreateView/:lang',
-  name: 'CreateCrosswordView',
+  path: '/CreateView/:lang/:gameID/:dims',
+  name: 'CreateView',
   // route level code-splitting
   // this generates a separate chunk (about.[hash].js) for this route
   // which is lazy-loaded when the route is visited.
-  component: () => import(/* webpackChunkName: "about" */ '../views/CreateCrosswordView.vue')
+  component: () => import(/* webpackChunkName: "about" */ '../views/CreateView.vue')
   },
+
+
   {
-    path: '/result/:id',
+    path: '/result/:gameID',
     name: 'ResultView',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/ResultView.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/MickeResultView.vue')
   }
 ]
 

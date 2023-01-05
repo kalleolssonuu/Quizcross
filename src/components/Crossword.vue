@@ -1,55 +1,61 @@
 <template>
 <div>
-  
+  {{ matrixDims }}
+  {{ dimsX }}
+  {{ dimsY }}
   <table id="crosswordwrapper">
-    <tr v-for="(list, ykey) in wordPositions.actual" v-bind:key="'y' + ykey">
-        <td v-for="(element, xkey) in list" v-bind:key="'x' + xkey">
-          <WordBox class="letterbox" 
-            v-bind:xkey="xkey"
-            v-bind:ykey="ykey"
-            v-bind:letter="element.letter"
-            v-bind:inHorizontal="element.inHorizontal"
-            v-bind:inVertical="element.inVertical"
-            v-bind:isFirstLetter="element.isFirstLetter"
-            v-bind:sourceName="this.sourceName"
-            v-bind:wordInOrder="element.wordInOrder">
+    <tr v-for="(list, ykey) in crossword" v-bind:key="'y' + ykey">
+      <td v-for="(element, xkey) in list" v-bind:key="'x' + xkey">
+        <WordBox
+          v-on:PositionFromBox="this.sendPositionToPlayView($event)"
 
-          </WordBox> 
-        </td> 
+          v-bind:xkey="xkey" 
+          v-bind:ykey="ykey" 
+          v-bind:letter="element.letter"
+          v-bind:direction="element.direction"
+          v-bind:inHorizontal="element.inHorizontal"
+          v-bind:inVertical="element.inVertical"
+          v-bind:isFirstLetter="element.isFirstLetter"
+          v-bind:wordInOrder="element.wordInOrder"
+          v-bind:sourceName="this.sourceName"
+          v-bind:matrixDims="this.matrixDims">
+        </WordBox>
+      </td> 
     </tr>
   </table>
 
 </div>
+<div class="letterbox">
+  Hej
+</div>
 </template>
   
-  <script>
+
+
+<script>
+
 import WordBox from '../components/WordBox.vue' 
 
   export default {
     data: function() {
       return {
         /* sourceName: "" */
+        dimsX: String(40 / this.matrixDims.x) + "rem",
+        dimsY: String(40 / this.matrixDims.y) + "rem"
       }
-    },  
+    },
     name: 'CrossWord',
     components: {
-      WordBox, 
+      WordBox,
     },
     props: {
-      wordPositions: Object,
+      crossword: Array,
       matrixDims: Object,
       solutionsList: Object,
       sourceName: String,
-      wordInOrder: Number,
+      wordInOrder: Number
     },
-    mounted() {
-    /*   this.wordPositions.actual.forEach((item, yindex) => {
-        console.log("Outer wordPositions.actual index: " + yindex);
-        item.forEach((item, xindex) => {
-          console.log("Inner wordPositions.actual index: " + xindex)
-        })
-      }); */
-    },
+    
     created: function () {
       this.tempFunc()
     },
@@ -59,23 +65,21 @@ import WordBox from '../components/WordBox.vue'
       },
       testLog: function() {
         console.log("test")
+      },
+      sendPositionToPlayView: function (event) {
+        this.$emit("sendPosition", event)
+        console.log("Event from Crossword" + event)
       }
-    }
+    },
   }
   </script>
-  
-  <!-- Add "scoped" attribute to limit CSS to this component only -->
-  <style scoped>
 
-.letterbox {
-  background-color: rgb(250, 244, 192);
-  width: 95%;
-  height: 95%;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
-  font-weight: bold;
-  font-size: 2rem;
-  border: black 0.15rem solid;
-  color:black;
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+
+:root {
+  --dimsX: 1em;
+  --dimsY: 1em;
 }
 
 .letterbox:empty {
@@ -83,23 +87,17 @@ import WordBox from '../components/WordBox.vue'
   /* background-color: #A7CAB1; */
 }
 
-#crossword {
-  display: table;
-  height: 20rem;
-  width: 20rem;
-
-}
 
 #crosswordwrapper {
-  display: table;
-  table-layout: auto; 
-  margin: 0 auto;
+  table-layout: auto;
   justify-content: center;
   background-color: #A7CAB1;
-  height: 600px;
-  width: 600px;
-  max-height: 600px;
+  height: 40rem;
+  width: 40rem;
+  max-height: 40rem;
+  max-width: 40rem;
 }
+
 
   </style>
   

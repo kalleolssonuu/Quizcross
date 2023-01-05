@@ -5,9 +5,13 @@ const languages = ["en", "se"];
 // Store data in an object to keep the global namespace clean
 function Data() {
   this.polls = {};
-  this.crosses = {};
-  
-  this.crosswordPackages= {}; // här lagras varje korsordspaket med ID som key
+
+  this.occupiedWordboxes = null; // info om vilka rutor som är occupied i actualplayview
+
+  this.crosswordPackages = {}; // togs denna bort för att byta ut mot crosses? varför byttes ej namn i funktion?
+  this.crosses = {}; /* {userID: {crosswordID: {all info}
+                                 }
+                        } */
 }
 
 /***********************************************
@@ -28,11 +32,17 @@ Data.prototype.createPoll = function(pollId, lang="en") {
     poll.questions = [];
     poll.answers = [];
     poll.currentQuestion = 0;              
-    this.polls[pollId] = poll;
+    this.polls[pollId] = poll;  // här lagras polls så som våra lagras, med pollid
     console.log("poll created", pollId, poll);
   }
   return this.polls[pollId];
 }
+
+Data.prototype.getCrosswordFromID = function(userID, crosswordID) {
+  /* ta fram användarID på samma sätt som när ID:t skapas. Returnera korsord med crosswordID */
+  return this.crosses[crosswordID]
+}
+
 Data.prototype.playCross = function(playId, lang="en") {
   if (typeof this.crosses[playId] === "undefined") {
     let cross = {};
@@ -123,12 +133,30 @@ Data.prototype.getAllCrosswordPackages = function () { // returnerar info för a
 Data.prototype.getAllPackageInfoForLobby = function () { // returerar info för lobbyview
     // NÅNSTANS MÅSTE GAMENAME SKRIVAS IN!! NU BARA ID
   console.log("i data.getAllPackageInfoForLobby")
-  return Object.keys(this.crosswordPackages)
+  // return Object.keys(this.crosswordPackages)
+};
 
-}
+
+//FUNKTIONER FÖR UPPDATERADE POSITIONER I ACTUALPLAYVIEW
+Data.prototype.updateOccupied = function(d) {
+  
+  this.occupiedWordboxes = d;
+  
+  console.log(this.occupiedWordboxes)
+  
+};
+
+Data.prototype.getAllOccupied = function () {
+  console.log('i getAllOccupied')
+
+  
+ // this.occupiedWordboxes
+  return this.occupiedWordboxes
+};
 
 
 module.exports = Data;
+
 
 
 

@@ -3,15 +3,24 @@
     <div class="logo">Quizcross</div>
     <button class="language" v-on:click="switchLanguage">{{uiLabels.changeLanguage}}</button>
   </header>
+  
   <div>
+
+    <!-- här bestäms id för spelet -->
     Poll link: 
     <input type="text" v-model="pollId">
+
+
+      <!-- createpoll skickar in pollid och lang och  
+        TOMT poll skapas i server i lista this.polls med pollID som key -->
     <button v-on:click="createPoll">
       Create poll
     </button>
+
     <div>
       {{uiLabels.question}}:
       <input type="text" v-model="question">
+
       <div>
         Answers:
         <input v-for="(_, i) in answers" 
@@ -21,14 +30,20 @@
           Add answer alternative
         </button>
       </div>
+
     </div>
+
     <button v-on:click="addQuestion">
       Add question
     </button>
+
     <input type="number" v-model="questionNumber">
+    
     <button v-on:click="runQuestion">
       Run question
     </button>
+
+
     {{data}}
     <router-link v-bind:to="'/result/'+pollId">Check result</router-link>
   </div>
@@ -39,7 +54,7 @@ import io from 'socket.io-client';
 const socket = io();
 
 export default {
-  name: 'CreateView',
+  name: 'MickeCreateView',
   data: function () {
     return {
       lang: "",
@@ -52,7 +67,9 @@ export default {
     }
   },
   created: function () {
-    this.lang = this.$route.params.lang;
+    this.lang = this.$route.params.lang; // är detta att den sparar det aktuella språket som lang? 
+                                          //asså är det kvar sen sidan innan fattar ej
+                                          // ja verkar som det eftersom micke ej hade 
     socket.emit("pageLoaded", this.lang);
     socket.on("init", (labels) => {
       this.uiLabels = labels
@@ -62,7 +79,9 @@ export default {
     )
     socket.on("pollCreated", (data) =>
       this.data = data)
-  },
+      // data består av:  this.polls[pollId];
+  },  // som är ett tomt poll me pollid
+
   methods: {
     createPoll: function () {
       socket.emit("createPoll", {pollId: this.pollId, lang: this.lang })
