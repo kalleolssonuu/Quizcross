@@ -8,7 +8,8 @@
     </header>
     
     <div id="crosswordArea">
-      <h2>{{ dimsX }}   x    {{ dimsY }}</h2>  
+        <!-- ÄNDRAT -->
+      <h2>{{ dimsX }}   x    {{ dimsY }}</h2>   
         <div class="plusMinusWrapper" id="PlusMinusButtons">
 
     <button id="minusButton" v-on:click=decrease type="button">
@@ -19,9 +20,9 @@
     </button>
     </div>
     <Crossword  v-bind:sourceName="sourceName"
-                v-bind:wordPositions="this.wordPositions.actual"
-                v-bind:matrixDims="this.matrixDims">
-    </Crossword>
+                      v-bind:crossword="this.crossword.actual.posList"
+                      v-bind:matrixDims="this.matrixDims">
+          </Crossword>
         
     </div>
 
@@ -30,6 +31,7 @@
         <form id="gameNameAndSize">
             <div id="section1">
                 <form id="myForm">
+                    <!-- MIN ÄNDRING -->
                     <input type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Enter game name here...">
                 </form>
             </div>
@@ -40,6 +42,8 @@
     {{uiLabels.confirmAndCreate}}
     </button> -->
 
+    <!-- ÄNDRAT: men bara v:on:vlick submitdims, som jag tror bara loggar? -->
+    <!-- samt min ändring att ska pusha gameid till create -->
     <button id="confirmAndCreate" @click="$router.push('/CreateView/'+lang+'/'+gameID+'/'+ JSON.stringify(matrixDims))">
         {{uiLabels.confirmAndCreate}}
     </button> 
@@ -63,10 +67,20 @@
     data: function () {
     return {
     matrixDims: {x: 8, y: 8},
-    wordPositions: {actual: [], temp: []},
+    // ändrat:
+    x: 8,
+   y: 8,
+   crossword: {actual: {posList: [], 
+                                   startPos: {x: 0, 
+                                              y: 0
+                                             }
+                                  }, 
+                          temp: []
+                         },
     showModal: false,
         uiLabels: {},
         
+        // äbdrat mina ändringar
         gameID: "",   
         lang: "",
         sourceName: "PreCreate"
@@ -83,10 +97,18 @@
     },
 
     methods: {
-        submitDims() { // Används ej?
-        console.log("x: " + this.x + ", y: " + this.y);
-        console.log(this.matrixDims)
-        },
+        // submitDims() { 
+        // console.log("x: " + this.x + ", y: " + this.y);
+        // console.log(this.matrixDims)
+        // },
+
+        // ändrat, denna var förut: pls increase och decrease var annorlunda
+
+        // storeValues() {
+        // this.matrixDims.x = this.x
+        // this.matrixDims.y = this.y
+        // this.fillPositionsNull()
+        // },
 
         increase: function() {
             this.matrixDims.x ++
@@ -103,22 +125,21 @@
         },
 
 
-        fillPositionsNull: function () { //tar x och y som inparametrar med input
-            this.wordPositions.actual = []
-            for (let v = 0; v < this.matrixDims.y; v++) {
-                this.wordPositions.actual[v] = [];
-                /* wordPositions = [[null, null, null, null]] */
-                for (let h = 0; h < this.matrixDims.x; h++) {
-                this.wordPositions.actual[v][h] = {letter: null, 
-                                                inHorizontal: false,
-                                                inVertical: false,
-                                                isFirstLetter: false, 
-                                                wordInOrder: this.wordInOrder} /* if (wordInOrder != 0) { lägg till siffra i hörnet } */
-                }
-            }
-
-            this.wordPositions.temp = []
-            console.log(this.wordPositions.actual)
+        fillPositionsNull: function () {
+          for (let v = 0; v < this.matrixDims.y; v++) {
+              this.crossword.actual.posList[v] = [];
+              /* crossword = [[null, null, null, null]] */
+              for (let h = 0; h < this.matrixDims.x; h++) {
+              this.crossword.actual.posList[v][h] = {letter: null, 
+                                                 inHorizontal: false,
+                                                 inVertical: false,
+                                                 isFirstLetter: false, 
+                                                 wordInOrder: null}
+              }
+          }
+  
+          this.crossword.temp = []
+          console.log(this.crossword.actual.posList)
         },
 
         switchLanguage: function() {
