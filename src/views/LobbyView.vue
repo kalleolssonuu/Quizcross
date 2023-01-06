@@ -41,15 +41,15 @@
 
     </textarea>
 
-    <button id="playButton" @click="$router.push('/playView/'+lang+'/'+ gameID)"> 
+    <button id="playButton" v-on:click="emitGameChoice" @click="$router.push('/playView/'+lang+'/'+ gameID)"> 
       {{uiLabels.playPlay}}
     </button>    
   </div>
 
   <div>
-    {{"servertest av confirmCreate:"}}
-    <ul v-if="this.crosswordPackageInfo" >
-      {{this.crosswordPackageInfo}}   
+    {{"servertest:"}}
+    <ul v-if="this.crosswordnames" >
+      {{this.crosswordNames}}   
     </ul>
 
   </div>
@@ -70,7 +70,7 @@ export default{
     Game,
     Modal
   },
-  props: {
+    props: {
   modal: Object
 },
 
@@ -82,15 +82,15 @@ export default{
     socket.on("init", (labels) => {  // VAD GÖR DENNA FÖRSTÅ DET
       this.uiLabels = labels
     });
-    socket.on('currentPackageInfoForLobby', data => { // JESSIE ÄNDRA DET ENDA SOM SKA SKICKAS EFTER KLICK CONFIRMCREATE ÄR JU ID, LÖSA ME URL IST?
-        this.crosswordPackageInfo = data
+    socket.on('currentCrosswordNames', data => { 
+        this.crosswordNames= data
     }); 
 
   },  
 
   data: function() {
     return{
-      crosswordPackageInfo: null, // JESSIE ÄNDRA
+      crosswordNames: [], 
       gameID: "", 
       lang: "",
 
@@ -113,6 +113,14 @@ export default{
     }
   },
   methods: {
+
+    emitGameChoice: function() { // glöm ej ta in variabel som e inputtexten
+      
+
+      socket.emit("chosenGame", "hejhej"); // JESSIE ÄNDRA
+      console.log("I EMITGAMECHOICE")
+
+    },
    
     searchGame: function() {
       this.shownGames = this.allGames.filter(item => item.toLowerCase().includes(this.searchTerm.toLowerCase));

@@ -7,7 +7,7 @@
       </div>
   </header>
   
-  <button v-on:click="this.testUserID"> test IP ID </button>
+  <button v-on:click="this.testfunc"> test IP ID </button>
   
   
   <div id="div1" class="inputFieldWrapper">
@@ -145,7 +145,7 @@
           wordCollision: false,
           noMatches: false,
   
-          matrixDims: null,
+          matrixDims: {},
 
           crossword: {actual: {posList: [], 
                                    startPos: {x: 0, 
@@ -184,6 +184,13 @@
         this.fillPositionsNull()  // fyller matris
       },
       methods: {
+
+        testfunc: function() {
+          socket.emit('chosenGame',this.wordInOrder)
+
+          
+        },
+
         switchLanguage: function() {
           if (this.lang === "en")
             this.lang = "sv"
@@ -349,14 +356,18 @@
           alert("no matches! Try another word.")
         },
   
-        confirmCreateCrossword: function () {    //JESSIE ÄNDRA
-          socket.emit("emittedCrosswordPackage", {sourceName: this.sourceName,    // innehåll i paket ska ändras
-                                                    wordPositionActual: this.crossword.actual.posList,
-                                                    matrixDims: this.matrixDims,
-                                                    wordDescPairs: this.wordDescForPackage,
-                                                    })
-          console.log("i confirmCreateCrossword")
-        },
+        confirmCreateCrossword: function () {   // obs en del av variablerna kan nog sättas tidigare(om det föredras), kändes ba nice att ha allt samlas
+         this.crosswordPackage.crosswordName = this.gameID
+         this.crosswordPackage.crossword = this.crossword.actual.posList
+         this.crosswordPackage.matrixDims = this.matrixDims
+
+          // crosswordPackage: {crosswordName: "", kommer in från pre-create med mellanslag så det e nice
+          //                    crossword: [], måste göras i confirmcreate tänker jag, innan dess har man ju ej klara korsordet
+          //                    wordDesc: [], redan klar
+          //                    matrixDims: {}, kan göras tidigare men gör här 
+          //                    },
+          socket.emit("createdCrosswordPackage", this.crosswordPackage)
+         },
   
         fillPositionsNull: function () {
           for (let v = 0; v < this.matrixDims.y; v++) {

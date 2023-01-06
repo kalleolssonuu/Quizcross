@@ -36,21 +36,11 @@
     </div>
 
     <div>
-    {{"servertest av confirmCreate:"}}
+    {{"servertest:"}}
 
     <ul v-if="this.crosswordPackages" >
       {{Object.keys(this.crosswordPackages)}}
-
-      <!-- <li v-for="(item,key) in crossworPackages">
-        {{ this.crosswordPackages[ID].package.wordDescPairs }}
-      </li> -->
     </ul>
-
-        <!-- {{"servertest av uppdaterade positioner" }}
-    <ul v-if="this.occupiedWordboxes" >
-      {{this.occupiedWordboxes}}
-    </ul>
-     -->
     
   </div>
 
@@ -93,11 +83,9 @@ export default {
         showModal: false,
         uiLabels: {},
         id: "",
-        lang: "en",
+        lang: "",
         sourceName: "PlayView",
         inputDirection: "Horizontal",
-
-        crosswordPackages: null, // OBS SKICKAR JU NU ALLA PAKET DET ÄR FEL, VILL SKICKA ETT
       }
     },
     created: 
@@ -112,18 +100,9 @@ export default {
       this.fillPremadeCrossword();
       this.userCrossword = this.getUserCrossword()
 
-      // sockets för skapadet av korsord-ish
-      socket.on('currentCrosswordPackages', data => { // tar emot korsordsinfo från server, ursprung confirmCreate
-        this.crosswordPackages = data}); 
-        /* this.getUserCrossword() */
       
-      // OBS NEDAN KANSKE ONÖDIG, SKA JU FÅ ETT HELT NYTT KORSORD FRÅN DATA!!! 
-      //  - DVS GÅR SAMMA VÄG SOM TIDIGARE?
-      //  - samma socket som tidigare?
-      //  - alternativt ny socket pga nytt meddelande? även om det även i detta fall är ett helt korsord som skickas.
-      
-      // sockets för uppdaterande av ockuperade positioner vid spelande av korsord
-      socket.on("currentOccupied", data => {
+    
+      socket.on("currentOccupied", data => { // ursprung: annans playview
         this.occupiedWordboxes = data})
     },
 

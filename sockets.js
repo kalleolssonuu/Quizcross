@@ -52,22 +52,17 @@ function sockets(io, socket, data) {
     data = new Data();
     data.initializeData();
   });
-
-
+  
   
   // FUNKTIONER FÖR CROSSWORDPACKAGES:
-  socket.on('emittedCrosswordPackage', function(pack) {
-    data.addPackage(pack); // lägger till paket i this.crosswordPackages med ID som key
-    console.log("i socket.on");
+  socket.on('createdCrosswordPackage', function(d) {
+    data.addPackage(d); 
 
-    io.emit('currentCrosswordPackages', data.getAllCrosswordPackages() );      //"send updated info to all connected clients"
-    io.emit('currentPackageInfoForLobby', data.getAllPackageInfoForLobby() );  // Tror alltså den skickar info till ALLA clients som REDAN ÄR CONNECTADE
-                                                                               // dvs REDAN LYSSNAR PÅ AKTUELLA MEDDELLANDET
+    socket.emit('currentCrosswordNames', data.getCrosswordNames() ); // ska inte data d skickas in som argument????
+    io.emit('currentCrosswordNames', data.getCrosswordNames() ); // behöver väl ej skicka in något? anv bara info från this.crosspackages som redan är uppdaterad globalt
+                                                                             //dvs REDAN LYSSNAR PÅ AKTUELLA MEDDELLANDET
   });
-
   
-  socket.emit('currentCrosswordPackages', data.getAllCrosswordPackages() );    // skickar aktuella info when a client connects, dvs till playview och lobbyview   
-  socket.emit('currentPackageInfoForLobby', data.getAllPackageInfoForLobby() ); 
 
 
   // FUNKTIONER FÖR UPPDATERING AV POS NÄR KORSORD SPELAS
