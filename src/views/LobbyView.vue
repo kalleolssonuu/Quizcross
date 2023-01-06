@@ -33,6 +33,11 @@
     </div>
   </div>
 
+
+  <button class="standardButtonLobby" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.create}}</button>
+
+
+
   <div>
 
     <text id="selectadGameText">{{ uiLabels.selectedGameLang }}</text><br>
@@ -40,13 +45,13 @@
 
       </textarea>
                  
-    <button id="playButton" v-on:click="playCross" @click="$router.push('/PlayView/'+lang)">
+    <button class="standardButtonLobby" v-on:click="playCross" @click="$router.push('/PlayView/'+lang)">
       {{uiLabels.playPlay}}
     </button>
     
   </div>
 
-  <!-- <div>
+   <!-- <div>
      JESSIE: FIXA SÅ:
           - LOBBY, VID VAL AV KORSNAMN, SKICKAR KORSNAMN OCH ID TILL SERVER
           - SERVER KOLLAR VILKET PAKET SOM MATCHAR, ANTINGEN NAMN ELLER IDMATCH?
@@ -79,12 +84,12 @@
 
     </ul> 
 
-  </div> -->
+  </div>
+   -->
+  
+  <button class="standardButtonLobby" @click="$router.push('/'+lang)">{{uiLabels.backButton}}</button>
+ 
 
-
-  <button id="homepagebutton" @click="$router.push('/'+lang)">{{uiLabels.backButton}}</button>
-<!-- 
-  <button id="create" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.create}}</button> -->
 </template>
 
 <script> 
@@ -293,6 +298,30 @@ textarea {
   border-color: #2d635f;
 }
 
+#searchButton{
+  width: 7rem;
+  height: 1.5rem;
+  border-radius: 5px;
+  
+}
+.standardButtonLobby{
+    width: 5rem;
+    height: 1.8rem;
+    border-radius: 10px;
+    border-color: #ba0c00;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    margin-left: 0.5rem;
+    color: white;
+    background-color: #FE5F55;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 1rem;
+    cursor:pointer;
+    position: relative; 
+}
+.standardButtonLobby:hover{
+  opacity: 0.80;
+}
 #crossText{
   font-size: 1.25rem;
   width: 2rem;
@@ -305,19 +334,7 @@ textarea {
 #playButton{
   width: 5rem;
   height: 1.8rem;
-  border-radius: 5px;
-  text-align: center;
-  vertical-align: middle;
-  position: relative;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
-  font-size: 1rem;
-  background-color: #FE5F55;
-  color: #ffffff;
-  border-color: #ba0c00;
-  cursor: pointer;
-}
-#playButton:hover{
-  opacity: 75%;
+  border-radius: 10px;
 }
 
 #homepagebutton {
@@ -325,40 +342,18 @@ textarea {
   height: 2.5rem;
   bottom: 0;
   left: 0;
-  margin: 0.5rem;
-  background-color: #FE5F55;
-  border-color: #ba0c00;
-  border-radius: 10px;
-  color: white;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
-
 
 #play{
   width: 6rem;
   height: 2rem;
   border-radius: 15px;
-  border-color: #ba0c00;
-  margin: 1rem;
-  color: white;
-  background-color: #FE5F55;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
-  font-size: 15px;
-  cursor:pointer;
 }
 
-#create:hover{
-    background-color: #fb6d63;
-    
-  }
-  #play:hover{
-    background-color: #fb6d63;
-    
-  }
 
-  #select{
-    margin-top: -20px;
-  }
+#select{
+  margin-top: -20px;
+}
 .scroll::-webkit-scrollbar {
     width: 12px;
 }
