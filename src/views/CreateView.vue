@@ -36,11 +36,13 @@
         <img id="showSolutions" :src="uiLabels.showNext" v-on:click="this.showNextSolution">
       </div>
       
+      <button v-if="!this.enableWordButtons" class="standardButton disabled"  disabled style="width: 6rem;"> {{uiLabels.discard}} </button>
+      <button v-else v-on:click="this.discardWord" class="standardButton" style="width: 6rem;"> {{uiLabels.discard}} </button>
+
       <button v-if="!this.enableWordButtons" class="standardButton disabled"  disabled style="width: 6rem;"> {{uiLabels.confirm}} </button>
       <button v-else v-on:click="this.confirmWord" class="standardButton" style="width: 6rem;"> {{uiLabels.confirm}} </button>
   
-      <button v-if="!this.enableWordButtons" class="standardButton disabled"  disabled style="width: 6rem;"> {{uiLabels.discard}} </button>
-      <button v-else v-on:click="this.discardWord" class="standardButton" style="width: 6rem;"> {{uiLabels.discard}} </button>
+      
   
   
     </div>
@@ -63,6 +65,10 @@
             
             <button class="standardButton" v-on:click="this.confirmCreateCrossword" @click="$router.push('/Lobby/'+lang)"> <!-- JESSIE ÄNDRA SKICKA MED ID?????? -->
             {{uiLabels.confirmCreate}}  <!--JESSIE OBS OLIKA NAMN - Jessie igen: vet ej vad jag menade med denna kommentar --> 
+            </button>
+
+            <button class="standardButton"  @click="$router.push('/Lobby/'+lang)"> 
+            {{uiLabels.QuitGame}} 
             </button>
 
           </div>
@@ -470,6 +476,9 @@
     cursor:pointer;
     position: relative;   
   }
+  .standardButton:hover{
+    opacity: 0.75;
+  }
   
   .standardButton.disabled {
     opacity: 30%;
@@ -491,7 +500,8 @@
   }
   #div3 {
     float: left;
-    width: 25%;
+    width: 15%;
+    height: 25rem;
     justify-content: center;
     margin-top: 10%;
   }
