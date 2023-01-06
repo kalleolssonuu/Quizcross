@@ -7,12 +7,13 @@
     </div>
   </header>
   
-    Change input direction: <!-- uiLabels + layout-fix -->
+    
+  
+    <div id="div2">
+      Change input direction: <br><!-- uiLabels + layout-fix -->
     <button v-on:click="changeDirection">
       {{ inputDirection }}
     </button>
-  
-    <div id="div2">
           <Crossword  v-on:sendPosition="this.storePosition($event)"
                       v-on:updateLayout="this.updateLayout($event)"
           
@@ -26,17 +27,22 @@
   
     <!-- JESSIE: FIXA SÅ SKICKAR ETT PAKET INTE ALLA, SE ANTECK I LOBBY -->
     <div class ="wordDescriptionWrapper"> 
+  
       <ol id="horizontalDescriptions">
-        <u>Horisontella ord</u> <!-- lägg till i uiLabels-->
+        <div id="wordDescTop">Horisontella ord</div><br> <!-- lägg till i uiLabels-->
         <li>pajas</li>
         <li>motsats till nej</li>
         <li>tung artilleripjäs</li>
       </ol>
       <ol id="verticalDescriptions">
-        <u>Vertikala ord</u>
+        <div id="wordDescTop">Vertikala ord</div>
         <li>sängklädesplagg</li>
       </ol>
       </div>
+      <div>
+        <button id="finishedGame" @click="$router.push('/lobby/'+lang)">{{'Avsluta spel'}}</button>
+      </div>
+       
   
       <div>
       {{"servertest av confirmCreate:"}}
@@ -56,8 +62,7 @@
        -->
       
     </div>
-  
-     <button id="finishedGame" @click="$router.push('/lobby/'+lang)">{{'Avsluta spel'}}</button>  
+ 
     
   </template>
   
@@ -368,6 +373,13 @@
   
   .wordDescriptionWrapper{
     display: flex;
+    flex-direction: column;
+    float:right;
+    align-items: center;
+    height: 50rem;
+    width: 30rem;
+    margin-right: 10rem;
+    margin-top: 7rem;
   }
   
   #horizontalDescriptions{
@@ -397,6 +409,22 @@
     font-size: 20px;
     position: relative;
     float:left;
+  }
+  #wordDescTop{
+    width: 20rem;
+    height: 3rem;
+    border-radius: 5px;
+    border-color: #43918a;
+    margin-left: 5%;
+    color: #43918a;
+    background-color: white;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 2rem;
+    position: relative;
+    float:left;
+    margin:0.5rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
   }
   
   button {
