@@ -10,6 +10,8 @@ function Data() {
 
  this.crosswordPackages = {}; // 
  this.crossword = null;    // ersätts med nytt korsord varje gång
+ this.chosenID = null; // VARFÖR MÅSTE JAG LAGRA GLOBALT??? ALLTID "undefind" annars. se kommentarer i matchchosen
+                      // SKoja tror det löste sig? Ta bort dessa variabler sen, alltså gör dem lokala
 
 
   // this.crosses = {}; /* {userID: {crosswordID: {all info}
@@ -131,7 +133,7 @@ Data.prototype.getAnswers = function(pollId) {
 //   }
 //   return this.polls[pollId];
 
-// FUNKTIONER NÄR
+// FUNKTIONER NÄR CONFIRMCREATE
 Data.prototype.addPackage = function(d) {
  console.log("I addPckage")
 
@@ -153,6 +155,23 @@ Data.prototype.getCrosswordNames = function () {
   console.log(crosswordNames)
 
   return this.crosswordNames
+};
+
+//FUNKTIONER NÄR KLICK PLAY I LOBBY
+Data.prototype.matchChosen = function(d) {
+  console.log("I matchchasen")
+
+  this.chosenID = d;
+  let IDToMatch = this.chosenID.replace(/\s/g, '');
+ 
+  console.log("ID att matcha är:")
+  console.log(IDToMatch) 
+
+  let matchingCrossword = 
+  Object.entries(this.crosswordPackages).find(([ID, pack]) => ID === IDToMatch)
+
+  console.log("matchande korsord är")
+  console.log(matchingCrossword)
 };
 
 

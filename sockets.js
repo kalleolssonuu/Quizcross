@@ -54,7 +54,7 @@ function sockets(io, socket, data) {
   });
   
   
-  // FUNKTIONER FÖR CROSSWORDPACKAGES:
+  // FUNKTIONER FRÅN KLICK CONFIRMCRETAE
   socket.on('createdCrosswordPackage', function(d) {
     data.addPackage(d); 
 
@@ -62,6 +62,14 @@ function sockets(io, socket, data) {
     io.emit('currentCrosswordNames', data.getCrosswordNames() ); // behöver väl ej skicka in något? anv bara info från this.crosspackages som redan är uppdaterad globalt
                                                                              //dvs REDAN LYSSNAR PÅ AKTUELLA MEDDELLANDET
   });
+
+  // FUNKTIONER FRÅN KLICK PLAY I LOBBY
+
+  socket.on('chosenGame', function(d) {
+    data.matchChosen(d);
+
+  });
+
   
 
 

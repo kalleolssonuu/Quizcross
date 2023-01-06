@@ -186,7 +186,7 @@
       methods: {
 
         testfunc: function() {
-          socket.emit('chosenGame',this.wordInOrder)
+          socket.emit('chosenGame',"hejhej")
 
           
         },

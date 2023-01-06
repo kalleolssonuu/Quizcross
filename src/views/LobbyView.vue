@@ -41,7 +41,7 @@
 
     </textarea>
 
-    <button id="playButton" v-on:click="emitGameChoice" @click="$router.push('/playView/'+lang+'/'+ gameID)"> 
+    <button id="playButton" v-on:click="emitGameChoice()" @click="$router.push('/playView/'+lang+'/'+ gameID)"> 
       {{uiLabels.playPlay}}
     </button>    
   </div>
@@ -115,10 +115,8 @@ export default{
   methods: {
 
     emitGameChoice: function() { // glöm ej ta in variabel som e inputtexten
+      socket.emit("chosenGame", this.gameID ); // JESSIE ÄNDRA
       
-
-      socket.emit("chosenGame", "hejhej"); // JESSIE ÄNDRA
-      console.log("I EMITGAMECHOICE")
 
     },
    
