@@ -2,7 +2,7 @@
    <!-- ALL KOD FÖR POPUP-WINDOW-->
    <div class="header">
     <img id="flag" :src="uiLabels.changeLanguage" v-on:click="switchLanguage">
-    <span class="logo" v-if="sourceName != 'StartView'"> QUIZCROSS</span>
+    <span class="logoText" v-if="sourceName != 'StartView'"> QUIZCROSS</span>
    </div>
 
    <div class="modal-vue">
@@ -121,9 +121,9 @@ background-color: #e36f67;
     top: 0;
     left:0;
 }
-.logo {
+.logoText {
   /*letter-spacing: 0.25em;*/
-  font-size: 1.5rem;
+  font-size: 3rem;
   color: white;
   padding-top:0.1em;
   /*text-align: center;*/

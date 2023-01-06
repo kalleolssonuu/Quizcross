@@ -13,16 +13,16 @@
   <div id="div1" class="inputFieldWrapper">
             
       <div class="inputField"> <!-- måste emitta word så att vi kan använda -->
-        <h2>{{uiLabels.yourWord}}</h2>
-        <input v-if="this.lang == 'en'" type="text" id="wordInput" v-model="word" required="required" placeholder="Word here: ">
-        <input v-else type="text" id="wordInput" v-model="word" required="required" placeholder="Ord här: ">
+     
+        <input v-if="this.lang == 'en'" type="text" id="wordInput" v-model="word" required="required" placeholder="Enter a word...">
+        <input v-else type="text" id="wordInput" v-model="word" required="required" placeholder="Ge ett ord... ">
       </div>
       <br>
   
       <div class="inputField" style="display: inline-block">
-          <h2>{{uiLabels.wordDescription}}</h2>
-          <input v-if="this.lang == 'en'" type="text"  id="descInput" v-model="desc" required="required" placeholder="Description here: ">
-          <input v-else type="text" id="descInput" v-model="desc" required="required" placeholder="Beskrivning här: ">
+     
+          <input v-if="this.lang == 'en'" type="text"  id="wordInput" v-model="desc" required="required" placeholder="Enter a description... ">
+          <input v-else type="text" id="wordInput" v-model="desc" required="required" placeholder="Ge en beskrivning... ">
       </div>
       <br>
       
@@ -474,14 +474,7 @@
     cursor: default;
     background-color: #ba0c00;
   }
-  
-  #descInput {
-    height: 2rem;
-    width: 9rem;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-size: 1rem;
-    text-align: center; 
-  }
+
   
   #div1 {
     float: left;
@@ -557,10 +550,12 @@
    
   
     #wordInput {
-      height: 2rem;
-      width: 9rem;
+      height: 3rem;
+      width: 10rem;
+      text-align: center; 
       font-family: "Comic Sans MS", "Comic Sans", cursive;
       font-size: 1rem;
-      text-align: center; 
+      border-radius: 1rem;
+    
    }
   </style>

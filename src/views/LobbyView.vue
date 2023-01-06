@@ -35,8 +35,6 @@
 
 
   <div>
-    <text id="crossText">{{gameName}}</text> 
-    <input type="number" id="selectedid" placeholder="game name">
 
  
       <textarea readonly id="selectedGame">
