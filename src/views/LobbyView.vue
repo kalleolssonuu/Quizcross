@@ -347,12 +347,14 @@ textarea {
 }
 
 #homepagebutton {
+  width: 5rem;
+  height: 2.5rem;
   bottom: 0;
   left: 0;
   margin: 0.5rem;
   background-color: #FE5F55;
   border-color: #ba0c00;
-  border-radius: 5px;
+  border-radius: 10px;
   color: white;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
 }

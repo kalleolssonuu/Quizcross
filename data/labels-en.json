@@ -19,7 +19,7 @@
 	"whatIsQC": "Press 'Create' to create a new crossword. Press 'Play' to choose a crossword to play",
 	"pageDescriptionLobbyView": "Choose between user created crosswords and your own crosswords. Press 'Play' to solve the chosen crossword. Press 'Create' to create a new crossword",
 	"pageDescriptionCreateView":"Enter a word and a description and add the word to the crossword. Use the 'Show next' and 'Show previous' buttons to place the word where you want it.",
-	"pageDescriptionPreCreateView": "Use the + and - buttons to choose the desired size of your crossword",
+	"pageDescriptionPreCreateView": "Use the '+' and '-' buttons to choose the desired size of your crossword",
 	"pageDescriptionPlayView": "Choose direction and...",
 
 
@@ -36,7 +36,7 @@
 	"wordPlaceholder": "Word",
 
 	"//PreCreateView": "Här är PreCreateViews översättningar",
-	"confirmAndCreate": "Confirm and create",
+	"confirmAndCreate": "Create",
 
 	"//ActualPlayView": "Här är ActualPlayviews översättningar",
 	"inputDirectionHorizontal": "Horisontell",
