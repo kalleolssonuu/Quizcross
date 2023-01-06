@@ -9,34 +9,33 @@
     </Modal>
   </header>
 
-  <div class="gameWrapper">
-      <div id="allGamesList">
-        {{uiLabels.gameList}}
-          <div id="gameList">
-            <div class="scroll">
-            <Game v-for="game in games"
-              v-bind:game="game" 
-              v-bind:key="game.name"
-              v-on:selectedGame="selectGame($event)"/> 
-            </div>
 
-        <div class="wrapper">
-          <input v-if="this.lang == 'en'" v-model="searchTerm" id="searchInput" placeholder="Search for a game">
-          <input v-else v-model="searchTerm" id="searchInput" placeholder="Sök efter ett spel">
-          <button v-on:click="searchGame" id="searchButton" > Search game</button> <!-- är vore det fint med en sån där sök-ikon -->
-        </div>
+
+  <div class="gameWrapper">
+    <div id="allGamesList">
+      {{uiLabels.gameList}}
+        <div id="gameList">
+          <div class="scroll">
+          <div id="listOfGames" v-for="(game, key) in shownGames" :key="key">
+            
+          <button id="selectGameButtonStyle" v-on:click=selectGame(game)>
+            {{game}}
+          </button>
+          </div>
+
+          </div>
+      <div class="wrapper">
+    
+        <input v-on:keyup="searchGame" v-if="this.lang == 'en'" v-model="searchTerm" id="searchInput" placeholder="Search for a game">
+        <input v-on:keyup="searchGame" v-else v-model="searchTerm" id="searchInput" placeholder="Sök efter ett spel">
+      </div>
       </div>
     </div>
   </div>
 
-
-  <button id="create" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.create}}</button>
-
-
-
   <div>
 
- 
+    <text id="selectadGameText">{{ uiLabels.selectedGameLang }}</text><br>
       <textarea readonly id="selectedGame">
 
       </textarea>
@@ -47,25 +46,25 @@
     
   </div>
 
-  <div>
-    <!-- JESSIE: FIXA SÅ:
+  <!-- <div>
+     JESSIE: FIXA SÅ:
           - LOBBY, VID VAL AV KORSNAMN, SKICKAR KORSNAMN OCH ID TILL SERVER
           - SERVER KOLLAR VILKET PAKET SOM MATCHAR, ANTINGEN NAMN ELLER IDMATCH?
-          - SKICKAR MOTSVARANDE PAKET TILL ACTUALPLAY  -->
+          - SKICKAR MOTSVARANDE PAKET TILL ACTUALPLAY  
     {{"servertest av confirmCreate:"}}
     <ul v-if="this.crosswordPackageInfo" >
       {{this.crosswordPackageInfo}}   
     </ul>
     
-    <ul>
+    <ul> 
 
       <label>
         Write poll id: 
         <input type="text" v-model="id">
-      </label>
+      </label> 
 
-      <router-link v-bind:to="'/playView/'+id"> {{uiLabels.participateGame}} </router-link>
-      <!-- router-link is used to create links for navigating between routes 
+       <router-link v-bind:to="'/playView/'+id"> {{uiLabels.participateGame}} </router-link> 
+       router-link is used to create links for navigating between routes 
             - så eftersom id är dynamiskt blir det olika länkar beroende på vilket id som skrivs in, 
             - betyder det att den skapar nya playviews med varje nytt id?? 
             - Lösa:
@@ -76,19 +75,19 @@
               - användarid?
               - diskutera hur micke gör allt i servern i data!!! vi gör typ inget där men kanske ej behövs?
 
-      -->
+      
 
-    </ul>
+    </ul> 
 
-  </div>
+  </div> -->
 
 
   <button id="homepagebutton" @click="$router.push('/'+lang)">{{uiLabels.backButton}}</button>
+<!-- 
+  <button id="create" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.create}}</button> -->
 </template>
 
-<script>
-import Game from '../components/GameComponent.vue' 
-import gameInfo from '../assets/gameInfo.json'  
+<script> 
 import Modal from '../components/PopUp.vue'
 import io from 'socket.io-client'; 
 const socket = io();
@@ -96,7 +95,6 @@ const socket = io();
 export default{
   name: 'PlayView',
   components:{
-    Game,
     Modal
   },
   props: {
@@ -113,7 +111,11 @@ export default{
 
     socket.on('currentPackageInfoForLobby', data => { // tar emot korsordsinfo från server, ursprung confirmCreate
         this.crosswordPackageInfo = data
-    }); 
+    });
+    
+    this.shownGames = JSON.parse(JSON.stringify(this.allGames));
+
+  /*   window.addEventListener('keydown', this.searchGame) */
 
   },  
 
@@ -124,13 +126,11 @@ export default{
       
       gameName: "",
 
-      shownGames:["Hugos spel","Elins spel","Kung Charles spel","Emils spel"],
+      shownGames:[],
 
-      allGames: ["Hugos spel","Elins spel","Kung Charles spel","Emils spel"],
+      allGames: ["Hugos spel","Elins spel","Kung Charles spel","Emils spel", "Hugos spel","Elins spel","Kung Charles spel","Emils spel"],
 
       searchTerm: "",
-
-      games: gameInfo,
 
 
       selectedGame: {},
@@ -150,10 +150,8 @@ export default{
 
     },
 
-  selectGame: function (games){ 
-    console.log(this.selectedGame)
-    this.gameName=games.name;
-    document.getElementById("selectedGame").value=this.gameName;
+  selectGame: function (game){ 
+    document.getElementById("selectedGame").value=game;
    /*  document.getElementById("selectedid").value=games.id */
   },
   /* listenAddGame: function(games) {
@@ -181,55 +179,8 @@ togglePopup: function () {
 </script>
 
 <style>
-  .language{
-    height: 1rem;
-    width: 1rem;
-    cursor:pointer;
-    margin: 0.5rem;
-}
-  #flag {
-    width: 5rem;
-    height: 3.5rem;
-    border-radius: 20%;
-}
 
-header {
-  background-color: #A7CAB1;
-  width: 100%;
-  height: 33%;
-}
 
-/* #help {
-  height: 3rem;
-  width: 3rem;
-  background-color: #EEF5DB;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
-  font-size: 30px;
-  text-align: center;
-  cursor:pointer;
-  border-radius: 50%;
-  border-color: black;
-  position: absolute;
-  top: 0;
-  right:0;
-  margin: 0.5rem;
-
-} */
-
-.logo {
-  text-transform: uppercase;
-  letter-spacing: 0.25em;
-  font-size: 2.5rem;
-  color: white;
-  padding-top:0.2em;
-  text-align: center;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
-}
-.logo img {
-  height:2.5rem;
-  vertical-align: bottom;
-  margin-right: 0.5rem; 
-}
 .gameWrapper{
   display: flex;
   justify-content: center;
@@ -260,15 +211,15 @@ div.scroll {
           }
 
   #create {
-  width: 5rem;
-  height: 1.8rem;
-  border-radius: 10px;
+  width: 6rem;
+  height: 2rem;
+  border-radius: 15px;
   border-color: #ba0c00;
   margin: 1rem;
   color: white;
   background-color: #FE5F55;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
-  font-size: 1rem;
+  font-size: 15px;
   cursor:pointer;
 }
 textarea {
@@ -294,12 +245,40 @@ textarea {
   color: #43918a;
 }
 #selectedGame{
-  font-size: 1rem;
-  width: 8rem;
-  height: 2rem;
-  position: relative;
+  width: 10rem;
+  height: 1.5rem;
+  border-radius: 5px;
   text-align: center;
+  vertical-align: middle;
+  position: relative;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 1rem;
+  border-color: #2d635f;
 }
+
+#selectadGameText{  
+  font-size: 1.5rem;
+}
+
+#selectGameButtonStyle {
+ background-color:#43918a;
+ text-align: center;
+ width: 90%;
+ height: 4rem;
+ cursor: pointer;
+ border-width: 0ch;
+ color:white;
+ margin-left: 5%;
+ margin-right: 5%;
+ margin-top: 2%;
+ font-family: "Comic Sans MS", "Comic Sans", cursive;
+ font-size: medium;
+ border-radius: 0.25rem;
+}
+#selectGameButtonStyle:hover{
+    opacity: 75%;
+    
+  }
 
 #searchInput{
   width: 10rem;
@@ -314,12 +293,6 @@ textarea {
   border-color: #2d635f;
 }
 
-#searchButton{
-  width: 7rem;
-  height: 1.5rem;
-  border-radius: 5px;
-  
-}
 #crossText{
   font-size: 1.25rem;
   width: 2rem;
@@ -332,7 +305,7 @@ textarea {
 #playButton{
   width: 5rem;
   height: 1.8rem;
-  border-radius: 10px;
+  border-radius: 5px;
   text-align: center;
   vertical-align: middle;
   position: relative;
@@ -349,14 +322,13 @@ textarea {
 
 #homepagebutton {
   width: 5rem;
-  height: 1.8rem;
-  border-radius: 10px;
+  height: 2.5rem;
   bottom: 0;
   left: 0;
   margin: 0.5rem;
   background-color: #FE5F55;
   border-color: #ba0c00;
-  font-size: 1rem;
+  border-radius: 10px;
   color: white;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
@@ -379,15 +351,14 @@ textarea {
     background-color: #fb6d63;
     
   }
+  #play:hover{
+    background-color: #fb6d63;
+    
+  }
 
-#play:hover{
-  background-color: #fb6d63;
-  
-}
-
-#select{
-  margin-top: -20px;
-}
+  #select{
+    margin-top: -20px;
+  }
 .scroll::-webkit-scrollbar {
     width: 12px;
 }
