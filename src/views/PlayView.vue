@@ -81,7 +81,7 @@
         return {
           word: "",
           desc: "",
-          matrixDims: {x: 13, y: 10},
+          matrixDims: {x: 10, y: 10},
           occupiedPosition: {x: null, y: null},
           latestOccupied: {x: 0, y: 0},
          

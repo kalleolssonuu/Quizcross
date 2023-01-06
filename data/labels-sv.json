@@ -16,8 +16,8 @@
 	"//PopUp": "Här är PopUps översättningar",
 	"whatIsQC": "Tryck på 'Skapa' för att skapa ett nytt korsord!\nTryck på 'Spela' för att välja ett korsord att spela",
 	"pageDescriptionLobbyView": "Välj bland förskapade och egenskapade korsord. Tryck sedan på 'Spela' för att lösa korsordet.\n Tryck på 'Skapa' om du vill skapa ett nytt korsord",
-	"pageDescriptionCreateView":"Fyll i ord med motsvarande beskrivning och lägg till i korsordet. Använd knapparna 'Visa nästa och 'Visa senaste' för att bestämma ordets plats i korsordet.",
-	"pageDescriptionPreCreateView": "Använd + och - knapparna för att välja den önskade storleken på ditt korsord",
+	"pageDescriptionCreateView":"Fyll i ord med motsvarande beskrivning och lägg till i korsordet. Använd knapparna 'Nästa och 'Senaste' för att bestämma ordets plats i korsordet.",
+	"pageDescriptionPreCreateView": "Använd '+' och '-' knapparna för att välja den önskade storleken på ditt korsord",
 	"pageDescriptionPlayView": "Välj riktning och...",
 	
 
@@ -33,10 +33,10 @@
 	"confirmCreate": "Bekräfta och skapa korsordet",
 	"confirm": "Bekräfta",
 	"discard": "Kasta",
-	"wordPlaceholder": "Word",
+	"QuitGame": "Avsluta",
 
 	"//PreCreateView": "Här är PreCreateViews översättningar",
-	"confirmAndCreate": "Spara och spela",
+	"confirmAndCreate": "Skapa",
 
 	"//ActualPlayView": "Här är ActualPlayviews översättningar",
 	"inputDirectionHorizontal": "Horisontell",

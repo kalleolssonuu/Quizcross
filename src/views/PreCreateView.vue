@@ -18,10 +18,10 @@
     +
     </button>
     </div>
-    <Crossword  v-bind:sourceName="sourceName"
+        <Crossword  v-bind:sourceName="sourceName"
                       v-bind:crossword="this.crossword.actual.posList"
                       v-bind:matrixDims="this.matrixDims">
-          </Crossword>
+        </Crossword>
         
     </div>
 
@@ -175,10 +175,11 @@
         height: 5rem;
         bottom: 60%;
         right: 5%;
+        font-size: 25px;
         font-family: "Comic Sans MS", "Comic Sans", cursive;
         border-color: #ba0c00;
         background-color: #FE5F55;
-        border-radius: 15px;
+        border-radius: 20px;
         color: white;
         position: absolute;
     }
@@ -193,12 +194,14 @@
         position: absolute;
     }
     #returnButton {
-        bottom: 53%;
-        right: 18%;
+        width: 5rem;
+        height: 2.5rem;
+        bottom: 50%;
+        right: 16%;
         margin: 0.5rem;
         background-color: #FE5F55;
         border-color: #ba0c00;
-        border-radius: 5px;
+        border-radius: 10px;
         color: white;
         font-family: "Comic Sans MS", "Comic Sans", cursive;
         position: absolute;
@@ -235,9 +238,41 @@
         text-align: center;
     }
 
-    #minusButton, #plusButton {
-        height: 2rem;
-        width: 2rem;
+    #minusButton{
+        height: 2.5rem;
+        width: 4rem;
+        background-color: #FE5F55;
+        border-color: #ba0c00;
+        color: white;
+        font-size: 25px;
+        font-family: "Comic Sans MS", "Comic Sans", cursive;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        cursor: pointer;
+    }
+    #plusButton {
+        height: 2.5rem;
+        width: 4rem;
+        background-color: #FE5F55;
+        border-color: #ba0c00;
+        color: white;
+        font-size: 25px;
+        font-family: "Comic Sans MS", "Comic Sans", cursive;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+        cursor: pointer;
+    }
+    #plusButton:hover{
+        background-color: #fb6d63;
+    }
+    #minusButton:hover{
+        background-color: #fb6d63;
+    }
+    #returnButton:hover{
+        background-color: #fb6d63;
+    }
+    #confirmAndCreate:hover{
+        background-color: #fb6d63;
     }
 
     input::-webkit-outer-spin-button,

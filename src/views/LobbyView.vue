@@ -9,34 +9,32 @@
     </Modal>
   </header>
 
-<div class="gameWrapper">
-    <div id="allGamesList">
-      {{uiLabels.gameList}}
-        <div id="gameList">
-          <div class="scroll">
-          <Game v-for="game in games"
-            v-bind:game="game" 
-            v-bind:key="game.name"
-            v-on:selectedGame="selectGame($event)"/> 
-          </div>
-      <div class="wrapper">
-    
-        <input v-if="this.lang == 'en'" v-model="searchTerm" id="searchInput" placeholder="Search for a game">
-        <input v-else v-model="searchTerm" id="searchInput" placeholder="Sök efter ett spel">
-        <button v-on:click="searchGame" id="searchButton" > Search game</button> <!-- är vore det fint med en sån där sök-ikon -->
-      </div>
+  <div class="gameWrapper">
+      <div id="allGamesList">
+        {{uiLabels.gameList}}
+          <div id="gameList">
+            <div class="scroll">
+            <Game v-for="game in games"
+              v-bind:game="game" 
+              v-bind:key="game.name"
+              v-on:selectedGame="selectGame($event)"/> 
+            </div>
+
+        <div class="wrapper">
+          <input v-if="this.lang == 'en'" v-model="searchTerm" id="searchInput" placeholder="Search for a game">
+          <input v-else v-model="searchTerm" id="searchInput" placeholder="Sök efter ett spel">
+          <button v-on:click="searchGame" id="searchButton" > Search game</button> <!-- är vore det fint med en sån där sök-ikon -->
+        </div>
       </div>
     </div>
   </div>
 
 
-      <button id="create" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.create}}</button>
+  <button id="create" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.create}}</button>
 
 
 
   <div>
-    <text id="crossText">{{gameName}}</text> 
-    <input type="number" id="selectedid" placeholder="game name">
 
  
       <textarea readonly id="selectedGame">
@@ -262,15 +260,15 @@ div.scroll {
           }
 
   #create {
-  width: 6rem;
-  height: 2rem;
-  border-radius: 15px;
+  width: 5rem;
+  height: 1.8rem;
+  border-radius: 10px;
   border-color: #ba0c00;
   margin: 1rem;
   color: white;
   background-color: #FE5F55;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
-  font-size: 15px;
+  font-size: 1rem;
   cursor:pointer;
 }
 textarea {
@@ -297,7 +295,8 @@ textarea {
 }
 #selectedGame{
   font-size: 1rem;
-  width: 2rem;
+  width: 8rem;
+  height: 2rem;
   position: relative;
   text-align: center;
 }
@@ -333,7 +332,7 @@ textarea {
 #playButton{
   width: 5rem;
   height: 1.8rem;
-  border-radius: 5px;
+  border-radius: 10px;
   text-align: center;
   vertical-align: middle;
   position: relative;
@@ -349,12 +348,15 @@ textarea {
 }
 
 #homepagebutton {
+  width: 5rem;
+  height: 1.8rem;
+  border-radius: 10px;
   bottom: 0;
   left: 0;
   margin: 0.5rem;
   background-color: #FE5F55;
   border-color: #ba0c00;
-  border-radius: 5px;
+  font-size: 1rem;
   color: white;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
@@ -377,14 +379,15 @@ textarea {
     background-color: #fb6d63;
     
   }
-  #play:hover{
-    background-color: #fb6d63;
-    
-  }
 
-  #select{
-    margin-top: -20px;
-  }
+#play:hover{
+  background-color: #fb6d63;
+  
+}
+
+#select{
+  margin-top: -20px;
+}
 .scroll::-webkit-scrollbar {
     width: 12px;
 }
