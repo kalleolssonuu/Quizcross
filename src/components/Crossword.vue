@@ -19,6 +19,7 @@
           v-bind:inVertical="element.inVertical"
           v-bind:isFirstLetter="element.isFirstLetter"
           v-bind:wordInOrder="element.wordInOrder"
+          v-bind:isOccupied="element.isOccupied"
           v-bind:sourceName="this.sourceName"
           v-bind:matrixDims="this.matrixDims">
         </WordBox>

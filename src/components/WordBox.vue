@@ -4,13 +4,26 @@
       <div v-if="(!this.inHorizontal) && (!this.inVertical)" id="nullLetter">
         
       </div>
-      <div v-else class="box letter">
-            <div v-if="this.isFirstLetter" @click="testClick" id="clickable">
+      <div v-else >
+            <div v-if="this.isOccupied">
+              <div v-if="this.isFirstLetter" @click="testClick" id="clickable" class="box letter occupied">
                 <span id="number"> {{ wordInOrder }} </span>
                 {{ letter }}
-            </div>
-            <div v-else>
+              </div>
+              <div v-else class="box letter occupied">
                 {{ letter }}
+              </div>
+            </div>
+
+            <div v-else>
+              <div v-if="this.isFirstLetter" @click="testClick" id="clickable" class="box letter">
+                <span id="number"> {{ wordInOrder }} </span>
+                {{ letter }}
+              </div>
+              <div v-else class="box letter">
+                {{ letter }}
+              </div>
+              
             </div>
       </div>
   </div>
@@ -54,6 +67,7 @@
         inHorizontal: Boolean,
         inVertical: Boolean,
         isFirstLetter: Boolean,
+        isOccupied: Boolean,
         sourceName: String,
         wordInOrder: Number,
         matrixDims: Object
@@ -63,13 +77,8 @@
     },
     methods: {
       testClick: function() { /* ÄNDRA SENARE SÅ ATT ENDAST PlayView ÄR TILLÅTET SOM sourceName */
-        if ((this.sourceName == "CreateView" || this.sourceName == "PlayView") && this.isFirstLetter == true) {
-          alert("x coordinate: " + this.xkey + ", y coordinate: " + this.ykey)
-        } else {
-          alert("test noclick")
-        }
         this.$emit("PositionFromBox", {x: this.xkey, y: this.ykey})
-        console.log("Event from WordBox? : " + {x: this.xkey, y: this.ykey})
+        /* console.log("Event from WordBox? : " + {x: this.xkey, y: this.ykey}) */
       },
       occupyWordBox: function () {
 
@@ -128,10 +137,21 @@
   color: black;
 }
 
+.box.letter.occupied {
+  height: 100%;
+  width: 100%;
+  background-color: #FFFDD0;
+}
+
 #clickable {
   height: 100%;
   width: 100%;
   cursor: pointer;
+}
+
+div {
+  width: 100%;
+  height: 100%;
 }
 
 /* .letterbox {
@@ -165,7 +185,5 @@
   align-items: center;
   z-index: 1;
 }
-
-
 
 </style>

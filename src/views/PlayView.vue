@@ -83,15 +83,15 @@
           desc: "",
           matrixDims: {x: 13, y: 10},
           occupiedPosition: {x: null, y: null},
+          latestOccupied: {x: 0, y: 0},
          
-          crossword: {actual: {posList: [], 
-                               startPos: {x: 0, 
-                                          y: 0
-                                         }
-                              }, 
-                      temp: []
-                      },
+          crosswordAnswer: {posList: [], 
+                            startPos: {x: 0, 
+                                       y: 0
+                                      }  
+                           },
           userCrossword: [], 
+          firstMouseClick: true,
   
           showModal: false,
           uiLabels: {},
@@ -139,27 +139,122 @@
            // socket.emit('updatedOccupied', this.occupiedWordboxes )
             socket.emit('updatedOccupied', "hejhej" )
         },
-  
-  
+
+        storePosition: function (event) {
+
+          if (this.firstMouseClick) {
+            this.occupiedPosition.x = event.x
+            this.occupiedPosition.y = event.y
+            this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].isOccupied = true
+          } else {
+            this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].isOccupied = false
+            this.userCrossword[event.y][event.x].isOccupied = true
+          }
+
+          this.firstMouseClick = false
+
+          this.occupiedPosition.x = event.x
+          this.occupiedPosition.y = event.y
+
+          /* this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].isOccupied = true */
+
+          console.log("Position occupied? " + this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].isOccupied)
+
+          /* this.userCrossword[this.latestOccupied.y][this.latestOccupied.x].isOccupied = false */
+          /* rutan jag trycker på blir occupied */
+
+          console.log("Occupied position test: " + this.occupiedPosition)
+          console.log("... x = " + this.occupiedPosition.x)
+          console.log("... y = " + this.occupiedPosition.y)
+        },
+
         enterLetterFromKeyPress: function (event) {
           console.log("Inuti event click handler, event.key = " + event.key)
-  
-          if (this.inputDirection == "Horizontal" && typeof(event.key) == "string") {
-            this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].letter = event.key.toUpperCase()
-            
-            if (this.crossword.actual.posList[this.occupiedPosition.y][this.occupiedPosition.x + 1].letter != null ||
-                this.crossword.actual.posList[this.occupiedPosition.y][this.occupiedPosition.x + 1].letter != undefined) {
-              this.occupiedPosition.x++
-            } /* Om BACKSPACE, rensa? Därefter rensa + gå tillbaka ett steg */
-              /* Möjligtvis kolla en massa olika knappar, typ piltangenter osv. */
-  
-          } else {
-            this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].letter = event.key.toUpperCase()
-            if (this.crossword.actual.posList[this.occupiedPosition.y + 1][this.occupiedPosition.x].letter != null || 
-                this.crossword.actual.posList[this.occupiedPosition.y + 1][this.occupiedPosition.x].letter != undefined) {
-              this.occupiedPosition.y++
+
+
+            if ((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122)) {
+                if (this.inputDirection == "Horizontal" && typeof(event.key) == "string") {
+
+                  this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].letter = event.key.toUpperCase()
+                  console.log(this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].letter)
+
+                  if (this.crosswordAnswer.posList[this.occupiedPosition.y][this.occupiedPosition.x + 1].letter != null ||
+                      this.crosswordAnswer.posList[this.occupiedPosition.y][this.occupiedPosition.x + 1].letter != undefined) {
+
+                      this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].isOccupied = false
+                      this.occupiedPosition.x++
+
+                      this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].isOccupied = true
+                      this.firstMouseClick = false
+                  }
+                } else {
+                  this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].letter = event.key.toUpperCase()
+                  console.log(this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].letter)
+
+                  if (this.crosswordAnswer.posList[this.occupiedPosition.y + 1][this.occupiedPosition.x].letter != null || 
+                      this.crosswordAnswer.posList[this.occupiedPosition.y + 1][this.occupiedPosition.x].letter != undefined) {
+
+                      this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].isOccupied = false
+                      this.occupiedPosition.y++
+                      
+                      this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].isOccupied = true
+                      this.firstMouseClick = false
+                  }
+                }
+            } else if (event.key == "Backspace") {
+              if (this.inputDirection == "Horizontal") {
+                if ((this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x - 1].letter != null || /* om vi faktiskt har en bokstav bakåt */
+                     this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x - 1].letter != undefined) && 
+                     this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].letter == null) {
+
+                  this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x - 1].letter = null
+
+                  this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].isOccupied = false
+                  this.occupiedPosition.x--
+                  this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].isOccupied = true
+
+                } else if (this.crosswordAnswer.posList[this.occupiedPosition.y][this.occupiedPosition.x - 1].letter == null || /* om vi faktiskt har en bokstav bakåt */
+                          this.crosswordAnswer.posList[this.occupiedPosition.y][this.occupiedPosition.x - 1].letter == undefined) {
+
+                  this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].letter = null
+
+                } else if (this.crosswordAnswer.posList[this.occupiedPosition.y][this.occupiedPosition.x].letter != null ||
+                           this.crosswordAnswer.posList[this.occupiedPosition.y][this.occupiedPosition.x + 1].letter != null ||
+                           this.crosswordAnswer.posList[this.occupiedPosition.y][this.occupiedPosition.x + 1].letter != undefined) {
+
+                  this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].letter = null
+
+                }
+              } else {
+                if ((this.userCrossword[this.occupiedPosition.y - 1][this.occupiedPosition.x].letter != null || /* om vi faktiskt har en bokstav bakåt */
+                     this.userCrossword[this.occupiedPosition.y - 1][this.occupiedPosition.x].letter != undefined) && 
+                     this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].letter == null) {
+
+                  this.userCrossword[this.occupiedPosition.y - 1][this.occupiedPosition.x].letter = null
+
+                  this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].isOccupied = false
+                  this.occupiedPosition.y--
+                  this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].isOccupied = true
+
+                } else if (this.crosswordAnswer.posList[this.occupiedPosition.y - 1][this.occupiedPosition.x].letter == null || /* om vi faktiskt har en bokstav bakåt */
+                          this.crosswordAnswer.posList[this.occupiedPosition.y - 1][this.occupiedPosition.x].letter == undefined) {
+
+                  this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].letter = null
+
+                } else if (this.crosswordAnswer.posList[this.occupiedPosition.y][this.occupiedPosition.x].letter != null ||
+                           this.crosswordAnswer.posList[this.occupiedPosition.y + 1][this.occupiedPosition.x].letter != null ||
+                           this.crosswordAnswer.posList[this.occupiedPosition.y + 1][this.occupiedPosition.x].letter != undefined) {
+
+                  this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].letter = null
+                }
+              }
+
+
             }
-          }
+                    
+
+
+
           console.log(this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].letter)
   
   
@@ -167,11 +262,11 @@
           for (let v = 0; v < this.matrixDims.y; v++) {
               for (let h = 0; h < this.matrixDims.x; h++) {
   
-                if (typeof(this.crossword.actual.posList[v][h].letter) == "string") {
-                  this.crossword.actual.posList[v][h].letter = JSON.parse(JSON.stringify(this.crossword.actual.posList[v][h].letter.toUpperCase()))
+                if (typeof(this.crosswordAnswer.posList[v][h].letter) == "string") {
+                  this.crosswordAnswer.posList[v][h].letter = JSON.parse(JSON.stringify(this.crosswordAnswer.posList[v][h].letter.toUpperCase()))
                 }
   
-                if (this.crossword.actual.posList[v][h].letter != this.userCrossword[v][h].letter) {
+                if (this.crosswordAnswer.posList[v][h].letter != this.userCrossword[v][h].letter) {
                   allMatchesCorrect = false
                 }
               }
@@ -185,7 +280,7 @@
   
         getUserCrossword: function () {
   
-          let tempUserCrossword = JSON.parse(JSON.stringify(this.crossword.actual.posList))
+          let tempUserCrossword = JSON.parse(JSON.stringify(this.crosswordAnswer.posList))
   
           tempUserCrossword.forEach((outerList) => {
             outerList.forEach(element => {
@@ -198,40 +293,41 @@
   
         fillPremadeCrossword: function () {
             for (let v = 0; v < this.matrixDims.y; v++) {
-                this.crossword.actual.posList[v] = [];
+                this.crosswordAnswer.posList[v] = [];
                 /* crossword = [[null, null, null, null]] */
                 for (let h = 0; h < this.matrixDims.x; h++) {
-                this.crossword.actual.posList[v][h] = {letter: null, 
+                this.crosswordAnswer.posList[v][h] = {letter: null, 
                                                     inHorizontal: false,
                                                     inVertical: false,
                                                     isFirstLetter: false,
+                                                    isOccupied: false,
                                                     wordInOrder: 1} /* if (wordInOrder != 0) { lägg till siffra i hörnet } */
                 }
             }
   
-            this.crossword.actual.posList[0][0].letter = "c"; this.crossword.actual.posList[0][0].inHorizontal = true
-            this.crossword.actual.posList[0][0].isFirstLetter = true
+            this.crosswordAnswer.posList[0][0].letter = "c"; this.crosswordAnswer.posList[0][0].inHorizontal = true
+            this.crosswordAnswer.posList[0][0].isFirstLetter = true
   
-            this.crossword.actual.posList[0][1].letter = "l"; this.crossword.actual.posList[0][1].inHorizontal = true; this.crossword.actual.posList[0][1].inVertical = true
-            this.crossword.actual.posList[0][1].isFirstLetter = true
+            this.crosswordAnswer.posList[0][1].letter = "l"; this.crosswordAnswer.posList[0][1].inHorizontal = true; this.crosswordAnswer.posList[0][1].inVertical = true
+            this.crosswordAnswer.posList[0][1].isFirstLetter = true
   
-            this.crossword.actual.posList[0][2].letter = "o"; this.crossword.actual.posList[0][2].inHorizontal = true
-            this.crossword.actual.posList[0][3].letter = "w"; this.crossword.actual.posList[0][3].inHorizontal = true
-            this.crossword.actual.posList[0][4].letter = "n"; this.crossword.actual.posList[0][4].inHorizontal = true
+            this.crosswordAnswer.posList[0][2].letter = "o"; this.crosswordAnswer.posList[0][2].inHorizontal = true
+            this.crosswordAnswer.posList[0][3].letter = "w"; this.crosswordAnswer.posList[0][3].inHorizontal = true
+            this.crosswordAnswer.posList[0][4].letter = "n"; this.crosswordAnswer.posList[0][4].inHorizontal = true
   
-            this.crossword.actual.posList[1][1].letter = "a"; this.crossword.actual.posList[1][1].inHorizontal = false; this.crossword.actual.posList[1][1].inVertical = true
-            this.crossword.actual.posList[2][1].letter = "k"; this.crossword.actual.posList[2][1].inHorizontal = true; this.crossword.actual.posList[2][1].inVertical = true
-            this.crossword.actual.posList[2][1].isFirstLetter = true
+            this.crosswordAnswer.posList[1][1].letter = "a"; this.crosswordAnswer.posList[1][1].inHorizontal = false; this.crosswordAnswer.posList[1][1].inVertical = true
+            this.crosswordAnswer.posList[2][1].letter = "k"; this.crosswordAnswer.posList[2][1].inHorizontal = true; this.crosswordAnswer.posList[2][1].inVertical = true
+            this.crosswordAnswer.posList[2][1].isFirstLetter = true
   
-            this.crossword.actual.posList[3][1].letter = "a"; this.crossword.actual.posList[3][1].inHorizontal = true; this.crossword.actual.posList[3][1].inVertical = true
-            this.crossword.actual.posList[4][1].letter = "n"; this.crossword.actual.posList[4][1].inHorizontal = false; this.crossword.actual.posList[4][1].inVertical = true
-            this.crossword.actual.posList[3][0].letter = "j"; this.crossword.actual.posList[3][0].inHorizontal = true /* från JA */
-            this.crossword.actual.posList[3][0].isFirstLetter = true
+            this.crosswordAnswer.posList[3][1].letter = "a"; this.crosswordAnswer.posList[3][1].inHorizontal = true; this.crosswordAnswer.posList[3][1].inVertical = true
+            this.crosswordAnswer.posList[4][1].letter = "n"; this.crosswordAnswer.posList[4][1].inHorizontal = false; this.crosswordAnswer.posList[4][1].inVertical = true
+            this.crosswordAnswer.posList[3][0].letter = "j"; this.crosswordAnswer.posList[3][0].inHorizontal = true /* från JA */
+            this.crosswordAnswer.posList[3][0].isFirstLetter = true
   
-            this.crossword.actual.posList[2][2].letter = "a"; this.crossword.actual.posList[2][2].inHorizontal = true /* från KANON */
-            this.crossword.actual.posList[2][3].letter = "n"; this.crossword.actual.posList[2][3].inHorizontal = true
-            this.crossword.actual.posList[2][4].letter = "o"; this.crossword.actual.posList[2][4].inHorizontal = true
-            this.crossword.actual.posList[2][5].letter = "n"; this.crossword.actual.posList[2][5].inHorizontal = true
+            this.crosswordAnswer.posList[2][2].letter = "a"; this.crosswordAnswer.posList[2][2].inHorizontal = true /* från KANON */
+            this.crosswordAnswer.posList[2][3].letter = "n"; this.crosswordAnswer.posList[2][3].inHorizontal = true
+            this.crosswordAnswer.posList[2][4].letter = "o"; this.crosswordAnswer.posList[2][4].inHorizontal = true
+            this.crosswordAnswer.posList[2][5].letter = "n"; this.crosswordAnswer.posList[2][5].inHorizontal = true
           },
   
           changeDirection: function() {
@@ -240,14 +336,6 @@
             } else {
               this.inputDirection = "Horizontal"
             }
-          },
-  
-          storePosition: function (event) {
-            this.occupiedPosition.x = event.x
-            this.occupiedPosition.y = event.y
-            console.log("Occupied position test: " + this.occupiedPosition)
-            console.log("... x = " + this.occupiedPosition.x)
-            console.log("... y = " + this.occupiedPosition.y)
           },
   
           switchLanguage: function() {
