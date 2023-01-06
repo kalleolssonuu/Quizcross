@@ -72,7 +72,7 @@ import WordBox from '../components/WordBox.vue'
       },
       sendPositionToPlayView: function (event) {
         this.$emit("sendPosition", event)
-        console.log("Event from Crossword" + event)
+        /* console.log("Event from Crossword" + event) */
       },
       updateLayout: function(event) {
         this.on("updateLayout", event)
