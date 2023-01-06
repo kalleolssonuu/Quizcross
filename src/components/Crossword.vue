@@ -19,6 +19,7 @@
           v-bind:inVertical="element.inVertical"
           v-bind:isFirstLetter="element.isFirstLetter"
           v-bind:wordInOrder="element.wordInOrder"
+          v-bind:isOccupied="element.isOccupied"
           v-bind:sourceName="this.sourceName"
           v-bind:matrixDims="this.matrixDims">
         </WordBox>
@@ -71,7 +72,7 @@ import WordBox from '../components/WordBox.vue'
       },
       sendPositionToPlayView: function (event) {
         this.$emit("sendPosition", event)
-        console.log("Event from Crossword" + event)
+        /* console.log("Event from Crossword" + event) */
       },
       updateLayout: function(event) {
         this.on("updateLayout", event)
