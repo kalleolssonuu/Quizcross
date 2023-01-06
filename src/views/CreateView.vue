@@ -7,7 +7,7 @@
       </div>
   </header>
   
-  <button v-on:click="this.testUserID"> test IP ID </button>
+  <!-- <button v-on:click="this.testUserID"> test IP ID </button> -->
   
   
   <div id="div1" class="inputFieldWrapper">
@@ -26,8 +26,8 @@
       </div>
       <br>
       
-      <button v-if="this.enableWordButtons || this.word =='' || this.desc==''"  class="button-disabled" disabled> {{uiLabels.addWord}} </button>
-      <button v-else v-on:click="this.findPotentialMatches"> {{uiLabels.addWord}} </button>
+      <button v-if="this.enableWordButtons || this.word =='' || this.desc==''"  class="standardButton disabled" disabled> {{uiLabels.addWord}} </button>
+      <button v-else v-on:click="this.findPotentialMatches" class="standardButton"> {{uiLabels.addWord}} </button>
       <!-- <button v-on:click="this.findPotentialMatches">{{uiLabels.addWord}}</button>  -->
       <br>
   
@@ -36,11 +36,11 @@
         <img id="showSolutions" :src="uiLabels.showNext" v-on:click="this.showNextSolution">
       </div>
       
-      <button v-if="!this.enableWordButtons" class="button-disabled" disabled> {{uiLabels.confirm}} </button>
-      <button v-else v-on:click="this.confirmWord"> {{uiLabels.confirm}} </button>
+      <button v-if="!this.enableWordButtons" class="standardButton disabled"  disabled style="width: 6rem;"> {{uiLabels.confirm}} </button>
+      <button v-else v-on:click="this.confirmWord" class="standardButton" style="width: 6rem;"> {{uiLabels.confirm}} </button>
   
-      <button v-if="!this.enableWordButtons" class="button-disabled" disabled> {{uiLabels.discard}} </button>
-      <button v-else v-on:click="this.discardWord"> {{uiLabels.discard}} </button>
+      <button v-if="!this.enableWordButtons" class="standardButton disabled"  disabled style="width: 6rem;"> {{uiLabels.discard}} </button>
+      <button v-else v-on:click="this.discardWord" class="standardButton" style="width: 6rem;"> {{uiLabels.discard}} </button>
   
   
     </div>
@@ -56,12 +56,12 @@
           
           <div id="div3">
             <!--<button v-on:click="this.emptyTextFields"> Empty Input </button> ---><!-- gör detta när användaren har valt ett ord istället för en knapp. Det rensar även textfältet -->
-            <button v-on:click="this.resetData">
+            <button class="standardButton" v-on:click="this.resetData">
               {{uiLabels.resetCrossword}}
             </button> 
             <br>
             
-            <button v-on:click="this.confirmCreateCrossword" @click="$router.push('/Lobby/'+lang)"> <!-- JESSIE ÄNDRA SKICKA MED ID?????? -->
+            <button class="standardButton" v-on:click="this.confirmCreateCrossword" @click="$router.push('/Lobby/'+lang)"> <!-- JESSIE ÄNDRA SKICKA MED ID?????? -->
             {{uiLabels.confirmCreate}}  <!--JESSIE OBS OLIKA NAMN - Jessie igen: vet ej vad jag menade med denna kommentar --> 
             </button>
 
@@ -455,12 +455,14 @@
   
   <style>
   
-  button {
+  .standardButton{
     width: 10rem;
     height: 4rem;
     border-radius: 15px;
     border-color: #ba0c00;
-    margin: 1.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    margin-left: 0.5rem;
     color: white;
     background-color: #FE5F55;
     font-family: "Comic Sans MS", "Comic Sans", cursive;
@@ -469,7 +471,7 @@
     position: relative;   
   }
   
-  .button-disabled {
+  .standardButton.disabled {
     opacity: 30%;
     cursor: default;
     background-color: #ba0c00;
@@ -535,6 +537,8 @@
     cursor:pointer;
     position: relative;   
   }
+
+
   
   #showSolutions {
     width: 5rem;
@@ -551,11 +555,12 @@
   
     #wordInput {
       height: 3rem;
-      width: 10rem;
+      width: 12rem;
       text-align: center; 
       font-family: "Comic Sans MS", "Comic Sans", cursive;
       font-size: 1rem;
       border-radius: 1rem;
+      margin-top: 0.5rem
     
    }
   </style>
