@@ -33,7 +33,7 @@
 	"confirmCreate": "Bekräfta och skapa korsordet",
 	"confirm": "Bekräfta",
 	"discard": "Kasta",
-	"wordPlaceholder": "Word",
+	"QuitGame": "Avsluta",
 
 	"//PreCreateView": "Här är PreCreateViews översättningar",
 	"confirmAndCreate": "Skapa",

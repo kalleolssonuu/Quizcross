@@ -33,7 +33,8 @@
 	"confirmCreate": "Confirm and create crossword",
 	"confirm": "Confirm",
 	"discard": "Discard",
-	"wordPlaceholder": "Word",
+	"QuitGame": "Quit",
+	
 
 	"//PreCreateView": "Här är PreCreateViews översättningar",
 	"confirmAndCreate": "Create",
