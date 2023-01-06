@@ -18,10 +18,10 @@
     +
     </button>
     </div>
-    <Crossword  v-bind:sourceName="sourceName"
+        <Crossword  v-bind:sourceName="sourceName"
                       v-bind:crossword="this.crossword.actual.posList"
                       v-bind:matrixDims="this.matrixDims">
-          </Crossword>
+        </Crossword>
         
     </div>
 

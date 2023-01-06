@@ -14,8 +14,8 @@
 
   <div class="wrapper">
     <!-- <button id="play" @click="$router.push('/actualPlay/'+lang)">{{'Actual PlayView'}}</button> -->
-    <button id="play" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.createCross}}</button>
-    <button id="play" @click="$router.push('/Lobby/'+lang)">{{uiLabels.playCross}}</button>
+    <button id="playAndCreateButton" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.createCross}}</button>
+    <button id="playAndCreateButton" @click="$router.push('/Lobby/'+lang)">{{uiLabels.playCross}}</button>
     <!-- <button id="play" @click="$router.push('/CreateView/'+lang)">{{'Göra korsord test'}}</button> -->
   </div>
 
@@ -80,50 +80,8 @@ export default {
 </script>
 
 <style scoped>
-.language{
-    height: 1rem;
-    width: 1rem;
-    cursor:pointer;
-    margin: 0.5rem;
-}
-#flag {
-  width: 5rem;
-  height: 3.5rem;
-  border-radius: 20%;
-}
 
-#help {
-    height: 3rem;
-    width: 3rem;
-    background-color: #FFFDD0;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-size: 30px;
-    text-align: center;
-    cursor:pointer;
-    border-radius: 50%;
-    border-color: black;
-    position: absolute;
-    top: 0;
-    right:0;
-    margin: 0.5rem;
-  }
   
-  .help {
-    height: 3rem;
-    width: 3rem;
-    background-color: #FFFDD0;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-size: 30px;
-    text-align: center;
-    cursor:pointer;
-    border-radius: 50%;
-    border-color: black;
-    position: absolute;
-    top: 0;
-    right:0;
-    margin: 0.5rem;
-  }
-
   .wrapper{
     display: flex;
     justify-content: center;
@@ -135,7 +93,8 @@ export default {
     height: 25em;
   }
 
-  #create {
+
+#playAndCreateButton {
     width: 18rem;
     height: 6rem;
     border-radius: 15px;
@@ -150,26 +109,7 @@ export default {
     
   }
 
-#play {
-    width: 18rem;
-    height: 6rem;
-    border-radius: 15px;
-    border-color: #ba0c00;
-    margin: 2.5rem;
-    color: white;
-    background-color: #FE5F55;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-size: 30px;
-    cursor:pointer;
-    position: relative;
-    
-  }
-
-  #create:hover{
-    background-color: #fb6d63;
-    
-  }
-  #play:hover{
+  #playAndCreateButton:hover{
     background-color: #fb6d63;
     
   }
@@ -179,19 +119,6 @@ export default {
     height:25rem;
     vertical-align: bottom;
     margin-right: 0.5rem; 
-  }
-  .hamburger {
-    color:white;
-    width:1em;
-    display: flex;
-    align-items: center;
-    justify-content: left;
-    padding:0.5rem;
-    top:0;
-    left:0;
-    height: 2rem;
-    cursor: pointer;
-    font-size: 1.5rem;
   }
 
 @media screen and (max-width:50em) {
