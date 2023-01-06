@@ -30,7 +30,7 @@
   </div>
 
 
-  <button id="create" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.create}}</button>
+  <button class="standardButtonLobby" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.create}}</button>
 
 
 
@@ -41,7 +41,7 @@
 
       </textarea>
                  
-    <button id="playButton" v-on:click="playCross" @click="$router.push('/PlayView/'+lang)">
+    <button class="standardButtonLobby" v-on:click="playCross" @click="$router.push('/PlayView/'+lang)">
       {{uiLabels.playPlay}}
     </button>
     
@@ -81,9 +81,9 @@
     </ul>
 
   </div>
+  
+  <button class="standardButtonLobby" @click="$router.push('/'+lang)">{{uiLabels.backButton}}</button>
 
-
-  <button id="homepagebutton" @click="$router.push('/'+lang)">{{uiLabels.backButton}}</button>
 </template>
 
 <script>
@@ -320,6 +320,24 @@ textarea {
   border-radius: 5px;
   
 }
+.standardButtonLobby{
+    width: 5rem;
+    height: 1.8rem;
+    border-radius: 10px;
+    border-color: #ba0c00;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    margin-left: 0.5rem;
+    color: white;
+    background-color: #FE5F55;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 1rem;
+    cursor:pointer;
+    position: relative; 
+}
+.standardButtonLobby:hover{
+  opacity: 0.80;
+}
 #crossText{
   font-size: 1.25rem;
   width: 2rem;
@@ -333,18 +351,6 @@ textarea {
   width: 5rem;
   height: 1.8rem;
   border-radius: 10px;
-  text-align: center;
-  vertical-align: middle;
-  position: relative;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
-  font-size: 1rem;
-  background-color: #FE5F55;
-  color: #ffffff;
-  border-color: #ba0c00;
-  cursor: pointer;
-}
-#playButton:hover{
-  opacity: 75%;
 }
 
 #homepagebutton {
@@ -353,37 +359,14 @@ textarea {
   border-radius: 10px;
   bottom: 0;
   left: 0;
-  margin: 0.5rem;
-  background-color: #FE5F55;
-  border-color: #ba0c00;
-  font-size: 1rem;
-  color: white;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
-
 
 #play{
   width: 6rem;
   height: 2rem;
   border-radius: 15px;
-  border-color: #ba0c00;
-  margin: 1rem;
-  color: white;
-  background-color: #FE5F55;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
-  font-size: 15px;
-  cursor:pointer;
 }
 
-#create:hover{
-    background-color: #fb6d63;
-    
-  }
-
-#play:hover{
-  background-color: #fb6d63;
-  
-}
 
 #select{
   margin-top: -20px;

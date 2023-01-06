@@ -8,25 +8,22 @@
     </header>
     
     <div id="crosswordArea">
-        <h2>{{ matrixDims.x }}   x    {{ matrixDims.y }}</h2>   
+    <h2>{{ matrixDims.x }}   x    {{ matrixDims.y }}</h2>   
         <div class="plusMinusWrapper" id="PlusMinusButtons">
-
-    <button id="minusButton" v-on:click=decrease type="button">
-    -
-    </button>
-    <button id="plusButton" v-on:click=increase type="button">
-    +
-    </button>
-    </div>
+            <button id="minusButton" v-on:click=decrease type="button">
+            -
+            </button>
+            <button id="plusButton" v-on:click=increase type="button">
+            +
+            </button>
+        </div>
         <Crossword  v-bind:sourceName="sourceName"
                       v-bind:crossword="this.crossword.actual.posList"
                       v-bind:matrixDims="this.matrixDims">
-        </Crossword>
-        
+        </Crossword>    
     </div>
 
-    <div class="nameWrapper" id="nameAndCreate">
-            <br>
+    <div class="nameWrapper">
         <form id="gameNameAndSize">
             <div id="section1">
                 <form id="myForm">                    
@@ -35,19 +32,19 @@
                 </form>
             </div>
         </form>
-    
+
+        <button class="standardButtonPreCreate" id="confirmAndCreate" @click="$router.push('/CreateView/'+lang+'/'+gameID+'/'+ JSON.stringify(matrixDims))">
+        {{uiLabels.confirmAndCreate}}
+        </button> 
+
+        <button class="standardButtonPreCreate" id="returnButton" @click="$router.push('/'+lang)">
+         {{uiLabels.backButton}}
+        </button>
+    </div>
     <!-- jessies testknapp
     <button v-on:click="this.confirmNameDims()">
     {{uiLabels.confirmAndCreate}}
     </button> -->
-
-    <button id="confirmAndCreate" @click="$router.push('/CreateView/'+lang+'/'+gameID+'/'+ JSON.stringify(matrixDims))">
-        {{uiLabels.confirmAndCreate}}
-    </button> 
-
-    <button id="returnButton" @click="$router.push('/'+lang)">{{uiLabels.backButton}}</button>
-</div>
-
 </template>
     
     <script>
@@ -165,16 +162,27 @@
         justify-content: center;
 
     }
-
-    #nameAndCreate {
-    justify-content: center;
+    .standardButtonPreCreate{
+    border-color: #ba0c00;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    margin-left: 0.5rem;
+    color: white;
+    background-color: #FE5F55;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 1rem;
+    cursor:pointer;
+    position: relative; 
+    }
+    .standardButtonPreCreate:hover{
+    opacity: 0.80;
     }
 
     #confirmAndCreate {
         width: 10rem;
         height: 5rem;
-        bottom: 60%;
-        right: 5%;
+        /* bottom: 60%;
+        right: 5%; */
         font-size: 25px;
         font-family: "Comic Sans MS", "Comic Sans", cursive;
         border-color: #ba0c00;
@@ -186,8 +194,8 @@
     #gameName {
         width: 18rem;
         height: 4.6rem;
-        bottom: 60%;
-        right: 16%;
+        /* bottom: 60%;
+        right: 16%; */
         font-family: "Comic Sans MS", "Comic Sans", cursive;
         font-size: 25px;
         border-radius: 15px;
@@ -196,8 +204,8 @@
     #returnButton {
         width: 5rem;
         height: 2.5rem;
-        bottom: 50%;
-        right: 16%;
+        /* bottom: 50%;
+        right: 16%; */
         margin: 0.5rem;
         background-color: #FE5F55;
         border-color: #ba0c00;
@@ -206,9 +214,15 @@
         font-family: "Comic Sans MS", "Comic Sans", cursive;
         position: absolute;
         }
+
     .nameWrapper{
-    display: relative;
+    margin: 0 auto;
+    width: 25%;
+    height: 15rem;
     justify-content: center;
+    display: inline-block;
+    margin-top: 10%;
+    background-color: aqua;
   }
 
   .XYWrapper{
@@ -266,12 +280,6 @@
         background-color: #fb6d63;
     }
     #minusButton:hover{
-        background-color: #fb6d63;
-    }
-    #returnButton:hover{
-        background-color: #fb6d63;
-    }
-    #confirmAndCreate:hover{
         background-color: #fb6d63;
     }
 
