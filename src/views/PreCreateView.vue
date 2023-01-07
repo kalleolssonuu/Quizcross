@@ -18,10 +18,10 @@
             </div>
 
             <div id="crosswordArea">
-            <Crossword  v-bind:sourceName="sourceName"
-                        v-bind:crossword="this.crossword.actual.posList"
-                        v-bind:matrixDims="this.matrixDims">
-            </Crossword>    
+                <Crossword  v-bind:sourceName="sourceName"
+                            v-bind:crossword="this.crossword.actual.posList"
+                            v-bind:matrixDims="this.matrixDims">
+                </Crossword>    
             </div>
             
             <div class="buttonWrapper">
@@ -157,18 +157,21 @@
     
     <style>
     .buttonWrapper{
-        position: absolute;
+        position: relative;
         right: 5%;
-        height: 10rem;
+        bottom: 0; /* temporärt */
+        height: 5rem; /* från 10 */
         width: 35rem;
         margin-right: 6rem;
         margin-top: 6rem;
     }
 
     #crosswordArea{
-        float:left;
-        width: 50%;
-        margin: 5%;
+        /* float: left; */
+        width: 100%;
+        height: 40rem;
+        justify-content: center;
+        /* margin: 5%; */
     }
 
     #confirmAndCreate {
