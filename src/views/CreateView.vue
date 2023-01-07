@@ -158,7 +158,7 @@
                                    startPos: {x: 0, 
                                               y: 0
                                              }
-                                  }, 
+                                  },
                           temp: []
                          },
           crosswordCopy: [],

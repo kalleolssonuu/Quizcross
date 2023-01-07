@@ -5,27 +5,30 @@
   {{ dimsY }}
 
   <!-- {{ crossword[0][0].letter }} -->
-  <table id="crosswordwrapper">
-    <tr v-for="(list, ykey) in crossword" v-bind:key="'y' + ykey">
-      <td v-for="(element, xkey) in list" v-bind:key="'x' + xkey">
-        <WordBox
-          v-on:PositionFromBox="this.sendPositionToPlayView($event)"
 
-          v-bind:xkey="xkey" 
-          v-bind:ykey="ykey" 
-          v-bind:letter="element.letter"
-          v-bind:direction="element.direction"
-          v-bind:inHorizontal="element.inHorizontal"
-          v-bind:inVertical="element.inVertical"
-          v-bind:isFirstLetter="element.isFirstLetter"
-          v-bind:wordInOrder="element.wordInOrder"
-          v-bind:isOccupied="element.isOccupied"
-          v-bind:sourceName="this.sourceName"
-          v-bind:matrixDims="this.matrixDims">
-        </WordBox>
-      </td> 
-    </tr>
-  </table>
+  <div id="crosswordWrapper">
+    <table>
+      <tr v-for="(list, ykey) in crossword" v-bind:key="'y' + ykey">
+        <td v-for="(element, xkey) in list" v-bind:key="'x' + xkey" id="tdSize">
+          <WordBox
+            v-on:PositionFromBox="this.sendPositionToPlayView($event)"
+
+            v-bind:xkey="xkey" 
+            v-bind:ykey="ykey" 
+            v-bind:letter="element.letter"
+            v-bind:direction="element.direction"
+            v-bind:inHorizontal="element.inHorizontal"
+            v-bind:inVertical="element.inVertical"
+            v-bind:isFirstLetter="element.isFirstLetter"
+            v-bind:wordInOrder="element.wordInOrder"
+            v-bind:isOccupied="element.isOccupied"
+            v-bind:sourceName="this.sourceName"
+            v-bind:matrixDims="this.matrixDims">
+          </WordBox>
+        </td> 
+      </tr>
+    </table>
+  </div>
 
 </div>
 </template>
@@ -82,8 +85,10 @@ import WordBox from '../components/WordBox.vue'
     watch: {
     matrixDims: {
     handler: function () {
-      this.dimsX = String(40 / this.matrixDims.x) + "rem"
-      this.dimsY = String(40 / this.matrixDims.y) + "rem"
+      /* this.dimsX = String(40 / this.matrixDims.x) + "rem"
+      this.dimsY = String(40 / this.matrixDims.y) + "rem" */
+      this.dimsX = String(600 / this.matrixDims.x) + "px"
+      this.dimsY = String(600 / this.matrixDims.y) + "px"
     },
     deep: true
   }
@@ -107,12 +112,15 @@ import WordBox from '../components/WordBox.vue'
 
 #crosswordwrapper {
   table-layout: auto;
-  justify-content: center;
+  /* justify-content: center; */
   background-color: #A7CAB1;
   height: 40rem;
   width: 40rem;
 }
 table {
+  table-layout: auto;
+  width: 100%;
+  height: 100%;
   border-spacing: 0;
 }
 
