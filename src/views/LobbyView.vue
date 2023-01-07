@@ -37,11 +37,12 @@
   <button class="standardButtonLobby" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.create}}</button>
 
 
-
-  <div>
+ <input type="text" v-model="gameID"  placeholder="ex: jjjessiesSpel">
+  
+ <div>
     <text id="crossText">{{uiLabels.crossID}}</text> 
 
-    <input type="text" v-model="gameID" id="selectedid" placeholder="ex: jjjessiesSpel">
+    
      
     <textarea readonly id="selectedGame">
 
@@ -121,7 +122,6 @@ export default{
       selectedGame: {},
       uiLabels: {},
      
-      lang: "",
       showModal: false,
       sourceName: "LobbyView"
     }
