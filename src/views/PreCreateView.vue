@@ -5,42 +5,41 @@
       <button v-on:click="togglePopup"></button>
       </Modal>
     </div>
-    </header>
-    
-    <div id="crosswordArea">
-    <h2>{{ matrixDims.x }}   x    {{ matrixDims.y }}</h2>   
-        <div class="plusMinusWrapper" id="PlusMinusButtons">
-            <button id="minusButton" v-on:click=decrease type="button">
-            -
-            </button>
-            <button id="plusButton" v-on:click=increase type="button">
-            +
-            </button>
-        </div>
-        <Crossword  v-bind:sourceName="sourceName"
-                      v-bind:crossword="this.crossword.actual.posList"
-                      v-bind:matrixDims="this.matrixDims">
-        </Crossword>    
-    </div>
+    </header>  
+        
+        <h2>{{ matrixDims.x }}   x    {{ matrixDims.y }}</h2>   
+            <div class="plusMinusWrapper" id="PlusMinusButtons">
+                <button id="minusButton" v-on:click=decrease type="button">
+                -
+                </button>
+                <button id="plusButton" v-on:click=increase type="button">
+                +
+                </button>
+            </div>
 
-    <div class="nameWrapper">
-        <form id="gameNameAndSize">
-            <div id="section1">
+            <div class="crosswordArea">
+            <Crossword  v-bind:sourceName="sourceName"
+                        v-bind:crossword="this.crossword.actual.posList"
+                        v-bind:matrixDims="this.matrixDims">
+            </Crossword>    
+            </div>
+            
+            <div class="buttonArea">
                 <form id="myForm">                    
                     <input v-if="this.lang == 'en'" type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Enter game name here...">
                     <input v-else type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Ge korsordet ett namn...">
                 </form>
+            
+                <button class="standardButtonPreCreate" id="confirmAndCreate" @click="$router.push('/CreateView/'+lang+'/'+gameID+'/'+ JSON.stringify(matrixDims))">
+                {{uiLabels.confirmAndCreate}}
+                </button> 
+
+                <button class="standardButtonPreCreate" id="returnButton" @click="$router.push('/'+lang)">
+                {{uiLabels.backButton}}
+                </button>
             </div>
-        </form>
+    
 
-        <button class="standardButtonPreCreate" id="confirmAndCreate" @click="$router.push('/CreateView/'+lang+'/'+gameID+'/'+ JSON.stringify(matrixDims))">
-        {{uiLabels.confirmAndCreate}}
-        </button> 
-
-        <button class="standardButtonPreCreate" id="returnButton" @click="$router.push('/'+lang)">
-         {{uiLabels.backButton}}
-        </button>
-    </div>
     <!-- jessies testknapp
     <button v-on:click="this.confirmNameDims()">
     {{uiLabels.confirmAndCreate}}
@@ -158,9 +157,28 @@
     
     <style>
     
-    #crosswordArea {
-        justify-content: center;
-
+    /* .crosswordArea {      
+        float: left;
+        width: 50%;
+        margin-left: 2rem;
+    } */
+    .buttonArea{
+        float: left;
+        width: 25%
+        background-color
+        
+        
+    }
+    #confirmAndCreate {
+        width: 10rem;
+        height: 5rem;
+        font-size: 25px;
+        font-family: "Comic Sans MS", "Comic Sans", cursive;
+        border-color: #ba0c00;
+        background-color: #FE5F55;
+        border-radius: 20px;
+        color: white;
+        position: absolute;
     }
     .standardButtonPreCreate{
     border-color: #ba0c00;
@@ -177,25 +195,9 @@
     .standardButtonPreCreate:hover{
     opacity: 0.80;
     }
-
-    #confirmAndCreate {
-        width: 10rem;
-        height: 5rem;
-        /* bottom: 60%;
-        right: 5%; */
-        font-size: 25px;
-        font-family: "Comic Sans MS", "Comic Sans", cursive;
-        border-color: #ba0c00;
-        background-color: #FE5F55;
-        border-radius: 20px;
-        color: white;
-        position: absolute;
-    }
     #gameName {
         width: 18rem;
         height: 4.6rem;
-        /* bottom: 60%;
-        right: 16%; */
         font-family: "Comic Sans MS", "Comic Sans", cursive;
         font-size: 25px;
         border-radius: 15px;
@@ -204,8 +206,6 @@
     #returnButton {
         width: 5rem;
         height: 2.5rem;
-        /* bottom: 50%;
-        right: 16%; */
         margin: 0.5rem;
         background-color: #FE5F55;
         border-color: #ba0c00;
@@ -215,20 +215,10 @@
         position: absolute;
         }
 
-    .nameWrapper{
-    margin: 0 auto;
-    width: 25%;
-    height: 15rem;
-    justify-content: center;
+    .wrapperPreCreate{
     display: inline-block;
-    margin-top: 10%;
     background-color: aqua;
-  }
-
-  .XYWrapper{
-    display: flex;
-    justify-content: center;
-  }
+    } 
 
   .plusMinusWrapper{
     display: flex;
