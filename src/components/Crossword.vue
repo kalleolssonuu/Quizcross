@@ -1,5 +1,4 @@
 <template>
-<div>
   {{ matrixDims }}
   {{ dimsX }}
   {{ dimsY }}
@@ -30,7 +29,6 @@
     </table>
   </div>
 
-</div>
 </template>
   
 
@@ -88,11 +86,11 @@ import WordBox from '../components/WordBox.vue'
       /* this.dimsX = String(40 / this.matrixDims.x) + "rem"
       this.dimsY = String(40 / this.matrixDims.y) + "rem" */
       this.dimsX = String(600 / this.matrixDims.x) + "px"
-      this.dimsY = String(600 / this.matrixDims.y) + "px"
+      this.dimsY = String(600 / this.matrixDims.y) + "px" /* 600 px ~ 40 rem */
     },
     deep: true
-  }
-}
+      }
+    }
   }
   </script>
 
@@ -104,26 +102,27 @@ import WordBox from '../components/WordBox.vue'
   --dimsY: 1em;
 }
 
-.letterbox:empty {
-  background-color: white;
-  /* background-color: #A7CAB1; */
-}
-
-
-#crosswordwrapper {
-  table-layout: auto;
+#crosswordWrapper {
+  /* table-layout: auto; */
   /* justify-content: center; */
+  height: 600px !important; /* 40rem; */
+  width: 600px !important; /* 40rem; */
+  margin: 0 auto;
   background-color: #A7CAB1;
-  height: 40rem;
-  width: 40rem;
+
 }
+
 table {
-  table-layout: auto;
+  /* table-layout: auto; */
   width: 100%;
   height: 100%;
-  border-spacing: 0;
+  /* border-spacing: 0; */
 }
 
+#tdSize {
+  height: var(--dimsY);
+  width: var(--dimsX);
+}
 
   </style>
   
