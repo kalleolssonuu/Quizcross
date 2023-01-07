@@ -24,19 +24,21 @@
             </Crossword>    
             </div>
             
-            <div class="buttonArea">
-                <form id="myForm">                    
-                    <input v-if="this.lang == 'en'" type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Enter game name here...">
-                    <input v-else type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Ge korsordet ett namn...">
-                </form>
-            
-                <button class="standardButtonPreCreate" id="confirmAndCreate" @click="$router.push('/CreateView/'+lang+'/'+gameID+'/'+ JSON.stringify(matrixDims))">
-                {{uiLabels.confirmAndCreate}}
-                </button> 
+            <div class="buttonWrapper">
+                <div id="buttonID">
+                    <form id="myForm">                    
+                        <input v-if="this.lang == 'en'" type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Enter game name here...">
+                        <input v-else type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Ge korsordet ett namn...">
+                    </form>
+                
+                    <button class="standardButtonPreCreate" id="confirmAndCreate" @click="$router.push('/CreateView/'+lang+'/'+gameID+'/'+ JSON.stringify(matrixDims))">
+                    {{uiLabels.confirmAndCreate}}
+                    </button> 
 
-                <button class="standardButtonPreCreate" id="returnButton" @click="$router.push('/'+lang)">
-                {{uiLabels.backButton}}
-                </button>
+                    <button class="standardButtonPreCreate" id="returnButton" @click="$router.push('/'+lang)">
+                    {{uiLabels.backButton}}
+                    </button>
+                </div>
             </div>
     
 
@@ -162,12 +164,24 @@
         width: 50%;
         margin-left: 2rem;
     } */
-    .buttonArea{
-        float: left;
-        width: 25%
-        background-color
+    .buttonWrapper{
+        display: flex;
+        flex-direction: column;
+        float:right;
+        align-items: center;
+        height: 20rem;
+        width: 20rem;
+        margin-right: 6rem;
+        margin-top: 6rem;
+        background-color: aqua;
         
-        
+    }
+    #buttonID{
+    color: white;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 20px;
+    position: relative;
+    float:left;
     }
     #confirmAndCreate {
         width: 10rem;
@@ -214,11 +228,6 @@
         font-family: "Comic Sans MS", "Comic Sans", cursive;
         position: absolute;
         }
-
-    .wrapperPreCreate{
-    display: inline-block;
-    background-color: aqua;
-    } 
 
   .plusMinusWrapper{
     display: flex;
