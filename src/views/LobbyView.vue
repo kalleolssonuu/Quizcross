@@ -9,57 +9,65 @@
     </Modal>
   </header>
 
-<div class="gameWrapper">
+
+
+  <div class="gameWrapper">
     <div id="allGamesList">
       {{uiLabels.gameList}}
         <div id="gameList">
           <div class="scroll">
-          <Game v-for="game in premadeGames"
-            v-bind:game="game" 
-            v-bind:key="game.name"
-            v-on:selectedGame="selectGame($event)"/> 
+          <div id="listOfGames" v-for="(game, key) in shownGames" :key="key">
+            
+          <button id="selectGameButtonStyle" v-on:click=selectGame(game)>
+            {{game}}
+          </button>
+          </div>
+
           </div>
       <div class="wrapper">
     
-        <input v-model="searchTerm" id="searchInput" placeholder="search for game">
-        <button v-on:click="searchGame" id="searchButton" > search game</button> <!-- är vore det fint med en sån där sök-ikon -->
+        <input v-on:keyup="searchGame" v-if="this.lang == 'en'" v-model="searchTerm" id="searchInput" placeholder="Search for a game">
+        <input v-on:keyup="searchGame" v-else v-model="searchTerm" id="searchInput" placeholder="Sök efter ett spel">
       </div>
       </div>
     </div>
   </div>
 
 
-      <button id="create" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.create}}</button>
+  <button class="standardButtonLobby" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.create}}</button>
 
 
 
   <div>
     <text id="crossText">{{uiLabels.crossID}}</text> 
+
     <input type="text" v-model="gameID" id="selectedid" placeholder="ex: jjjessiesSpel">
      
     <textarea readonly id="selectedGame">
 
-    </textarea>
-
-    <button id="playButton" v-on:click="emitGameChoice()" @click="$router.push('/playView/'+lang+'/'+ gameID)"> 
+      </textarea>
+                 
+    <button class="standardButtonLobby" v-on:click="emitGameChoice()" @click="$router.push('/PlayView/'+lang)">
       {{uiLabels.playPlay}}
-    </button>    
+    </button>
+    
   </div>
 
   <div>
-    {{"servertest:"}}
-    <ul v-if="this.crosswordNames" >
-      {{this.crosswordNames}}   
+    {{"servertest av confirmCreate:"}}
+    <ul v-if="this.crosswordPackageInfo" >
+      {{this.crosswordPackageInfo}}   
     </ul>
 
   </div>
+   -->
+  
+  <button class="standardButtonLobby" @click="$router.push('/'+lang)">{{uiLabels.backButton}}</button>
+ 
 
-  <button id="homepagebutton" @click="$router.push('/'+lang)">{{uiLabels.backButton}}</button>
 </template>
 
-<script>
-import Game from '../components/GameComponent.vue' 
-import gameInfo from '../assets/gameInfo.json'  
+<script> 
 import Modal from '../components/PopUp.vue'
 import io from 'socket.io-client'; 
 const socket = io();
@@ -67,7 +75,6 @@ const socket = io();
 export default{
   name: 'PlayView',
   components:{
-    Game,
     Modal
   },
     props: {
@@ -79,6 +86,7 @@ export default{
     this.lang = this.$route.params.lang; 
 
     socket.emit('pageLoaded')
+
     socket.on("init", (labels) => {  // VAD GÖR DENNA FÖRSTÅ DET
       this.uiLabels = labels
     });
@@ -88,6 +96,11 @@ export default{
 
     console.log("crosswordNames mottaget i lobbyview är:");
     console.log(this.crosswordNames);
+        
+    this.shownGames = JSON.parse(JSON.stringify(this.allGames));
+
+  /*   window.addEventListener('keydown', this.searchGame) */
+
   },  
 
   data: function() {
@@ -98,18 +111,17 @@ export default{
 
       gameName: "",
 
-      shownGames:"",
+      shownGames:[],
 
-      allGames: ["Hugos spel","Elins spel","Kung Charles spel","Emils spel"],
+      allGames: ["Hugos spel","Elins spel","Kung Charles spel","Emils spel", "Hugos spel","Elins spel","Kung Charles spel","Emils spel"],
 
       searchTerm: "",
 
-      games: gameInfo,      
-      premadeGames: gameInfo,
-      /* myGames: myGameInfo, */
+
       selectedGame: {},
-      uiLabels: {},     
-      
+      uiLabels: {},
+     
+      lang: "",
       showModal: false,
       sourceName: "LobbyView"
     }
@@ -125,23 +137,17 @@ export default{
     },
    
     searchGame: function() {
-      this.shownGames = this.allGames.filter(item => item.toLowerCase().includes(this.searchTerm.toLowerCase));
+      this.shownGames = this.allGames.filter(item => item.toLowerCase().includes(this.searchTerm.toLowerCase()));
 
-      console.log("sökta spel" + this.shownGames)
+      console.log("sökta spel " + this.shownGames)
 
     },
 
-  selectGame: function (games){ 
-    console.log(this.selectedGame)
-    this.gameName=games.name;
-    document.getElementById("selectedGame").value=this.gameName;
+  selectGame: function (game){ 
+    document.getElementById("selectedGame").value=game;
    /*  document.getElementById("selectedid").value=games.id */
   },
-  /* listenAddGame: function(games) {
-    socket.on("receiveGameFromCreateView") {
-      games.push()
-    }
-  }, */
+
 
   switchLanguage: function() {
     if (this.lang === "en")
@@ -162,55 +168,8 @@ togglePopup: function () {
 </script>
 
 <style>
-  .language{
-    height: 1rem;
-    width: 1rem;
-    cursor:pointer;
-    margin: 0.5rem;
-}
-  #flag {
-    width: 5rem;
-    height: 3.5rem;
-    border-radius: 20%;
-}
 
-header {
-  background-color: #A7CAB1;
-  width: 100%;
-  height: 33%;
-}
 
-/* #help {
-  height: 3rem;
-  width: 3rem;
-  background-color: #EEF5DB;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
-  font-size: 30px;
-  text-align: center;
-  cursor:pointer;
-  border-radius: 50%;
-  border-color: black;
-  position: absolute;
-  top: 0;
-  right:0;
-  margin: 0.5rem;
-
-} */
-
-.logo {
-  text-transform: uppercase;
-  letter-spacing: 0.25em;
-  font-size: 2.5rem;
-  color: white;
-  padding-top:0.2em;
-  text-align: center;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
-}
-.logo img {
-  height:2.5rem;
-  vertical-align: bottom;
-  margin-right: 0.5rem; 
-}
 .gameWrapper{
   display: flex;
   justify-content: center;
@@ -275,11 +234,40 @@ textarea {
   color: #43918a;
 }
 #selectedGame{
-  font-size: 1rem;
-  width: 2rem;
-  position: relative;
+  width: 10rem;
+  height: 1.5rem;
+  border-radius: 5px;
   text-align: center;
+  vertical-align: middle;
+  position: relative;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 1rem;
+  border-color: #2d635f;
 }
+
+#selectadGameText{  
+  font-size: 1.5rem;
+}
+
+#selectGameButtonStyle {
+ background-color:#43918a;
+ text-align: center;
+ width: 90%;
+ height: 4rem;
+ cursor: pointer;
+ border-width: 0ch;
+ color:white;
+ margin-left: 5%;
+ margin-right: 5%;
+ margin-top: 2%;
+ font-family: "Comic Sans MS", "Comic Sans", cursive;
+ font-size: medium;
+ border-radius: 0.25rem;
+}
+#selectGameButtonStyle:hover{
+    opacity: 75%;
+    
+  }
 
 #searchInput{
   width: 10rem;
@@ -300,6 +288,24 @@ textarea {
   border-radius: 5px;
   
 }
+.standardButtonLobby{
+    width: 5rem;
+    height: 1.8rem;
+    border-radius: 10px;
+    border-color: #ba0c00;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    margin-left: 0.5rem;
+    color: white;
+    background-color: #FE5F55;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 1rem;
+    cursor:pointer;
+    position: relative; 
+}
+.standardButtonLobby:hover{
+  opacity: 0.80;
+}
 #crossText{
   font-size: 1.25rem;
   width: 2rem;
@@ -312,58 +318,26 @@ textarea {
 #playButton{
   width: 5rem;
   height: 1.8rem;
-  border-radius: 5px;
-  text-align: center;
-  vertical-align: middle;
-  position: relative;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
-  font-size: 1rem;
-  background-color: #FE5F55;
-  color: #ffffff;
-  border-color: #ba0c00;
-  cursor: pointer;
-}
-#playButton:hover{
-  opacity: 75%;
+  border-radius: 10px;
 }
 
 #homepagebutton {
+  width: 5rem;
+  height: 2.5rem;
   bottom: 0;
   left: 0;
-  margin: 0.5rem;
-  background-color: #FE5F55;
-  border-color: #ba0c00;
-  border-radius: 5px;
-  color: white;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
-
 
 #play{
   width: 6rem;
   height: 2rem;
   border-radius: 15px;
-  border-color: #ba0c00;
-  margin: 1rem;
-  color: white;
-  background-color: #FE5F55;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
-  font-size: 15px;
-  cursor:pointer;
 }
 
-#create:hover{
-    background-color: #fb6d63;
-    
-  }
-  #play:hover{
-    background-color: #fb6d63;
-    
-  }
 
-  #select{
-    margin-top: -20px;
-  }
+#select{
+  margin-top: -20px;
+}
 .scroll::-webkit-scrollbar {
     width: 12px;
 }

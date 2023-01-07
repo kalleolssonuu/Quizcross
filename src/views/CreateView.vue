@@ -7,25 +7,26 @@
       </div>
   </header>
   
-  <button v-on:click="this.testfunc"> test IP ID </button>
   
   
   <div id="div1" class="inputFieldWrapper">
             
       <div class="inputField"> <!-- måste emitta word så att vi kan använda -->
-        <h2>{{uiLabels.yourWord}}</h2>
-        <input type="text" id="wordInput" v-model="word" required="required" placeholder="Word sv/en">
+     
+        <input v-if="this.lang == 'en'" type="text" id="wordInput" v-model="word" required="required" placeholder="Enter a word...">
+        <input v-else type="text" id="wordInput" v-model="word" required="required" placeholder="Ge ett ord... ">
       </div>
       <br>
   
       <div class="inputField" style="display: inline-block">
-          <h2>{{uiLabels.wordDescription}}</h2>
-          <input type="text"  id="descInput" v-model="desc" required="required" placeholder="Word desc sv/en">
+     
+          <input v-if="this.lang == 'en'" type="text"  id="wordInput" v-model="desc" required="required" placeholder="Enter a description... ">
+          <input v-else type="text" id="wordInput" v-model="desc" required="required" placeholder="Ge en beskrivning... ">
       </div>
       <br>
       
-      <button v-if="this.enableWordButtons || this.word =='' || this.desc==''"  class="button-disabled" disabled> {{uiLabels.addWord}} </button>
-      <button v-else v-on:click="this.findPotentialMatches"> {{uiLabels.addWord}} </button>
+      <button v-if="this.enableWordButtons || this.word =='' || this.desc==''"  class="standardButton disabled" disabled> {{uiLabels.addWord}} </button>
+      <button v-else v-on:click="this.findPotentialMatches" class="standardButton"> {{uiLabels.addWord}} </button>
       <!-- <button v-on:click="this.findPotentialMatches">{{uiLabels.addWord}}</button>  -->
       <br>
   
@@ -34,11 +35,13 @@
         <img id="showSolutions" :src="uiLabels.showNext" v-on:click="this.showNextSolution">
       </div>
       
-      <button v-if="!this.enableWordButtons" class="button-disabled" disabled> Confirm </button>
-      <button v-else v-on:click="this.confirmWord"> Confirm </button>
+      <button v-if="!this.enableWordButtons" class="standardButton disabled"  disabled style="width: 6rem;"> {{uiLabels.discard}} </button>
+      <button v-else v-on:click="this.discardWord" class="standardButton" style="width: 6rem;"> {{uiLabels.discard}} </button>
+
+      <button v-if="!this.enableWordButtons" class="standardButton disabled"  disabled style="width: 6rem;"> {{uiLabels.confirm}} </button>
+      <button v-else v-on:click="this.confirmWord" class="standardButton" style="width: 6rem;"> {{uiLabels.confirm}} </button>
   
-      <button v-if="!this.enableWordButtons" class="button-disabled" disabled> Discard </button>
-      <button v-else v-on:click="this.discardWord"> Discard </button>
+      
   
   
     </div>
@@ -54,13 +57,17 @@
           
           <div id="div3">
             <!--<button v-on:click="this.emptyTextFields"> Empty Input </button> ---><!-- gör detta när användaren har valt ett ord istället för en knapp. Det rensar även textfältet -->
-            <button v-on:click="this.resetData">
+            <button class="standardButton" v-on:click="this.resetData">
               {{uiLabels.resetCrossword}}
             </button> 
             <br>
             
-            <button v-on:click="this.confirmCreateCrossword" @click="$router.push('/Lobby/'+lang)"> <!-- JESSIE ÄNDRA SKICKA MED ID?????? -->
+            <button class="standardButton" v-on:click="this.confirmCreateCrossword" @click="$router.push('/Lobby/'+lang)"> <!-- JESSIE ÄNDRA SKICKA MED ID?????? -->
             {{uiLabels.confirmCreate}}  <!--JESSIE OBS OLIKA NAMN - Jessie igen: vet ej vad jag menade med denna kommentar --> 
+            </button>
+
+            <button class="standardButton"  @click="$router.push('/Lobby/'+lang)"> 
+            {{uiLabels.QuitGame}} 
             </button>
 
           </div>
@@ -138,7 +145,7 @@
           prioIterator: 0, 
           wordInOrder: 1,
           wordInOrderCopy: 1,
-          amountWordsAdded: 0,
+          amountWordsAdded: 1,
           letterMatchCounter: 0,
   
           enableWordButtons: false,
@@ -293,8 +300,8 @@
                     this.letterMatchCounter = 0
                     this.wordCollision = false
                     this.crossword.actual.posList[h][v].wordInOrderOld = null
-                    this.crossword.temp[this.userIterator].startPos.x = h
-                    this.crossword.temp[this.userIterator].startPos.y = v
+                    this.crossword.temp[this.matchesIterator-1].startPos.x = h
+                    this.crossword.temp[this.matchesIterator-1].startPos.y = v
                 }
             }
             }
@@ -307,14 +314,16 @@
             } else {
               this.crossword.actual.posList = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].posList))
               const startPos = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].startPos))
-              console.log("startPos = " + String(startPos))
-  
+              console.log("startPos.x = " + String(startPos.x) + String(startPos.y))
+              console.log("word in order på startpos: " + this.crossword.actual.posList[startPos.y][startPos.x].wordInOrder)
+              
               if (this.crossword.actual.posList[startPos.y][startPos.x].wordInOrder != this.wordInOrder &&
                   this.crossword.actual.posList[startPos.y][startPos.x].wordInOrder != null) {
+
                     
                 this.crossword.actual.posList[startPos.y][startPos.x].wordInOrder = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].posList[startPos.y][startPos.x].wordInOrder))
-                /* this.crossword.actual.posList[startPos.y][startPos.x].wordInOrderOld = null */
                 this.wordInOrder--
+                console.log("wordInOrder subtraheras till: " + this.wordInOrder)
               }
               console.log("Amount of words added: " + this.amountWordsAdded)
               console.log("wordInOrder: " + this.wordInOrder)
@@ -462,12 +471,14 @@
   
   <style>
   
-  button {
+  .standardButton{
     width: 10rem;
     height: 4rem;
     border-radius: 15px;
     border-color: #ba0c00;
-    margin: 1.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    margin-left: 0.5rem;
     color: white;
     background-color: #FE5F55;
     font-family: "Comic Sans MS", "Comic Sans", cursive;
@@ -475,20 +486,16 @@
     cursor:pointer;
     position: relative;   
   }
+  .standardButton:hover{
+    opacity: 0.80;
+  }
   
-  .button-disabled {
+  .standardButton.disabled {
     opacity: 30%;
     cursor: default;
     background-color: #ba0c00;
   }
-  
-  #descInput {
-    height: 2rem;
-    width: 9rem;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-size: 1rem;
-    text-align: center; 
-  }
+
   
   #div1 {
     float: left;
@@ -503,7 +510,8 @@
   }
   #div3 {
     float: left;
-    width: 25%;
+    width: 15%;
+    height: 25rem;
     justify-content: center;
     margin-top: 10%;
   }
@@ -543,10 +551,14 @@
     letter-spacing: 0.25em;
     font-size: 2.5rem;
     color: white;
-    padding-top:0.2em;
-    text-align: center;
+    background-color: #FE5F55;
     font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 1rem;
+    cursor:pointer;
+    position: relative;   
   }
+
+
   
   #showSolutions {
     width: 5rem;
@@ -562,10 +574,13 @@
    
   
     #wordInput {
-      height: 2rem;
-      width: 9rem;
+      height: 3rem;
+      width: 12rem;
+      text-align: center; 
       font-family: "Comic Sans MS", "Comic Sans", cursive;
       font-size: 1rem;
-      text-align: center; 
+      border-radius: 1rem;
+      margin-top: 0.5rem
+    
    }
   </style>

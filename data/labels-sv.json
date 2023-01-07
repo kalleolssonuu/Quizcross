@@ -1,5 +1,5 @@
 {	"//StartView": "Här är StartViews översättningar",
-	"changeLanguage": "https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/800px-Flag_of_the_United_Kingdom.svg.png",
+	"changeLanguage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARwAAACxCAMAAAAh3/JWAAAAJFBMVEUAaqf+zAAAaKn/0ABKfJNQgIwAZqtMf41Fe5X/zwByjntRgYvwTh7hAAABqElEQVR4nO3ayY3DQBAEwSGpW/77uxZsig8OIFARDjQ63zXGHOt7Wz7Zruuk619uvYrzL3GCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOOEccdY5bvcdce63SdcPMi5zPF474rwek64fZGyTPD+2WZbnrOMHGTt++FniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAmWXcEmMFiThmkL3lPskCcRJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAniBHGCOEGcIE4QJ4gTxAnr+wRx/gBgCFQDC7+0YQAAAABJRU5ErkJggg==",
 	"createCross": "Skapa",
 	"playCross": "Spela",
 
@@ -16,9 +16,10 @@
 	"//PopUp": "Här är PopUps översättningar",
 	"whatIsQC": "Tryck på 'Skapa' för att skapa ett nytt korsord!\nTryck på 'Spela' för att välja ett korsord att spela",
 	"pageDescriptionLobbyView": "Välj bland förskapade och egenskapade korsord. Tryck sedan på 'Spela' för att lösa korsordet.\n Tryck på 'Skapa' om du vill skapa ett nytt korsord",
-	"pageDescriptionCreateView":"Fyll i ord med motsvarande beskrivning och lägg till i korsordet. Använd knapparna 'Visa nästa och 'Visa senaste' för att bestämma ordets plats i korsordet.",
-	"pageDescriptionPreCreateView": "Använd + och - knapparna för att välja den önskade storleken på ditt korsord",
-	"pageDescriptionPlayView": "Välj riktning och...",
+	"pageDescriptionCreateView":"Fyll i ord med motsvarande beskrivning och lägg till i korsordet. Använd knapparna 'Nästa' och 'Senaste' för att bestämma ordets plats i korsordet.",
+	"pageDescriptionPreCreateView": "Använd '+' och '-' knapparna för att välja den önskade storleken på ditt korsord",
+	"pageDescriptionPlayView": "Klicka på en av rutorna med en siffra på för att skriva in din gissning. Byt riktning (horisontellt eller vertikalt) du skriver på genom att klicka på knappen ovanför korsodet, eller klicka högerpilen för att riktningen ska bli horisontell och nedåtpilen för att riktningen ska bli vertikal",
+	
 	
 
 
@@ -31,7 +32,17 @@
 	"showPrevious": "/img/ShowPreviousSv.png",
 	"resetCrossword": "Återställ korsordet",
 	"confirmCreate": "Bekräfta och skapa korsordet",
+	"confirm": "Bekräfta",
+	"discard": "Kasta",
+	"QuitGame": "Avsluta",
 
 	"//PreCreateView": "Här är PreCreateViews översättningar",
-	"confirmAndCreate": "Spara och spela"
+	"confirmAndCreate": "Skapa",
+
+	"//ActualPlayView": "Här är ActualPlayviews översättningar",
+	"inputDirectionHorizontal": "Horisontell",
+	"inputDirectionVertical": "Vertikal",
+	"horizontalWords": "Horisontella ord:",
+	"verticalWords": "Vertikala ord:",
+	"finishedGame": "Avsluta spel"
 }

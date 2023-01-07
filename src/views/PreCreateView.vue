@@ -5,48 +5,47 @@
       <button v-on:click="togglePopup"></button>
       </Modal>
     </div>
-    </header>
-    
-    <div id="crosswordArea">
-        <h2>{{ dimsX }}   x    {{ dimsY }}</h2>   
-        <div class="plusMinusWrapper" id="PlusMinusButtons">
-
-    <button id="minusButton" v-on:click=decrease type="button">
-    -
-    </button>
-    <button id="plusButton" v-on:click=increase type="button">
-    +
-    </button>
-    </div>
-    <Crossword  v-bind:sourceName="sourceName"
-                      v-bind:crossword="this.crossword.actual.posList"
-                      v-bind:matrixDims="this.matrixDims">
-          </Crossword>
+    </header>  
         
-    </div>
-
-    <div class="nameWrapper" id="nameAndCreate">
-            <br>
-        <form id="gameNameAndSize">
-            <div id="section1">
-                <form id="myForm">                    
-                    <input type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Enter game name here...">
-                </form>
+        <h2>{{ matrixDims.x }}   x    {{ matrixDims.y }}</h2>   
+            <div class="plusMinusWrapper" id="PlusMinusButtons">
+                <button id="minusButton" v-on:click=decrease type="button">
+                -
+                </button>
+                <button id="plusButton" v-on:click=increase type="button">
+                +
+                </button>
             </div>
-        </form>
+
+            <div class="crosswordArea">
+            <Crossword  v-bind:sourceName="sourceName"
+                        v-bind:crossword="this.crossword.actual.posList"
+                        v-bind:matrixDims="this.matrixDims">
+            </Crossword>    
+            </div>
+            
+            <div class="buttonWrapper">
+                <div id="buttonID">
+                    <form id="myForm">                    
+                        <input v-if="this.lang == 'en'" type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Enter game name here...">
+                        <input v-else type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Ge korsordet ett namn...">
+                    </form>
+                
+                    <button class="standardButtonPreCreate" id="confirmAndCreate" @click="$router.push('/CreateView/'+lang+'/'+gameID+'/'+ JSON.stringify(matrixDims))">
+                    {{uiLabels.confirmAndCreate}}
+                    </button> 
+
+                    <button class="standardButtonPreCreate" id="returnButton" @click="$router.push('/'+lang)">
+                    {{uiLabels.backButton}}
+                    </button>
+                </div>
+            </div>
     
+
     <!-- jessies testknapp
     <button v-on:click="this.confirmNameDims()">
     {{uiLabels.confirmAndCreate}}
     </button> -->
-
-    <button id="confirmAndCreate" @click="$router.push('/CreateView/'+lang+'/'+gameID+'/'+ JSON.stringify(matrixDims))">
-        {{uiLabels.confirmAndCreate}}
-    </button> 
-
-    <button id="returnButton" @click="$router.push('/'+lang)">{{uiLabels.backButton}}</button>
-</div>
-
 </template>
     
     <script>
@@ -64,7 +63,7 @@
     return {
     matrixDims: {x: 8, y: 8},    
     x: 8,
-   y: 8,
+    y: 8,
    crossword: {actual: {posList: [], 
                         startPos: {x: 0, 
                                     y: 0
@@ -105,9 +104,11 @@
         // },
 
         increase: function() {
+            if(this.matrixDims.x <= 25){
             this.matrixDims.x ++
             this.matrixDims.y ++
             this.fillPositionsNull()
+        }
         },
 
         decrease: function() {
@@ -120,19 +121,20 @@
 
 
         fillPositionsNull: function () {
-          for (let v = 0; v < this.matrixDims.y; v++) {
-              this.crossword.actual.posList[v] = [];
-              /* crossword = [[null, null, null, null]] */
-              for (let h = 0; h < this.matrixDims.x; h++) {
-              this.crossword.actual.posList[v][h] = {letter: null, 
-                                                 inHorizontal: false,
-                                                 inVertical: false,
-                                                 isFirstLetter: false, 
-                                                 wordInOrder: null}
-              }
-          }
+            this.crossword.actual.posList = []
+            
+            for (let v = 0; v < this.matrixDims.y; v++) {
+                this.crossword.actual.posList[v] = [];
+                /* crossword = [[null, null, null, null]] */
+                for (let h = 0; h < this.matrixDims.x; h++) {
+                this.crossword.actual.posList[v][h] = {letter: null, 
+                                                    inHorizontal: false,
+                                                    inVertical: false,
+                                                    isFirstLetter: false, 
+                                                    wordInOrder: null}
+                }
+            }
   
-          this.crossword.temp = []
           console.log(this.crossword.actual.posList)
         },
 
@@ -157,62 +159,75 @@
     
     <style>
     
-    #crosswordArea {
-        justify-content: center;
-
+    /* .crosswordArea {      
+        float: left;
+        width: 50%;
+        margin-left: 2rem;
+    } */
+    .buttonWrapper{
+        display: flex;
+        flex-direction: column;
+        float:right;
+        align-items: center;
+        height: 20rem;
+        width: 20rem;
+        margin-right: 6rem;
+        margin-top: 6rem;
+        background-color: aqua;
+        
     }
-
-    #nameAndCreate {
-    float: left;
-    width: 25%;
-    justify-content: center;
-    margin-top: 10%;
+    #buttonID{
+    color: white;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 20px;
+    position: relative;
+    float:left;
     }
-
     #confirmAndCreate {
         width: 10rem;
         height: 5rem;
-        bottom: 60%;
-        right: 5%;
+        font-size: 25px;
         font-family: "Comic Sans MS", "Comic Sans", cursive;
         border-color: #ba0c00;
         background-color: #FE5F55;
-        border-radius: 15px;
+        border-radius: 20px;
         color: white;
         position: absolute;
+    }
+    .standardButtonPreCreate{
+    border-color: #ba0c00;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    margin-left: 0.5rem;
+    color: white;
+    background-color: #FE5F55;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 1rem;
+    cursor:pointer;
+    position: relative; 
+    }
+    .standardButtonPreCreate:hover{
+    opacity: 0.80;
     }
     #gameName {
         width: 18rem;
         height: 4.6rem;
-        bottom: 60%;
-        right: 16%;
         font-family: "Comic Sans MS", "Comic Sans", cursive;
         font-size: 25px;
         border-radius: 15px;
         position: absolute;
     }
     #returnButton {
-        bottom: 53%;
-        right: 18%;
+        width: 5rem;
+        height: 2.5rem;
         margin: 0.5rem;
         background-color: #FE5F55;
         border-color: #ba0c00;
-        border-radius: 5px;
+        border-radius: 10px;
         color: white;
         font-family: "Comic Sans MS", "Comic Sans", cursive;
         position: absolute;
         }
-    .nameWrapper{
-    display: flex;
-    justify-content: center;
-    height: 15rem;
-    width: 20rem;
-  }
-
-  .XYWrapper{
-    display: flex;
-    justify-content: center;
-  }
 
   .plusMinusWrapper{
     display: flex;
@@ -236,9 +251,35 @@
         text-align: center;
     }
 
-    #minusButton, #plusButton {
-        height: 2rem;
-        width: 2rem;
+    #minusButton{
+        height: 2.5rem;
+        width: 4rem;
+        background-color: #FE5F55;
+        border-color: #ba0c00;
+        color: white;
+        font-size: 25px;
+        font-family: "Comic Sans MS", "Comic Sans", cursive;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        cursor: pointer;
+    }
+    #plusButton {
+        height: 2.5rem;
+        width: 4rem;
+        background-color: #FE5F55;
+        border-color: #ba0c00;
+        color: white;
+        font-size: 25px;
+        font-family: "Comic Sans MS", "Comic Sans", cursive;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+        cursor: pointer;
+    }
+    #plusButton:hover{
+        background-color: #fb6d63;
+    }
+    #minusButton:hover{
+        background-color: #fb6d63;
     }
 
     input::-webkit-outer-spin-button,
