@@ -57,18 +57,26 @@ function sockets(io, socket, data) {
   // FUNKTIONER FRÅN KLICK CONFIRMCRETAE
   socket.on('createdCrosswordPackage', function(d) {
     data.addPackage(d); 
-
-    socket.emit('currentCrosswordNames', data.getCrosswordNames() ); // ska inte data d skickas in som argument????
-    io.emit('currentCrosswordNames', data.getCrosswordNames() ); // behöver väl ej skicka in något? anv bara info från this.crosspackages som redan är uppdaterad globalt
-                                                                             //dvs REDAN LYSSNAR PÅ AKTUELLA MEDDELLANDET
+    io.emit('currentCrosswordNames', data.getCrosswordNames() ); // behöver väl ej skicka in något? anv bara info från this.crosspackages som redan är uppdaterad globalt                                                
   });
+  // JÄÄÄTTEVIKTIGT ATT SOCKET EMIT ÄR UTANFÖR!!!! 
+  // PORTEN MÅSTE JU SKAPAS SÅ FORT SERVER SÄTTS PÅ, SÅ ATT DEN E REDO ATT LYSSNA NÄR TRYCKER PÅ CONFIRMCREATE
+  // ANNARS KOMMER "CREATEDCROSSWORDPACKAGE"OCH INGEN MOTTAGARE E UPPSATT
+  // MÅSTE ALLTSÅ DET REDAN EXISTERA EN SOCKET.on INNAN socket.on funkar?????? tänkte att den liksom kunde skapas i funvktionen socket.on
+  socket.emit('currentCrosswordNames', data.getCrosswordNames() ); // ska inte data d skickas in som argument????
+
 
   // FUNKTIONER FRÅN KLICK PLAY I LOBBY
 
-  socket.on('chosenGame', function(d) {
-    data.matchChosen(d);
+  socket.on('chosenGame', function(d) {    
+    console.log("I finsmatchinggame")
+    data.findMatchingGame(d)
+    // console.log("test av findmatchinggame i socket.on")
+    // console.log(data.findMatchingGame(d) ) /// FUNKAR
 
-  });
+    io.emit('gameToBePlayed', data.getMatchingGame() ); //  visst ska denna också finnas? när en socket redan etablerats. tänker om man vill spela ett till spel typ
+  });    
+  socket.emit('gameToBePlayed', data.getMatchingGame() );    
 
   
 

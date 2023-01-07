@@ -48,7 +48,7 @@
 
   <div>
     {{"servertest:"}}
-    <ul v-if="this.crosswordnames" >
+    <ul v-if="this.crosswordNames" >
       {{this.crosswordNames}}   
     </ul>
 
@@ -86,11 +86,13 @@ export default{
         this.crosswordNames= data
     }); 
 
+    console.log("crosswordNames mottaget i lobbyview är:");
+    console.log(this.crosswordNames);
   },  
 
   data: function() {
     return{
-      crosswordNames: [], 
+      crosswordNames: null, 
       gameID: "", 
       lang: "",
 
@@ -114,8 +116,10 @@ export default{
   },
   methods: {
 
-    emitGameChoice: function() { // glöm ej ta in variabel som e inputtexten
-      socket.emit("chosenGame", this.gameID ); // JESSIE ÄNDRA
+    emitGameChoice: function() { 
+      socket.emit("chosenGame", this.gameID ); 
+
+      console.log("I emitgamechoice")
       
 
     },

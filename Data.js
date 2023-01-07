@@ -10,7 +10,7 @@ function Data() {
 
  this.crosswordPackages = {}; // 
  this.crossword = null;    // ersätts med nytt korsord varje gång
- this.chosenID = null; // VARFÖR MÅSTE JAG LAGRA GLOBALT??? ALLTID "undefind" annars. se kommentarer i matchchosen
+ this.matchingCrossword = null; // VARFÖR MÅSTE JAG LAGRA GLOBALT??? ALLTID "undefind" annars. se kommentarer i matchchosen
                       // SKoja tror det löste sig? Ta bort dessa variabler sen, alltså gör dem lokala
 
 
@@ -152,26 +152,30 @@ Data.prototype.getCrosswordNames = function () {
   let crosswordNames = 
   Object.values(this.crosswordPackages).map(item => item.crosswordName);
   
+  console.log("crosswordNames i getCrosswordnames uppdaterat till:")
   console.log(crosswordNames)
 
-  return this.crosswordNames
+  return crosswordNames
 };
 
 //FUNKTIONER NÄR KLICK PLAY I LOBBY
-Data.prototype.matchChosen = function(d) {
-  console.log("I matchchasen")
-
-  this.chosenID = d;
-  let IDToMatch = this.chosenID.replace(/\s/g, '');
+Data.prototype.findMatchingGame = function(d) {
+  console.log("I findMatchingGame")
+  
+  let chosenID = d;
+  let IDToMatch = chosenID.replace(/\s/g, '');
  
-  console.log("ID att matcha är:")
-  console.log(IDToMatch) 
-
-  let matchingCrossword = 
+  let matchingCrosswordArray = 
   Object.entries(this.crosswordPackages).find(([ID, pack]) => ID === IDToMatch)
+  // OBS SE TILL ATT ENBART FINNS ETT MATCHANDE KORSORD
+  this.matchingCrossword =
+  Object.fromEntries([matchingCrosswordArray]) // NÄR MAN SKICKAR OBJEKT MÅSTE VARA DEFINED???? TSK FRÅN LISTOR??
+  };
 
-  console.log("matchande korsord är")
-  console.log(matchingCrossword)
+Data.prototype.getMatchingGame = function() {
+  console.log("matchingcrossword i getmatchingcrossword är:")
+  console.log(this.matchingCrossword)
+  return(this.matchingCrossword)
 };
 
 

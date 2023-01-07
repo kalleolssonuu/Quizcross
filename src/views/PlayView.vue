@@ -12,6 +12,21 @@
     {{ inputDirection }}
   </button>
 
+  <div>
+    {{"servertest:"}}
+
+    <!-- <ul v-if="this.crosswordToPlay" >
+      {{this.crosswordToPlay}}   
+    </ul> -->
+
+    <ul>
+      <li v-for="(value, key) in this.crosswordToPlay" :key="key">
+        {{ key }}: {{ value.wordDesc }}
+      </li>
+    </ul>
+
+  </div>
+
   <div id="div2">
         <Crossword  v-bind:sourceName="this.sourceName"
                     v-bind:crossword="this.userCrossword"
@@ -21,7 +36,7 @@
         </Crossword>
   </div>
 
-  <!-- JESSIE: FIXA SÅ SKICKAR ETT PAKET INTE ALLA, SE ANTECK I LOBBY -->
+ 
   <div class ="wordDescriptionWrapper"> 
     <ol id="horizontalDescriptions">
       <u>Horisontella ord</u> <!-- lägg till i uiLabels-->
@@ -35,17 +50,8 @@
     </ol>
     </div>
 
-    <div>
-    {{"servertest:"}}
-
-    <ul v-if="this.crosswordPackages" >
-      {{Object.keys(this.crosswordPackages)}}
-    </ul>
-    
-  </div>
-
    <button id="finishedGame" @click="$router.push('/lobby/'+lang)">{{'Avsluta spel'}}</button>  
-  
+   
 </template>
 
 <script>
@@ -66,6 +72,8 @@ export default {
     },
     data: function () {
       return {
+        crosswordToPlay: null, // bättre namn??
+
         word: "",
         desc: "",
         matrixDims: {x: 13, y: 10},
@@ -99,14 +107,21 @@ export default {
       ),
       this.fillPremadeCrossword();
       this.userCrossword = this.getUserCrossword()
-
       
+      socket.on('gameToBePlayed', data  => { // ursprung: lobby
+        this.crosswordToPlay = data}) 
+
+      console.log("matchingGames mottaget i playview är")
+      console.log(this.crosswordToPlay)
     
       socket.on("currentOccupied", data => { // ursprung: annans playview
         this.occupiedWordboxes = data})
+
+      
     },
 
     methods: {
+
       updateOccupied: function() { // ska aktiveras när en klient klickar på en ruta          
         //  this.occupiedWordboxes 
 
