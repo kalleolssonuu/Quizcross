@@ -52,22 +52,33 @@ function sockets(io, socket, data) {
     data = new Data();
     data.initializeData();
   });
-
-
   
-  // FUNKTIONER FÖR CROSSWORDPACKAGES:
-  socket.on('emittedCrosswordPackage', function(pack) {
-    data.addPackage(pack); // lägger till paket i this.crosswordPackages med ID som key
-    console.log("i socket.on");
-
-    io.emit('currentCrosswordPackages', data.getAllCrosswordPackages() );      //"send updated info to all connected clients"
-    io.emit('currentPackageInfoForLobby', data.getAllPackageInfoForLobby() );  // Tror alltså den skickar info till ALLA clients som REDAN ÄR CONNECTADE
-                                                                               // dvs REDAN LYSSNAR PÅ AKTUELLA MEDDELLANDET
+  
+  // FUNKTIONER FRÅN KLICK CONFIRMCRETAE
+  socket.on('createdCrosswordPackage', function(d) {
+    data.addPackage(d); 
+    io.emit('currentCrosswordNames', data.getCrosswordNames() ); // behöver väl ej skicka in något? anv bara info från this.crosspackages som redan är uppdaterad globalt                                                
   });
+  // JÄÄÄTTEVIKTIGT ATT SOCKET EMIT ÄR UTANFÖR!!!! 
+  // PORTEN MÅSTE JU SKAPAS SÅ FORT SERVER SÄTTS PÅ, SÅ ATT DEN E REDO ATT LYSSNA NÄR TRYCKER PÅ CONFIRMCREATE
+  // ANNARS KOMMER "CREATEDCROSSWORDPACKAGE"OCH INGEN MOTTAGARE E UPPSATT
+  // MÅSTE ALLTSÅ DET REDAN EXISTERA EN SOCKET.on INNAN socket.on funkar?????? tänkte att den liksom kunde skapas i funvktionen socket.on
+  socket.emit('currentCrosswordNames', data.getCrosswordNames() ); // ska inte data d skickas in som argument????
+
+
+  // FUNKTIONER FRÅN KLICK PLAY I LOBBY
+
+  socket.on('chosenGame', function(d) {    
+    console.log("I finsmatchinggame")
+    data.findMatchingGame(d)
+    // console.log("test av findmatchinggame i socket.on")
+    // console.log(data.findMatchingGame(d) ) /// FUNKAR
+
+    io.emit('gameToBePlayed', data.getMatchingGame() ); //  visst ska denna också finnas? när en socket redan etablerats. tänker om man vill spela ett till spel typ
+  });    
+  socket.emit('gameToBePlayed', data.getMatchingGame() );    
 
   
-  socket.emit('currentCrosswordPackages', data.getAllCrosswordPackages() );    // skickar aktuella info when a client connects, dvs till playview och lobbyview   
-  socket.emit('currentPackageInfoForLobby', data.getAllPackageInfoForLobby() ); 
 
 
   // FUNKTIONER FÖR UPPDATERING AV POS NÄR KORSORD SPELAS

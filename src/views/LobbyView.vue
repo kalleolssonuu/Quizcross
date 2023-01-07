@@ -39,50 +39,25 @@
 
 
   <div>
+    <text id="crossText">{{uiLabels.crossID}}</text> 
 
-    <text id="selectadGameText">{{ uiLabels.selectedGameLang }}</text><br>
-      <textarea readonly id="selectedGame">
+    <input type="text" v-model="gameID" id="selectedid" placeholder="ex: jjjessiesSpel">
+     
+    <textarea readonly id="selectedGame">
 
       </textarea>
                  
-    <button class="standardButtonLobby" v-on:click="playCross" @click="$router.push('/PlayView/'+lang)">
+    <button class="standardButtonLobby" v-on:click="emitGameChoice()" @click="$router.push('/PlayView/'+lang)">
       {{uiLabels.playPlay}}
     </button>
     
   </div>
 
-   <!-- <div>
-     JESSIE: FIXA SÅ:
-          - LOBBY, VID VAL AV KORSNAMN, SKICKAR KORSNAMN OCH ID TILL SERVER
-          - SERVER KOLLAR VILKET PAKET SOM MATCHAR, ANTINGEN NAMN ELLER IDMATCH?
-          - SKICKAR MOTSVARANDE PAKET TILL ACTUALPLAY  
+  <div>
     {{"servertest av confirmCreate:"}}
     <ul v-if="this.crosswordPackageInfo" >
       {{this.crosswordPackageInfo}}   
     </ul>
-    
-    <ul> 
-
-      <label>
-        Write poll id: 
-        <input type="text" v-model="id">
-      </label> 
-
-       <router-link v-bind:to="'/playView/'+id"> {{uiLabels.participateGame}} </router-link> 
-       router-link is used to create links for navigating between routes 
-            - så eftersom id är dynamiskt blir det olika länkar beroende på vilket id som skrivs in, 
-            - betyder det att den skapar nya playviews med varje nytt id?? 
-            - Lösa:
-              - betyder det nu att alla som har tillgång till ett id spelar samma spel? men behöver väl fortfarnde skicka paket med ändringar?
-              - hur bestäms id från createview
-              - fixa så även språket hänger med, se hur playknappen är skapad nu
-              - obs kolla hela språkgrejen så det sker rätt, det där micke sa. se kommentarer i created i startview
-              - användarid?
-              - diskutera hur micke gör allt i servern i data!!! vi gör typ inget där men kanske ej behövs?
-
-      
-
-    </ul> 
 
   </div>
    -->
@@ -102,22 +77,26 @@ export default{
   components:{
     Modal
   },
-  props: {
+    props: {
   modal: Object
 },
 
   created: 
   function () {
+    this.lang = this.$route.params.lang; 
+
     socket.emit('pageLoaded')
 
     socket.on("init", (labels) => {  // VAD GÖR DENNA FÖRSTÅ DET
       this.uiLabels = labels
     });
+    socket.on('currentCrosswordNames', data => { 
+        this.crosswordNames= data
+    }); 
 
-    socket.on('currentPackageInfoForLobby', data => { // tar emot korsordsinfo från server, ursprung confirmCreate
-        this.crosswordPackageInfo = data
-    });
-    
+    console.log("crosswordNames mottaget i lobbyview är:");
+    console.log(this.crosswordNames);
+        
     this.shownGames = JSON.parse(JSON.stringify(this.allGames));
 
   /*   window.addEventListener('keydown', this.searchGame) */
@@ -126,9 +105,10 @@ export default{
 
   data: function() {
     return{
-      crosswordPackageInfo: null,
-      id: "", // för participantid
-      
+      crosswordNames: null, 
+      gameID: "", 
+      lang: "",
+
       gameName: "",
 
       shownGames:[],
@@ -141,12 +121,20 @@ export default{
       selectedGame: {},
       uiLabels: {},
      
-      lang: "en",
+      lang: "",
       showModal: false,
       sourceName: "LobbyView"
     }
   },
   methods: {
+
+    emitGameChoice: function() { 
+      socket.emit("chosenGame", this.gameID ); 
+
+      console.log("I emitgamechoice")
+      
+
+    },
    
     searchGame: function() {
       this.shownGames = this.allGames.filter(item => item.toLowerCase().includes(this.searchTerm.toLowerCase()));
@@ -159,11 +147,7 @@ export default{
     document.getElementById("selectedGame").value=game;
    /*  document.getElementById("selectedid").value=games.id */
   },
-  /* listenAddGame: function(games) {
-    socket.on("receiveGameFromCreateView") {
-      games.push()
-    }
-  }, */
+
 
   switchLanguage: function() {
     if (this.lang === "en")

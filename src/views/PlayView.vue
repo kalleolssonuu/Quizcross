@@ -14,6 +14,18 @@
     <button v-on:click="changeDirection">
       {{ inputDirection }}
     </button>
+
+    <div>
+    {{"servertest:"}}
+
+    <ul>
+      <li v-for="(value, key) in this.crosswordToPlay" :key="key">
+        {{ key }}: {{ value.wordDesc }}
+      </li>
+    </ul>
+
+  </div>
+    
           <Crossword  v-on:sendPosition="this.storePosition($event)"
                       v-on:updateLayout="this.updateLayout($event)"
           
@@ -84,6 +96,8 @@
       },
       data: function () {
         return {
+          crosswordToPlay: null, // bättre namn??
+
           word: "",
           desc: "",
           matrixDims: {x: 10, y: 10},
@@ -101,7 +115,7 @@
           showModal: false,
           uiLabels: {},
           id: "",
-          lang: "en",
+          lang: "",
           sourceName: "PlayView",
           inputDirection: "Horizontal",
   
@@ -121,13 +135,18 @@
         this.fillPremadeCrossword();
         this.userCrossword = this.getUserCrossword()
   
-        // sockets för skapadet av korsord-ish
-        socket.on('currentCrosswordPackages', data => { // tar emot korsordsinfo från server, ursprung confirmCreate
-          this.crosswordPackages = data}); 
-        socket.on("currentOccupied", data => {
-          this.occupiedWordboxes = data})
+        socket.on('gameToBePlayed', data  => { // ursprung: lobby
+        this.crosswordToPlay = data}) 
+
+      console.log("matchingGames mottaget i playview är")
+      console.log(this.crosswordToPlay)
+    
+      socket.on("currentOccupied", data => { // ursprung: annans playview
+        this.occupiedWordboxes = data})
+
         window.addEventListener('keydown', this.enterLetterFromKeyPress)
       },
+      
       beforeUnmount() {
         window.removeEventListener('keydown', this.enterLetterFromKeyPress)
       },
