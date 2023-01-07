@@ -42,6 +42,7 @@
       <button v-else v-on:click="this.confirmWord" class="standardButton" style="width: 6rem;"> {{uiLabels.confirm}} </button>
   
       
+      
   
   
     </div>
@@ -158,7 +159,7 @@
                                    startPos: {x: 0, 
                                               y: 0
                                              }
-                                  }, 
+                                  },
                           temp: []
                          },
           crosswordCopy: [],
@@ -334,6 +335,8 @@
         }, 
      
         confirmWord: function () {
+          const audio = new Audio("https://audio-previews.elements.envatousercontent.com/files/317218604/preview.mp3?response-content-disposition=attachment%3B+filename%3D%22MQR9VVH-confirm-pop.mp3%22")
+          audio.play()
           this.crosswordCopy = JSON.parse(JSON.stringify(this.crossword.actual.posList))
   
           this.crosswordPackage.wordDesc[this.amountWordsAdded] = {word: this.word, desc: this.desc}
@@ -346,6 +349,8 @@
         },
   
         discardWord: function () {
+          const audio = new Audio("https://audio-previews.elements.envatousercontent.com/files/145365988/preview.mp3?response-content-disposition=attachment%3B+filename%3D%222Y687H5-throwing-garbage-in-garbage-can-2.mp3%22")
+          audio.play()
           this.word = ""
           this.desc = ""
           this.amountWordsAdded--
