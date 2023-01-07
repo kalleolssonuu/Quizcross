@@ -377,13 +377,13 @@
     float:right;
     align-items: center;
     height: 50rem;
-    width: 30rem;
-    margin-right: 10rem;
-    margin-top: 7rem;
+    width: 22rem;
+    margin-right: 6rem;
+    margin-top: 6rem;
   }
   
   #horizontalDescriptions{
-    width: 25rem;
+    width: 20rem;
     height: 15rem;
     border-radius: 5px;
     border-color: #a6d8d4;
@@ -398,7 +398,7 @@
   }
   
   #verticalDescriptions{
-    width: 25rem;
+    width: 20rem;
     height: 15rem;
     border-radius: 5px;
     border-color: #a6d8d4;
@@ -411,7 +411,7 @@
     float:left;
   }
   #wordDescTop{
-    width: 20rem;
+    width: 16rem;
     height: 3rem;
     border-radius: 5px;
     border-color: #43918a;
