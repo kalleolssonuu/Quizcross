@@ -26,9 +26,10 @@
             
             <div class="buttonWrapper">
                     <form id="myForm">                    
-                        <input v-if="this.lang == 'en'" type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Enter game name here...">
+                        <input v-if="this.lang == 'en'" type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Enter game name here..."> 
                         <input v-else type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Ge korsordet ett namn...">
                     </form>
+                    <!-- JESSIE FRÅGA: GLÖM EJ måste fixa så ej kan skriva ett namn som redan finns!!!!! -->
                 
                     <button class="standardButtonPreCreate" id="confirmAndCreate" @click="$router.push('/CreateView/'+lang+'/'+gameID+'/'+ JSON.stringify(matrixDims))">
                     {{uiLabels.confirmAndCreate}}
@@ -38,12 +39,7 @@
                     {{uiLabels.backButton}}
                     </button>
             </div>
-    
-
-    <!-- jessies testknapp
-    <button v-on:click="this.confirmNameDims()">
-    {{uiLabels.confirmAndCreate}}
-    </button> -->
+  
 </template>
     
     <script>
@@ -60,7 +56,7 @@
     data: function () {
     return {
     matrixDims: {x: 8, y: 8},    
-    x: 8,
+    x: 8,  // JESSIE FRÅGA: är dessa nödvändiga?
     y: 8,
    crossword: {actual: {posList: [], 
                         startPos: {x: 0, 
@@ -88,19 +84,6 @@
     },
 
     methods: {
-        // submitDims() { 
-        // console.log("x: " + this.x + ", y: " + this.y);
-        // console.log(this.matrixDims)
-        // },
-
-
-
-        // storeValues() {
-        // this.matrixDims.x = this.x
-        // this.matrixDims.y = this.y
-        // this.fillPositionsNull()
-        // },
-
         increase: function() {
             if(this.matrixDims.x <= 25){
             this.matrixDims.x ++
@@ -123,7 +106,7 @@
             
             for (let v = 0; v < this.matrixDims.y; v++) {
                 this.crossword.actual.posList[v] = [];
-                /* crossword = [[null, null, null, null]] */
+                /* crossword = [[null, null, null, null]] */     // JESSIE FRÅGA: ok att ta bort?
                 for (let h = 0; h < this.matrixDims.x; h++) {
                 this.crossword.actual.posList[v][h] = {letter: null, 
                                                     inHorizontal: false,
@@ -145,12 +128,10 @@
             socket.emit("switchLanguage", this.lang)
             this.$router.push(this.lang)
         },
-
-        /* FÖR ATT FÅ FRAM POP-UP RUTA*/
+        
         togglePopup: function () {
             this.showModal = ! this.showModal;
-        },
-      
+        },      
     }
     }
     </script>

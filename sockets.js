@@ -54,34 +54,24 @@ function sockets(io, socket, data) {
   });
   
   
-  // FUNKTIONER FRÅN KLICK CONFIRMCRETAE
+  // Nedan har ursprung: klick på knappen "confirmcreatecrossword" i createview
   socket.on('createdCrosswordPackage', function(d) {
     data.addPackage(d);  
-
-    io.emit('currentCrosswordNames', data.getCrosswordNames() ); // behöver väl ej skicka in något? anv bara info från this.crosspackages som redan är uppdaterad globalt                                                
+    io.emit('currentCrosswordNames', data.getCrosswordNames() );                                                 
   });
+
    socket.emit('currentCrosswordNames', data.getCrosswordNames() ); 
- 
-  
-  // MÅSTE ALLTSÅ DET REDAN EXISTERA EN SOCKET.on INNAN socket.on funkar?????? tänkte att den liksom kunde skapas i funvktionen socket.on
-       // Vid start av server emittas alltså currentcrosswordnames direkt!! så "dörren" e redo för en io.emit när socket.on tar emot ett meddelande från createview
-       // men tas ej emot något av lobby försän lobby creatas
-  
 
 
-  // FUNKTIONER FRÅN KLICK PLAY I LOBBY
-
+  // Nedan har ursprung: Klick på knappen play i lobbyview
   socket.on('chosenGame', function(d) {    
     console.log("I finsmatchinggame")
+
     data.findMatchingGame(d)
-    // console.log("test av findmatchinggame i socket.on")
-    // console.log(data.findMatchingGame(d) ) /// FUNKAR
     io.emit('gameToBePlayed', data.getMatchingGame() ); //  visst ska denna också finnas? när en socket redan etablerats. tänker om man vill spela ett till spel typ
   });    
   
   socket.emit('gameToBePlayed', data.getMatchingGame() ); 
-
-
 
 }
 

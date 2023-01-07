@@ -9,62 +9,64 @@
     </Modal>
   </header>
 
-  <text id="crossText">{{uiLabels.crossID}}</text> 
+  <!-- JESSIE FRÅGA: Varför behövs den nedan? -->
+  <text id="crossText">{{uiLabels.crossID}}</text>  
 
   <div class="gameWrapper">
+
     <div id="allGamesList">
       {{uiLabels.gameList}}
-        <div id="gameList">
+
+      <div id="gameList">
+
           <div class="scroll">
-          <div id="listOfGames" v-for="(game, key) in shownGames" :key="key">
-            
-          <button id="selectGameButtonStyle" v-on:click=selectGame(game)>
-            {{game}}
-          </button>
+            <div id="listOfGames" v-for="(game, key) in shownGames" :key="key">              
+              <button id="selectGameButtonStyle" v-on:click=selectGame(game)>
+                {{game}}
+              </button>
+            </div>
           </div>
 
+          <div class="wrapper">        
+            <input v-on:keyup="searchGame" v-if="this.lang == 'en'" v-model="searchTerm" id="searchInput" placeholder="Search for a game">
+            <input v-on:keyup="searchGame" v-else v-model="searchTerm" id="searchInput" placeholder="Sök efter ett spel">
           </div>
-      <div class="wrapper">
-    
-        <input v-on:keyup="searchGame" v-if="this.lang == 'en'" v-model="searchTerm" id="searchInput" placeholder="Search for a game">
-        <input v-on:keyup="searchGame" v-else v-model="searchTerm" id="searchInput" placeholder="Sök efter ett spel">
-
 
       </div>
-      </div>
+
     </div>
+
   </div>
-
-
+  
   <button class="standardButtonLobby" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.create}}</button>
 
-
- <!-- <input type="text" v-model="gameID"  placeholder="ex: jjjessiesSpel"> -->
+<!-- JESSIE FRÅGA: nej jessie fixa -->
+ <!-- <input type="text" v-model="gameID"  placeholder="ex: jjjessiesSpel"> --> 
   
  <div>
-    <text id="crossText">{{uiLabels.crossID}}</text> 
-
-    
+    <text id="crossText">{{uiLabels.crossID}}</text>     
      
-    <textarea readonly id="selectedGame">
-
-    </textarea>
-                
-    <!-- JESSIE GLÖM EJ ÄNDRA SEARCHTERM I URL -->
-    <button class="standardButtonLobby" v-on:click="emitGameChoice()" @click="$router.push('/playView/'+lang+'/'+ searchTerm)">
+    <!-- JESSIE FRÅGA: 
+          - nedan är lite ointuitivt, ser ut som en inputruta
+            kanske ändra färg och ändra texten till vänster till "selected game"
+          - SAMT hur göra med spelet man just gjort? ska det dyka upp i ruta eller blir det bara rörigt? -->
+    <textarea readonly id="selectedGame"> 
+    </textarea>                
+    
+    <button class="standardButtonLobby" v-on:click="emitGameChoice()" @click="$router.push('/playView/'+lang+'/'+ searchTerm)"> 
       {{uiLabels.playPlay}}
     </button>
     
   </div>
 
-  <div>
+  <!-- HA kvar servertest lite till!! -->
+  <div>  
     {{"servertest :"}}
     <ul v-if="this.crosswordNames" >
       {{this.crosswordNames}}   
     </ul>
 
-  </div>
-   
+  </div>   
   
   <button class="standardButtonLobby" @click="$router.push('/'+lang)">{{uiLabels.backButton}}</button>
  
@@ -81,9 +83,10 @@ export default{
   components:{
     Modal
   },
-    props: {
-  modal: Object
-},
+  
+  props: {
+    modal: Object
+  },
 
   created: 
   function () {
@@ -91,19 +94,17 @@ export default{
 
     socket.emit('pageLoaded')
 
-    socket.on("init", (labels) => {  // VAD GÖR DENNA FÖRSTÅ DET
+    socket.on("init", (labels) => {  //JESSIE FRÅGA: VAD GÖR DENNA
       this.uiLabels = labels
     });
+
     socket.on('currentCrosswordNames', data => { 
         this.crosswordNames= data
     }); 
 
-    console.log("LOBBYVIEW I CREATED, crosswordNames mottaget är:");
-    console.log(this.crosswordNames);
-        
     this.shownGames = JSON.parse(JSON.stringify(this.allGames));
 
-  /*   window.addEventListener('keydown', this.searchGame) */
+  /*   window.addEventListener('keydown', this.searchGame) */ // JESSIE FRÅGA: ha kvar?
 
   },  
 
@@ -129,28 +130,24 @@ export default{
       sourceName: "LobbyView"
     }
   },
-  methods: {
 
+  methods: {
     emitGameChoice: function() { 
-      socket.emit("chosenGame", this.searchTerm ); //ÄNDRA SEN
+      socket.emit("chosenGame", this.searchTerm ); 
 
       console.log("I emitgamechoice")
-      
-
     },
    
     searchGame: function() {
       this.shownGames = this.allGames.filter(item => item.toLowerCase().includes(this.searchTerm.toLowerCase()));
 
       console.log("sökta spel " + this.shownGames)
-
     },
 
   selectGame: function (game){ 
     document.getElementById("selectedGame").value=game;
    /*  document.getElementById("selectedid").value=games.id */
   },
-
 
   switchLanguage: function() {
     if (this.lang === "en")
@@ -161,17 +158,16 @@ export default{
     socket.emit("switchLanguage", this.lang)
     this.$router.push(this.lang)
     },
-/* FÖR ATT FÅ FRAM POP-UP RUTA*/
-togglePopup: function () {
-    this.showModal = ! this.showModal;
+
+  togglePopup: function () {
+      this.showModal = ! this.showModal;
+    }
   }
-}
 }
 
 </script>
 
 <style>
-
 
 .gameWrapper{
   display: flex;
@@ -192,14 +188,14 @@ togglePopup: function () {
   position: relative;
 }
 div.scroll {
-              margin:0.5rem;
-              background-color: #ffffff;
-              width: 39rem;
-              height: 24rem;
-              overflow-x: hidden;
-              overflow-y: auto;
-              text-align:justify;
-              color:black;
+  margin:0.5rem;
+  background-color: #ffffff;
+  width: 39rem;
+  height: 24rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align:justify;
+  color:black;
           }
 
   #create {
