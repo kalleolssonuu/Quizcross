@@ -137,16 +137,11 @@
         socket.on('gameToBePlayed', data  => { // ursprung: lobby
         this.crosswordToPlay = data}) 
 
-        console.log("matchingGames mottaget i playview är")
+        console.log("I PLAYVIEW, matchingGames mottaget är")
         console.log(this.crosswordToPlay)
       
-        socket.on("currentOccupied", data => { // ursprung: annans playview
-          this.occupiedWordboxes = data})
-
-
-        // sockets för skapadet av korsord-ish
-        socket.on('currentCrosswordPackages', data => { // tar emot korsordsinfo från server, ursprung confirmCreate
-          this.crosswordPackages = data}); 
+        // socket.on("currentOccupied", data => { // ursprung: annans playview
+        //   this.occupiedWordboxes = data})
 
         window.addEventListener('keydown', this.enterLetterFromKeyPress)
       },
@@ -160,13 +155,6 @@
         }
       }, */
       methods: {
-        updateOccupied: function() { // ska aktiveras när en klient klickar på en ruta          
-          //  this.occupiedWordboxes 
-  
-           // socket.emit('updatedOccupied', this.occupiedWordboxes )
-            socket.emit('updatedOccupied', "hejhej" )
-        },
-
         storePosition: function (event) {
 
           if (this.firstMouseClick) {

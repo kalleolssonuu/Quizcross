@@ -193,12 +193,6 @@
       },
       methods: {
 
-        testfunc: function() {
-          socket.emit('chosenGame',"hejhej")
-
-          
-        },
-
         switchLanguage: function() {
           if (this.lang === "en")
             this.lang = "sv"
@@ -392,7 +386,8 @@
                                                  inHorizontal: false,
                                                  inVertical: false,
                                                  isFirstLetter: false, 
-                                                 wordInOrder: null}
+                                                 wordInOrder: null,
+                                                 isOccupied: false}
               }
           }
   

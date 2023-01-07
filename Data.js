@@ -6,17 +6,11 @@ const languages = ["en", "se"];
 function Data() {
   this.polls = {};
 
-  this.occupiedWordboxes = null; // info om vilka rutor som är occupied i actualplayview
-
  this.crosswordPackages = {}; // 
  this.crossword = null;    // ersätts med nytt korsord varje gång
  this.matchingCrossword = null; // VARFÖR MÅSTE JAG LAGRA GLOBALT??? ALLTID "undefind" annars. se kommentarer i matchchosen
                       // SKoja tror det löste sig? Ta bort dessa variabler sen, alltså gör dem lokala
 
-
-  // this.crosses = {}; /* {userID: {crosswordID: {all info}
-  //                                }
-  //                       } */
 }
 
 /***********************************************
@@ -176,24 +170,6 @@ Data.prototype.getMatchingGame = function() {
   console.log("matchingcrossword i getmatchingcrossword är:")
   console.log(this.matchingCrossword)
   return(this.matchingCrossword)
-};
-
-
-//FUNKTIONER FÖR UPPDATERADE POSITIONER I ACTUALPLAYVIEW
-Data.prototype.updateOccupied = function(d) {
-  
-  this.occupiedWordboxes = d;
-  
-  console.log(this.occupiedWordboxes)
-  
-};
-
-Data.prototype.getAllOccupied = function () {
-  console.log('i getAllOccupied')
-
-  
- // this.occupiedWordboxes
-
 };
 
 

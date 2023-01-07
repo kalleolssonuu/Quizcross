@@ -9,7 +9,7 @@
     </Modal>
   </header>
 
-
+  <text id="crossText">{{uiLabels.crossID}}</text> 
 
   <div class="gameWrapper">
     <div id="allGamesList">
@@ -28,6 +28,8 @@
     
         <input v-on:keyup="searchGame" v-if="this.lang == 'en'" v-model="searchTerm" id="searchInput" placeholder="Search for a game">
         <input v-on:keyup="searchGame" v-else v-model="searchTerm" id="searchInput" placeholder="Sök efter ett spel">
+
+
       </div>
       </div>
     </div>
@@ -37,7 +39,7 @@
   <button class="standardButtonLobby" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.create}}</button>
 
 
- <input type="text" v-model="gameID"  placeholder="ex: jjjessiesSpel">
+ <!-- <input type="text" v-model="gameID"  placeholder="ex: jjjessiesSpel"> -->
   
  <div>
     <text id="crossText">{{uiLabels.crossID}}</text> 
@@ -46,22 +48,23 @@
      
     <textarea readonly id="selectedGame">
 
-      </textarea>
-                 
-    <button class="standardButtonLobby" v-on:click="emitGameChoice()" @click="$router.push('/PlayView/'+lang)">
+    </textarea>
+                
+    <!-- JESSIE GLÖM EJ ÄNDRA SEARCHTERM I URL -->
+    <button class="standardButtonLobby" v-on:click="emitGameChoice()" @click="$router.push('/playView/'+lang+'/'+ searchTerm)">
       {{uiLabels.playPlay}}
     </button>
     
   </div>
 
   <div>
-    {{"servertest av confirmCreate:"}}
-    <ul v-if="this.crosswordPackageInfo" >
-      {{this.crosswordPackageInfo}}   
+    {{"servertest :"}}
+    <ul v-if="this.crosswordNames" >
+      {{this.crosswordNames}}   
     </ul>
 
   </div>
-   -->
+   
   
   <button class="standardButtonLobby" @click="$router.push('/'+lang)">{{uiLabels.backButton}}</button>
  
@@ -95,7 +98,7 @@ export default{
         this.crosswordNames= data
     }); 
 
-    console.log("crosswordNames mottaget i lobbyview är:");
+    console.log("LOBBYVIEW I CREATED, crosswordNames mottaget är:");
     console.log(this.crosswordNames);
         
     this.shownGames = JSON.parse(JSON.stringify(this.allGames));
@@ -129,7 +132,7 @@ export default{
   methods: {
 
     emitGameChoice: function() { 
-      socket.emit("chosenGame", this.gameID ); 
+      socket.emit("chosenGame", this.searchTerm ); //ÄNDRA SEN
 
       console.log("I emitgamechoice")
       
