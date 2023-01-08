@@ -116,7 +116,7 @@ export default{
 
       shownGames:[],
 
-      allGames: ["Hugos spel","Elins spel","Kung Charles spel","Emils spel", "Hugos spel","Elins spel","Kung Charles spel","Emils spel"],
+      allGames: ["server test", "Hugos spel","Elins spel","Kung Charles spel","Emils spel", "Hugos spel","Elins spel","Kung Charles spel","Emils spel"],
 
       searchTerm: "",
 
