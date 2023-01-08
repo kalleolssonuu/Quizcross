@@ -150,7 +150,7 @@
 
     #crosswordArea{
         /* float: left; */
-        width: 65%;
+        width: 100%;
         height: 40rem;
         justify-content: center;
         /* margin: 5%; */
