@@ -5,7 +5,7 @@
         <!-- ingenting -->
       </div>
 
-      <div v-else-if="this.isOccupied" class="box letter">
+      <div v-else-if="this.isOccupied" :class="['box', 'letter']">
           <div v-if="this.isFirstLetter" @click="testClick" :class="['clickable', 'occupied']">
             <span id="number"> {{ wordInOrder }} </span>
             {{ letter }}
@@ -15,7 +15,7 @@
           </div>
       </div>
 
-      <div v-else-if="this.isOccupied == false" class="box letter">
+      <div v-else-if="this.isOccupied == false" :class="['box', 'letter']">
           <div v-if="this.isFirstLetter" @click="testClick" class="clickable">
             <span id="number"> {{ wordInOrder }} </span>
             {{ letter }}
@@ -26,12 +26,12 @@
       </div>
   </div>
 
-  <div v-else-if="(this.sourceName == 'CreateView')" class="box letter">
+  <div v-else-if="(this.sourceName == 'CreateView')" :class="['box', 'letter']">
         <div v-if="this.isFirstLetter" id="number"> {{ wordInOrder }} </div>
         {{ letter }}      
   </div>
 
-  <div v-else-if="(this.sourceName == 'PreCreate')" class="box letter">      
+  <div v-else-if="(this.sourceName == 'PreCreate')" :class="['box', 'letter']">      
   </div>
 
  </template>
@@ -44,8 +44,8 @@
       return {
         name: 'WordBox',
         dimsX: String(50 / this.matrixDims.x) + "%",
-        dimsY: String(50 / this.matrixDims.x) + "%",
-        borderSize: String((50 / this.matrixDims.y) / 34) + '%',
+        dimsY: String(50 / this.matrixDims.y) + "%",
+        borderSize: String((40 / this.matrixDims.y) / 35) + 'rem',
         // outerBorderSize: String((40 / this.matrixDims.y) / 50) + 'rem',
         fontSize: String((50 / this.matrixDims.y) * 0.4) + '%',
         numberSize: String((50 / this.matrixDims.y) * 0.3) + '%'
@@ -77,22 +77,23 @@
       },
       watch: {
         matrixDims: {
-          handler: function () {
-            this.dimsX = String(50 / this.matrixDims.x) + "%"
-            this.dimsY = String(50 / this.matrixDims.y) + "%"
-            this.borderSize = String(this.matrixDims.y / 5) + 'rem',
+          handler: function (newValue, oldValue) {
+            this.dimsX = String(50 / newValue.x) + "%"
+            this.dimsY = String(50 / newValue.y) + "%"
+            this.borderSize = String((newValue.y - 1) / 5) + 'rem',
             /* this.outerBorderSize = String((50 / this.matrixDims.y) / 50) + '%', */
-            this.fontSize = String((40 / this.matrixDims.y) * 0.4) + 'rem',
-            /* this.numberSize = String((40 / this.matrixDims.y) * 0.3) + 'rem' */
+            this.fontSize = String((50 / newValue.y) * 0.4) + '%',
+            this.numberSize = String((40 / newValue.y) * 0.3) + 'rem'
 
             document.querySelector(':root').style.setProperty('--dimsX', this.dimsX);
             document.querySelector(':root').style.setProperty('--dimsY', this.dimsY);
             document.querySelector(':root').style.setProperty('--borderSize', this.borderSize);
-            document.querySelector(':root').style.setProperty('--outerBorderSize', this.outerBorderSize);
+/*             document.querySelector(':root').style.setProperty('--outerBorderSize', this.outerBorderSize); */
             document.querySelector(':root').style.setProperty('--fontSize', this.fontSize);
             document.querySelector(':root').style.setProperty('--numberSize', this.numberSize);
 
-
+            console.log("Old value: " + oldValue)
+            console.log("New value: " + newValue)
             console.log("BORDER SIZE ------" + this.borderSize)
           },
           deep: true
@@ -108,12 +109,15 @@
       }); */
     const element = document.querySelector(':root');
     element.style.setProperty('--dimsX', this.dimsX);
+      console.log(this.dimsX)
+      console.log(this.dimsY)
+
     element.style.setProperty('--dimsY', this.dimsY);
     element.style.setProperty('--borderSize', this.borderSize);
-    element.style.setProperty('--outerBorderSize', this.outerBorderSize);
+    /* element.style.setProperty('--outerBorderSize', this.outerBorderSize); */
     element.style.setProperty('--fontSize', this.fontSize);
     element.style.setProperty('--numberSize', this.numberSize);
-    console.log(this.matrixDims)
+    /* console.log(this.matrixDims) */
     },
     
   }
@@ -124,24 +128,22 @@
 <style>
 
 :root {
-  --dimsX: var(--dimsX); /* 1em */
-  --dimsY: var(--dimsY); /* 1em */
+  --dimsX: var(--dimsX);
+  --dimsY: var(--dimsY);
   --borderSize: var(--borderSize);
   /* --outerBorderSize: var(--outerBorderSize); */
   --fontSize: var(--fontSize);
-  /* --numberSize: var(--numberSize); */
+  --numberSize: var(--numberSize);
 }
 
 .box {
-  /* width: var(--dimsX);
-  height: var(--dimsY); */
+/*   width: var(--dimsX); */
   width: 100%;
   height: 100%;
 }
 
 .letter {
-  width: 100%;
-  height: 100%;
+/*   width: var(--dimsX); */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -150,9 +152,9 @@
   font-weight: bold;
   font-size: var(--fontSize);
   background-color: white;
-  /* border: black var(--borderSize) rem; */
+  border: black var(--borderSize) solid;
   /* border: black 0.2rem solid; */
-  border: black 0.2rem solid;
+  /* border: black 0.2rem solid; */
   color: black;
 }
 
@@ -163,15 +165,15 @@
 }
 
 .clickable {
-  width: var(--dimsX);
-  height: var(--dimsY);
+/*   width: var(--dimsX);
+  height: var(--dimsY); */
   cursor: pointer;
 }
 
-div {
+/* div {
   height: 100%;
   width: 100%;
-}
+} */
 
 #nullLetter {
   background-color: #A7CAB1;

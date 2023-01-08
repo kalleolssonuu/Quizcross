@@ -8,7 +8,7 @@
     </header>  
         
         <h2 style="text-align: center;"> {{ matrixDims.x }}   x    {{ matrixDims.y }}</h2>   
-            <div class="plusMinusWrapper" id="PlusMinusButtons">
+            <div class="plusMinusWrapper">
                 <button id="minusButton" v-on:click=decrease type="button">
                 -
                 </button>
@@ -53,7 +53,7 @@
     },
     data: function () {
     return {
-    matrixDims: {x: 8, y: 8},    
+    matrixDims: {x: 8, y: 8},
     x: 8,  // JESSIE FRÅGA: är dessa nödvändiga?
     y: 8,
    crossword: {actual: {posList: [], 
@@ -100,6 +100,7 @@
 
 
         fillPositionsNull: function () {
+            
             this.crossword.actual.posList = []
             
             for (let v = 0; v < this.matrixDims.y; v++) {
