@@ -98,10 +98,11 @@ export default{
     });
 
     socket.on('currentCrosswordNames', data => { 
-        this.crosswordNames= data
+        this.crosswordNames = data
     }); 
 
     this.shownGames = JSON.parse(JSON.stringify(this.allGames));
+    console.log(this.crosswordNames)
 
 
   },  

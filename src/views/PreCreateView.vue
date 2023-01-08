@@ -76,10 +76,10 @@
     created: function(){
         this.lang = this.$route.params.lang;
 
-      socket.emit('pageLoaded', this.lang)
-      socket.on("init", (labels) => {
-      this.uiLabels = labels
-    })
+        socket.emit('pageLoaded', this.lang)
+        socket.on("init", (labels) => {
+            this.uiLabels = labels
+        })
         this.fillPositionsNull();
     },
 
@@ -138,13 +138,14 @@
     
     <style>
     .buttonWrapper{
-        position: relative;
-        right: 5%;
-        bottom: 0; /* temporärt */
-        height: 5rem; /* från 10 */
+        position: absolute;
+        right: 1%;
+        top: 13%; /* temporärt */
+        height: 10rem; /* från 10 */
         width: 35rem;
         margin-right: 6rem;
         margin-top: 6rem;
+        
     }
 
     #crosswordArea{
@@ -153,6 +154,7 @@
         height: 40rem;
         justify-content: center;
         /* margin: 5%; */
+       
     }
 
     #confirmAndCreate {

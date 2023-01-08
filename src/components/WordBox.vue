@@ -79,9 +79,18 @@
         matrixDims: {
           handler: function () {
             this.dimsX = String(40 / this.matrixDims.x) + "rem"
-            this.dimsY = String(40 / this.matrixDims.y) + "rem" /* 600 px ~ 40 rem */
+            this.dimsY = String(40 / this.matrixDims.y) + "rem"
+            this.borderSize = String((40 / this.matrixDims.y) / 34) + 'rem',
+            this.outerBorderSize = String((40 / this.matrixDims.y) / 50) + 'rem',
+            this.fontSize = String((40 / this.matrixDims.y) * 0.4) + 'rem',
+            this.numberSize = String((40 / this.matrixDims.y) * 0.3) + 'rem'
+
             document.querySelector(':root').style.setProperty('--dimsX', this.dimsX);
             document.querySelector(':root').style.setProperty('--dimsY', this.dimsY);
+            document.querySelector(':root').style.setProperty('--borderSize', this.borderSize);
+            document.querySelector(':root').style.setProperty('--outerBorderSize', this.outerBorderSize);
+            document.querySelector(':root').style.setProperty('--fontSize', this.fontSize);
+            document.querySelector(':root').style.setProperty('--numberSize', this.numberSize);
           },
           deep: true
         }
@@ -114,8 +123,10 @@
 :root {
   --dimsX: var(--dimsX); /* 1em */
   --dimsY: var(--dimsY); /* 1em */
-  --borderSize: 0.1rem;
-  --fontSize: 1rem;
+  --borderSize: var(--borderSize);
+  --outerBorderSize: var(--outerBorderSize);
+  --fontSize: var(--fontSize);
+  --numberSize: var(--numberSize);
 }
 
 .box {

@@ -35,6 +35,7 @@
 	"confirm": "Bekräfta",
 	"discard": "Kasta",
 	"QuitGame": "Avsluta",
+	"wordPlacement": "Välj ordets placering:",
 
 	"//PreCreateView": "Här är PreCreateViews översättningar",
 	"confirmAndCreate": "Skapa",

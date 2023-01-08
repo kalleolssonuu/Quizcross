@@ -6,7 +6,7 @@ const languages = ["en", "se"];
 function Data() {
   this.polls = {};
 
- this.crosswordPackages = {};  
+ this.crosswordPackages = {};
  this.crossword = null;    
  this.matchingCrossword = null;  // JESSIE FRÅGA: diskutera varför måste va globala????                    
 
@@ -124,11 +124,15 @@ Data.prototype.findMatchingGame = function(d) {
   let chosenID = d;
   let IDToMatch = chosenID.replace(/\s/g, '');
  
+
+  /* här landar hela paketet som en sträng med nyckel och värde */
   let matchingCrosswordArray = 
   Object.entries(this.crosswordPackages).find(([ID, pack]) => ID === IDToMatch)
 
   this.matchingCrossword =
-  Object.fromEntries([matchingCrosswordArray]) 
+  Object.fromEntries([matchingCrosswordArray])
+  
+  console.log(this.matchingCrossword)
   };
 
 Data.prototype.getMatchingGame = function() {
