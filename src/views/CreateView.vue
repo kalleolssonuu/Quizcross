@@ -70,9 +70,6 @@
 
           </div>
           <br>
-          
-          <!-- JESSIE FRÅGA: varför denna? -->
-          Iterator: {{ this.userIterator }}  
   
   </template>
     
@@ -98,7 +95,6 @@
           matchesIterator: 0,
           prioIterator: 0, 
           wordInOrder: 1,
-          wordInOrderCopy: 1,
           amountWordsAdded: 1,
           letterMatchCounter: 0,
   
@@ -142,7 +138,7 @@
         socket.on("dataUpdate", (data) =>
           this.data = data
         )
-        this.fillPositionsNull()  
+        this.fillPositionsNull()
       },
 
       methods: {
@@ -163,119 +159,126 @@
         },
   
         findPotentialMatches: function () { // JESSIE FRÅGA: ha kvar kommentarer i längre algoritmer eller ta bort?
-          if (this.word != "") {
+        
+          this.crossword.temp = []
+
+          this.matchesIterator = 0;
+          this.userIterator = 0;
+          this.swapIterator = 0;
+
+          let word = this.word.toUpperCase();                 /* för att spara plats längre ner */
+          let wordSplit = word.split("");
+          console.log("wordSplit = " + wordSplit);
+          const horiz = this.matrixDims.x; /* för att spara plats längre ner */
+          const vert = this.matrixDims.y;    /* för att spara plats längre ner */
+
+          this.crosswordCopy = JSON.parse(JSON.stringify(this.crossword.actual.posList))
           
-            this.enableWordButtons = true
-            this.matchesIterator = 0;
-            this.userIterator = 0;
-            this.swapIterator = 0;
-            let word = this.word.toUpperCase();                 /* för att spara plats längre ner */
-            let wordSplit = word.split("");
-            console.log("wordSplit = " + wordSplit);
-            const horiz = this.matrixDims.x; /* för att spara plats längre ner */
-            const vert = this.matrixDims.y;    /* för att spara plats längre ner */
-  
-            this.crosswordCopy = JSON.parse(JSON.stringify(this.crossword.actual.posList))
-            
-  
-            for (let h = 0; h < horiz; h++) {
-            for (let v = 0; v < vert; v++) {
-  
-                if (this.crossword.actual.posList[v][h].letter === wordSplit[0] || this.crossword.actual.posList[v][h].letter === null) {
-  
-                    if (wordSplit.length <= vert - v) { /* FÅR PLATS VERTIKALT? */
-                        /* h = 1, v = 0 */
-                        for (let iv = 0; iv < wordSplit.length; iv++) {
-  
-                            if ((this.crossword.actual.posList[v + iv][h].letter === wordSplit[iv]) || (this.crossword.actual.posList[v + iv][h].letter === null)) { /* räcker med att spara första och sista positionen för ordet! */
-  
-                              if (this.crossword.actual.posList[v + iv][h].letter === wordSplit[iv]) {
-                                this.wordCollision = true
-                                this.letterMatchCounter++
-                              }
-  
-                              if (iv == wordSplit.length - 1) { /* vi har tagit oss till slutet av ordet och allt har funkat */                            
-                                if (this.letterMatchCounter != wordSplit.length) {
-                                  if (this.wordCollision) {
-                                    console.log("lägger till prio. h = " + h + ", v = " + v + ", prioIterator = " + this.prioIterator)
-                                    this.crossword.temp.splice(this.prioIterator, 0, this.getNewTempPositionVert(h, v, wordSplit))
-                                    this.prioIterator++
-  
-                                  } else {
-                                    this.crossword.temp[this.matchesIterator] = this.getNewTempPositionVert(h, v, wordSplit)
-                                  }
-                                  this.matchesIterator++;
+
+          for (let h = 0; h < horiz; h++) {
+          for (let v = 0; v < vert; v++) {
+
+              if (this.crossword.actual.posList[v][h].letter === wordSplit[0] || this.crossword.actual.posList[v][h].letter === null) {
+
+                  if (wordSplit.length <= vert - v) { /* FÅR PLATS VERTIKALT? */
+                      /* h = 1, v = 0 */
+                      for (let iv = 0; iv < wordSplit.length; iv++) {
+
+                          if ((this.crossword.actual.posList[v + iv][h].letter === wordSplit[iv]) || (this.crossword.actual.posList[v + iv][h].letter === null)) { /* räcker med att spara första och sista positionen för ordet! */
+
+                            if (this.crossword.actual.posList[v + iv][h].letter === wordSplit[iv]) {
+                              this.wordCollision = true
+                              this.letterMatchCounter++
+                            }
+
+                            if (iv == wordSplit.length - 1) { /* vi har tagit oss till slutet av ordet och allt har funkat */                            
+                              if (this.letterMatchCounter != wordSplit.length) {
+                                if (this.wordCollision) {
+                                  console.log("lägger till prio. h = " + h + ", v = " + v + ", prioIterator = " + this.prioIterator)
+                                  this.crossword.temp.splice(this.prioIterator, 0, this.getNewTempPositionVert(h, v, wordSplit))
+                                  this.prioIterator++
+
+                                } else {
+                                  this.crossword.temp[this.matchesIterator] = this.getNewTempPositionVert(h, v, wordSplit)
                                 }
+                                this.crossword.temp[this.matchesIterator].startPos.x = h
+                                this.crossword.temp[this.matchesIterator].startPos.y = v
+                                this.matchesIterator++;
                               }
-                            } else {
+                            }
+                          } else {
+                            break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
+                          }
+                      }
+                  }
+                  this.letterMatchCounter = 0
+                  this.wordCollision = false
+
+                  if (wordSplit.length <= horiz - h) { /* FÅR PLATS HORISONTELLT? */
+                      
+                    for (let ih = 0; ih < wordSplit.length; ih++) {
+
+                          if ((this.crossword.actual.posList[v][h + ih].letter === wordSplit[ih]) || (this.crossword.actual.posList[v][h + ih].letter === null)) { /* räcker med att spara första och sista positionen för ordet! */
+                            
+                            if (this.crossword.actual.posList[v][h + ih].letter === wordSplit[ih]) {
+                              this.wordCollision = true
+                              this.letterMatchCounter++
+                            }
+
+                            if (ih == wordSplit.length - 1) { /* vi har tagit oss till slutet av ordet och allt har funkat */
+
+                              if (this.letterMatchCounter != wordSplit.length) {
+                                if (this.wordCollision) {
+                                  console.log("lägger till prio. h = " + h + ", v = " + v + ", prioIterator = " + this.prioIterator)
+                                  this.crossword.temp.splice(this.prioIterator, 0, this.getNewTempPositionHoriz(h, v, wordSplit))
+                                  this.prioIterator++
+
+                                } else {
+                                  this.crossword.temp[this.matchesIterator] = this.getNewTempPositionHoriz(h, v, wordSplit)
+                                }
+                                this.crossword.temp[this.matchesIterator].startPos.x = h
+                                this.crossword.temp[this.matchesIterator].startPos.y = v
+                                this.matchesIterator++;
+                              }
+                              }
+                          } else {
                               break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
-                            }
-                        }
-                    }
-                    this.letterMatchCounter = 0
-                    this.wordCollision = false
-  
-                    if (wordSplit.length <= horiz - h) { /* FÅR PLATS HORISONTELLT? */
-                        
-                      for (let ih = 0; ih < wordSplit.length; ih++) {
-  
-                            if ((this.crossword.actual.posList[v][h + ih].letter === wordSplit[ih]) || (this.crossword.actual.posList[v][h + ih].letter === null)) { /* räcker med att spara första och sista positionen för ordet! */
-                              
-                              if (this.crossword.actual.posList[v][h + ih].letter === wordSplit[ih]) {
-                                this.wordCollision = true
-                                this.letterMatchCounter++
-                              }
-  
-                              if (ih == wordSplit.length - 1) { /* vi har tagit oss till slutet av ordet och allt har funkat */
-  
-                                if (this.letterMatchCounter != wordSplit.length) {
-                                  if (this.wordCollision) {
-                                    console.log("lägger till prio. h = " + h + ", v = " + v + ", prioIterator = " + this.prioIterator)
-                                    this.crossword.temp.splice(this.prioIterator, 0, this.getNewTempPositionHoriz(h, v, wordSplit))
-                                    this.prioIterator++
-  
-                                  } else {
-                                    this.crossword.temp[this.matchesIterator] = this.getNewTempPositionHoriz(h, v, wordSplit)
-                                  }
-                                  this.matchesIterator++;
-                                }
-                                }
-                            } else {
-                                break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
-                            }
-                        }
-                    }
-                    this.letterMatchCounter = 0
-                    this.wordCollision = false
-                    this.crossword.actual.posList[h][v].wordInOrderOld = null
-                    this.crossword.temp[this.matchesIterator-1].startPos.x = h
-                    this.crossword.temp[this.matchesIterator-1].startPos.y = v
-                }
-            }
-            }
-
-            this.prioIterator = 0
-  
-            if (this.crossword.temp.length == 0) {
-                this.alertNoMatches();
-            } else {
-              this.crossword.actual.posList = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].posList))
-              const startPos = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].startPos))
-              console.log("startPos.x = " + String(startPos.x) + String(startPos.y))
-              console.log("word in order på startpos: " + this.crossword.actual.posList[startPos.y][startPos.x].wordInOrder)
-              
-              if (this.crossword.actual.posList[startPos.y][startPos.x].wordInOrder != this.wordInOrder &&
-                  this.crossword.actual.posList[startPos.y][startPos.x].wordInOrder != null) {
-
-                    
-                this.crossword.actual.posList[startPos.y][startPos.x].wordInOrder = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].posList[startPos.y][startPos.x].wordInOrder))
-                this.wordInOrder--
-                console.log("wordInOrder subtraheras till: " + this.wordInOrder)
+                          }
+                      }
+                  }
+                  this.letterMatchCounter = 0
+                  this.wordCollision = false
               }
-              console.log("Amount of words added: " + this.amountWordsAdded)
-              console.log("wordInOrder: " + this.wordInOrder)
-              this.wordInOrder++
+          }
+          } /* alla positioner-loopen: slut */
+
+          this.prioIterator = 0
+
+          if (this.crossword.temp.length == 0) {
+            this.alertNoMatches();
+            this.word = ""
+            this.desc = ""
+          } else {
+            this.enableWordButtons = true
+
+            console.log("this.matchesIterator = " + this.matchesIterator)
+            this.crossword.actual.posList = JSON.parse(JSON.stringify(this.crossword.temp[0].posList))  /* visa första matchningen */
+
+            const startPos = JSON.parse(JSON.stringify(this.crossword.temp[0].startPos))                /* startpositionen behövs för indexsiffra */
+
+            console.log("startPos.x = " + String(startPos.x) + String(startPos.y))
+            console.log("word in order på startpos: " + this.crossword.actual.posList[startPos.y][startPos.x].wordInOrder)
+            
+            if (this.crossword.actual.posList[startPos.y][startPos.x].wordInOrder != this.wordInOrder &&
+                this.crossword.actual.posList[startPos.y][startPos.x].wordInOrder != null) {
+
+              this.crossword.actual.posList[startPos.y][startPos.x].wordInOrder = JSON.parse(JSON.stringify(this.crossword.temp[0].posList[startPos.y][startPos.x].wordInOrder))
+              this.wordInOrder--
+              console.log("wordInOrder subtraheras till: " + this.wordInOrder)
             }
+            console.log("Amount of words added: " + this.amountWordsAdded)
+            console.log("wordInOrder: " + this.wordInOrder)
+            this.wordInOrder++
           }
           console.log(this.crossword.actual.posList)
         }, 
@@ -286,7 +289,12 @@
           this.crosswordCopy = JSON.parse(JSON.stringify(this.crossword.actual.posList))
   
           const startPos = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].startPos))
-          this.crosswordPackage.wordDesc[this.amountWordsAdded] = {word: this.word, desc: this.desc, wordInOrder: this.wordInOrder, startPos: startPos}
+          this.crosswordPackage.wordDesc[this.amountWordsAdded] = 
+          {word: this.word, desc: this.desc, wordInOrder: this.crossword.actual.posList[startPos.y][startPos.x].wordInOrder, 
+            startPos: startPos, direction: this.crossword.actual.posList[startPos.y][startPos.x].isHorizontalWord ? "Horizontal" : "Vertical"}
+
+
+
           console.log("amountWordsAdded före confirm: " + this.amountWordsAdded)
           this.amountWordsAdded++
   
@@ -301,11 +309,34 @@
           audio.play()
           this.word = ""
           this.desc = ""
-          this.amountWordsAdded--
+
           this.wordInOrder--
+
           this.crossword.actual.posList = JSON.parse(JSON.stringify(this.crosswordCopy))
           this.enableWordButtons = false
-        },     
+        },   
+        
+        showNextSolution: function () {  
+          if (this.enableWordButtons) {
+            if (this.userIterator == this.matchesIterator - 1) {
+              this.crossword.actual.posList = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].posList))
+            } else {
+              this.userIterator++
+              this.crossword.actual.posList = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].posList))
+            }
+          }
+        },
+  
+        showPreviousSolution: function () {
+          if (this.enableWordButtons) {  
+            if (this.userIterator == 0) {
+              this.crossword.actual.posList = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].posList))
+            } else {
+              this.userIterator--
+              this.crossword.actual.posList = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].posList))
+            }
+          }
+        },
   
         alertNoMatches: function () {
           alert("no matches! Try another word.")
@@ -328,7 +359,8 @@
                                                  inVertical: false,
                                                  isFirstLetter: false, 
                                                  wordInOrder: null,
-                                                 isOccupied: false}
+                                                 isOccupied: false,
+                                                 isVerticalWord: false}
               }
           }
   
@@ -345,6 +377,8 @@
                 newCrossword.posList[v + i][h].inVertical = true
                 if (i == 0) {
                   newCrossword.posList[v][h].isFirstLetter = true
+                  newCrossword.posList[v][h].isHorizontalWord = false
+
                   if (newCrossword.posList[v][h].wordInOrder != null) {
                     newCrossword.posList[v][h].wordInOrder = JSON.parse(JSON.stringify(this.crossword.actual.posList[v][h].wordInOrder))
                   } else {
@@ -368,6 +402,8 @@
               newCrossword.posList[v][h + i].inHorizontal = true
                 if (i == 0) {
                   newCrossword.posList[v][h + i].isFirstLetter = true
+                  newCrossword.posList[v][h].isHorizontalWord = true
+
                   if (newCrossword.posList[v][h].wordInOrder != null) {
                     newCrossword.posList[v][h].wordInOrder = JSON.parse(JSON.stringify(this.crossword.actual.posList[v][h].wordInOrder))
                   } else {
@@ -379,29 +415,6 @@
                 }
             }
             return newCrossword
-          }
-        },
-  
-        showNextSolution: function () {  
-          if (this.enableWordButtons) {
-            if (this.userIterator == this.matchesIterator - 1) {
-              this.crossword.actual.posList = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].posList))
-            } else {
-              this.userIterator++
-              this.crossword.actual.posList = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].posList))
-            }
-          }
-          
-        },
-  
-        showPreviousSolution: function () {
-          if (this.enableWordButtons) {  
-            if (this.userIterator == 0) {
-              this.crossword.actual.posList = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].posList))
-            } else {
-              this.userIterator--
-              this.crossword.actual.posList = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].posList))
-            }
           }
         }
       }  
