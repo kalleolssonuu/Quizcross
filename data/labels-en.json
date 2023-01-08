@@ -32,7 +32,7 @@
 	"showNext": "/img/ShowNextEn.png",
 	"showPrevious": "/img/ShowPreviousEn.png",
 	"resetCrossword": "Reset crossword",
-	"confirmCreate": "Confirm and create crossword",
+	"createCrossword": "Create and play",
 	"confirm": "Confirm",
 	"discard": "Discard",
 	"QuitGame": "Quit",

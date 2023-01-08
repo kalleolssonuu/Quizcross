@@ -61,15 +61,15 @@
   
           
           <div id="div5">
+            <button class="standardButton" v-on:click="this.confirmCreateCrossword" @click="$router.push('/Lobby/'+lang)"> <!-- JESSIE ÄNDRA SKICKA MED ID?????? -->
+            {{uiLabels.createCrossword}}   
+            </button>
+            <br>
+
             <!--<button v-on:click="this.emptyTextFields"> Empty Input </button> ---><!-- gör detta när användaren har valt ett ord istället för en knapp. Det rensar även textfältet -->
             <button class="standardButton" v-on:click="this.resetData">
               {{uiLabels.resetCrossword}}
             </button> 
-            <br>
-            
-            <button class="standardButton" v-on:click="this.confirmCreateCrossword" @click="$router.push('/Lobby/'+lang)"> <!-- JESSIE ÄNDRA SKICKA MED ID?????? -->
-            {{uiLabels.confirmCreate}}   
-            </button>
             <br>
 
             <button class="standardButton"  @click="$router.push('/Lobby/'+lang)"> 
