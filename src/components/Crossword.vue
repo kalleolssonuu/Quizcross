@@ -36,8 +36,8 @@ import WordBox from '../components/WordBox.vue'
     data: function() {
       return {
         /* sourceName: "" */
-        dimsX: String(40 / this.matrixDims.x) + "rem",
-        dimsY: String(40 / this.matrixDims.y) + "rem"
+        dimsX: String(35 / this.matrixDims.x) + "rem",
+        dimsY: String(35 / this.matrixDims.y) + "rem"
       }
     },
     name: 'CrossWord',
@@ -78,8 +78,8 @@ import WordBox from '../components/WordBox.vue'
     watch: {
     matrixDims: {
     handler: function () {
-      this.dimsX = String(40 / this.matrixDims.x) + "rem"
-      this.dimsY = String(40 / this.matrixDims.y) + "rem" /* 600 px ~ 40 rem */
+      this.dimsX = String(35 / this.matrixDims.x) + "rem"
+      this.dimsY = String(35 / this.matrixDims.y) + "rem" /* 600 px ~ 40 rem */
       document.querySelector(':root').style.setProperty('--dimsX', this.dimsX)
       document.querySelector(':root').style.setProperty('--dimsY', this.dimsY)
     },
@@ -100,8 +100,8 @@ import WordBox from '../components/WordBox.vue'
 #crosswordWrapper {
   /* table-layout: auto; */
   /* justify-content: center; */
-  height: 40rem !important; /* 40rem; */
-  width: 40rem !important; /* 40rem; */
+  height: 35rem !important; /* 40rem; */
+  width: 35rem !important; /* 40rem; */
   margin: 0 auto;
   background-color: #A7CAB1;
 

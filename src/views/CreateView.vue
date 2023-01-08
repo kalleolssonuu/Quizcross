@@ -468,10 +468,10 @@
     margin-top: 5%;
   }
   #placementArrows{
-    position: absolute;
-    float: left;
+    /* float: left; */
     justify-content: center;
     margin-top: 3rem;
+    display: flex;
   
   }
   #confirmDiscardButtons{
@@ -514,7 +514,7 @@
     justify-content: center;
     height: 15rem;
     width: 15rem;
-    margin-left: 3.5rem;
+    
     border-radius: 2rem;
     background-color: #93b39c;
     border-width: 0.1rem;
@@ -523,8 +523,8 @@
   }
   #wordPlacement{
     font-size: 1rem;
-    position: absolute;
     margin-top: 1rem;
+    display: flex;
 
   }
   

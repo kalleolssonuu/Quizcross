@@ -7,12 +7,12 @@
     </div>
     </header>  
         
-        <h2>{{ matrixDims.x }}   x    {{ matrixDims.y }}</h2>   
-            <div class="plusMinusWrapper" id="PlusMinusButtons">
-                <button id="minusButton" v-on:click=decrease type="button">
+        <h2 id="xy">{{ matrixDims.x }}   x    {{ matrixDims.y }}</h2>   
+            <div class="plusMinusWrapper">
+                <button id="minusButton" v-on:click=decrease >
                 -
                 </button>
-                <button id="plusButton" v-on:click=increase type="button">
+                <button id="plusButton" v-on:click=increase >
                 +
                 </button>
             </div>
@@ -24,16 +24,16 @@
                 </Crossword>    
             </div>
             <div id="buttonArea">
-                    <form id="myForm">                    
+                    <!--  <form id="myForm">   -->               
                         <input v-if="this.lang == 'en'" type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Enter game name here..."> 
                         <input v-else type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Ge korsordet ett namn...">
-                    </form>
+                   <!--  </form>  -->
                     <!-- JESSIE FRÅGA: GLÖM EJ måste fixa så ej kan skriva ett namn som redan finns!!!!! -->
-                
-                    <button class="standardButtonPreCreate" id="confirmAndCreate" @click="$router.push('/CreateView/'+lang+'/'+gameID+'/'+ JSON.stringify(matrixDims))">
+                      <br>  
+                    <button class="standardButtonPreCreate" @click="$router.push('/CreateView/'+lang+'/'+gameID+'/'+ JSON.stringify(matrixDims))">
                     {{uiLabels.confirmAndCreate}}
                     </button> 
-                </div>
+            </div>
             <!-- </div> -->
             <HomepageButton v-bind:uiLabels="uiLabels" v-bind:lang="lang"></HomepageButton>
 </template>
@@ -135,61 +135,46 @@
     </script>
     
     <style>
-    /* .buttonWrapper{
-        display: flex;
-        justify-content: center;
-        background-color: aqua;
-        
-    } */
 
     #crosswordArea{
         float: left;
-        width: 40rem;
-        height: 40rem;
-        margin-left: 20rem;
+        width:50%;
+        margin-left:25%;
         justify-content: center;
+        
+        
        
     }
-    #buttonArea{
+     #buttonArea{
         float: right;
-        width: 20%;
-        background-color: aquamarine;
-    }
+        width: 25%;
+        justify-content: center;
 
-    #confirmAndCreate {
-        position: absolute;
-        width: 10rem;
-        height: 5rem;
-        border-radius: 1rem;
-        color: white;
-        position: absolute;
-        font-size: 1.5rem;
-    }
+    } 
 
-    #gameName {
-        width: 18rem;
-        height: 4.6rem;
+
+     #gameName {
+        width: 80%;
+        height: 6vh;
         font-family: "Comic Sans MS", "Comic Sans", cursive;
-        font-size: 1.5rem;
+        font-size:1.5rem;
         border-radius: 1rem;
-        position: absolute;
-    }
+        margin:1%;
+    } 
     
-    #myForm{
-        height: 5rem;
-        margin-top: 1rem;
-        position: relative;
-    }
         
     .standardButtonPreCreate{
-    border-color: #ba0c00;
-    margin-bottom: 1.5rem;
-    margin-left: 0.5rem;
-    color: white;
-    background-color: #FE5F55;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-size: 1rem;
-    cursor:pointer;
+        width: 50%;
+        height: 8vh;
+        border-radius: 1rem;
+        border-color: #ba0c00;
+        margin: 1rem;
+        background-color: #FE5F55;
+        font-family: "Comic Sans MS", "Comic Sans";
+        color:white;
+        font-size: 1.5rem;
+        cursor:pointer;
+        
      
     }
     .standardButtonPreCreate:hover{
@@ -200,47 +185,38 @@
   .plusMinusWrapper{
     display: flex;
     justify-content: center;
-    margin: 1rem;
+    margin:1%
+
   }
 
-    #x {
-        width: 3rem;
-        height: 3rem;
-        font-family: "Comic Sans MS", "Comic Sans", cursive;
-        font-size: 30px;
-        text-align: center;
-    }
-
-    #y {
-        width: 3rem;
-        height: 3rem;
-        font-family: "Comic Sans MS", "Comic Sans", cursive;
-        font-size: 30px;
-        text-align: center;
+    #xy {
+        justify-content: center;
+        display: flex;
+        margin-left:2%;
     }
 
     #minusButton{
-        height: 2.5rem;
-        width: 4rem;
+        height: 5vh;
+        width: 4%;
         background-color: #FE5F55;
         border-color: #ba0c00;
         color: white;
-        font-size: 25px;
-        font-family: "Comic Sans MS", "Comic Sans", cursive;
-        border-top-left-radius: 10px;
-        border-bottom-left-radius: 10px;
+        font-size: 1.5rem;
+        font-family: "Comic Sans MS", "Comic Sans";
+        border-top-left-radius: 1rem;
+        border-bottom-left-radius: 1rem;
         cursor: pointer;
     }
     #plusButton {
-        height: 2.5rem;
-        width: 4rem;
+        height: 5vh;
+        width: 4%;
         background-color: #FE5F55;
         border-color: #ba0c00;
         color: white;
-        font-size: 25px;
-        font-family: "Comic Sans MS", "Comic Sans", cursive;
-        border-top-right-radius: 10px;
-        border-bottom-right-radius: 10px;
+        font-size: 1.5rem;
+        font-family: "Comic Sans MS", "Comic Sans";
+        border-top-right-radius: 1rem;
+        border-bottom-right-radius: 1rem;
         cursor: pointer;
     }
     #plusButton:hover{

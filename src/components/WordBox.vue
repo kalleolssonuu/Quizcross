@@ -43,12 +43,12 @@
     data: function() {
       return {
         name: 'WordBox',
-        dimsX: String(40 / this.matrixDims.x) + "rem",
-        dimsY: String(40 / this.matrixDims.y) + "rem",
-        borderSize: String((40 / this.matrixDims.y) / 34) + 'rem',
+        dimsX: String(35 / this.matrixDims.x) + "rem",
+        dimsY: String(35 / this.matrixDims.y) + "rem",
+        borderSize: String((35 / this.matrixDims.y) / 34) + 'rem',
         // outerBorderSize: String((40 / this.matrixDims.y) / 50) + 'rem',
-        fontSize: String((40 / this.matrixDims.y) * 0.4) + 'rem',
-        numberSize: String((40 / this.matrixDims.y) * 0.3) + 'rem'
+        fontSize: String((35 / this.matrixDims.y) * 0.4) + 'rem',
+        numberSize: String((35 / this.matrixDims.y) * 0.3) + 'rem'
       }
     },
     props: {
@@ -78,12 +78,12 @@
       watch: {
         matrixDims: {
           handler: function () {
-            this.dimsX = String(40 / this.matrixDims.x) + "rem"
-            this.dimsY = String(40 / this.matrixDims.y) + "rem"
-            this.borderSize = String((40 / this.matrixDims.y) / 34) + 'rem',
-            this.outerBorderSize = String((40 / this.matrixDims.y) / 50) + 'rem',
-            this.fontSize = String((40 / this.matrixDims.y) * 0.4) + 'rem',
-            this.numberSize = String((40 / this.matrixDims.y) * 0.3) + 'rem'
+            this.dimsX = String(35 / this.matrixDims.x) + "rem"
+            this.dimsY = String(35 / this.matrixDims.y) + "rem"
+            this.borderSize = String((35 / this.matrixDims.y) / 34) + 'rem',
+            this.outerBorderSize = String((35 / this.matrixDims.y) / 50) + 'rem',
+            this.fontSize = String((35 / this.matrixDims.y) * 0.4) + 'rem',
+            this.numberSize = String((35 / this.matrixDims.y) * 0.3) + 'rem'
 
             document.querySelector(':root').style.setProperty('--dimsX', this.dimsX);
             document.querySelector(':root').style.setProperty('--dimsY', this.dimsY);
