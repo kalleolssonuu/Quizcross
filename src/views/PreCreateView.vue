@@ -138,21 +138,23 @@
     
     <style>
     .buttonWrapper{
-        position: relative;
-        right: 5%;
-        bottom: 0; /* temporärt */
-        height: 5rem; /* från 10 */
+        position: absolute;
+        right: 1%;
+        top: 13%; /* temporärt */
+        height: 10rem; /* från 10 */
         width: 35rem;
         margin-right: 6rem;
         margin-top: 6rem;
+        
     }
 
     #crosswordArea{
         /* float: left; */
-        width: 100%;
+        width: 65%;
         height: 40rem;
         justify-content: center;
         /* margin: 5%; */
+       
     }
 
     #confirmAndCreate {
