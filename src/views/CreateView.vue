@@ -78,13 +78,14 @@
 
           </div>
           <br>
-  
+          <HomepageButton v-bind:uiLabels="uiLabels" v-bind:lang="lang"></HomepageButton>
   </template>
     
   <script>
     import Crossword from '../components/Crossword.vue'
     import Modal from '../components/PopUp.vue'
     import io from 'socket.io-client';   
+    import HomepageButton from '../components/HomepageComponent.vue'
   
     const socket = io();
   
@@ -92,7 +93,8 @@
       name: 'CreateView',
       components: {
           Crossword,
-          Modal
+          Modal,
+          HomepageButton
       },
       data: function () {
         return {

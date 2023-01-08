@@ -65,22 +65,21 @@
       {{this.crosswordNames}}   
     </ul>
 
-  </div>   
-  
-  <button class="standardButtonLobby" @click="$router.push('/'+lang)">{{uiLabels.backButton}}</button>
- 
-
+  </div>  
+  <HomepageButton v-bind:uiLabels="uiLabels" v-bind:lang="lang"></HomepageButton>
 </template>
 
 <script> 
 import Modal from '../components/PopUp.vue'
 import io from 'socket.io-client'; 
 const socket = io();
+import HomepageButton from '../components/HomepageComponent.vue'
 
 export default{
   name: 'PlayView',
   components:{
-    Modal
+    Modal,
+    HomepageButton
   },
   
   props: {

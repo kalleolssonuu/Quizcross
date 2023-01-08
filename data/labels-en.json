@@ -22,6 +22,8 @@
 	"pageDescriptionPreCreateView": "Use the '+' and '-' buttons to choose the desired size of your crossword",
 	"pageDescriptionPlayView": "Click on one of the boxes with a number on it to start typing your guess. Change the direction (horizontal or vertical) you want to write by clicking the button above the crossword, or click the right arrow to make the direction horizontal and the arrow down to make the direction vertical",
 
+	"//HomepageComponent": "Här är komponenten för hemknappens översättning",
+	"HomepageButton": "Home page",
 
 	"//CreateView": "Här är Views översättningar",
 	"yourWord": "Your word:",

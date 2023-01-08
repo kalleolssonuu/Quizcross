@@ -20,9 +20,8 @@
 	"pageDescriptionPreCreateView": "Använd '+' och '-' knapparna för att välja den önskade storleken på ditt korsord",
 	"pageDescriptionPlayView": "Klicka på en av rutorna med en siffra på för att skriva in din gissning. Byt riktning (horisontellt eller vertikalt) du skriver på genom att klicka på knappen ovanför korsodet, eller klicka högerpilen för att riktningen ska bli horisontell och nedåtpilen för att riktningen ska bli vertikal",
 	
-	
-
-
+	"//HomepageComponent": "Här är komponenten för hemknappens översättning",
+	"HomepageButton": "Startsidan",
 
 	"//CreateView": "Här är CreateCrosswordViews översättningar",
 	"yourWord": "Ditt ord:",
