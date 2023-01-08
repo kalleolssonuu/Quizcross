@@ -9,13 +9,15 @@
     </Modal>
   </header>
 
-  <!-- JESSIE FRÅGA: Varför behövs den nedan? -->
-  <text id="crossText">{{uiLabels.crossID}}</text>  
-
   <div class="gameWrapper">
 
     <div id="allGamesList">
       {{uiLabels.gameList}}
+      <div class="searchWrapper">        
+            <input v-on:keyup="searchGame" v-if="this.lang == 'en'" v-model="searchTerm" id="searchInput" placeholder="Search for a game...">
+            <input v-on:keyup="searchGame" v-else v-model="searchTerm" id="searchInput" placeholder="Sök efter ett spel...">
+           
+          </div>
 
       <div id="gameList">
 
@@ -27,33 +29,30 @@
             </div>
           </div>
 
-          <div class="wrapper">        
-            <input v-on:keyup="searchGame" v-if="this.lang == 'en'" v-model="searchTerm" id="searchInput" placeholder="Search for a game">
-            <input v-on:keyup="searchGame" v-else v-model="searchTerm" id="searchInput" placeholder="Sök efter ett spel">
-          </div>
-
+     
+          <div class="selectWrapper">
+          {{uiLabels.selectedGameLang}}  
+          <textarea readonly id="selectedGame"> 
+      
+          </textarea> 
+        </div>
+        
+       
       </div>
 
     </div>
 
   </div>
-  
-  <button class="standardButtonLobby" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.create}}</button>
 
-<!-- JESSIE FRÅGA: nej jessie fixa -->
- <!-- <input type="text" v-model="gameID"  placeholder="ex: jjjessiesSpel"> --> 
   
  <div>
-    <text id="crossText">{{uiLabels.crossID}}</text>     
-     
-    <!-- JESSIE FRÅGA: 
-          - nedan är lite ointuitivt, ser ut som en inputruta
-            kanske ändra färg och ändra texten till vänster till "selected game"
-          - SAMT hur göra med spelet man just gjort? ska det dyka upp i ruta eller blir det bara rörigt? -->
-    <textarea readonly id="selectedGame"> 
-    </textarea>                
+  
+
+
+               
     
-    <button class="standardButtonLobby" v-on:click="emitGameChoice()" @click="$router.push('/playView/'+lang+'/'+ searchTerm)"> 
+    <!-- tog bort v-on:click="emitGameChoice()" -->
+    <button class="standardButtonLobby"  @click="$router.push('/playView/'+lang+'/'+ selectedGame)"> 
       {{uiLabels.playPlay}}
     </button>
     
@@ -104,7 +103,6 @@ export default{
 
     this.shownGames = JSON.parse(JSON.stringify(this.allGames));
 
-  /*   window.addEventListener('keydown', this.searchGame) */ // JESSIE FRÅGA: ha kvar?
 
   },  
 
@@ -123,7 +121,7 @@ export default{
       searchTerm: "",
 
 
-      selectedGame: {},
+      selectedGame: "",
       uiLabels: {},
      
       showModal: false,
@@ -133,7 +131,7 @@ export default{
 
   methods: {
     emitGameChoice: function() { 
-      socket.emit("chosenGame", this.searchTerm ); 
+      socket.emit("chosenGame", this.selectedGame ); 
 
       console.log("I emitgamechoice")
     },
@@ -146,6 +144,7 @@ export default{
 
   selectGame: function (game){ 
     document.getElementById("selectedGame").value=game;
+    this.selectedGame = game;
    /*  document.getElementById("selectedid").value=games.id */
   },
 
@@ -177,10 +176,10 @@ export default{
 
 #allGamesList {
   width: 40rem;
-  height: 30rem;
+  height: 33rem;
   border-radius: 0.5rem;
   border-color: #a6d8d4;
-  margin: 2.5rem;
+  margin: 2rem;
   color: white;
   background-color: #43918a;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
@@ -236,7 +235,7 @@ textarea {
 }
 
 
-#selectedname{
+/* #selectedname{
   width: 10rem;
   height: 1.5rem;
   margin-top: 0.5rem;
@@ -248,22 +247,25 @@ textarea {
   font-family: "Comic Sans MS", "Comic Sans", cursive;
   font-size: 1rem;
   color: #43918a;
-}
+} */
 #selectedGame{
-  width: 10rem;
-  height: 1.5rem;
-  border-radius: 5px;
+  width: 15rem;
+  height: 1.75rem;
+  margin: 0.2rem;
+  border-radius: 0.5rem;
   text-align: center;
   vertical-align: middle;
-  position: relative;
+
   font-family: "Comic Sans MS", "Comic Sans", cursive;
-  font-size: 1rem;
-  border-color: #2d635f;
+  font-size: 1.25rem;
+  border-color: white;
+  background-color: #43918a;
+  color: white;
 }
 
-#selectadGameText{  
-  font-size: 1.5rem;
-}
+/* #selectadGameText{  
+  font-size: 1rem;
+} */
 
 #selectGameButtonStyle {
  background-color:#43918a;
@@ -286,9 +288,9 @@ textarea {
   }
 
 #searchInput{
-  width: 10rem;
-  height: 1.5rem;
-  border-radius: 5px;
+  width: 15rem;
+  height: 1.75rem;
+  border-radius: 0.5rem;
   text-align: center;
   vertical-align: middle;
   position: relative;
@@ -298,38 +300,37 @@ textarea {
   border-color: #2d635f;
 }
 
-#searchButton{
+/* #searchButton{
   width: 7rem;
   height: 1.5rem;
   border-radius: 5px;
   
-}
+} */
 .standardButtonLobby{
-    width: 5rem;
-    height: 1.8rem;
-    border-radius: 10px;
+  width: 10rem;
+    height: 4rem;
+    border-radius: 15px;
     border-color: #ba0c00;
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
-    margin-left: 0.5rem;
+  
+ 
     color: white;
     background-color: #FE5F55;
     font-family: "Comic Sans MS", "Comic Sans", cursive;
     font-size: 1rem;
     cursor:pointer;
-    position: relative; 
+    position: relative;
 }
 .standardButtonLobby:hover{
   opacity: 0.80;
 }
-#crossText{
+/* #crossText{
   font-size: 1.25rem;
   width: 2rem;
   position: relative;
   text-align: center;
   color: #ffffff;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
-}
+} */
 
 #playButton{
   width: 5rem;
@@ -374,8 +375,17 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-.wrapper{
+.searchWrapper{
     display: flex;
     justify-content: center;
+    margin: 0.25rem;
+    font-size: 1.5rem;
   }
+.selectWrapper{
+  display: flex;
+  justify-content: center;
+  font-size: 1.5rem;
+
+}
+
 </style>
