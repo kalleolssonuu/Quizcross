@@ -1,9 +1,4 @@
 <template>
-  {{ matrixDims }}
-  {{ dimsX }}
-  {{ dimsY }}
-
-  <!-- {{ crossword[0][0].letter }} -->
 
   <div id="crosswordWrapper">
     <table>
@@ -85,8 +80,10 @@ import WordBox from '../components/WordBox.vue'
     handler: function () {
       /* this.dimsX = String(40 / this.matrixDims.x) + "rem"
       this.dimsY = String(40 / this.matrixDims.y) + "rem" */
-      this.dimsX = String(600 / this.matrixDims.x) + "px"
-      this.dimsY = String(600 / this.matrixDims.y) + "px" /* 600 px ~ 40 rem */
+      this.dimsX = String(40 / this.matrixDims.x) + "rem"
+      this.dimsY = String(40 / this.matrixDims.y) + "rem" /* 600 px ~ 40 rem */
+      document.querySelector(':root').style.setProperty('--dimsX', this.dimsX);
+      document.querySelector(':root').style.setProperty('--dimsY', this.dimsY);
     },
     deep: true
       }

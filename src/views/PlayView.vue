@@ -42,7 +42,8 @@
     <div class ="wordDescriptionWrapper"> 
   
       <ol id="horizontalDescriptions">
-        <div id="wordDescTop">Horisontella ord</div><br> <!-- lägg till i uiLabels-->
+        <div id="wordDescTop">Horisontella ord</div><br> <!-- lägg till i uiLabels           v-- endast för unordered list <ul> -->
+        <!-- <li v-for="(element, key) in crosswordToPlay.wordDesc" v-bind:key="key"> {{ element.wordInOrder }}.  {{ element.word }}  </li> -->
         <li>pajas</li>
         <li>motsats till nej</li>
         <li>tung artilleripjäs</li>
@@ -107,7 +108,7 @@
           latestOccupied: {x: 0, y: 0},
          
           crosswordAnswer: [], /* crossword från crosswordPackage */
-          userCrossword: [], 
+          userCrossword: [],
 
           firstMouseClick: true,
   
@@ -131,11 +132,23 @@
         socket.on("dataUpdate", (data) =>
           this.data = data
         ),
-        this.fillPremadeCrossword();
-        this.userCrossword = this.getUserCrossword()
-  
+
+
+
+        /* när vi har ett inskickat korsord istället för manuellt ska vi plocka korsordet 
+        från servern här och lägga det som this.crosswordAnswer */
+
+
         socket.on('gameToBePlayed', data  => { // ursprung: lobby
         this.crosswordToPlay = data}) 
+
+
+        this.fillPremadeCrossword();
+        this.userCrossword = this.getUserCrossword() /* ändra i getUserCrossword så att vi tar från crosswordToPlay.posList istället */
+  
+
+        
+
 
         console.log("matchingGames mottaget i playview är")
         console.log(this.crosswordToPlay)
@@ -153,12 +166,7 @@
       beforeUnmount() {
         window.removeEventListener('keydown', this.enterLetterFromKeyPress)
       },
-      /* watch: {
-        userCrossword(newValue) {
-          this.userCrossword = newValue
-  
-        }
-      }, */
+      
       methods: {
         updateOccupied: function() { // ska aktiveras när en klient klickar på en ruta          
           //  this.occupiedWordboxes 
@@ -193,12 +201,16 @@
           console.log("Occupied position test: " + this.occupiedPosition)
           console.log("... x = " + this.occupiedPosition.x)
           console.log("... y = " + this.occupiedPosition.y)
+
+
+          /* SKICKA USERCROSSWORD TILL SERVER */
+
         },
 
         enterLetterFromKeyPress: function (event) {
           console.log("Inuti event click handler, event.key = " + event.key)
 
-
+                    /* INGÅR Å, Ä, Ö?? */
             if ((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122)) {
                 if (this.inputDirection == "Horizontal" && typeof(event.key) == "string") {
 
@@ -275,15 +287,10 @@
                   this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].letter = null
                 }
               }
-
-
             }
-                    
-
 
 
           console.log(this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].letter)
-  
   
           let allMatchesCorrect = true
           for (let v = 0; v < this.matrixDims.y; v++) {
@@ -299,10 +306,17 @@
               }
           }
   
+          /* SKICKA USERCROSSWORD TILL SERVER */
+
           if (allMatchesCorrect) {
             alert("du har löst korsordet")
+            /* skicka att korsordet har blivit löst?
+            
+                vi vet att korsordet har blivit löst, antingen genom:
+                  1. jag har tryckt på den slutgiltiga knappen (skickar meddelande till alla andra), eller
+                  2. du har tryckt på knappen vilket skickar ett meddelande till mig att korsordet är löst
+            */
           }
-  
         },
   
         getUserCrossword: function () {

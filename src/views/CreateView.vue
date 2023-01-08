@@ -66,6 +66,7 @@
             <button class="standardButton" v-on:click="this.confirmCreateCrossword" @click="$router.push('/Lobby/'+lang)"> <!-- JESSIE ÄNDRA SKICKA MED ID?????? -->
             {{uiLabels.confirmCreate}}  <!--JESSIE OBS OLIKA NAMN - Jessie igen: vet ej vad jag menade med denna kommentar --> 
             </button>
+            <br>
 
             <button class="standardButton"  @click="$router.push('/Lobby/'+lang)"> 
             {{uiLabels.QuitGame}} 
@@ -85,50 +86,6 @@
     /* import Vue from 'vue'; */
   
     const socket = io();
-   /*  const initialData = {
-      word: "",
-      desc: "",
-  
-      userIterator: 0,
-      matchesIterator: 0,
-      prioIterator: 0, 
-      wordInOrder: 1,
-      amountWordsAdded: 0,
-  
-      enableWordButtons: false,
-      wordCollision: false,
-      noMatches: false,
-  
-      matrixDims: {x: 15, y: 15},
-      crossword: {actual.posList: [], temp: []},
-      crosswordCopy: [],
-      crosswordPackage: {crosswordName: "", 
-                          crossword: [],
-                          wordDesc: [],
-                          matrixDims: {},
-                          },
-  
-      showModal: false,
-      uiLabels: {},        
-      lang: "en",
-  
-      sourceName: "CreateCrosswordView",
-    } */
-  
-  
-  /* LOGG:
-  
-    2023-01-02
-    Fixa sista problemen med algoritmen.
-    - Lilla siffran blir fel vid genomgång av crossword.temp
-    - Orden hamnar ett steg förskjutet
-    - isFirstLetter --> rätt siffra i hörnet
-    * Undersök möjlighet att öka iterator vid confirm istället
-  
-    - Visa beskrivningar löpande så att användaren alltid får se vad den skapar
-    - Layout i olika Views, knappar osv.
-  
-  */
   
     export default {
       name: 'CreateView',
@@ -306,8 +263,7 @@
                 }
             }
             }
-  
-  
+
             this.prioIterator = 0
   
             if (this.crossword.temp.length == 0) {
@@ -339,7 +295,9 @@
           audio.play()
           this.crosswordCopy = JSON.parse(JSON.stringify(this.crossword.actual.posList))
   
-          this.crosswordPackage.wordDesc[this.amountWordsAdded] = {word: this.word, desc: this.desc}
+          const startPos = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].startPos))
+          this.crosswordPackage.wordDesc[this.amountWordsAdded] = {word: this.word, desc: this.desc, wordInOrder: this.wordInOrder, startPos: startPos}
+          console.log("amountWordsAdded före confirm: " + this.amountWordsAdded)
           this.amountWordsAdded++
   
           this.word = ""
@@ -512,10 +470,11 @@
     float: left;
     width: 50%;
     margin-top: 2%;
+    justify-content: center;
   }
   #div3 {
     float: left;
-    width: 15%;
+    width: 25%;
     height: 25rem;
     justify-content: center;
     margin-top: 10%;

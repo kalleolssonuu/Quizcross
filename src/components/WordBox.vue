@@ -1,46 +1,37 @@
  <template>
 
-  <div v-if="(this.sourceName == 'PlayView')" class="box letter">
-      <div v-if="(!this.inHorizontal) && (!this.inVertical)" id="nullLetter">
-        
+  <div v-if="(this.sourceName == 'PlayView')">
+      <div v-if="(!this.inHorizontal) && (!this.inVertical)" class="box" id="nullLetter">
+        <!-- ingenting -->
       </div>
-      <div v-else >
-            <div v-if="this.isOccupied">
-              <div v-if="this.isFirstLetter" @click="testClick" id="clickable" class="box letter occupied">
-                <span id="number"> {{ wordInOrder }} </span>
-                {{ letter }}
-              </div>
-              <div v-else class="box letter occupied">
-                {{ letter }}
-              </div>
-            </div>
 
-            <div v-else>
-              <div v-if="this.isFirstLetter" @click="testClick" id="clickable">
-                <span id="number"> {{ wordInOrder }} </span>
-                {{ letter }}
-              </div>
-              <div v-else>
-                {{ letter }}
-              </div>
-              
-            </div>
+      <div v-else-if="this.isOccupied" class="box letter">
+          <div v-if="this.isFirstLetter" @click="testClick" :class="['clickable', 'occupied']">
+            <span id="number"> {{ wordInOrder }} </span>
+            {{ letter }}
+          </div>
+          <div v-else class="occupied">
+            {{ letter }}
+          </div>
+      </div>
+
+      <div v-else-if="this.isOccupied == false" class="box letter">
+          <div v-if="this.isFirstLetter" @click="testClick" class="clickable">
+            <span id="number"> {{ wordInOrder }} </span>
+            {{ letter }}
+          </div>
+          <div v-else>
+            {{ letter }}
+          </div>
       </div>
   </div>
 
   <div v-else-if="(this.sourceName == 'CreateView')" class="box letter">
-    <div>
         <div v-if="this.isFirstLetter" id="number"> {{ wordInOrder }} </div>
-        {{ letter }}
-    </div>
-      
+        {{ letter }}      
   </div>
 
-  <div v-else-if="(this.sourceName == 'PreCreate')" class="box letter">
-    <div>
-      
-    </div>
-      
+  <div v-else-if="(this.sourceName == 'PreCreate')" class="box letter">      
   </div>
 
  </template>
@@ -52,8 +43,8 @@
     data: function() {
       return {
         name: 'WordBox',
-        dimsX: '', /* String(40 / this.matrixDims.x) + "rem", */
-        dimsY: '', /* String(40 / this.matrixDims.y) + "rem", */
+        dimsX: String(40 / this.matrixDims.x) + "rem",
+        dimsY: String(40 / this.matrixDims.y) + "rem",
         borderSize: String((40 / this.matrixDims.y) / 34) + 'rem',
         outerBorderSize: String((40 / this.matrixDims.y) / 50) + 'rem',
         fontSize: String((40 / this.matrixDims.y) * 0.4) + 'rem',
@@ -63,6 +54,7 @@
     props: {
         xkey: Number,
         ykey: Number,
+
         letter: String,
         inHorizontal: Boolean,
         inVertical: Boolean,
@@ -86,10 +78,8 @@
       watch: {
         matrixDims: {
           handler: function () {
-            /* this.dimsX = String(40 / this.matrixDims.x) + "rem"
-            this.dimsY = String(40 / this.matrixDims.y) + "rem" */
-            this.dimsX = String(600 / this.matrixDims.x) + "px"
-            this.dimsY = String(600 / this.matrixDims.y) + "px" /* 600 px ~ 40 rem */
+            this.dimsX = String(40 / this.matrixDims.x) + "rem"
+            this.dimsY = String(40 / this.matrixDims.y) + "rem" /* 600 px ~ 40 rem */
             document.querySelector(':root').style.setProperty('--dimsX', this.dimsX);
             document.querySelector(':root').style.setProperty('--dimsY', this.dimsY);
           },
@@ -114,7 +104,7 @@
     console.log(this.matrixDims)
     },
     
-}
+  }
 
 </script>
 
@@ -122,20 +112,22 @@
 <style>
 
 :root {
-  --dimsX: 20px; /* 1em */
-  --dimsY: 20px; /* 1em */
+  --dimsX: var(--dimsX); /* 1em */
+  --dimsY: var(--dimsY); /* 1em */
   --borderSize: 0.1rem;
   --fontSize: 1rem;
 }
 
 .box {
+  /* width: var(--dimsX);
+  height: var(--dimsY); */
   width: var(--dimsX);
   height: var(--dimsY);
 }
 
-.box.letter {
-  height: 100%;
-  width: 100%;
+.letter {
+  width: var(--dimsX);
+  height: var(--dimsY);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -148,15 +140,13 @@
   color: black;
 }
 
-.box.letter.occupied {
-  height: 100%;
-  width: 100%;
+.occupied {
   background-color: #FFFDD0;
 }
 
-#clickable {
-  height: 100%;
-  width: 100%;
+.clickable {
+  width: var(--dimsX);
+  height: var(--dimsY);
   cursor: pointer;
 }
 
@@ -172,6 +162,11 @@
   border: black 0.15rem solid;
 } */
 
+div {
+  height: 100%;
+  width: 100%;
+}
+
 #nullLetter {
   background-color: #A7CAB1;
 /*   border: 0cm; */
@@ -185,6 +180,8 @@
   position: absolute;
   top: 0;
   left: 0;
+  width: var(--dimsX);
+  height: var(--dimsY);
   font-size: var(--numberSize);
   color: black;
   display: flex;
