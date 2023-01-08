@@ -31,19 +31,27 @@
       <br>
   
       <div class="solutionsWrapper">
-        <img id="showSolutions" :src="uiLabels.showPrevious" v-on:click="this.showPreviousSolution">
-        <img id="showSolutions" :src="uiLabels.showNext" v-on:click="this.showNextSolution">
+        <div id="wordPlacement">
+          Word placement:
+        </div>
+        <div id="div4">
+          <img id="showSolutions" :src="uiLabels.showPrevious" v-on:click="this.showPreviousSolution">
+          <img id="showSolutions" :src="uiLabels.showNext" v-on:click="this.showNextSolution">
+        </div>
+
+        <div id="div5">
+          <button v-if="!this.enableWordButtons" class="standardButton disabled"  disabled style="width: 6rem;"> {{uiLabels.discard}} </button>
+          <button v-else v-on:click="this.discardWord" class="standardButton" style="width: 6rem;"> {{uiLabels.discard}} </button>
+
+          <button v-if="!this.enableWordButtons" class="standardButton disabled"  disabled style="width: 6rem;"> {{uiLabels.confirm}} </button>
+          <button v-else v-on:click="this.confirmWord" class="standardButton" style="width: 6rem;"> {{uiLabels.confirm}} </button>
+        </div>
       </div>
       
-      <button v-if="!this.enableWordButtons" class="standardButton disabled"  disabled style="width: 6rem;"> {{uiLabels.discard}} </button>
-      <button v-else v-on:click="this.discardWord" class="standardButton" style="width: 6rem;"> {{uiLabels.discard}} </button>
-
-      <button v-if="!this.enableWordButtons" class="standardButton disabled"  disabled style="width: 6rem;"> {{uiLabels.confirm}} </button>
-      <button v-else v-on:click="this.confirmWord" class="standardButton" style="width: 6rem;"> {{uiLabels.confirm}} </button>
+      
    
     </div>
           
-      <!-- JESSIE FRÅGA:VAR ÄR matrixdims i vitt ovanför korsord???? -->
       <div id="div2"> 
           <Crossword  v-bind:sourceName="sourceName"
                       v-bind:crossword="this.crossword.actual.posList"
@@ -469,7 +477,20 @@
     justify-content: center;
     margin-top: 10%;
   }
-  
+  #div4{
+    position: absolute;
+    float: left;
+    width: 25%;
+    justify-content: center;
+    top: 70%;
+  }
+  #div5{
+    position: absolute;
+    float: left;
+    width: 25%;
+    justify-content: center;
+    top: 80%;
+  }
   
   #showSolutions {
     width: 5rem;
@@ -477,12 +498,38 @@
     cursor:pointer; 
     margin: 0.5rem;
   }
-  
+  #showSolutions.disabled {
+    opacity: 0.30;
+    cursor:default; 
+  }
   .solutionsWrapper{
     display: flex;
     justify-content: center;
+    height: 15rem;
+    width: 15rem;
+    margin-left: 3.5rem;
+    border-radius: 2rem;
+    background-color: #93b39c;
+    border-width: 0.1rem;
+    border-color: #43918a;
+    border-style: solid;
   }
-   
+  #wordPlacement{
+    width: 10rem;
+    height: 1.5rem;
+    border-radius: 0.2rem;
+    border-color: #43918a;
+    margin-left: 5%;
+    /*background-color: #43918a;*/
+    color: white;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 1rem;
+    position: relative;
+    float:left;
+    margin:0.5rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
+  }
   
     #wordInput {
       height: 3rem;
