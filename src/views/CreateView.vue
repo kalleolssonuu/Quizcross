@@ -31,20 +31,28 @@
       <br>
   
       <div class="solutionsWrapper">
-        <img id="showSolutions" :src="uiLabels.showPrevious" v-on:click="this.showPreviousSolution">
-        <img id="showSolutions" :src="uiLabels.showNext" v-on:click="this.showNextSolution">
+        <div id="wordPlacement">
+          {{uiLabels.wordPlacement}}
+        </div>
+      <div id="placementArrows">
+          <img id="showSolutions" :src="uiLabels.showPrevious" v-on:click="this.showPreviousSolution">
+          <img id="showSolutions" :src="uiLabels.showNext" v-on:click="this.showNextSolution">
+      </div>
+
+        <div id="div3">
+          <button v-if="!this.enableWordButtons" class="standardButton disabled"  disabled style="width: 6rem;"> {{uiLabels.discard}} </button>
+          <button v-else v-on:click="this.discardWord" class="standardButton" style="width: 6rem;"> {{uiLabels.discard}} </button>
+
+          <button v-if="!this.enableWordButtons" class="standardButton disabled"  disabled style="width: 6rem;"> {{uiLabels.confirm}} </button>
+          <button v-else v-on:click="this.confirmWord" class="standardButton" style="width: 6rem;"> {{uiLabels.confirm}} </button>
+        </div>
       </div>
       
-      <button v-if="!this.enableWordButtons" class="standardButton disabled"  disabled style="width: 6rem;"> {{uiLabels.discard}} </button>
-      <button v-else v-on:click="this.discardWord" class="standardButton" style="width: 6rem;"> {{uiLabels.discard}} </button>
-
-      <button v-if="!this.enableWordButtons" class="standardButton disabled"  disabled style="width: 6rem;"> {{uiLabels.confirm}} </button>
-      <button v-else v-on:click="this.confirmWord" class="standardButton" style="width: 6rem;"> {{uiLabels.confirm}} </button>
+      
    
     </div>
           
-      <!-- JESSIE FRÅGA:VAR ÄR matrixdims i vitt ovanför korsord???? -->
-      <div id="div2"> 
+      <div id="div4"> 
           <Crossword  v-bind:sourceName="sourceName"
                       v-bind:crossword="this.crossword.actual.posList"
                       v-bind:matrixDims="this.matrixDims">
@@ -52,16 +60,16 @@
       </div>
   
           
-          <div id="div3">
+          <div id="div5">
+            <button class="standardButton" v-on:click="this.confirmCreateCrossword" @click="$router.push('/Lobby/'+lang)"> <!-- JESSIE ÄNDRA SKICKA MED ID?????? -->
+            {{uiLabels.createCrossword}}   
+            </button>
+            <br>
+
             <!--<button v-on:click="this.emptyTextFields"> Empty Input </button> ---><!-- gör detta när användaren har valt ett ord istället för en knapp. Det rensar även textfältet -->
             <button class="standardButton" v-on:click="this.resetData">
               {{uiLabels.resetCrossword}}
             </button> 
-            <br>
-            
-            <button class="standardButton" v-on:click="this.confirmCreateCrossword" @click="$router.push('/Lobby/'+lang)"> <!-- JESSIE ÄNDRA SKICKA MED ID?????? -->
-            {{uiLabels.confirmCreate}}   
-            </button>
             <br>
 
             <button class="standardButton"  @click="$router.push('/Lobby/'+lang)"> 
@@ -70,13 +78,14 @@
 
           </div>
           <br>
-  
+          <HomepageButton v-bind:uiLabels="uiLabels" v-bind:lang="lang"></HomepageButton>
   </template>
     
   <script>
     import Crossword from '../components/Crossword.vue'
     import Modal from '../components/PopUp.vue'
     import io from 'socket.io-client';   
+    import HomepageButton from '../components/HomepageComponent.vue'
   
     const socket = io();
   
@@ -84,7 +93,8 @@
       name: 'CreateView',
       components: {
           Crossword,
-          Modal
+          Modal,
+          HomepageButton
       },
       data: function () {
         return {
@@ -427,7 +437,7 @@
   .standardButton{
     width: 10rem;
     height: 4rem;
-    border-radius: 15px;
+    border-radius: 0.94rem;
     border-color: #ba0c00;
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
@@ -456,16 +466,30 @@
     justify-content: center;
     margin-top: 5%;
   }
-  #div2 {
+  #placementArrows{
+    position: absolute;
+    float: left;
+    justify-content: center;
+    margin-top: 3rem;
+  
+  }
+  #div3{
+    position: absolute;
+    float: left;
+    justify-content: center;
+    margin-top: 8rem;
+  }
+  #div4 {
     float: left;
     width: 50%;
     margin-top: 2%;
     justify-content: center;
   }
-  #div3 {
+  #div5 {
     float: left;
-    width: 25%;
+    width: 15%;
     height: 25rem;
+    margin-left: 3rem;
     justify-content: center;
     margin-top: 10%;
   }
@@ -477,12 +501,31 @@
     cursor:pointer; 
     margin: 0.5rem;
   }
-  
+  #showSolutions:hover{
+    opacity: 0.80;
+  }
+  #showSolutions.disabled {
+    opacity: 0.30;
+    cursor:default; 
+  }
   .solutionsWrapper{
     display: flex;
     justify-content: center;
+    height: 15rem;
+    width: 15rem;
+    margin-left: 3.5rem;
+    border-radius: 2rem;
+    background-color: #93b39c;
+    border-width: 0.1rem;
+    border-color: #43918a;
+    border-style: solid;
   }
-   
+  #wordPlacement{
+    font-size: 1rem;
+    position: absolute;
+    margin-top: 1rem;
+
+  }
   
     #wordInput {
       height: 3rem;
