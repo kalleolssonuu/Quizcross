@@ -153,6 +153,8 @@
 
 .occupied {
   background-color: #FFFDD0;
+  justify-content: center;
+  align-items: center;
 }
 
 .clickable {

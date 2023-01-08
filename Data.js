@@ -7,8 +7,8 @@ function Data() {
   this.polls = {};
 
  this.crosswordPackages = {};
- this.crossword = null;    
- this.matchingCrossword = null;  // JESSIE FRÅGA: diskutera varför måste va globala????                    
+ this.crossword = null;  // JESSIE FRÅGA: diskutera varför måste va globala????       
+ this.actualCrossword = null;
 
 }
 
@@ -129,16 +129,17 @@ Data.prototype.findMatchingGame = function(d) {
   let matchingCrosswordArray = 
   Object.entries(this.crosswordPackages).find(([ID, pack]) => ID === IDToMatch)
 
-  this.matchingCrossword =
+  let matchingCrossword =
   Object.fromEntries([matchingCrosswordArray])
-  
-  console.log(this.matchingCrossword)
+
+  this.actualCrossword = matchingCrossword[IDToMatch] /* skriver nyckeln --> får värdet */
+  console.log(this.actualCrossword)
   };
 
 Data.prototype.getMatchingGame = function() {
   console.log("matchingcrossword i getmatchingcrossword är:")
-  console.log(this.matchingCrossword)
-  return(this.matchingCrossword)
+  console.log(this.actualCrossword)
+  return(this.actualCrossword)
 };
 
 

@@ -32,9 +32,7 @@
           
                       v-bind:sourceName="this.sourceName"
                       v-bind:crossword="this.userCrossword"
-                      v-bind:matrixDims="this.matrixDims"
-                      v-bind:word="this.word"    
-                      v-bind:desc="this.desc"> 
+                      v-bind:matrixDims="this.matrixDims"> 
           </Crossword>
     </div>
   
@@ -86,7 +84,7 @@
 
           word: "",
           desc: "",
-          matrixDims: {x: 10, y: 10},
+          matrixDims: {},
           occupiedPosition: {x: null, y: null},
           latestOccupied: {x: 0, y: 0},
          
@@ -114,12 +112,28 @@
         socket.on("dataUpdate", (data) =>
           this.data = data
         ),
-        this.loadReceivedCrossword();
-        /* this.fillPremadeCrossword */
-        this.userCrossword = this.getUserCrossword()
-  
+
+
+          /* DET HÄR SKER EFTER this.loadReceivedCrossWord! */
         socket.on('gameToBePlayed', data  => { // ursprung: lobby
-        this.receivedCross = data})  /* data bör vara värdet till nyckeln "korsords-ID" */
+          console.log("data = " + data)
+
+          this.receivedCross = JSON.parse(JSON.stringify(data))
+          console.log("receivedCross från PlayView = " + this.receivedCross)
+
+          console.log("receivedCross.crossword från PlayView = " + this.receivedCross.crossword)
+
+          this.loadReceivedCrossword();
+          this.userCrossword = this.getUserCrossword()
+          this.matrixDims = JSON.parse(JSON.stringify(this.receivedCross.matrixDims))
+          this.wordDesc = JSON.parse(JSON.stringify(this.receivedCross.wordDesc))
+
+          console.log("Djup egenskap försök: " + this.userCrossword[1][1].inHorizontal + ", vi vill få false")
+          console.log("Djup egenskap försök: " + this.userCrossword[1][1].inVertical + ", vi vill få true")
+        })  /* data bör vara värdet till nyckeln "korsords-ID" */
+
+        /* this.loadReceivedCrossword();
+        this.userCrossword = this.getUserCrossword() */
 
         window.addEventListener('keydown', this.enterLetterFromKeyPress)
       },
@@ -287,7 +301,9 @@
         },
   
         loadReceivedCrossword: function() {
-          this.crosswordAnswer = this.receivedCross.crossword
+          console.log("received cross från created in PlayView: " + this.receivedCross)
+          this.crosswordAnswer = JSON.parse(JSON.stringify(this.receivedCross.crossword))
+
           console.log("Mottaget korsord (listan): ")
           console.log(this.crosswordAnswer)
         },

@@ -60,8 +60,8 @@
     y: 8,
    crossword: {actual: {posList: [], 
                         startPos: {x: 0, 
-                                    y: 0
-                                    }
+                                   y: 0
+                                  }
                                   }, 
                           temp: []
                          },

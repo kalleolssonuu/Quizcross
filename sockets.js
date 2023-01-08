@@ -60,7 +60,7 @@ function sockets(io, socket, data) {
       io.emit('currentCrosswordNames', data.getCrosswordNames() );
     });
 
-    /* socket.emit('currentCrosswordNames', data.getCrosswordNames() );  */
+    socket.emit('currentCrosswordNames', data.getCrosswordNames() ); 
 
 
   // Nedan har ursprung: Klick på knappen play i lobbyview
@@ -71,7 +71,7 @@ function sockets(io, socket, data) {
     io.emit('gameToBePlayed', data.getMatchingGame() ); //  visst ska denna också finnas? när en socket redan etablerats. tänker om man vill spela ett till spel typ
   });    
   
-/*   socket.emit('gameToBePlayed', data.getMatchingGame() );  */
+  socket.emit('gameToBePlayed', data.getMatchingGame() ); 
 
 }
 
