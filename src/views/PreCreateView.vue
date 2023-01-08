@@ -7,7 +7,7 @@
     </div>
     </header>  
         
-        <h2>{{ matrixDims.x }}   x    {{ matrixDims.y }}</h2>   
+        <h2 style="text-align: center;"> {{ matrixDims.x }}   x    {{ matrixDims.y }}</h2>   
             <div class="plusMinusWrapper" id="PlusMinusButtons">
                 <button id="minusButton" v-on:click=decrease type="button">
                 -
