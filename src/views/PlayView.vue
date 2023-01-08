@@ -16,14 +16,6 @@
 
     <!-- Ha kvar servertest lite till -->
     <div>
-    {{"servertest:"}}
-
-    <ul>
-      <li v-for="(value, key) in this.receivedCross" :key="key">
-        {{ key }}: {{ value.wordDesc }}
-      </li>
-    </ul>
-
   </div>
     
 
@@ -37,18 +29,35 @@
     </div>
   
     <div class ="wordDescriptionWrapper"> 
-  
+        
       <ol id="horizontalDescriptions">
         <div id="wordDescTop">{{uiLabels.horizontalWords}}</div>
-        <li>pajas</li>
-        <li>motsats till nej</li>
-        <li>tung artilleripjäs</li>
+
+        <li v-for="(value, key) in this.getSortedDescs()" :key="key">
+          <span v-if="this.receivedCross.crossword[value.startPos.y][value.startPos.x].isHorizontalWord == true">
+            {{ value.desc }}
+          </span>
+          <span v-else style="display: none;">
+          </span>
+        </li>
       </ol>
+
+
+
       <ol id="verticalDescriptions">
         <div id="wordDescTop">{{uiLabels.verticalWords}}</div>
-        <li>sängklädesplagg</li>
+        <li v-for="(value, key) in this.getSortedDescs()" :key="key">
+          <span v-if="this.receivedCross.crossword[value.startPos.y][value.startPos.x].isHorizontalWord == false">
+            {{ value.desc }}
+          </span>
+          <span v-else style="visibility: hidden;">
+          </span>
+        </li>
       </ol>
-      </div>
+
+  </div>
+
+
       <div>
         <button id="finishedGame" @click="$router.push('/lobby/'+lang)">{{uiLabels.finishedGame}}</button>
       </div>   
@@ -58,9 +67,10 @@
   
   <script>
   
-  import Crossword from '../components/Crossword.vue'
+    import Crossword from '../components/Crossword.vue'
     import Modal from '../components/PopUp.vue'
     import io from 'socket.io-client';
+    
     const socket = io();
   
   export default {
@@ -128,8 +138,8 @@
           this.matrixDims = JSON.parse(JSON.stringify(this.receivedCross.matrixDims))
           this.wordDesc = JSON.parse(JSON.stringify(this.receivedCross.wordDesc))
 
-          console.log("Djup egenskap försök: " + this.userCrossword[1][1].inHorizontal + ", vi vill få false")
-          console.log("Djup egenskap försök: " + this.userCrossword[1][1].inVertical + ", vi vill få true")
+          console.log("Djup egenskap försök: " + this.userCrossword[1][0].isHorizontalWord + ", vi vill få true")
+          /* console.log("Djup egenskap försök: " + this.userCrossword[1][1].inVertical + ", vi vill få true") */
         })  /* data bör vara värdet till nyckeln "korsords-ID" */
 
         /* this.loadReceivedCrossword();
@@ -263,7 +273,6 @@
           let allMatchesCorrect = true
           for (let v = 0; v < this.matrixDims.y; v++) {
               for (let h = 0; h < this.matrixDims.x; h++) {
-  
                 if (typeof(this.crosswordAnswer[v][h].letter) == "string") {
                   this.crosswordAnswer[v][h].letter = JSON.parse(JSON.stringify(this.crosswordAnswer[v][h].letter.toUpperCase()))
                 }
@@ -346,7 +355,11 @@
             this.crosswordAnswer[2][4].letter = "o"; this.crosswordAnswer[2][4].inHorizontal = true
             this.crosswordAnswer[2][5].letter = "n"; this.crosswordAnswer[2][5].inHorizontal = true
           },
-  
+
+          getSortedDescs: function () {
+            return this.receivedCross.wordDesc.sort((a, b) => a.wordInOrder - b.wordInOrder)
+          },
+
           changeDirection: function() {
             if (this.inputDirection === "Horizontal") {
               this.inputDirection = "Vertical"

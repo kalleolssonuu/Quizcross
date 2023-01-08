@@ -289,10 +289,10 @@
           this.crosswordCopy = JSON.parse(JSON.stringify(this.crossword.actual.posList))
   
           const startPos = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].startPos))
+
           this.crosswordPackage.wordDesc[this.amountWordsAdded - 1] = 
           {word: this.word, desc: this.desc, wordInOrder: this.crossword.actual.posList[startPos.y][startPos.x].wordInOrder, 
             startPos: startPos, direction: this.crossword.actual.posList[startPos.y][startPos.x].isHorizontalWord ? "Horizontal" : "Vertical"}
-
 
 
           console.log("amountWordsAdded före confirm: " + this.amountWordsAdded)
@@ -360,7 +360,7 @@
                                                  isFirstLetter: false, 
                                                  wordInOrder: null,
                                                  isOccupied: false,
-                                                 isVerticalWord: false}
+                                                 isHorizontalWord: false}
               }
           }
   

@@ -163,11 +163,6 @@
   cursor: pointer;
 }
 
-div {
-  width: 100%;
-  height: 100%;
-}
-
 /* .letterbox {
   background-color: rgb(250, 244, 192);
   min-width: var(--dimsX);

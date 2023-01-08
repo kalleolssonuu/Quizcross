@@ -85,15 +85,15 @@
 
     methods: {
         increase: function() {
-            if(this.matrixDims.x <= 25){
-            this.matrixDims.x ++
-            this.matrixDims.y ++
-            this.fillPositionsNull()
-        }
+            if(this.matrixDims.x <= 25) {
+                this.matrixDims.x ++
+                this.matrixDims.y ++
+                this.fillPositionsNull()
+            }
         },
 
         decrease: function() {
-            if(this.matrixDims.x >= 6){
+            if(this.matrixDims.x >= 6) {
                 this.matrixDims.x --
                 this.matrixDims.y --
                 this.fillPositionsNull()
