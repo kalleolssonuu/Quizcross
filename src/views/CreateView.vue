@@ -114,8 +114,8 @@
           crosswordCopy: [],
           crosswordPackage: {crosswordName: "", 
                              crossword: [],
-                             wordDesc: [],
-                             matrixDims: {},
+                             wordDesc: [],    /* används till beskrivningsmeny till höger i PlayView */
+                             matrixDims: {},  
                              },
   
           showModal: false,
@@ -289,7 +289,7 @@
           this.crosswordCopy = JSON.parse(JSON.stringify(this.crossword.actual.posList))
   
           const startPos = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].startPos))
-          this.crosswordPackage.wordDesc[this.amountWordsAdded] = 
+          this.crosswordPackage.wordDesc[this.amountWordsAdded - 1] = 
           {word: this.word, desc: this.desc, wordInOrder: this.crossword.actual.posList[startPos.y][startPos.x].wordInOrder, 
             startPos: startPos, direction: this.crossword.actual.posList[startPos.y][startPos.x].isHorizontalWord ? "Horizontal" : "Vertical"}
 
@@ -345,7 +345,7 @@
         confirmCreateCrossword: function () {  
          this.crosswordPackage.crosswordName = this.gameID
          this.crosswordPackage.crossword = this.crossword.actual.posList
-         this.crosswordPackage.matrixDims = this.matrixDims         
+         this.crosswordPackage.matrixDims = this.matrixDims
           socket.emit("createdCrosswordPackage", this.crosswordPackage)
          },
   
