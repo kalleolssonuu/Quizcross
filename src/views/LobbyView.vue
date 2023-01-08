@@ -50,9 +50,8 @@
 
 
                
-    
-    <!-- tog bort v-on:click="emitGameChoice()" -->
-    <button class="standardButtonLobby"  @click="$router.push('/playView/'+lang+'/'+ selectedGame)"> 
+  
+    <button class="standardButtonLobby" v-on:click="emitGameChoice()" @click="$router.push('/playView/'+lang+'/'+ selectedGame)"> 
       {{uiLabels.playPlay}}
     </button>
     
