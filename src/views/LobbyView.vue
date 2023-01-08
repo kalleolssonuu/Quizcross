@@ -181,7 +181,7 @@ export default{
   margin: 2rem;
   color: white;
   background-color: #43918a;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-family: "Comic Sans MS", "Comic Sans";
   font-size: 2rem;
   position: relative;
 }
@@ -204,7 +204,7 @@ div.scroll {
   margin: 1rem;
   color: white;
   background-color: #FE5F55;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-family: "Comic Sans MS", "Comic Sans";
   font-size: 15px;
   cursor:pointer;
 }
@@ -255,7 +255,7 @@ textarea {
   text-align: center;
   vertical-align: middle;
 
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-family: "Comic Sans MS", "Comic Sans";
   font-size: 1.25rem;
   border-color: white;
   background-color: #43918a;
@@ -277,7 +277,7 @@ textarea {
  margin-left: 5%;
  margin-right: 5%;
  margin-top: 2%;
- font-family: "Comic Sans MS", "Comic Sans", cursive;
+ font-family: "Comic Sans MS", "Comic Sans";
  font-size: medium;
  border-radius: 0.25rem;
 }
@@ -293,7 +293,7 @@ textarea {
   text-align: center;
   vertical-align: middle;
   position: relative;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-family: "Comic Sans MS", "Comic Sans";
   font-size: 1rem;
   color: #43918a;
   border-color: #2d635f;
@@ -314,7 +314,7 @@ textarea {
  
     color: white;
     background-color: #FE5F55;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-family: "Comic Sans MS", "Comic Sans";
     font-size: 1rem;
     cursor:pointer;
     position: relative;

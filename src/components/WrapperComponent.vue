@@ -20,7 +20,7 @@ export default {
     height: 3rem;
     width: 3rem;
     background-color: #FFFDD0;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-family: "Comic Sans MS", "Comic Sans";
     font-size: 30px;
     text-align: center;
     cursor:pointer;

@@ -33,7 +33,7 @@ export default{
  margin-left: 5%;
  margin-right: 5%;
  margin-top: 2%;
- font-family: "Comic Sans MS", "Comic Sans", cursive;
+ font-family: "Comic Sans MS", "Comic Sans";
  border-radius: 0.25rem;
  position: absolute;
  bottom: 0;

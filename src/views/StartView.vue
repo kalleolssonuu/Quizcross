@@ -79,32 +79,31 @@ export default {
 
 <style scoped>
 
-  
-
   #homepic {
     background-color: #A7CAB1;
+    height: 100%;
     width: 100%;
-    height: 25em;
   }
 
 
-  .logo img {
-    height:25rem;
+  .logo img{
+    height:60vh;
+    width: 60vw;
     vertical-align: bottom;
-    margin-right: 0.5rem; 
   }
 
 
 #playAndCreateButton {
-    width: 18rem;
-    height: 6rem;
-    border-radius: 15px;
+
+    height:15vh;
+    width: 25vw;
+    border-radius: 1.5rem;
     border-color: #ba0c00;
-    margin: 2.5rem;
+    margin: 5%;
+    font-size: 1.5rem;
     color: white;
     background-color: #FE5F55;
     font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-size: 30px;
     cursor:pointer;
     position: relative;
     
@@ -115,7 +114,7 @@ export default {
     
   }
 
-
+/* 
 @media screen and (max-width:50em) {
   .logo {
     font-size: 5vw;
@@ -132,7 +131,7 @@ export default {
   .hide {
     left:-12em;
   }
-}
+} */
 
 /* ska allt det ovan vara kvar? alltså det under media /elin */
 
