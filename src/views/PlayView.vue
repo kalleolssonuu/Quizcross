@@ -19,7 +19,7 @@
     {{"servertest:"}}
 
     <ul>
-      <li v-for="(value, key) in this.crosswordToPlay" :key="key">
+      <li v-for="(value, key) in this.receivedCross" :key="key">
         {{ key }}: {{ value.wordDesc }}
       </li>
     </ul>
@@ -76,7 +76,13 @@
       },
       data: function () {
         return {
-          crosswordToPlay: null, 
+          receivedCross: null, 
+
+          /* {crosswordName: "", 
+              crossword: [],
+              wordDesc: [],    används till beskrivningsmeny till höger i PlayView
+              matrixDims: {},
+              }, */
 
           word: "",
           desc: "",
@@ -108,11 +114,12 @@
         socket.on("dataUpdate", (data) =>
           this.data = data
         ),
-        this.fillPremadeCrossword();
+        this.loadReceivedCrossword();
+        /* this.fillPremadeCrossword */
         this.userCrossword = this.getUserCrossword()
   
         socket.on('gameToBePlayed', data  => { // ursprung: lobby
-        this.crosswordToPlay = data}) 
+        this.receivedCross = data})  /* data bör vara värdet till nyckeln "korsords-ID" */
 
         window.addEventListener('keydown', this.enterLetterFromKeyPress)
       },
@@ -279,6 +286,12 @@
           return tempUserCrossword
         },
   
+        loadReceivedCrossword: function() {
+          this.crosswordAnswer = this.receivedCross.crossword
+          console.log("Mottaget korsord (listan): ")
+          console.log(this.crosswordAnswer)
+        },
+
         fillPremadeCrossword: function () {
             for (let v = 0; v < this.matrixDims.y; v++) {
                 this.crosswordAnswer[v] = [];
