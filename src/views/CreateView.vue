@@ -34,10 +34,10 @@
         <div id="wordPlacement">
           {{uiLabels.wordPlacement}}
         </div>
-        <div id="div2">
+      <div id="placementArrows">
           <img id="showSolutions" :src="uiLabels.showPrevious" v-on:click="this.showPreviousSolution">
           <img id="showSolutions" :src="uiLabels.showNext" v-on:click="this.showNextSolution">
-        </div>
+      </div>
 
         <div id="div3">
           <button v-if="!this.enableWordButtons" class="standardButton disabled"  disabled style="width: 6rem;"> {{uiLabels.discard}} </button>
@@ -464,19 +464,18 @@
     justify-content: center;
     margin-top: 5%;
   }
-  #div2{
+  #placementArrows{
     position: absolute;
     float: left;
-    width: 25%;
     justify-content: center;
-    top: 73%;
+    margin-top: 3rem;
+  
   }
   #div3{
     position: absolute;
     float: left;
-    width: 25%;
     justify-content: center;
-    top: 83%;
+    margin-top: 8rem;
   }
   #div4 {
     float: left;
@@ -520,20 +519,10 @@
     border-style: solid;
   }
   #wordPlacement{
-    width: 10rem;
-    height: 1.5rem;
-    border-radius: 0.2rem;
-    border-color: #43918a;
-    margin-left: 5%;
-    /*background-color: #43918a;*/
-    color: white;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
     font-size: 1rem;
-    position: relative;
-    float:left;
-    margin:0.5rem;
-    margin-right: 1rem;
-    margin-left: 1rem;
+    position: absolute;
+    margin-top: 1rem;
+
   }
   
     #wordInput {

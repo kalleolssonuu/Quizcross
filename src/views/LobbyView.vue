@@ -289,8 +289,8 @@ textarea {
   }
 
 #searchInput{
-  width: 15rem;
-  height: 1.75rem;
+  width: 18rem;
+  height: 2rem;
   border-radius: 0.5rem;
   text-align: center;
   vertical-align: middle;
