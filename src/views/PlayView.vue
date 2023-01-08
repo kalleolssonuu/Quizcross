@@ -16,14 +16,6 @@
 
     <!-- Ha kvar servertest lite till -->
     <div>
-    {{"servertest:"}}
-
-    <ul>
-      <li v-for="(value, key) in this.receivedCross" :key="key">
-        {{ key }}: {{ value.wordDesc }}
-      </li>
-    </ul>
-
   </div>
     
 
@@ -32,25 +24,40 @@
           
                       v-bind:sourceName="this.sourceName"
                       v-bind:crossword="this.userCrossword"
-                      v-bind:matrixDims="this.matrixDims"
-                      v-bind:word="this.word"    
-                      v-bind:desc="this.desc"> 
+                      v-bind:matrixDims="this.matrixDims"> 
           </Crossword>
     </div>
   
     <div class ="wordDescriptionWrapper"> 
-  
+        
       <ol id="horizontalDescriptions">
         <div id="wordDescTop">{{uiLabels.horizontalWords}}</div>
-        <li>pajas</li>
-        <li>motsats till nej</li>
-        <li>tung artilleripjäs</li>
+
+        <li v-for="(value, key) in this.getSortedDescs()" :key="key">
+          <span v-if="this.receivedCross.crossword[value.startPos.y][value.startPos.x].isHorizontalWord == true">
+            {{ value.desc }}
+          </span>
+          <span v-else style="display: none;">
+          </span>
+        </li>
       </ol>
+
+
+
       <ol id="verticalDescriptions">
         <div id="wordDescTop">{{uiLabels.verticalWords}}</div>
-        <li>sängklädesplagg</li>
+        <li v-for="(value, key) in this.getSortedDescs()" :key="key">
+          <span v-if="this.receivedCross.crossword[value.startPos.y][value.startPos.x].isHorizontalWord == false">
+            {{ value.desc }}
+          </span>
+          <span v-else style="visibility: hidden;">
+          </span>
+        </li>
       </ol>
-      </div>
+
+  </div>
+
+
       <div>
         <button id="finishedGame" @click="$router.push('/lobby/'+lang)">{{uiLabels.finishedGame}}</button>
       </div>   
@@ -60,9 +67,10 @@
   
   <script>
   
-  import Crossword from '../components/Crossword.vue'
+    import Crossword from '../components/Crossword.vue'
     import Modal from '../components/PopUp.vue'
     import io from 'socket.io-client';
+    
     const socket = io();
   
   export default {
@@ -86,7 +94,7 @@
 
           word: "",
           desc: "",
-          matrixDims: {x: 10, y: 10},
+          matrixDims: {},
           occupiedPosition: {x: null, y: null},
           latestOccupied: {x: 0, y: 0},
          
@@ -114,12 +122,28 @@
         socket.on("dataUpdate", (data) =>
           this.data = data
         ),
-        this.loadReceivedCrossword();
-        /* this.fillPremadeCrossword */
-        this.userCrossword = this.getUserCrossword()
-  
+
+
+          /* DET HÄR SKER EFTER this.loadReceivedCrossWord! */
         socket.on('gameToBePlayed', data  => { // ursprung: lobby
-        this.receivedCross = data})  /* data bör vara värdet till nyckeln "korsords-ID" */
+          console.log("data = " + data)
+
+          this.receivedCross = JSON.parse(JSON.stringify(data))
+          console.log("receivedCross från PlayView = " + this.receivedCross)
+
+          console.log("receivedCross.crossword från PlayView = " + this.receivedCross.crossword)
+
+          this.loadReceivedCrossword();
+          this.userCrossword = this.getUserCrossword()
+          this.matrixDims = JSON.parse(JSON.stringify(this.receivedCross.matrixDims))
+          this.wordDesc = JSON.parse(JSON.stringify(this.receivedCross.wordDesc))
+
+          console.log("Djup egenskap försök: " + this.userCrossword[1][0].isHorizontalWord + ", vi vill få true")
+          /* console.log("Djup egenskap försök: " + this.userCrossword[1][1].inVertical + ", vi vill få true") */
+        })  /* data bör vara värdet till nyckeln "korsords-ID" */
+
+        /* this.loadReceivedCrossword();
+        this.userCrossword = this.getUserCrossword() */
 
         window.addEventListener('keydown', this.enterLetterFromKeyPress)
       },
@@ -249,7 +273,6 @@
           let allMatchesCorrect = true
           for (let v = 0; v < this.matrixDims.y; v++) {
               for (let h = 0; h < this.matrixDims.x; h++) {
-  
                 if (typeof(this.crosswordAnswer[v][h].letter) == "string") {
                   this.crosswordAnswer[v][h].letter = JSON.parse(JSON.stringify(this.crosswordAnswer[v][h].letter.toUpperCase()))
                 }
@@ -287,7 +310,9 @@
         },
   
         loadReceivedCrossword: function() {
-          this.crosswordAnswer = this.receivedCross.crossword
+          console.log("received cross från created in PlayView: " + this.receivedCross)
+          this.crosswordAnswer = JSON.parse(JSON.stringify(this.receivedCross.crossword))
+
           console.log("Mottaget korsord (listan): ")
           console.log(this.crosswordAnswer)
         },
@@ -330,7 +355,11 @@
             this.crosswordAnswer[2][4].letter = "o"; this.crosswordAnswer[2][4].inHorizontal = true
             this.crosswordAnswer[2][5].letter = "n"; this.crosswordAnswer[2][5].inHorizontal = true
           },
-  
+
+          getSortedDescs: function () {
+            return this.receivedCross.wordDesc.sort((a, b) => a.wordInOrder - b.wordInOrder)
+          },
+
           changeDirection: function() {
             if (this.inputDirection === "Horizontal") {
               this.inputDirection = "Vertical"

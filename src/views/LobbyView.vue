@@ -50,9 +50,8 @@
 
 
                
-    
-    <!-- tog bort v-on:click="emitGameChoice()" -->
-    <button class="standardButtonLobby"  @click="$router.push('/playView/'+lang+'/'+ selectedGame)"> 
+  
+    <button class="standardButtonLobby" v-on:click="emitGameChoice()" @click="$router.push('/playView/'+lang+'/'+ selectedGame)"> 
       {{uiLabels.playPlay}}
     </button>
     
@@ -116,7 +115,7 @@ export default{
 
       shownGames:[],
 
-      allGames: ["Hugos spel","Elins spel","Kung Charles spel","Emils spel", "Hugos spel","Elins spel","Kung Charles spel","Emils spel"],
+      allGames: ["server test", "Hugos spel","Elins spel","Kung Charles spel","Emils spel", "Hugos spel","Elins spel","Kung Charles spel","Emils spel"],
 
       searchTerm: "",
 

@@ -153,6 +153,8 @@
 
 .occupied {
   background-color: #FFFDD0;
+  justify-content: center;
+  align-items: center;
 }
 
 .clickable {
@@ -160,19 +162,6 @@
   height: var(--dimsY);
   cursor: pointer;
 }
-
-
-/* .letterbox {
-  background-color: rgb(250, 244, 192);
-  min-width: var(--dimsX);
-  min-height: var(--dimsY);
-  max-width: var(--dimsX);
-  max-height: var(--dimsY);
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
-  font-weight: bold;
-  font-size: 1.5rem;
-  border: black 0.15rem solid;
-} */
 
 div {
   height: 100%;

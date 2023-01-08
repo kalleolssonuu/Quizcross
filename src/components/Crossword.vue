@@ -118,6 +118,7 @@ table {
   height: var(--dimsY);
   width: var(--dimsX);
   /* padding: var(--padding); */
+  padding: 0;
 }
 
   </style>
