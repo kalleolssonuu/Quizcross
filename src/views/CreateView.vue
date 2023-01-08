@@ -7,7 +7,6 @@
       </div>
   </header>
   
-  <!-- <button v-on:click="this.testUserID"> test IP ID </button> -->
   
   
   <div id="div1" class="inputFieldWrapper">
@@ -41,13 +40,10 @@
 
       <button v-if="!this.enableWordButtons" class="standardButton disabled"  disabled style="width: 6rem;"> {{uiLabels.confirm}} </button>
       <button v-else v-on:click="this.confirmWord" class="standardButton" style="width: 6rem;"> {{uiLabels.confirm}} </button>
-  
-      
-  
-  
+   
     </div>
           
-  
+      <!-- JESSIE FRÅGA:VAR ÄR matrixdims i vitt ovanför korsord???? -->
       <div id="div2"> 
           <Crossword  v-bind:sourceName="sourceName"
                       v-bind:crossword="this.crossword.actual.posList"
@@ -64,8 +60,9 @@
             <br>
             
             <button class="standardButton" v-on:click="this.confirmCreateCrossword" @click="$router.push('/Lobby/'+lang)"> <!-- JESSIE ÄNDRA SKICKA MED ID?????? -->
-            {{uiLabels.confirmCreate}}  <!--JESSIE OBS OLIKA NAMN - Jessie igen: vet ej vad jag menade med denna kommentar --> 
+            {{uiLabels.confirmCreate}}   
             </button>
+            <br>
 
             <button class="standardButton"  @click="$router.push('/Lobby/'+lang)"> 
             {{uiLabels.QuitGame}} 
@@ -73,62 +70,18 @@
 
           </div>
           <br>
-  
-          Iterator: {{ this.userIterator }}
+          
+          <!-- JESSIE FRÅGA: varför denna? -->
+          Iterator: {{ this.userIterator }}  
   
   </template>
     
   <script>
     import Crossword from '../components/Crossword.vue'
     import Modal from '../components/PopUp.vue'
-    import io from 'socket.io-client';
-    /* import Vue from 'vue'; */
+    import io from 'socket.io-client';   
   
     const socket = io();
-   /*  const initialData = {
-      word: "",
-      desc: "",
-  
-      userIterator: 0,
-      matchesIterator: 0,
-      prioIterator: 0, 
-      wordInOrder: 1,
-      amountWordsAdded: 0,
-  
-      enableWordButtons: false,
-      wordCollision: false,
-      noMatches: false,
-  
-      matrixDims: {x: 15, y: 15},
-      crossword: {actual.posList: [], temp: []},
-      crosswordCopy: [],
-      crosswordPackage: {crosswordName: "", 
-                          crossword: [],
-                          wordDesc: [],
-                          matrixDims: {},
-                          },
-  
-      showModal: false,
-      uiLabels: {},        
-      lang: "en",
-  
-      sourceName: "CreateCrosswordView",
-    } */
-  
-  
-  /* LOGG:
-  
-    2023-01-02
-    Fixa sista problemen med algoritmen.
-    - Lilla siffran blir fel vid genomgång av crossword.temp
-    - Orden hamnar ett steg förskjutet
-    - isFirstLetter --> rätt siffra i hörnet
-    * Undersök möjlighet att öka iterator vid confirm istället
-  
-    - Visa beskrivningar löpande så att användaren alltid får se vad den skapar
-    - Layout i olika Views, knappar osv.
-  
-  */
   
     export default {
       name: 'CreateView',
@@ -153,13 +106,13 @@
           wordCollision: false,
           noMatches: false,
   
-          matrixDims: null,
+          matrixDims: {},
 
           crossword: {actual: {posList: [], 
                                    startPos: {x: 0, 
                                               y: 0
                                              }
-                                  }, 
+                                  },
                           temp: []
                          },
           crosswordCopy: [],
@@ -189,8 +142,9 @@
         socket.on("dataUpdate", (data) =>
           this.data = data
         )
-        this.fillPositionsNull()  // fyller matris
+        this.fillPositionsNull()  
       },
+
       methods: {
         switchLanguage: function() {
           if (this.lang === "en")
@@ -208,7 +162,7 @@
           location.reload()
         },
   
-        findPotentialMatches: function () {
+        findPotentialMatches: function () { // JESSIE FRÅGA: ha kvar kommentarer i längre algoritmer eller ta bort?
           if (this.word != "") {
           
             this.enableWordButtons = true
@@ -299,8 +253,7 @@
                 }
             }
             }
-  
-  
+
             this.prioIterator = 0
   
             if (this.crossword.temp.length == 0) {
@@ -328,9 +281,13 @@
         }, 
      
         confirmWord: function () {
+          const audio = new Audio("https://audio-previews.elements.envatousercontent.com/files/317218604/preview.mp3?response-content-disposition=attachment%3B+filename%3D%22MQR9VVH-confirm-pop.mp3%22")
+          audio.play()
           this.crosswordCopy = JSON.parse(JSON.stringify(this.crossword.actual.posList))
   
-          this.crosswordPackage.wordDesc[this.amountWordsAdded] = {word: this.word, desc: this.desc}
+          const startPos = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].startPos))
+          this.crosswordPackage.wordDesc[this.amountWordsAdded] = {word: this.word, desc: this.desc, wordInOrder: this.wordInOrder, startPos: startPos}
+          console.log("amountWordsAdded före confirm: " + this.amountWordsAdded)
           this.amountWordsAdded++
   
           this.word = ""
@@ -340,33 +297,26 @@
         },
   
         discardWord: function () {
+          const audio = new Audio("https://audio-previews.elements.envatousercontent.com/files/145365988/preview.mp3?response-content-disposition=attachment%3B+filename%3D%222Y687H5-throwing-garbage-in-garbage-can-2.mp3%22")
+          audio.play()
           this.word = ""
           this.desc = ""
           this.amountWordsAdded--
           this.wordInOrder--
           this.crossword.actual.posList = JSON.parse(JSON.stringify(this.crosswordCopy))
           this.enableWordButtons = false
-        },
-  
-        testSocketSend: function () { // till någon, vad är detta? används ej?
-          socket.on("matrixDimsTransfer", data => {
-            this.matrixDims = data.matrixDims
-            console.log("matrixDimsTransfer has been found")
-          })
-        },
+        },     
   
         alertNoMatches: function () {
           alert("no matches! Try another word.")
         },
   
-        confirmCreateCrossword: function () {    //JESSIE ÄNDRA
-          socket.emit("emittedCrosswordPackage", {sourceName: this.sourceName,    // innehåll i paket ska ändras
-                                                    wordPositionActual: this.crossword.actual.posList,
-                                                    matrixDims: this.matrixDims,
-                                                    wordDescPairs: this.wordDescForPackage,
-                                                    })
-          console.log("i confirmCreateCrossword")
-        },
+        confirmCreateCrossword: function () {  
+         this.crosswordPackage.crosswordName = this.gameID
+         this.crosswordPackage.crossword = this.crossword.actual.posList
+         this.crosswordPackage.matrixDims = this.matrixDims         
+          socket.emit("createdCrosswordPackage", this.crosswordPackage)
+         },
   
         fillPositionsNull: function () {
           for (let v = 0; v < this.matrixDims.y; v++) {
@@ -377,7 +327,8 @@
                                                  inHorizontal: false,
                                                  inVertical: false,
                                                  isFirstLetter: false, 
-                                                 wordInOrder: null}
+                                                 wordInOrder: null,
+                                                 isOccupied: false}
               }
           }
   
@@ -431,8 +382,7 @@
           }
         },
   
-        showNextSolution: function () {
-  
+        showNextSolution: function () {  
           if (this.enableWordButtons) {
             if (this.userIterator == this.matchesIterator - 1) {
               this.crossword.actual.posList = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].posList))
@@ -497,58 +447,16 @@
     float: left;
     width: 50%;
     margin-top: 2%;
+    justify-content: center;
   }
   #div3 {
     float: left;
-    width: 15%;
+    width: 25%;
     height: 25rem;
     justify-content: center;
     margin-top: 10%;
   }
   
-  #flag {
-    width: 5rem;
-    height: 3.5rem;
-    border-radius: 20%;
-  }
-  
-  #help {
-    height: 3rem;
-    width: 3rem;
-    background-color: #FFFDD0;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-size: 30px;
-    text-align: center;
-    cursor:pointer;
-    border-radius: 50%;
-    border-color: black;
-    color: black;
-    position: absolute;
-    top: 0;
-    right:0;
-    margin: 0.5rem;
-  }
-  
-  .language{
-      height: 1rem;
-      width: 1rem;
-      cursor:pointer;
-      margin: 0.5rem;
-  }
-  
-  .logo {
-    text-transform: uppercase;
-    letter-spacing: 0.25em;
-    font-size: 2.5rem;
-    color: white;
-    background-color: #FE5F55;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-size: 1rem;
-    cursor:pointer;
-    position: relative;   
-  }
-
-
   
   #showSolutions {
     width: 5rem;

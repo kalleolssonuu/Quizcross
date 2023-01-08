@@ -52,67 +52,26 @@ function sockets(io, socket, data) {
     data = new Data();
     data.initializeData();
   });
-
-
   
-  // FUNKTIONER FÖR CROSSWORDPACKAGES:
-  socket.on('emittedCrosswordPackage', function(pack) {
-    data.addPackage(pack); // lägger till paket i this.crosswordPackages med ID som key
-    console.log("i socket.on");
-
-    io.emit('currentCrosswordPackages', data.getAllCrosswordPackages() );      //"send updated info to all connected clients"
-    io.emit('currentPackageInfoForLobby', data.getAllPackageInfoForLobby() );  // Tror alltså den skickar info till ALLA clients som REDAN ÄR CONNECTADE
-                                                                               // dvs REDAN LYSSNAR PÅ AKTUELLA MEDDELLANDET
+  
+  // Nedan har ursprung: klick på knappen "confirmcreatecrossword" i createview
+  socket.on('createdCrosswordPackage', function(d) {
+    data.addPackage(d);  
+    io.emit('currentCrosswordNames', data.getCrosswordNames() );                                                 
   });
 
+   socket.emit('currentCrosswordNames', data.getCrosswordNames() ); 
+
+
+  // Nedan har ursprung: Klick på knappen play i lobbyview
+  socket.on('chosenGame', function(d) {    
+    console.log("I finsmatchinggame")
+
+    data.findMatchingGame(d)
+    io.emit('gameToBePlayed', data.getMatchingGame() ); //  visst ska denna också finnas? när en socket redan etablerats. tänker om man vill spela ett till spel typ
+  });    
   
-  socket.emit('currentCrosswordPackages', data.getAllCrosswordPackages() );    // skickar aktuella info when a client connects, dvs till playview och lobbyview   
-  socket.emit('currentPackageInfoForLobby', data.getAllPackageInfoForLobby() ); 
-
-
-  // FUNKTIONER FÖR UPPDATERING AV POS NÄR KORSORD SPELAS
-  socket.on('updatedOccupied', function(d) { 
-    
-      // måste ta emot
-      //  - korsordsid pga måste veta vilket korsordpackage som ska uppdateras
-      //  - position klient ockuperar
-      //  - klients IP/alternativt något annat ID
-
-    data.updateOccupied(d);
-    // Vad som ska ske:
-    // - positionen ska ändras i serverns data i det korsordet som har korsordsidet som skickas med "updateoccupied"
-    
-    io.emit('currentOccupied', data.getAllOccupied() );
-    // denna ska ej finnas. eller ska ändras. 
-    // Vad som ska ske:
-    // - det uppdaterade korsordet ska emitas. Kanske inte gör något att skickar ut till ALLA connectade?
-    // - eller går det att:
-
-          // socket.on ("updatedOccupied", function( {nyPos, korsID, klientID} ) {
-
-          //    data.uppdateraKorspaket(d)
-          //     - uppdaterar korspaketet i this.crosswordpackages som har rätt ID
-          //     - måste ju sen emitta ändring till ALLA som spelar korsordet med det ID:t, Hur ska det gå?????
-          //     - kan man göra funktion på clientsida som typ aktiverer en socket.on('korsID') när man börjar spela korsord me visst ID?
-          //       - Då kan det på serversida finnas:
-
-          //   io.emit('currentOccupied', data.getUpdated???(korsID))
-          //   socket.emit('currentOccupied', data.getUpdated???(korsID))
-          //     - 1. ska alltså skicka ENBART DET UPPDATERADE PAKETET till DE SOM SPELAR DE UPPDATERADE PAKETET
-          //     - 2. alt: skicka HELA this.crosswordPackages och rätt korsord plockas ut på klientsida
-
-          //     ex. 1 på klientsida: 
-
-          //           socket.on(currentOccupied, data) { tä tänker att data är ex ID:{...}
-          //             if ID = IDjagspelar   (IDjagspelar sätts när playview skapas till det ID man valt i lobbyview)
-          //                 --> uppdatera mitt korsord
-          //           }
-
-          // }
-    }
-  );
-
-  socket.emit('currentOccupied', data.getAllOccupied() );
+  socket.emit('gameToBePlayed', data.getMatchingGame() ); 
 
 }
 

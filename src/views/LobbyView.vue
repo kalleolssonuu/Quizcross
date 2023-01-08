@@ -9,83 +9,64 @@
     </Modal>
   </header>
 
-
+  <!-- JESSIE FRÅGA: Varför behövs den nedan? -->
+  <text id="crossText">{{uiLabels.crossID}}</text>  
 
   <div class="gameWrapper">
+
     <div id="allGamesList">
       {{uiLabels.gameList}}
-        <div id="gameList">
+
+      <div id="gameList">
+
           <div class="scroll">
-          <div id="listOfGames" v-for="(game, key) in shownGames" :key="key">
-            
-          <button id="selectGameButtonStyle" v-on:click=selectGame(game)>
-            {{game}}
-          </button>
+            <div id="listOfGames" v-for="(game, key) in shownGames" :key="key">              
+              <button id="selectGameButtonStyle" v-on:click=selectGame(game)>
+                {{game}}
+              </button>
+            </div>
           </div>
 
+          <div class="wrapper">        
+            <input v-on:keyup="searchGame" v-if="this.lang == 'en'" v-model="searchTerm" id="searchInput" placeholder="Search for a game">
+            <input v-on:keyup="searchGame" v-else v-model="searchTerm" id="searchInput" placeholder="Sök efter ett spel">
           </div>
-      <div class="wrapper">
-    
-        <input v-on:keyup="searchGame" v-if="this.lang == 'en'" v-model="searchTerm" id="searchInput" placeholder="Search for a game">
-        <input v-on:keyup="searchGame" v-else v-model="searchTerm" id="searchInput" placeholder="Sök efter ett spel">
+
       </div>
-      </div>
+
     </div>
+
   </div>
-
-
+  
   <button class="standardButtonLobby" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.create}}</button>
 
-
-
-  <div>
-
-    <text id="selectadGameText">{{ uiLabels.selectedGameLang }}</text><br>
-      <textarea readonly id="selectedGame">
-
-      </textarea>
-                 
-    <button class="standardButtonLobby" v-on:click="playCross" @click="$router.push('/PlayView/'+lang)">
+<!-- JESSIE FRÅGA: nej jessie fixa -->
+ <!-- <input type="text" v-model="gameID"  placeholder="ex: jjjessiesSpel"> --> 
+  
+ <div>
+    <text id="crossText">{{uiLabels.crossID}}</text>     
+     
+    <!-- JESSIE FRÅGA: 
+          - nedan är lite ointuitivt, ser ut som en inputruta
+            kanske ändra färg och ändra texten till vänster till "selected game"
+          - SAMT hur göra med spelet man just gjort? ska det dyka upp i ruta eller blir det bara rörigt? -->
+    <textarea readonly id="selectedGame"> 
+    </textarea>                
+    
+    <button class="standardButtonLobby" v-on:click="emitGameChoice()" @click="$router.push('/playView/'+lang+'/'+ searchTerm)"> 
       {{uiLabels.playPlay}}
     </button>
     
   </div>
 
-   <!-- <div>
-     JESSIE: FIXA SÅ:
-          - LOBBY, VID VAL AV KORSNAMN, SKICKAR KORSNAMN OCH ID TILL SERVER
-          - SERVER KOLLAR VILKET PAKET SOM MATCHAR, ANTINGEN NAMN ELLER IDMATCH?
-          - SKICKAR MOTSVARANDE PAKET TILL ACTUALPLAY  
-    {{"servertest av confirmCreate:"}}
-    <ul v-if="this.crosswordPackageInfo" >
-      {{this.crosswordPackageInfo}}   
+  <!-- HA kvar servertest lite till!! -->
+  <div>  
+    {{"servertest :"}}
+    <ul v-if="this.crosswordNames" >
+      {{this.crosswordNames}}   
     </ul>
-    
-    <ul> 
 
-      <label>
-        Write poll id: 
-        <input type="text" v-model="id">
-      </label> 
-
-       <router-link v-bind:to="'/playView/'+id"> {{uiLabels.participateGame}} </router-link> 
-       router-link is used to create links for navigating between routes 
-            - så eftersom id är dynamiskt blir det olika länkar beroende på vilket id som skrivs in, 
-            - betyder det att den skapar nya playviews med varje nytt id?? 
-            - Lösa:
-              - betyder det nu att alla som har tillgång till ett id spelar samma spel? men behöver väl fortfarnde skicka paket med ändringar?
-              - hur bestäms id från createview
-              - fixa så även språket hänger med, se hur playknappen är skapad nu
-              - obs kolla hela språkgrejen så det sker rätt, det där micke sa. se kommentarer i created i startview
-              - användarid?
-              - diskutera hur micke gör allt i servern i data!!! vi gör typ inget där men kanske ej behövs?
-
-      
-
-    </ul> 
-
-  </div>
-   -->
+  </div>   
   
   <button class="standardButtonLobby" @click="$router.push('/'+lang)">{{uiLabels.backButton}}</button>
  
@@ -102,33 +83,37 @@ export default{
   components:{
     Modal
   },
+  
   props: {
-  modal: Object
-},
+    modal: Object
+  },
 
   created: 
   function () {
+    this.lang = this.$route.params.lang; 
+
     socket.emit('pageLoaded')
 
-    socket.on("init", (labels) => {  // VAD GÖR DENNA FÖRSTÅ DET
+    socket.on("init", (labels) => {  //JESSIE FRÅGA: VAD GÖR DENNA
       this.uiLabels = labels
     });
 
-    socket.on('currentPackageInfoForLobby', data => { // tar emot korsordsinfo från server, ursprung confirmCreate
-        this.crosswordPackageInfo = data
-    });
-    
+    socket.on('currentCrosswordNames', data => { 
+        this.crosswordNames= data
+    }); 
+
     this.shownGames = JSON.parse(JSON.stringify(this.allGames));
 
-  /*   window.addEventListener('keydown', this.searchGame) */
+  /*   window.addEventListener('keydown', this.searchGame) */ // JESSIE FRÅGA: ha kvar?
 
   },  
 
   data: function() {
     return{
-      crosswordPackageInfo: null,
-      id: "", // för participantid
-      
+      crosswordNames: null, 
+      gameID: "", 
+      lang: "",
+
       gameName: "",
 
       shownGames:[],
@@ -141,29 +126,28 @@ export default{
       selectedGame: {},
       uiLabels: {},
      
-      lang: "en",
       showModal: false,
       sourceName: "LobbyView"
     }
   },
+
   methods: {
+    emitGameChoice: function() { 
+      socket.emit("chosenGame", this.searchTerm ); 
+
+      console.log("I emitgamechoice")
+    },
    
     searchGame: function() {
       this.shownGames = this.allGames.filter(item => item.toLowerCase().includes(this.searchTerm.toLowerCase()));
 
       console.log("sökta spel " + this.shownGames)
-
     },
 
   selectGame: function (game){ 
     document.getElementById("selectedGame").value=game;
    /*  document.getElementById("selectedid").value=games.id */
   },
-  /* listenAddGame: function(games) {
-    socket.on("receiveGameFromCreateView") {
-      games.push()
-    }
-  }, */
 
   switchLanguage: function() {
     if (this.lang === "en")
@@ -174,17 +158,16 @@ export default{
     socket.emit("switchLanguage", this.lang)
     this.$router.push(this.lang)
     },
-/* FÖR ATT FÅ FRAM POP-UP RUTA*/
-togglePopup: function () {
-    this.showModal = ! this.showModal;
+
+  togglePopup: function () {
+      this.showModal = ! this.showModal;
+    }
   }
-}
 }
 
 </script>
 
 <style>
-
 
 .gameWrapper{
   display: flex;
@@ -205,17 +188,17 @@ togglePopup: function () {
   position: relative;
 }
 div.scroll {
-              margin:0.5rem;
-              background-color: #ffffff;
-              width: 39rem;
-              height: 24rem;
-              overflow-x: hidden;
-              overflow-y: auto;
-              text-align:justify;
-              color:black;
+  margin:0.5rem;
+  background-color: #ffffff;
+  width: 39rem;
+  height: 24rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align:justify;
+  color:black;
           }
 
-  #create {
+#create {
   width: 6rem;
   height: 2rem;
   border-radius: 15px;
@@ -227,14 +210,31 @@ div.scroll {
   font-size: 15px;
   cursor:pointer;
 }
+
+.gameWrapper{
+  display: flex;
+  justify-content: center;
+  
+}
+
+
+div.scroll {
+              margin:0.5rem;
+              background-color: #ffffff;
+              width: 39rem;
+              height: 24rem;
+              overflow-x: hidden;
+              overflow-y: auto;
+              text-align:justify;
+              color:black;
+          }
+
+
 textarea {
   resize: none;
   overflow:hidden;
 }
-.wrapper{
-    display: flex;
-    justify-content: center;
-  }
+
 
 #selectedname{
   width: 10rem;
@@ -373,4 +373,9 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+.wrapper{
+    display: flex;
+    justify-content: center;
+  }
 </style>

@@ -1,46 +1,37 @@
  <template>
 
-  <div v-if="(this.sourceName == 'PlayView')" class="box">
-      <div v-if="(!this.inHorizontal) && (!this.inVertical)" id="nullLetter">
-        
+  <div v-if="(this.sourceName == 'PlayView')">
+      <div v-if="(!this.inHorizontal) && (!this.inVertical)" class="box" id="nullLetter">
+        <!-- ingenting -->
       </div>
-      <div v-else >
-            <div v-if="this.isOccupied">
-              <div v-if="this.isFirstLetter" @click="testClick" id="clickable" class="box letter occupied">
-                <span id="number"> {{ wordInOrder }} </span>
-                {{ letter }}
-              </div>
-              <div v-else class="box letter occupied">
-                {{ letter }}
-              </div>
-            </div>
 
-            <div v-else>
-              <div v-if="this.isFirstLetter" @click="testClick" id="clickable" class="box letter">
-                <span id="number"> {{ wordInOrder }} </span>
-                {{ letter }}
-              </div>
-              <div v-else class="box letter">
-                {{ letter }}
-              </div>
-              
-            </div>
+      <div v-else-if="this.isOccupied" class="box letter">
+          <div v-if="this.isFirstLetter" @click="testClick" :class="['clickable', 'occupied']">
+            <span id="number"> {{ wordInOrder }} </span>
+            {{ letter }}
+          </div>
+          <div v-else class="occupied">
+            {{ letter }}
+          </div>
+      </div>
+
+      <div v-else-if="this.isOccupied == false" class="box letter">
+          <div v-if="this.isFirstLetter" @click="testClick" class="clickable">
+            <span id="number"> {{ wordInOrder }} </span>
+            {{ letter }}
+          </div>
+          <div v-else>
+            {{ letter }}
+          </div>
       </div>
   </div>
 
-  <div v-else-if="(this.sourceName == 'CreateView')" class="box">
-    <div class="box letter">
+  <div v-else-if="(this.sourceName == 'CreateView')" class="box letter">
         <div v-if="this.isFirstLetter" id="number"> {{ wordInOrder }} </div>
-        {{ letter }}
-    </div>
-      
+        {{ letter }}      
   </div>
 
-  <div v-else-if="(this.sourceName == 'PreCreate')" class="box">
-    <div class="box letter">
-      
-    </div>
-      
+  <div v-else-if="(this.sourceName == 'PreCreate')" class="box letter">      
   </div>
 
  </template>
@@ -63,6 +54,7 @@
     props: {
         xkey: Number,
         ykey: Number,
+
         letter: String,
         inHorizontal: Boolean,
         inVertical: Boolean,
@@ -82,6 +74,17 @@
       },
       occupyWordBox: function () {
 
+      },
+      watch: {
+        matrixDims: {
+          handler: function () {
+            this.dimsX = String(40 / this.matrixDims.x) + "rem"
+            this.dimsY = String(40 / this.matrixDims.y) + "rem" /* 600 px ~ 40 rem */
+            document.querySelector(':root').style.setProperty('--dimsX', this.dimsX);
+            document.querySelector(':root').style.setProperty('--dimsY', this.dimsY);
+          },
+          deep: true
+        }
       }
     },
     mounted() {
@@ -101,7 +104,7 @@
     console.log(this.matrixDims)
     },
     
-}
+  }
 
 </script>
 
@@ -109,22 +112,22 @@
 <style>
 
 :root {
-  --dimsX: 1em;
-  --dimsY: 1em;
+  --dimsX: var(--dimsX); /* 1em */
+  --dimsY: var(--dimsY); /* 1em */
   --borderSize: 0.1rem;
   --fontSize: 1rem;
 }
 
 .box {
-  /* min-width: var(--dimsX); */
-  /* min-height: var(--dimsY); */
+  /* width: var(--dimsX);
+  height: var(--dimsY); */
   width: var(--dimsX);
   height: var(--dimsY);
 }
 
-.box.letter {
-  height: 100%;
-  width: 100%;
+.letter {
+  width: var(--dimsX);
+  height: var(--dimsY);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -137,15 +140,13 @@
   color: black;
 }
 
-.box.letter.occupied {
-  height: 100%;
-  width: 100%;
+.occupied {
   background-color: #FFFDD0;
 }
 
-#clickable {
-  height: 100%;
-  width: 100%;
+.clickable {
+  width: var(--dimsX);
+  height: var(--dimsY);
   cursor: pointer;
 }
 
@@ -166,6 +167,11 @@ div {
   border: black 0.15rem solid;
 } */
 
+div {
+  height: 100%;
+  width: 100%;
+}
+
 #nullLetter {
   background-color: #A7CAB1;
 /*   border: 0cm; */
@@ -179,10 +185,11 @@ div {
   position: absolute;
   top: 0;
   left: 0;
+  width: var(--dimsX);
+  height: var(--dimsY);
   font-size: var(--numberSize);
   color: black;
   display: flex;
-  align-items: center;
   z-index: 1;
 }
 

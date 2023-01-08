@@ -13,10 +13,8 @@
   </div>
 
   <div class="wrapper">
-    <!-- <button id="play" @click="$router.push('/actualPlay/'+lang)">{{'Actual PlayView'}}</button> -->
     <button id="playAndCreateButton" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.createCross}}</button>
     <button id="playAndCreateButton" @click="$router.push('/Lobby/'+lang)">{{uiLabels.playCross}}</button>
-    <!-- <button id="play" @click="$router.push('/CreateView/'+lang)">{{'Göra korsord test'}}</button> -->
   </div>
 
   <audio ref="audioPlayer" src="01 Manboy.m4a"></audio>
@@ -82,15 +80,18 @@ export default {
 <style scoped>
 
   
-  .wrapper{
-    display: flex;
-    justify-content: center;
-  }
 
   #homepic {
     background-color: #A7CAB1;
     width: 100%;
     height: 25em;
+  }
+
+
+  .logo img {
+    height:25rem;
+    vertical-align: bottom;
+    margin-right: 0.5rem; 
   }
 
 
@@ -115,12 +116,6 @@ export default {
   }
 
 
-  .logo img {
-    height:25rem;
-    vertical-align: bottom;
-    margin-right: 0.5rem; 
-  }
-
 @media screen and (max-width:50em) {
   .logo {
     font-size: 5vw;
@@ -138,4 +133,12 @@ export default {
     left:-12em;
   }
 }
+
+/* ska allt det ovan vara kvar? alltså det under media /elin */
+
+
+.wrapper{
+    display: flex;
+    justify-content: center;
+  }
 </style>

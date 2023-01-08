@@ -6,12 +6,10 @@ const languages = ["en", "se"];
 function Data() {
   this.polls = {};
 
-  this.occupiedWordboxes = null; // info om vilka rutor som är occupied i actualplayview
+ this.crosswordPackages = {};  
+ this.crossword = null;    
+ this.matchingCrossword = null;  // JESSIE FRÅGA: diskutera varför måste va globala????                    
 
-  this.crosswordPackages = {}; // togs denna bort för att byta ut mot crosses? varför byttes ej namn i funktion?
-  this.crosses = {}; /* {userID: {crosswordID: {all info}
-                                 }
-                        } */
 }
 
 /***********************************************
@@ -36,24 +34,6 @@ Data.prototype.createPoll = function(pollId, lang="en") {
     console.log("poll created", pollId, poll);
   }
   return this.polls[pollId];
-}
-
-Data.prototype.getCrosswordFromID = function(userID, crosswordID) {
-  /* ta fram användarID på samma sätt som när ID:t skapas. Returnera korsord med crosswordID */
-  return this.crosses[crosswordID]
-}
-
-Data.prototype.playCross = function(playId, lang="en") {
-  if (typeof this.crosses[playId] === "undefined") {
-    let cross = {};
-    cross.lang = lang;  
-    cross.questions = [];
-    cross.answers = [];
-    cross.currentQuestion = 0;              
-    this.crosses[playId] = cross;
-    console.log("cross created", playId, cross);
-  }
-  return this.crosses[playId];
 }
 
 Data.prototype.addQuestion = function(pollId, q) {
@@ -112,46 +92,49 @@ Data.prototype.getAnswers = function(pollId) {
   return {}
 };
 
+// Nedan har ursprung: klick confirmcreatecrossword i creataeview
+Data.prototype.addPackage = function(d) {
+ console.log("I addPckage")
 
-// FUNKTIONER FÖR CROSSWORDPACKAGES:
-Data.prototype.addPackage = function(pack) {
-      //lagrar varje mottaget paket i en array med ID som key
-      //  - skapa ID kopplat till IP i annan  funk???
-  
-  let ID = Math.floor(Math.random() * 9000) + 1000;
+ this.crossword = d;
+ let crosswordID = this.crossword.crosswordName.replace(/\s/g, ''); 
+ 
+ this.crosswordPackages[crosswordID] = this.crossword; 
 
-  this.crosswordPackages[ID] = pack; 
-
-  console.log("i data.addPackage")
+ console.log("crosswordpackages uppdaterat till:")
+ console.log(this.crosswordPackages)
 };
 
-Data.prototype.getAllCrosswordPackages = function () { // returnerar info för actualplayview
-  console.log("i data.getAlllCrosswordPackages")
-  return this.crosswordPackages;
+Data.prototype.getCrosswordNames = function () { 
+  console.log("i data.getCrosswordNames")
+  
+  let crosswordNames = 
+  Object.values(this.crosswordPackages).map(item => item.crosswordName);
+  
+  console.log("crosswordNames i getCrosswordnames uppdaterat till:")
+  console.log(crosswordNames)
+
+  return crosswordNames
+};
+
+//Nedan har ursprung: klick play i lobbyview
+Data.prototype.findMatchingGame = function(d) {
+  console.log("I findMatchingGame")
+  
+  let chosenID = d;
+  let IDToMatch = chosenID.replace(/\s/g, '');
+ 
+  let matchingCrosswordArray = 
+  Object.entries(this.crosswordPackages).find(([ID, pack]) => ID === IDToMatch)
+
+  this.matchingCrossword =
+  Object.fromEntries([matchingCrosswordArray]) 
   };
 
-Data.prototype.getAllPackageInfoForLobby = function () { // returerar info för lobbyview
-    // NÅNSTANS MÅSTE GAMENAME SKRIVAS IN!! NU BARA ID
-  console.log("i data.getAllPackageInfoForLobby")
-  // return Object.keys(this.crosswordPackages)
-};
-
-
-//FUNKTIONER FÖR UPPDATERADE POSITIONER I ACTUALPLAYVIEW
-Data.prototype.updateOccupied = function(d) {
-  
-  this.occupiedWordboxes = d;
-  
-  console.log(this.occupiedWordboxes)
-  
-};
-
-Data.prototype.getAllOccupied = function () {
-  console.log('i getAllOccupied')
-
-  
- // this.occupiedWordboxes
-  return this.occupiedWordboxes
+Data.prototype.getMatchingGame = function() {
+  console.log("matchingcrossword i getmatchingcrossword är:")
+  console.log(this.matchingCrossword)
+  return(this.matchingCrossword)
 };
 
 

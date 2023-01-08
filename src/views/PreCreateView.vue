@@ -18,17 +18,18 @@
             </div>
 
             <div id="crosswordArea">
-            <Crossword  v-bind:sourceName="sourceName"
-                        v-bind:crossword="this.crossword.actual.posList"
-                        v-bind:matrixDims="this.matrixDims">
-            </Crossword>    
+                <Crossword  v-bind:sourceName="sourceName"
+                            v-bind:crossword="this.crossword.actual.posList"
+                            v-bind:matrixDims="this.matrixDims">
+                </Crossword>    
             </div>
             
             <div class="buttonWrapper">
                     <form id="myForm">                    
-                        <input v-if="this.lang == 'en'" type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Enter game name here...">
+                        <input v-if="this.lang == 'en'" type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Enter game name here..."> 
                         <input v-else type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Ge korsordet ett namn...">
                     </form>
+                    <!-- JESSIE FRÅGA: GLÖM EJ måste fixa så ej kan skriva ett namn som redan finns!!!!! -->
                 
                     <button class="standardButtonPreCreate" id="confirmAndCreate" @click="$router.push('/CreateView/'+lang+'/'+gameID+'/'+ JSON.stringify(matrixDims))">
                     {{uiLabels.confirmAndCreate}}
@@ -38,12 +39,7 @@
                     {{uiLabels.backButton}}
                     </button>
             </div>
-    
-
-    <!-- jessies testknapp
-    <button v-on:click="this.confirmNameDims()">
-    {{uiLabels.confirmAndCreate}}
-    </button> -->
+  
 </template>
     
     <script>
@@ -60,12 +56,12 @@
     data: function () {
     return {
     matrixDims: {x: 8, y: 8},    
-    x: 8,
+    x: 8,  // JESSIE FRÅGA: är dessa nödvändiga?
     y: 8,
    crossword: {actual: {posList: [], 
-                                   startPos: {x: 0, 
-                                              y: 0
-                                             }
+                        startPos: {x: 0, 
+                                    y: 0
+                                    }
                                   }, 
                           temp: []
                          },
@@ -88,19 +84,6 @@
     },
 
     methods: {
-        // submitDims() { 
-        // console.log("x: " + this.x + ", y: " + this.y);
-        // console.log(this.matrixDims)
-        // },
-
-
-
-        // storeValues() {
-        // this.matrixDims.x = this.x
-        // this.matrixDims.y = this.y
-        // this.fillPositionsNull()
-        // },
-
         increase: function() {
             if(this.matrixDims.x <= 25){
             this.matrixDims.x ++
@@ -123,7 +106,7 @@
             
             for (let v = 0; v < this.matrixDims.y; v++) {
                 this.crossword.actual.posList[v] = [];
-                /* crossword = [[null, null, null, null]] */
+                /* crossword = [[null, null, null, null]] */     // JESSIE FRÅGA: ok att ta bort?
                 for (let h = 0; h < this.matrixDims.x; h++) {
                 this.crossword.actual.posList[v][h] = {letter: null, 
                                                     inHorizontal: false,
@@ -145,30 +128,31 @@
             socket.emit("switchLanguage", this.lang)
             this.$router.push(this.lang)
         },
-
-        /* FÖR ATT FÅ FRAM POP-UP RUTA*/
+        
         togglePopup: function () {
             this.showModal = ! this.showModal;
-        },
-      
+        },      
     }
     }
     </script>
     
     <style>
     .buttonWrapper{
-        position: absolute;
+        position: relative;
         right: 5%;
-        height: 10rem;
+        bottom: 0; /* temporärt */
+        height: 5rem; /* från 10 */
         width: 35rem;
         margin-right: 6rem;
         margin-top: 6rem;
     }
 
     #crosswordArea{
-        float:left;
-        width: 50%;
-        margin: 5%;
+        /* float: left; */
+        width: 100%;
+        height: 40rem;
+        justify-content: center;
+        /* margin: 5%; */
     }
 
     #confirmAndCreate {
@@ -181,6 +165,16 @@
         position: absolute;
         font-size: 1.5rem;
     }
+
+    #gameName {
+        width: 18rem;
+        height: 4.6rem;
+        font-family: "Comic Sans MS", "Comic Sans", cursive;
+        font-size: 25px;
+        border-radius: 15px;
+        position: absolute;
+    }
+    
     #myForm{
         top: 5%;
         left:5%;
@@ -215,14 +209,7 @@
     .standardButtonPreCreate:hover{
     opacity: 0.80;
     }
-    #gameName {
-        width: 18rem;
-        height: 4.6rem;
-        font-family: "Comic Sans MS", "Comic Sans", cursive;
-        font-size: 25px;
-        border-radius: 15px;
-        position: absolute;
-    }
+
 
   .plusMinusWrapper{
     display: flex;
@@ -270,6 +257,8 @@
         border-bottom-right-radius: 10px;
         cursor: pointer;
     }
+
+    /* behöver vi både id=minusbutton och id=plusbutton? /elin */
     #plusButton:hover{
         background-color: #fb6d63;
     }
