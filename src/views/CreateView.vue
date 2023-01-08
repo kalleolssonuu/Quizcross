@@ -32,14 +32,14 @@
   
       <div class="solutionsWrapper">
         <div id="wordPlacement">
-          Word placement:
+          {{uiLabels.wordPlacement}}
         </div>
-        <div id="div4">
+        <div id="div2">
           <img id="showSolutions" :src="uiLabels.showPrevious" v-on:click="this.showPreviousSolution">
           <img id="showSolutions" :src="uiLabels.showNext" v-on:click="this.showNextSolution">
         </div>
 
-        <div id="div5">
+        <div id="div3">
           <button v-if="!this.enableWordButtons" class="standardButton disabled"  disabled style="width: 6rem;"> {{uiLabels.discard}} </button>
           <button v-else v-on:click="this.discardWord" class="standardButton" style="width: 6rem;"> {{uiLabels.discard}} </button>
 
@@ -52,7 +52,7 @@
    
     </div>
           
-      <div id="div2"> 
+      <div id="div4"> 
           <Crossword  v-bind:sourceName="sourceName"
                       v-bind:crossword="this.crossword.actual.posList"
                       v-bind:matrixDims="this.matrixDims">
@@ -60,7 +60,7 @@
       </div>
   
           
-          <div id="div3">
+          <div id="div5">
             <!--<button v-on:click="this.emptyTextFields"> Empty Input </button> ---><!-- gör detta när användaren har valt ett ord istället för en knapp. Det rensar även textfältet -->
             <button class="standardButton" v-on:click="this.resetData">
               {{uiLabels.resetCrossword}}
@@ -435,7 +435,7 @@
   .standardButton{
     width: 10rem;
     height: 4rem;
-    border-radius: 15px;
+    border-radius: 0.94rem;
     border-color: #ba0c00;
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
@@ -464,39 +464,44 @@
     justify-content: center;
     margin-top: 5%;
   }
-  #div2 {
+  #div2{
+    position: absolute;
+    float: left;
+    width: 25%;
+    justify-content: center;
+    top: 73%;
+  }
+  #div3{
+    position: absolute;
+    float: left;
+    width: 25%;
+    justify-content: center;
+    top: 83%;
+  }
+  #div4 {
     float: left;
     width: 50%;
     margin-top: 2%;
     justify-content: center;
   }
-  #div3 {
+  #div5 {
     float: left;
-    width: 25%;
+    width: 15%;
     height: 25rem;
+    margin-left: 3rem;
     justify-content: center;
     margin-top: 10%;
   }
-  #div4{
-    position: absolute;
-    float: left;
-    width: 25%;
-    justify-content: center;
-    top: 70%;
-  }
-  #div5{
-    position: absolute;
-    float: left;
-    width: 25%;
-    justify-content: center;
-    top: 80%;
-  }
+  
   
   #showSolutions {
     width: 5rem;
     height: 4.5rem;
     cursor:pointer; 
     margin: 0.5rem;
+  }
+  #showSolutions:hover{
+    opacity: 0.80;
   }
   #showSolutions.disabled {
     opacity: 0.30;
