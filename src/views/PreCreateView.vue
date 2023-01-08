@@ -181,6 +181,16 @@
         position: absolute;
         font-size: 1.5rem;
     }
+
+    #gameName {
+        width: 18rem;
+        height: 4.6rem;
+        font-family: "Comic Sans MS", "Comic Sans", cursive;
+        font-size: 25px;
+        border-radius: 15px;
+        position: absolute;
+    }
+    
     #myForm{
         top: 5%;
         left:5%;
@@ -215,14 +225,7 @@
     .standardButtonPreCreate:hover{
     opacity: 0.80;
     }
-    #gameName {
-        width: 18rem;
-        height: 4.6rem;
-        font-family: "Comic Sans MS", "Comic Sans", cursive;
-        font-size: 25px;
-        border-radius: 15px;
-        position: absolute;
-    }
+
 
   .plusMinusWrapper{
     display: flex;
@@ -270,6 +273,8 @@
         border-bottom-right-radius: 10px;
         cursor: pointer;
     }
+
+    /* behöver vi både id=minusbutton och id=plusbutton? /elin */
     #plusButton:hover{
         background-color: #fb6d63;
     }

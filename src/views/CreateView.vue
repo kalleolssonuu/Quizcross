@@ -521,49 +521,6 @@
     margin-top: 10%;
   }
   
-  #flag {
-    width: 5rem;
-    height: 3.5rem;
-    border-radius: 20%;
-  }
-  
-  #help {
-    height: 3rem;
-    width: 3rem;
-    background-color: #FFFDD0;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-size: 30px;
-    text-align: center;
-    cursor:pointer;
-    border-radius: 50%;
-    border-color: black;
-    color: black;
-    position: absolute;
-    top: 0;
-    right:0;
-    margin: 0.5rem;
-  }
-  
-  .language{
-      height: 1rem;
-      width: 1rem;
-      cursor:pointer;
-      margin: 0.5rem;
-  }
-  
-  .logo {
-    text-transform: uppercase;
-    letter-spacing: 0.25em;
-    font-size: 2.5rem;
-    color: white;
-    background-color: #FE5F55;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-size: 1rem;
-    cursor:pointer;
-    position: relative;   
-  }
-
-
   
   #showSolutions {
     width: 5rem;

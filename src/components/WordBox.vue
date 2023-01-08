@@ -154,17 +154,6 @@ div {
   height: 100%;
 }
 
-/* .letterbox {
-  background-color: rgb(250, 244, 192);
-  min-width: var(--dimsX);
-  min-height: var(--dimsY);
-  max-width: var(--dimsX);
-  max-height: var(--dimsY);
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
-  font-weight: bold;
-  font-size: 1.5rem;
-  border: black 0.15rem solid;
-} */
 
 #nullLetter {
   background-color: #A7CAB1;

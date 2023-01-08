@@ -121,7 +121,6 @@ export default{
       selectedGame: {},
       uiLabels: {},
      
-      lang: "",
       showModal: false,
       sourceName: "LobbyView"
     }
@@ -168,14 +167,6 @@ togglePopup: function () {
 </script>
 
 <style>
-
-
-.gameWrapper{
-  display: flex;
-  justify-content: center;
-  
-}
-
 #allGamesList {
   width: 40rem;
   height: 30rem;
@@ -188,18 +179,8 @@ togglePopup: function () {
   font-size: 2rem;
   position: relative;
 }
-div.scroll {
-              margin:0.5rem;
-              background-color: #ffffff;
-              width: 39rem;
-              height: 24rem;
-              overflow-x: hidden;
-              overflow-y: auto;
-              text-align:justify;
-              color:black;
-          }
 
-  #create {
+#create {
   width: 6rem;
   height: 2rem;
   border-radius: 15px;
@@ -211,14 +192,31 @@ div.scroll {
   font-size: 15px;
   cursor:pointer;
 }
+
+.gameWrapper{
+  display: flex;
+  justify-content: center;
+  
+}
+
+
+div.scroll {
+              margin:0.5rem;
+              background-color: #ffffff;
+              width: 39rem;
+              height: 24rem;
+              overflow-x: hidden;
+              overflow-y: auto;
+              text-align:justify;
+              color:black;
+          }
+
+
 textarea {
   resize: none;
   overflow:hidden;
 }
-.wrapper{
-    display: flex;
-    justify-content: center;
-  }
+
 
 #selectedname{
   width: 10rem;
@@ -357,4 +355,9 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+.wrapper{
+    display: flex;
+    justify-content: center;
+  }
 </style>
