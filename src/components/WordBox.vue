@@ -43,12 +43,12 @@
     data: function() {
       return {
         name: 'WordBox',
-        dimsX: String(40 / this.matrixDims.x) + "rem",
-        dimsY: String(40 / this.matrixDims.y) + "rem",
-        borderSize: String((40 / this.matrixDims.y) / 34) + 'rem',
+        dimsX: String(50 / this.matrixDims.x) + "%",
+        dimsY: String(50 / this.matrixDims.x) + "%",
+        borderSize: String((50 / this.matrixDims.y) / 34) + '%',
         // outerBorderSize: String((40 / this.matrixDims.y) / 50) + 'rem',
-        fontSize: String((40 / this.matrixDims.y) * 0.4) + 'rem',
-        numberSize: String((40 / this.matrixDims.y) * 0.3) + 'rem'
+        fontSize: String((50 / this.matrixDims.y) * 0.4) + '%',
+        numberSize: String((50 / this.matrixDims.y) * 0.3) + '%'
       }
     },
     props: {
@@ -78,12 +78,12 @@
       watch: {
         matrixDims: {
           handler: function () {
-            this.dimsX = String(40 / this.matrixDims.x) + "rem"
-            this.dimsY = String(40 / this.matrixDims.y) + "rem"
-            this.borderSize = String((40 / this.matrixDims.y) / 34) + 'rem',
-            this.outerBorderSize = String((40 / this.matrixDims.y) / 50) + 'rem',
+            this.dimsX = String(50 / this.matrixDims.x) + "%"
+            this.dimsY = String(50 / this.matrixDims.y) + "%"
+            this.borderSize = String(this.matrixDims.y / 5) + 'rem',
+            /* this.outerBorderSize = String((50 / this.matrixDims.y) / 50) + '%', */
             this.fontSize = String((40 / this.matrixDims.y) * 0.4) + 'rem',
-            this.numberSize = String((40 / this.matrixDims.y) * 0.3) + 'rem'
+            /* this.numberSize = String((40 / this.matrixDims.y) * 0.3) + 'rem' */
 
             document.querySelector(':root').style.setProperty('--dimsX', this.dimsX);
             document.querySelector(':root').style.setProperty('--dimsY', this.dimsY);
@@ -91,6 +91,9 @@
             document.querySelector(':root').style.setProperty('--outerBorderSize', this.outerBorderSize);
             document.querySelector(':root').style.setProperty('--fontSize', this.fontSize);
             document.querySelector(':root').style.setProperty('--numberSize', this.numberSize);
+
+
+            console.log("BORDER SIZE ------" + this.borderSize)
           },
           deep: true
         }
@@ -124,21 +127,21 @@
   --dimsX: var(--dimsX); /* 1em */
   --dimsY: var(--dimsY); /* 1em */
   --borderSize: var(--borderSize);
-  --outerBorderSize: var(--outerBorderSize);
+  /* --outerBorderSize: var(--outerBorderSize); */
   --fontSize: var(--fontSize);
-  --numberSize: var(--numberSize);
+  /* --numberSize: var(--numberSize); */
 }
 
 .box {
   /* width: var(--dimsX);
   height: var(--dimsY); */
-  width: var(--dimsX);
-  height: var(--dimsY);
+  width: 100%;
+  height: 100%;
 }
 
 .letter {
-  width: var(--dimsX);
-  height: var(--dimsY);
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -147,7 +150,9 @@
   font-weight: bold;
   font-size: var(--fontSize);
   background-color: white;
-  border: black var(--borderSize) solid;
+  /* border: black var(--borderSize) rem; */
+  /* border: black 0.2rem solid; */
+  border: black 0.2rem solid;
   color: black;
 }
 

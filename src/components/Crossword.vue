@@ -1,6 +1,6 @@
 <template>
 
-  <div id="crosswordWrapper">
+  <div> <!-- id="crosswordWrapper" -->
     <table style="border-collapse: collapse; border-spacing: 0;" cellspacing="0" cellpadding="0">
       <tr v-for="(list, ykey) in crossword" v-bind:key="'y' + ykey">
         <td v-for="(element, xkey) in list" v-bind:key="'x' + xkey" id="tdSize">
@@ -36,8 +36,8 @@ import WordBox from '../components/WordBox.vue'
     data: function() {
       return {
         /* sourceName: "" */
-        dimsX: String(40 / this.matrixDims.x) + "rem",
-        dimsY: String(40 / this.matrixDims.y) + "rem"
+        dimsX: String(50 / this.matrixDims.x) + "%",
+        dimsY: String(50 / this.matrixDims.y) + "%"
       }
     },
     name: 'CrossWord',
@@ -78,8 +78,8 @@ import WordBox from '../components/WordBox.vue'
     watch: {
     matrixDims: {
     handler: function () {
-      this.dimsX = String(40 / this.matrixDims.x) + "rem"
-      this.dimsY = String(40 / this.matrixDims.y) + "rem" /* 600 px ~ 40 rem */
+      this.dimsX = String(50 / this.matrixDims.x) + "vw"
+      this.dimsY = String(50 / this.matrixDims.y) + "vh" /* 600 px ~ 40 rem */
       document.querySelector(':root').style.setProperty('--dimsX', this.dimsX)
       document.querySelector(':root').style.setProperty('--dimsY', this.dimsY)
     },
@@ -100,18 +100,18 @@ import WordBox from '../components/WordBox.vue'
 #crosswordWrapper {
   /* table-layout: auto; */
   /* justify-content: center; */
-  height: 40rem !important; /* 40rem; */
-  width: 40rem !important; /* 40rem; */
+  height: 100%; /* 40rem; */
+  width: 100%; /* 40rem; */
   margin: 0 auto;
   background-color: #A7CAB1;
 
 }
 
 table {
-  /* table-layout: auto; */
+  table-layout: auto;
   width: 100%;
   height: 100%;
-  /* border-spacing: 0; */
+  border-spacing: 0;
 }
 
 #tdSize {
