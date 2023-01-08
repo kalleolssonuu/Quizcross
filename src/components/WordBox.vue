@@ -46,7 +46,7 @@
         dimsX: String(40 / this.matrixDims.x) + "rem",
         dimsY: String(40 / this.matrixDims.y) + "rem",
         borderSize: String((40 / this.matrixDims.y) / 34) + 'rem',
-        outerBorderSize: String((40 / this.matrixDims.y) / 50) + 'rem',
+        // outerBorderSize: String((40 / this.matrixDims.y) / 50) + 'rem',
         fontSize: String((40 / this.matrixDims.y) * 0.4) + 'rem',
         numberSize: String((40 / this.matrixDims.y) * 0.3) + 'rem'
       }
@@ -161,10 +161,6 @@
   cursor: pointer;
 }
 
-div {
-  width: 100%;
-  height: 100%;
-}
 
 /* .letterbox {
   background-color: rgb(250, 244, 192);

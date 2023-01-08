@@ -1,7 +1,7 @@
 <template>
 
   <div id="crosswordWrapper">
-    <table>
+    <table style="border-collapse: collapse; border-spacing: 0;" cellspacing="0" cellpadding="0">
       <tr v-for="(list, ykey) in crossword" v-bind:key="'y' + ykey">
         <td v-for="(element, xkey) in list" v-bind:key="'x' + xkey" id="tdSize">
           <WordBox
