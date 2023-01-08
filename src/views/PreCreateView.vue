@@ -2,12 +2,12 @@
     <header>
     <div>
       <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
-      <button v-on:click="togglePopup"></button>
+        <button v-on:click="togglePopup"></button>
       </Modal>
     </div>
     </header>  
         
-        <h2>{{ matrixDims.x }}   x    {{ matrixDims.y }}</h2>   
+        <h2 style="text-align: center;"> {{ matrixDims.x }}   x    {{ matrixDims.y }}</h2>   
             <div class="plusMinusWrapper" id="PlusMinusButtons">
                 <button id="minusButton" v-on:click=decrease type="button">
                 -
@@ -144,9 +144,9 @@
 
     #crosswordArea{
         float: left;
-        width: 40rem;
-        height: 40rem;
-        margin-left: 20rem;
+        width: 50vw;
+        height: 50vh;
+        margin-left: 25%;
         justify-content: center;
        
     }

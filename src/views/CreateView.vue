@@ -9,7 +9,7 @@
   
   
   
-  <div id="div1" class="inputFieldWrapper">
+  <div id="inputFieldWrapper">
             
       <div class="inputField"> <!-- måste emitta word så att vi kan använda -->
      
@@ -17,8 +17,9 @@
         <input v-else type="text" id="wordInput" v-model="word" required="required" placeholder="Ge ett ord... ">
       </div>
       <br>
-  
-      <div class="inputField" style="display: inline-block">
+
+  <!-- style="display: inline-block" behövs denna i klassen nedan?-->
+      <div class="inputField" >
      
           <input v-if="this.lang == 'en'" type="text"  id="wordInput" v-model="desc" required="required" placeholder="Enter a description... ">
           <input v-else type="text" id="wordInput" v-model="desc" required="required" placeholder="Ge en beskrivning... ">
@@ -39,7 +40,7 @@
           <img id="showSolutions" :src="uiLabels.showNext" v-on:click="this.showNextSolution">
       </div>
 
-        <div id="div3">
+        <div id="confirmDiscardButtons">
           <button v-if="!this.enableWordButtons" class="standardButton disabled"  disabled style="width: 6rem;"> {{uiLabels.discard}} </button>
           <button v-else v-on:click="this.discardWord" class="standardButton" style="width: 6rem;"> {{uiLabels.discard}} </button>
 
@@ -460,7 +461,7 @@
   }
 
   
-  #div1 {
+  #inputFieldWrapper {
     float: left;
     width: 25%;
     justify-content: center;
@@ -473,7 +474,7 @@
     margin-top: 3rem;
   
   }
-  #div3{
+  #confirmDiscardButtons{
     position: absolute;
     float: left;
     justify-content: center;
