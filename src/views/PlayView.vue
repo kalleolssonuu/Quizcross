@@ -29,18 +29,18 @@
     <div class ="wordDescriptionWrapper"> 
   
       <ol id="horizontalDescriptions">
-        <div id="wordDescTop">Horisontella ord</div><br> <!-- lägg till i uiLabels-->
+        <div id="wordDescTop">{{uiLabels.horizontalWords}}</div>
         <li>pajas</li>
         <li>motsats till nej</li>
         <li>tung artilleripjäs</li>
       </ol>
       <ol id="verticalDescriptions">
-        <div id="wordDescTop">Vertikala ord</div>
+        <div id="wordDescTop">{{uiLabels.verticalWords}}</div>
         <li>sängklädesplagg</li>
       </ol>
       </div>
       <div>
-        <button id="finishedGame" @click="$router.push('/lobby/'+lang)">{{'Avsluta spel'}}</button>
+        <button id="finishedGame" @click="$router.push('/lobby/'+lang)">{{uiLabels.finishedGame}}</button>
       </div>
        
   
@@ -419,7 +419,7 @@
     color: #43918a;
     background-color: white;
     font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-size: 2rem;
+    font-size: 1.5rem;
     position: relative;
     float:left;
     margin:0.5rem;
