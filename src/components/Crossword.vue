@@ -102,8 +102,8 @@ import WordBox from '../components/WordBox.vue'
 #crosswordWrapper {
   /* table-layout: auto; */
   /* justify-content: center; */
-  height: 600px !important; /* 40rem; */
-  width: 600px !important; /* 40rem; */
+  height: 40rem !important; /* 40rem; */
+  width: 40rem !important; /* 40rem; */
   margin: 0 auto;
   background-color: #A7CAB1;
 
