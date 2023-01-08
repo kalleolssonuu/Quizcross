@@ -1,6 +1,6 @@
  <template>
 
-  <div v-if="(this.sourceName == 'PlayView')" class="box">
+  <div v-if="(this.sourceName == 'PlayView')" class="box letter">
       <div v-if="(!this.inHorizontal) && (!this.inVertical)" id="nullLetter">
         
       </div>
@@ -16,11 +16,11 @@
             </div>
 
             <div v-else>
-              <div v-if="this.isFirstLetter" @click="testClick" id="clickable" class="box letter">
+              <div v-if="this.isFirstLetter" @click="testClick" id="clickable">
                 <span id="number"> {{ wordInOrder }} </span>
                 {{ letter }}
               </div>
-              <div v-else class="box letter">
+              <div v-else>
                 {{ letter }}
               </div>
               
@@ -28,16 +28,16 @@
       </div>
   </div>
 
-  <div v-else-if="(this.sourceName == 'CreateView')" class="box">
-    <div class="box letter">
+  <div v-else-if="(this.sourceName == 'CreateView')" class="box letter">
+    <div>
         <div v-if="this.isFirstLetter" id="number"> {{ wordInOrder }} </div>
         {{ letter }}
     </div>
       
   </div>
 
-  <div v-else-if="(this.sourceName == 'PreCreate')" class="box">
-    <div class="box letter">
+  <div v-else-if="(this.sourceName == 'PreCreate')" class="box letter">
+    <div>
       
     </div>
       
@@ -52,8 +52,8 @@
     data: function() {
       return {
         name: 'WordBox',
-        dimsX: String(40 / this.matrixDims.x) + "rem",
-        dimsY: String(40 / this.matrixDims.y) + "rem",
+        dimsX: '', /* String(40 / this.matrixDims.x) + "rem", */
+        dimsY: '', /* String(40 / this.matrixDims.y) + "rem", */
         borderSize: String((40 / this.matrixDims.y) / 34) + 'rem',
         outerBorderSize: String((40 / this.matrixDims.y) / 50) + 'rem',
         fontSize: String((40 / this.matrixDims.y) * 0.4) + 'rem',
@@ -82,6 +82,19 @@
       },
       occupyWordBox: function () {
 
+      },
+      watch: {
+        matrixDims: {
+          handler: function () {
+            /* this.dimsX = String(40 / this.matrixDims.x) + "rem"
+            this.dimsY = String(40 / this.matrixDims.y) + "rem" */
+            this.dimsX = String(600 / this.matrixDims.x) + "px"
+            this.dimsY = String(600 / this.matrixDims.y) + "px" /* 600 px ~ 40 rem */
+            document.querySelector(':root').style.setProperty('--dimsX', this.dimsX);
+            document.querySelector(':root').style.setProperty('--dimsY', this.dimsY);
+          },
+          deep: true
+        }
       }
     },
     mounted() {
@@ -109,15 +122,13 @@
 <style>
 
 :root {
-  --dimsX: 1em;
-  --dimsY: 1em;
+  --dimsX: 20px; /* 1em */
+  --dimsY: 20px; /* 1em */
   --borderSize: 0.1rem;
   --fontSize: 1rem;
 }
 
 .box {
-  /* min-width: var(--dimsX); */
-  /* min-height: var(--dimsY); */
   width: var(--dimsX);
   height: var(--dimsY);
 }
@@ -154,6 +165,17 @@ div {
   height: 100%;
 }
 
+/* .letterbox {
+  background-color: rgb(250, 244, 192);
+  min-width: var(--dimsX);
+  min-height: var(--dimsY);
+  max-width: var(--dimsX);
+  max-height: var(--dimsY);
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-weight: bold;
+  font-size: 1.5rem;
+  border: black 0.15rem solid;
+} */
 
 #nullLetter {
   background-color: #A7CAB1;
@@ -171,7 +193,6 @@ div {
   font-size: var(--numberSize);
   color: black;
   display: flex;
-  align-items: center;
   z-index: 1;
 }
 

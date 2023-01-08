@@ -6,17 +6,10 @@ const languages = ["en", "se"];
 function Data() {
   this.polls = {};
 
-  this.occupiedWordboxes = null; // info om vilka rutor som är occupied i actualplayview
+ this.crosswordPackages = {};  
+ this.crossword = null;    
+ this.matchingCrossword = null;  // JESSIE FRÅGA: diskutera varför måste va globala????                    
 
- this.crosswordPackages = {}; // 
- this.crossword = null;    // ersätts med nytt korsord varje gång
- this.matchingCrossword = null; // VARFÖR MÅSTE JAG LAGRA GLOBALT??? ALLTID "undefind" annars. se kommentarer i matchchosen
-                      // SKoja tror det löste sig? Ta bort dessa variabler sen, alltså gör dem lokala
-
-
-  // this.crosses = {}; /* {userID: {crosswordID: {all info}
-  //                                }
-  //                       } */
 }
 
 /***********************************************
@@ -42,27 +35,6 @@ Data.prototype.createPoll = function(pollId, lang="en") {
   }
   return this.polls[pollId];
 }
-
-// Data.prototype.getCrosswordFromID = function(userID, crosswordID) {
-//   /* ta fram användarID på samma sätt som när ID:t skapas. Returnera korsord med crosswordID */
-//   return this.crosses[crosswordID]
-// }
-
-// Data.prototype.playCross = function(playId, lang="en") {
-//   if (typeof this.crosses[playId] === "undefined") {
-//     let cross = {};
-//     cross.lang = lang;  
-//     cross.questions = [];
-//     cross.answers = [];
-//     cross.currentQuestion = 0;              
-//     this.crosses[playId] = cross;
-//     console.log("cross created", playId, cross);
-//   }
-//   return this.crosses[playId];
-// }
-
-
-
 
 Data.prototype.addQuestion = function(pollId, q) {
   const poll = this.polls[pollId];
@@ -120,20 +92,7 @@ Data.prototype.getAnswers = function(pollId) {
   return {}
 };
 
-
-// Data.prototype.createPoll = function(pollId, lang="en") {
-//   if (typeof this.polls[pollId] === "undefined") {
-//     let poll = {};
-//     poll.lang = lang;  
-//     poll.questions = [];
-//     poll.answers = [];
-//     poll.currentQuestion = 0;              
-//     this.polls[pollId] = poll;  // här lagras polls så som våra lagras, med pollid
-//     console.log("poll created", pollId, poll);
-//   }
-//   return this.polls[pollId];
-
-// FUNKTIONER NÄR CONFIRMCREATE
+// Nedan har ursprung: klick confirmcreatecrossword i creataeview
 Data.prototype.addPackage = function(d) {
  console.log("I addPckage")
 
@@ -158,7 +117,7 @@ Data.prototype.getCrosswordNames = function () {
   return crosswordNames
 };
 
-//FUNKTIONER NÄR KLICK PLAY I LOBBY
+//Nedan har ursprung: klick play i lobbyview
 Data.prototype.findMatchingGame = function(d) {
   console.log("I findMatchingGame")
   
@@ -167,33 +126,15 @@ Data.prototype.findMatchingGame = function(d) {
  
   let matchingCrosswordArray = 
   Object.entries(this.crosswordPackages).find(([ID, pack]) => ID === IDToMatch)
-  // OBS SE TILL ATT ENBART FINNS ETT MATCHANDE KORSORD
+
   this.matchingCrossword =
-  Object.fromEntries([matchingCrosswordArray]) // NÄR MAN SKICKAR OBJEKT MÅSTE VARA DEFINED???? TSK FRÅN LISTOR??
+  Object.fromEntries([matchingCrosswordArray]) 
   };
 
 Data.prototype.getMatchingGame = function() {
   console.log("matchingcrossword i getmatchingcrossword är:")
   console.log(this.matchingCrossword)
   return(this.matchingCrossword)
-};
-
-
-//FUNKTIONER FÖR UPPDATERADE POSITIONER I ACTUALPLAYVIEW
-Data.prototype.updateOccupied = function(d) {
-  
-  this.occupiedWordboxes = d;
-  
-  console.log(this.occupiedWordboxes)
-  
-};
-
-Data.prototype.getAllOccupied = function () {
-  console.log('i getAllOccupied')
-
-  
- // this.occupiedWordboxes
-
 };
 
 
