@@ -39,3 +39,25 @@ Ansvarsområden:
 - Jessie: rutnät mm till Charles' algortihm med mera
 - Charles: Jobba på sin algorythmmmm
 - till den som hinner/fråga micke: centrera och skala knapp //Hugge löste
+
+1/7 jessie tankar: 
+- SÖK EFTER JESSIE FRÅGA:
+- hur göra med lang, testa om går me hårdkodat
+- kolla så koden är "användarvänlig/läsvänlig"
+    - kolla alla variabelnamn/funktionsnamn osv
+    - är alla funktioner "effektiva"/nödvändiga? alltså kan de göras på ett smartare sätt
+    - ba överlag om allt som finns är nödvänigt
+- kolla användarvänlighet!!! / rensa upp
+    - asså vilka saker är typ "dryga" 
+    - är knappar tydliga nog i vad man ska göra?
+    - mer hjälptexter?
+    - popup inte så tydlig typ?
+    - knappar och inputfält mm konstigt placerade
+    - när man minskar
+    - när sidan minskas (ex createview) blir allt fult. lägger sig ovanpå varandra
+
+- kan man ha kvar massa console.log? vore typ nice, och påverkar ju ej användare.
+- glöm ej ta bort allt mickes, låter allt i server vara kvar nu, GLÖM EJ SOCKETS I CREATED I VARJE SIDA
+
+
+

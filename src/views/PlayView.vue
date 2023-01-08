@@ -5,8 +5,7 @@
           <button v-on:click="togglePopup"></button>
         </Modal>
     </div>
-  </header>
-  
+  </header> 
     
   
     <div id="div2">
@@ -15,6 +14,7 @@
       {{ inputDirection }}
     </button>
 
+    <!-- Ha kvar servertest lite till -->
     <div>
     {{"servertest:"}}
 
@@ -38,7 +38,6 @@
           </Crossword>
     </div>
   
-    <!-- JESSIE: FIXA SÅ SKICKAR ETT PAKET INTE ALLA, SE ANTECK I LOBBY -->
     <div class ="wordDescriptionWrapper"> 
   
       <ol id="horizontalDescriptions">
@@ -55,30 +54,10 @@
       </div>
       <div>
         <button id="finishedGame" @click="$router.push('/lobby/'+lang)">{{'Avsluta spel'}}</button>
-      </div>
-       
-  
-      <div>
-      {{"servertest av confirmCreate:"}}
-  
-      <ul v-if="this.crosswordPackages" >
-        {{Object.keys(this.crosswordPackages)}}
-  
-        <!-- <li v-for="(item,key) in crossworPackages">
-          {{ this.crosswordPackages[ID].package.wordDescPairs }}
-        </li> -->
-      </ul>
-  
-          <!-- {{"servertest av uppdaterade positioner" }}
-      <ul v-if="this.occupiedWordboxes" >
-        {{this.occupiedWordboxes}}
-      </ul>
-       -->
-      
-    </div>
- 
+      </div>   
     
   </template>
+
   
   <script>
   
@@ -98,8 +77,7 @@
       },
       data: function () {
         return {
-
-          crosswordToPlay: null, // bättre namn??
+          crosswordToPlay: null, 
 
           word: "",
           desc: "",
@@ -117,9 +95,7 @@
           id: "",
           lang: "",
           sourceName: "PlayView",
-          inputDirection: "Horizontal",
-  
-          crosswordPackages: null, // OBS SKICKAR JU NU ALLA PAKET DET ÄR FEL, VILL SKICKA ETT
+          inputDirection: "Horizontal",         
         }
       },
   
@@ -129,52 +105,24 @@
         socket.on("init", (labels) => {
           this.uiLabels = labels
         })
+
         socket.on("dataUpdate", (data) =>
           this.data = data
         ),
-
-
-
-        /* när vi har ett inskickat korsord istället för manuellt ska vi plocka korsordet 
-        från servern här och lägga det som this.crosswordAnswer */
-
-
+        this.fillPremadeCrossword();
+        this.userCrossword = this.getUserCrossword()
+  
         socket.on('gameToBePlayed', data  => { // ursprung: lobby
         this.crosswordToPlay = data}) 
 
-
-        this.fillPremadeCrossword();
-        this.userCrossword = this.getUserCrossword() /* ändra i getUserCrossword så att vi tar från crosswordToPlay.posList istället */
-  
-
-        
-
-
-        console.log("matchingGames mottaget i playview är")
-        console.log(this.crosswordToPlay)
-      
-        socket.on("currentOccupied", data => { // ursprung: annans playview
-          this.occupiedWordboxes = data})
-
-
-        // sockets för skapadet av korsord-ish
-        socket.on('currentCrosswordPackages', data => { // tar emot korsordsinfo från server, ursprung confirmCreate
-          this.crosswordPackages = data}); 
-
         window.addEventListener('keydown', this.enterLetterFromKeyPress)
       },
+
       beforeUnmount() {
         window.removeEventListener('keydown', this.enterLetterFromKeyPress)
       },
       
       methods: {
-        updateOccupied: function() { // ska aktiveras när en klient klickar på en ruta          
-          //  this.occupiedWordboxes 
-  
-           // socket.emit('updatedOccupied', this.occupiedWordboxes )
-            socket.emit('updatedOccupied', "hejhej" )
-        },
-
         storePosition: function (event) {
 
           if (this.firstMouseClick) {
@@ -387,9 +335,8 @@
   
             socket.emit("switchLanguage", this.lang)
             this.$router.push(this.lang)
-          },
-          
-          /* FÖR ATT FÅ FRAM POP-UP RUTA*/
+          },          
+  
           togglePopup: function () {
             this.showModal = ! this.showModal;
           },
