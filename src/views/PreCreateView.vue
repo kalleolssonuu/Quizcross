@@ -16,15 +16,14 @@
                 +
                 </button>
             </div>
-
+            <!-- <div class="buttonWrapper"> -->
             <div id="crosswordArea">
                 <Crossword  v-bind:sourceName="sourceName"
                             v-bind:crossword="this.crossword.actual.posList"
                             v-bind:matrixDims="this.matrixDims">
                 </Crossword>    
             </div>
-            
-            <div class="buttonWrapper">
+            <div id="buttonArea">
                     <form id="myForm">                    
                         <input v-if="this.lang == 'en'" type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Enter game name here..."> 
                         <input v-else type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Ge korsordet ett namn...">
@@ -34,11 +33,8 @@
                     <button class="standardButtonPreCreate" id="confirmAndCreate" @click="$router.push('/CreateView/'+lang+'/'+gameID+'/'+ JSON.stringify(matrixDims))">
                     {{uiLabels.confirmAndCreate}}
                     </button> 
-
-                    <button class="standardButtonPreCreate" id="returnButton" @click="$router.push('/'+lang)">
-                    {{uiLabels.backButton}}
-                    </button>
-            </div>
+                </div>
+            <!-- </div> -->
             <HomepageButton v-bind:uiLabels="uiLabels" v-bind:lang="lang"></HomepageButton>
 </template>
     
@@ -139,32 +135,32 @@
     </script>
     
     <style>
-    .buttonWrapper{
-        position: absolute;
-        right: 1%;
-        top: 13%; /* temporärt */
-        height: 10rem; /* från 10 */
-        width: 35rem;
-        margin-right: 6rem;
-        margin-top: 6rem;
+    /* .buttonWrapper{
+        display: flex;
+        justify-content: center;
+        background-color: aqua;
         
-    }
+    } */
 
     #crosswordArea{
-        /* float: left; */
-        width: 100%;
+        float: left;
+        width: 40rem;
         height: 40rem;
+        margin-left: 20rem;
         justify-content: center;
-        /* margin: 5%; */
        
+    }
+    #buttonArea{
+        float: right;
+        width: 20%;
+        background-color: aquamarine;
     }
 
     #confirmAndCreate {
+        position: absolute;
         width: 10rem;
         height: 5rem;
-        top: 5%;
-        left: 60%;
-        border-radius: 20px;
+        border-radius: 1rem;
         color: white;
         position: absolute;
         font-size: 1.5rem;
@@ -174,29 +170,15 @@
         width: 18rem;
         height: 4.6rem;
         font-family: "Comic Sans MS", "Comic Sans", cursive;
-        font-size: 25px;
-        border-radius: 15px;
+        font-size: 1.5rem;
+        border-radius: 1rem;
         position: absolute;
     }
     
     #myForm{
-        top: 5%;
-        left:5%;
         height: 5rem;
-        position: absolute;
-    }
-    #returnButton {
-    width: 5rem;
-    height: 2.5rem;
-    margin-top: 1rem;
-    top: 50%;
-    left: 45%;
-    background-color: #FE5F55;
-    border-color: #ba0c00;
-    border-radius: 10px;
-    color: white;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    position: absolute;
+        margin-top: 1rem;
+        position: relative;
     }
         
     .standardButtonPreCreate{
@@ -261,8 +243,6 @@
         border-bottom-right-radius: 10px;
         cursor: pointer;
     }
-
-    /* behöver vi både id=minusbutton och id=plusbutton? /elin */
     #plusButton:hover{
         background-color: #fb6d63;
     }
