@@ -154,7 +154,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-family: "Comic Sans MS", "Comic Sans";
   font-weight: bold;
   font-size: var(--fontSize);
   background-color: white;
