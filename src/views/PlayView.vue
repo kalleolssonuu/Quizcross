@@ -30,30 +30,30 @@
   
     <div class ="wordDescriptionWrapper"> 
         
-      <ol id="horizontalDescriptions">
+      <ul style="list-style: none;" id="horizontalDescriptions">
         <div id="wordDescTop">{{uiLabels.horizontalWords}}</div>
 
         <li v-for="(value, key) in this.getSortedDescs()" :key="key">
           <span v-if="this.receivedCross.crossword[value.startPos.y][value.startPos.x].isHorizontalWord == true">
-            {{ value.desc }}
+            {{ value.wordInOrder + ". " + value.desc }}
           </span>
           <span v-else style="display: none;">
           </span>
         </li>
-      </ol>
+      </ul>
 
 
 
-      <ol id="verticalDescriptions">
+      <ul style="list-style: none;" id="verticalDescriptions">
         <div id="wordDescTop">{{uiLabels.verticalWords}}</div>
         <li v-for="(value, key) in this.getSortedDescs()" :key="key">
           <span v-if="this.receivedCross.crossword[value.startPos.y][value.startPos.x].isHorizontalWord == false">
-            {{ value.desc }}
+            {{ value.wordInOrder + ". " + value.desc }}
           </span>
           <span v-else style="visibility: hidden;">
           </span>
         </li>
-      </ol>
+      </ul>
 
   </div>
 
