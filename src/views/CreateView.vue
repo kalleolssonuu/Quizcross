@@ -467,7 +467,7 @@
     margin-left: 0.5rem;
     color: white;
     background-color: #FE5F55;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-family: "Comic Sans MS", "Comic Sans";
     font-size: 1rem;
     cursor:pointer;
     position: relative;   
@@ -594,7 +594,7 @@ background-color: #e36f67;
       height: 3rem;
       width: 12rem;
       text-align: center; 
-      font-family: "Comic Sans MS", "Comic Sans", cursive;
+      font-family: "Comic Sans MS", "Comic Sans";
       font-size: 1rem;
       border-radius: 1rem;
       margin-top: 0.5rem

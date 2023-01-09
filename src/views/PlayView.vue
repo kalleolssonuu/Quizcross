@@ -11,7 +11,7 @@
     <div id="div2">
       Change input direction: <br><!-- uiLabels + layout-fix -->
     <button v-on:click="changeDirection">
-      {{ inputDirection }}
+      {{ inputDirection }} <div id="arrow"></div>
     </button>
 
     <!-- Ha kvar servertest lite till -->
@@ -30,9 +30,10 @@
   
     <div class ="wordDescriptionWrapper"> 
         
-      <ol id="horizontalDescriptions">
+      <div id="horizontalDescriptions">
         <div id="wordDescTop">{{uiLabels.horizontalWords}}</div>
-
+        <div id="orderedList"  class="scroll">
+          <ol>
         <li v-for="(value, key) in this.getSortedDescs()" :key="key">
           <span v-if="this.receivedCross.crossword[value.startPos.y][value.startPos.x].isHorizontalWord == true">
             {{ value.desc }}
@@ -41,11 +42,15 @@
           </span>
         </li>
       </ol>
+      </div>
+      </div>
 
 
 
-      <ol id="verticalDescriptions">
+      <div id="verticalDescriptions">
         <div id="wordDescTop">{{uiLabels.verticalWords}}</div>
+        <div id="orderedList"  class="scroll">
+        <ol>
         <li v-for="(value, key) in this.getSortedDescs()" :key="key">
           <span v-if="this.receivedCross.crossword[value.startPos.y][value.startPos.x].isHorizontalWord == false">
             {{ value.desc }}
@@ -54,6 +59,8 @@
           </span>
         </li>
       </ol>
+      </div>
+      </div>
 
   </div>
 
@@ -72,6 +79,7 @@
     import io from 'socket.io-client';
     
     const socket = io();
+    let arrowDiv = document.getElementById("arrow");
   
   export default {
       name: 'PlayView',
@@ -108,7 +116,8 @@
           id: "",
           lang: "",
           sourceName: "PlayView",
-          inputDirection: "Horizontal",         
+          inputDirection: "Horizontal",      
+          arrow: "&rarr;"   
         }
       },
   
@@ -363,8 +372,10 @@
           changeDirection: function() {
             if (this.inputDirection === "Horizontal") {
               this.inputDirection = "Vertical"
+              arrowDiv.textContent = "\u2192";
             } else {
-              this.inputDirection = "Horizontal"
+              this.inputDirection = "Horizontal" 
+              arrowDiv.textContent = "\u2193";
             }
           },
   
@@ -400,93 +411,119 @@
     flex-direction: column;
     float:right;
     align-items: center;
-    height: 50rem;
-    width: 22rem;
-    margin-right: 6rem;
-    margin-top: 6rem;
+    height: 100vh;
+    width: 22vw;
+    margin-right: 6vw;
+    margin-top: 12vh;
   }
   
   #horizontalDescriptions{
-    width: 20rem;
-    height: 15rem;
+    width: 20vw;
+    height: 31vh;
     border-radius: 5px;
     border-color: #a6d8d4;
     margin-left: 5%;
     margin-top: 6%;
     color: white;
     background-color:#43918a;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-family: "Comic Sans MS", "Comic Sans";
     font-size: 20px;
     position: relative;
     float:left;
+    margin-bottom: 2rem;
   }
   
   #verticalDescriptions{
-    width: 20rem;
-    height: 15rem;
+    width: 20vw;
+    height: 31vh;
     border-radius: 5px;
     border-color: #a6d8d4;
     margin-left: 5%;
     color: white;
     background-color:#43918a;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-family: "Comic Sans MS", "Comic Sans";
     font-size: 20px;
     position: relative;
     float:left;
   }
   #wordDescTop{
-    width: 16rem;
-    height: 3rem;
-    border-radius: 5px;
+    width: 19.2vw;
+    height: 6vh;
+    border-top-left-radius: 0.5vw;
+    border-top-right-radius: 0.5vw;
     border-color: #43918a;
     margin-left: 5%;
     color: #43918a;
     background-color: white;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-family: "Comic Sans MS", "Comic Sans";
     font-size: 1.5rem;
     position: relative;
     float:left;
-    margin:0.5rem;
-    margin-right: 1rem;
-    margin-left: 1rem;
+    margin:0.4vw;
+    text-align: center;
   }
-  
-  button {
-      width: 10rem;
-      height: 4rem;
-      border-radius: 15px;
-      border-color: #ba0c00;
-      margin: 1.5rem;
-      color: white;
-      background-color: #FE5F55;
-      font-family: "Comic Sans MS", "Comic Sans", cursive;
-      font-size: 1rem;
-      cursor:pointer;
-      position: relative;   
-    }
+
+  #orderedList {
+    width: 19vw;
+    margin-left: 0.4vw;
+    height: 22vh;
+    overflow-y: auto;
+    border: 0.1vw solid white;
+    border-bottom-left-radius: 0.5vw;
+    border-bottom-right-radius: 0.5vw;
+  }
+
+  ol { 
+    margin-block-start: 0;
+    margin-block-end: 0;
+  }
+ 
+
   #finishedGame{
-    width: 10rem;
-    height: 3rem;
+    width: 10vw;
+    height: 3vw;
     position: absolute;
     left: 45%;
     background-color: #FE5F55;
     border-radius: 5px;
     color: white;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-family: "Comic Sans MS", "Comic Sans";
   }
   
   button {
-      width: 10rem;
-      height: 4rem;
+      width: 10vw;
+      height: 8vh;
       border-radius: 15px;
       border-color: #ba0c00;
-      margin: 1.5rem;
+      margin: 1.5vw;
       color: white;
       background-color: #FE5F55;
-      font-family: "Comic Sans MS", "Comic Sans", cursive;
-      font-size: 1rem;
+      font-family: "Comic Sans MS", "Comic Sans";
+      font-size: 1vw;
       cursor:pointer;
       position: relative;   
     }
+
+    div.scroll {
+      margin:1%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      text-align:justify;
+              }
   
+    .scroll::-webkit-scrollbar {
+      width: 2vh;
+      border-radius: 2vw;
+    }
+ 
+    .scroll::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(255, 253, 253, 0.3); 
+    }
+ 
+    .scroll::-webkit-scrollbar-thumb {
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+      background: #43918a;
+      border-bottom-right-radius: 0.5vw;
+      border-bottom-left-radius: 0.5vw;
+    }
   </style>
