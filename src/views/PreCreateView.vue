@@ -7,24 +7,25 @@
     </div>
     </header>  
         
-        <h2 style="text-align: center;"> {{ this.cellsAmount }} </h2>   
-            <div class="plusMinusWrapper">
-                <button id="minusButton" v-on:click=decrease type="button">
+          
+            <div class="plusMinusWrapper">    
+                <h2 id="xy"> {{ this.cellsAmount }} x  {{ this.cellsAmount }}</h2> 
+                <button id="minusButton" v-on:click=decrease >
                 -
                 </button>
                 <button id="plusButton" v-on:click=increase >
                 +
                 </button>
             </div>
-            <!-- <div class="buttonWrapper"> -->
+            <div class="buttonWrapper">
             <div id="crosswordArea">
                 <Crossword  v-bind:sourceName="sourceName"
                             v-bind:crossword="this.crossword.actual.posList"
                             v-bind:cellsAmount="this.cellsAmount">
                 </Crossword>    
-<!--             </div>
+        </div>
 
-            <div id="buttonArea"> -->
+            <div id="buttonArea"> 
                     <!--  <form id="myForm">   -->               
                         <input v-if="this.lang == 'en'" type="text" v-model="gameID" id="gameName" name="gameName" placeholder="  Enter game name..."> 
                         <input v-else type="text" v-model="gameID" id="gameName" name="gameName" placeholder=" Namnge korsordet...">
@@ -35,7 +36,7 @@
                     {{uiLabels.confirmAndCreate}}
                     </button> 
             </div>
-            <!-- </div> -->
+             </div> 
             <HomepageButton v-bind:uiLabels="uiLabels" v-bind:lang="lang"></HomepageButton>
 </template>
     
@@ -137,17 +138,18 @@
 
     #crosswordArea{
         float: left;
-        width: 85vw;
-        height: 100vh;
-        margin-left: 15vw;
+        width: 50vw;
+
+        margin: 3vw;
         justify-content: center;
         
         
        
     }
      #buttonArea{
-        width: 100vw;
-        height: 25vh;
+        float: left;
+        width: 25vw;
+
         justify-content: center;
     } 
 
@@ -156,9 +158,9 @@
         width: 20vw;
         height: 5.5vw;
         position: absolute;
-        right: 19vw; top: 17vw;
+        right: 5vw; top: 20vw;
         font-family: "Comic Sans MS", "Comic Sans";
-        font-size:1.5rem;
+        font-size:1.5vw;
         border-radius: 1rem;
         /* margin:1%; */
     } 
@@ -166,10 +168,10 @@
         
     .standardButtonPreCreate{
         width: 10vw;
-        height: 6vw;
+        height: 5vw;
         /* display: flex; */
         position: absolute;
-        right: 7vw; top: 17vw;
+        right: 10vw; top: 27vw;
         justify-content: center;
         align-items: center;
         border-radius: 1rem;
@@ -178,7 +180,7 @@
         background-color: #FE5F55;
         font-family: "Comic Sans MS", "Comic Sans";
         color:white;
-        font-size: 1.5rem;
+        font-size: 1.5vw;
         cursor:pointer;
         
      
@@ -189,39 +191,40 @@
 
 
   .plusMinusWrapper{
-    display: flex;
+    float: left;
     justify-content: center;
-    align-items: center;
-    margin:1%;
-    width: 100vw;
-    height: 5vw;
+    margin-top: 10vw;
+
+
   }
 
     #xy {
+        width: 25vw;
         justify-content: center;
-        display: flex;
-        margin-left:2%;
+
+ 
     }
 
     #minusButton{
-        height: 5vh;
-        width: 4%;
+        height: 3vw;
+        width: 3vw;
         background-color: #FE5F55;
         border-color: #ba0c00;
         color: white;
-        font-size: 1.5rem;
+        font-size: 2vw;
         font-family: "Comic Sans MS", "Comic Sans";
         border-top-left-radius: 1rem;
         border-bottom-left-radius: 1rem;
+ 
         cursor: pointer;
     }
     #plusButton {
-        height: 5vh;
-        width: 4%;
+        height: 3vw;
+        width: 3vw;
         background-color: #FE5F55;
         border-color: #ba0c00;
         color: white;
-        font-size: 1.5rem;
+        font-size: 2vw;
         font-family: "Comic Sans MS", "Comic Sans";
         border-top-right-radius: 1rem;
         border-bottom-right-radius: 1rem;

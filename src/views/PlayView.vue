@@ -415,7 +415,7 @@
     margin-top: 6%;
     color: white;
     background-color:#43918a;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-family: "Comic Sans MS", "Comic Sans";
     font-size: 20px;
     position: relative;
     float:left;
@@ -429,7 +429,7 @@
     margin-left: 5%;
     color: white;
     background-color:#43918a;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-family: "Comic Sans MS", "Comic Sans";
     font-size: 20px;
     position: relative;
     float:left;
@@ -442,7 +442,7 @@
     margin-left: 5%;
     color: #43918a;
     background-color: white;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-family: "Comic Sans MS", "Comic Sans";
     font-size: 1.5rem;
     position: relative;
     float:left;
@@ -459,7 +459,7 @@
       margin: 1.5rem;
       color: white;
       background-color: #FE5F55;
-      font-family: "Comic Sans MS", "Comic Sans", cursive;
+      font-family: "Comic Sans MS", "Comic Sans";
       font-size: 1rem;
       cursor:pointer;
       position: relative;   
@@ -472,7 +472,7 @@
     background-color: #FE5F55;
     border-radius: 5px;
     color: white;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-family: "Comic Sans MS", "Comic Sans";
   }
   
   button {
@@ -483,7 +483,7 @@
       margin: 1.5rem;
       color: white;
       background-color: #FE5F55;
-      font-family: "Comic Sans MS", "Comic Sans", cursive;
+      font-family: "Comic Sans MS", "Comic Sans";
       font-size: 1rem;
       cursor:pointer;
       position: relative;   
