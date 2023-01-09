@@ -67,7 +67,7 @@ export default {
     border-color: black;
     position: absolute;
     top: 0;
-    right:0;
+    right: 0;
     margin: 0.5rem; 
     color: black;
   } 

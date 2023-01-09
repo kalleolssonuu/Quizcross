@@ -82,7 +82,7 @@
 
     methods: {
         increase: function() {
-            if (this.cellsAmount <= 25) {
+            if (this.cellsAmount <= 18) {
                 this.cellsAmount ++
                 this.fillPositionsNull()
             }
@@ -90,7 +90,7 @@
 
         decrease: function() {
             if(this.cellsAmount >= 6) {
-                this.cellsAmount -= 1
+                this.cellsAmount --
                 this.fillPositionsNull()
             }
         },
