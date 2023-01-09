@@ -34,7 +34,7 @@
 
           <div id="wordDescTop">{{uiLabels.horizontalWords}}</div>
           <div id="orderedList"  class="scroll">
-            <ul>
+            <ul style="list-style: none;">
               <li v-for="(value, key) in this.getSortedDescs()" :key="key">
                 <span v-if="this.receivedCross.crossword[value.startPos.y][value.startPos.x].isHorizontalWord == true">
                   {{ value.wordInOrder + ". " + value.desc }}
@@ -53,7 +53,7 @@
 
         <div id="wordDescTop">{{uiLabels.verticalWords}}</div>
         <div id="orderedList"  class="scroll">
-          <ul>
+          <ul style="list-style: none;">
             <li v-for="(value, key) in this.getSortedDescs()" :key="key">
               <span v-if="this.receivedCross.crossword[value.startPos.y][value.startPos.x].isHorizontalWord == false">
                 {{ value.wordInOrder + ". " + value.desc }}
