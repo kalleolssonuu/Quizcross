@@ -11,9 +11,10 @@ body {
   margin: 0;
   padding: 0;
   background-color: #A7CAB1
+
 }
 #app {
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-family: "Comic Sans MS", "Comic Sans";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

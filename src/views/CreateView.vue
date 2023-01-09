@@ -67,6 +67,11 @@
             </button>
             <br>
 
+            <button class="standardButton" v-on:click="togglePopupDescription"> 
+            {{uiLabels.showDescription}} 
+            </button>
+            <br>
+
             <!--<button v-on:click="this.emptyTextFields"> Empty Input </button> ---><!-- gör detta när användaren har valt ett ord istället för en knapp. Det rensar även textfältet -->
             <button class="standardButton" v-on:click="this.resetData">
               {{uiLabels.resetCrossword}}
@@ -80,6 +85,18 @@
           </div>
           <br>
           <HomepageButton v-bind:uiLabels="uiLabels" v-bind:lang="lang"></HomepageButton>
+
+          <!--Popup för beskrivningar till ord på ett knapptryck (knapp har label, starta om server)-->
+          <div class="modalDescription">
+              <div class="overlay" v-if="showModalDescription"
+                  @click="showModalDescription=false">
+              </div>
+              <div class="modal" v-if="showModalDescription">
+                  TEXT HÄR
+                  <button class="close" @click="showModalDescription = false">x</button>
+              </div>
+          </div>
+          
   </template>
     
   <script>
@@ -131,6 +148,7 @@
                              },
   
           showModal: false,
+          showModalDescription: false,
           uiLabels: {},
           
           gameID:"",
@@ -164,6 +182,9 @@
   
         togglePopup: function () {
           this.showModal = ! this.showModal;
+        },
+        togglePopupDescription: function () {
+          this.showModalDescription = ! this.showModalDescription;
         },
     
         resetData: function () {
@@ -449,7 +470,7 @@
     margin-left: 0.5rem;
     color: white;
     background-color: #FE5F55;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-family: "Comic Sans MS", "Comic Sans";
     font-size: 1rem;
     cursor:pointer;
     position: relative;   
@@ -498,8 +519,48 @@
     justify-content: center;
     margin-top: 10%;
   }
-  
-  
+.modalDescription .overlay {    /*STYLING FÖR TONAD SVART BAKGRUND*/
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+}
+
+.modalDescription .modal {    /*STYLING FÖR SJÄLVA POPUPEN*/
+  position: absolute;
+  top: 15vw;
+  left: 27vw;
+  height: 10vw;
+  width: 40vw;
+  z-index: 9999;
+  margin: 0 auto;
+  padding: 20px 30px;
+  background-color: #FFFDD0;
+  color: black;
+  border-radius: 15px;
+  font-family: "Comic Sans MS", "Comic Sans";
+  overflow-y: auto;
+}
+
+.modalDescription .close{     /*STYLING FÖR STÄNG NED KNAPP*/
+  position: absolute;
+  top: 1vw;
+  right: 1vw;
+  background-color: #FE5F55;
+  border-radius: 5px;
+  cursor:pointer;
+  height: 2vw;
+  width: 2vw;
+  color: black;
+  border-color: black;
+}
+.modalDescription .close:hover{
+background-color: #e36f67;
+}
+
   #showSolutions {
     width: 5rem;
     height: 4.5rem;
@@ -536,7 +597,7 @@
       height: 3rem;
       width: 12rem;
       text-align: center; 
-      font-family: "Comic Sans MS", "Comic Sans", cursive;
+      font-family: "Comic Sans MS", "Comic Sans";
       font-size: 1rem;
       border-radius: 1rem;
       margin-top: 0.5rem

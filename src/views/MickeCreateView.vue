@@ -113,7 +113,7 @@ export default {
     color: white;
     padding-top:0.2em;
     text-align: center;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-family: "Comic Sans MS", "Comic Sans";
   }
   .logo img {
     height:2.5rem;

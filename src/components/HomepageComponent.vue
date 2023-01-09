@@ -26,19 +26,16 @@ export default{
 #buttonStyle {
  background-color:#43918a;
  text-align: center;
- font-size: 1.7rem;
+ font-size: 1.7vw;
  cursor: pointer;
  border-width: 0ch;
  color:white;
- margin-left: 5%;
- margin-right: 5%;
- margin-top: 2%;
  font-family: "Comic Sans MS", "Comic Sans";
  border-radius: 0.25rem;
  position: fixed;
  bottom: 0;
  left:0;
- margin: 0.5rem; 
+ margin: 2vw; 
  display: flex;
  align-items: center;
 }
@@ -47,7 +44,7 @@ export default{
   }
 
 #homeText {
-    font-size: 1.2rem;
+    font-size: 1.5vw;
 }
 
 </style>
