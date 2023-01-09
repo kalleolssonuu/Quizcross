@@ -56,11 +56,11 @@ export default {
 <style>
   
    #help {
-    height: 3rem;
-    width: 3rem;
+    height: 4vw;
+    width: 4vw;
     background-color: #FFFDD0;
     font-family: "Comic Sans MS", "Comic Sans";
-    font-size: 30px;
+    font-size: 2.5vw;
     text-align: center;
     cursor:pointer;
     border-radius: 50%;
@@ -68,7 +68,7 @@ export default {
     position: absolute;
     top: 0;
     right:0;
-    margin: 0.5rem; 
+    margin: 1vw; 
     color: black;
   } 
   .modal-vue .overlay {
@@ -112,10 +112,10 @@ background-color: #e36f67;
 }
 #flag {
     position: absolute;
-    width: 4rem;
-    height: 3rem;
+    width: 6vw;
+    height: 4vw;
     border-radius: 10%;
-    margin: 0.5rem;
+    margin: 1vw;
     cursor: pointer;
     position: absolute;
     top: 0;
@@ -123,9 +123,9 @@ background-color: #e36f67;
 }
 .logoText {
   /*letter-spacing: 0.25em;*/
-  font-size: 3rem;
+  font-size: 5vw;
   color: white;
-  padding-top:0.1em;
+  /* padding-top:1vw; */
   /*text-align: center;*/
   font-family: "Comic Sans MS", "Comic Sans";
 }
