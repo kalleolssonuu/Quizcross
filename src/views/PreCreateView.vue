@@ -22,11 +22,12 @@
                             v-bind:crossword="this.crossword.actual.posList"
                             v-bind:cellsAmount="this.cellsAmount">
                 </Crossword>    
-            </div>
-            <div id="buttonArea">
+<!--             </div>
+
+            <div id="buttonArea"> -->
                     <!--  <form id="myForm">   -->               
-                        <input v-if="this.lang == 'en'" type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Enter game name here..."> 
-                        <input v-else type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Ge korsordet ett namn...">
+                        <input v-if="this.lang == 'en'" type="text" v-model="gameID" id="gameName" name="gameName" placeholder="  Enter game name..."> 
+                        <input v-else type="text" v-model="gameID" id="gameName" name="gameName" placeholder=" Namnge korsordet...">
                    <!--  </form>  -->
                     <!-- JESSIE FRÅGA: GLÖM EJ måste fixa så ej kan skriva ett namn som redan finns!!!!! -->
                 
@@ -136,38 +137,44 @@
 
     #crosswordArea{
         float: left;
-        width: 100vw;
+        width: 85vw;
         height: 100vh;
-        margin-left: 25%;
+        margin-left: 15vw;
         justify-content: center;
         
         
        
     }
      #buttonArea{
-        float: right;
-        width: 25%;
+        width: 100vw;
+        height: 25vh;
         justify-content: center;
-
     } 
 
 
      #gameName {
-        width: 80%;
-        height: 6vh;
-        font-family: "Comic Sans MS", "Comic Sans", cursive;
+        width: 20vw;
+        height: 5.5vw;
+        position: absolute;
+        right: 19vw; top: 17vw;
+        font-family: "Comic Sans MS", "Comic Sans";
         font-size:1.5rem;
         border-radius: 1rem;
-        margin:1%;
+        /* margin:1%; */
     } 
     
         
     .standardButtonPreCreate{
-        width: 50%;
-        height: 8vh;
+        width: 10vw;
+        height: 6vw;
+        /* display: flex; */
+        position: absolute;
+        right: 7vw; top: 17vw;
+        justify-content: center;
+        align-items: center;
         border-radius: 1rem;
         border-color: #ba0c00;
-        margin: 1rem;
+        /* margin: 1rem; */
         background-color: #FE5F55;
         font-family: "Comic Sans MS", "Comic Sans";
         color:white;
@@ -184,8 +191,10 @@
   .plusMinusWrapper{
     display: flex;
     justify-content: center;
-    margin:1%
-
+    align-items: center;
+    margin:1%;
+    width: 100vw;
+    height: 5vw;
   }
 
     #xy {

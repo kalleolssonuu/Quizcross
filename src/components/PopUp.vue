@@ -59,7 +59,7 @@ export default {
     height: 3rem;
     width: 3rem;
     background-color: #FFFDD0;
-    font-family: "Comic Sans MS", "Comic Sans";
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
     font-size: 30px;
     text-align: center;
     cursor:pointer;
@@ -67,7 +67,7 @@ export default {
     border-color: black;
     position: absolute;
     top: 0;
-    right: 0;
+    right:0;
     margin: 0.5rem; 
     color: black;
   } 
@@ -93,7 +93,7 @@ export default {
   background-color: #FFFDD0;
   color: #000;
   border-radius: 15px;
-  font-family: "Comic Sans MS", "Comic Sans";
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
   overflow-y: auto;
 }
 
@@ -127,6 +127,6 @@ background-color: #e36f67;
   color: white;
   padding-top:0.1em;
   /*text-align: center;*/
-  font-family: "Comic Sans MS", "Comic Sans";
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
 </style>

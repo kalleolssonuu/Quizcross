@@ -43,12 +43,12 @@
     data: function() {
       return {
         name: 'WordBox',
-        dims: String(50 / this.cellsAmount) + "vw",
+        dims: String(40 / this.cellsAmount) + "vw",
         /* dimsY: String(50 / this.matrixDims.y) + "vh", */
-        borderSize: String((50 / this.cellsAmount) / 35) + 'vw',
+        borderSize: String((40 / this.cellsAmount) / 35) + 'vw',
         // outerBorderSize: String((40 / this.matrixDims.y) / 50) + 'rem',
-        fontSize: String((50 / this.cellsAmount) * 0.4) + 'vh',
-        numberSize: String((50 / this.cellsAmount) * 0.3) + 'vh'
+        fontSize: String((50 / this.cellsAmount) * 0.4) + 'vw',
+        numberSize: String((50 / this.cellsAmount) * 0.3) + 'vw'
       }
     },
     props: {
@@ -78,15 +78,15 @@
       watch: {
         cellsAmount: {
           handler: function (newValue, oldValue) {
-            this.dims = String(50 / newValue) + "vw"
+            this.dims = String(40 / newValue) + "vw"
             /* this.dimsY = String(50 / newValue.y) + "vh" */
             console.log("Från watch handler: this.dims = " + this.dims)
 
 
-            this.borderSize = String((newValue - 1) / 5) + 'rem',
+            this.borderSize = String((40 / newValue) / 35) + 'vw'
             /* this.outerBorderSize = String((50 / this.matrixDims.y) / 50) + '%', */
-            this.fontSize = String((50 / newValue) * 0.4) + 'vh',
-            this.numberSize = String((40 / newValue) * 0.3) + 'vh'
+            this.fontSize = String((50 / newValue) * 0.4) + 'vw',
+            this.numberSize = String((40 / newValue) * 0.3) + 'vw'
 
             document.querySelector(':root').style.setProperty('--dims', this.dims);
             /* document.querySelector(':root').style.setProperty('--dimsY', this.dims); */

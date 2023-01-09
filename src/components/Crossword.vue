@@ -34,7 +34,7 @@ import WordBox from '../components/WordBox.vue'
     data: function() {
       return {
         /* sourceName: "" */
-        dims: String(50 / this.cellsAmount) + "vw"
+        dims: String(40 / this.cellsAmount) + "vw"
       }
     },
     name: 'CrossWord',
@@ -74,7 +74,7 @@ import WordBox from '../components/WordBox.vue'
     watch: {
     cellsAmount: {
       handler: function (newValue, oldValue) {
-        this.dims = String(50 / newValue - (50 / this.cellsAmount) / 35) + "vw"
+        this.dims = String(40 / newValue - (40 / this.cellsAmount) / 35) + "vw"
         document.querySelector(':root').style.setProperty('--dims', this.dims)
 
         console.log(oldValue)
@@ -106,8 +106,8 @@ import WordBox from '../components/WordBox.vue'
 
 table {
   table-layout: auto;
-  height: 50vw; 
-  width: 50vw;
+  height: 40vw; 
+  width: 40vw;
   border-spacing: 0;
 }
 
