@@ -5,7 +5,7 @@
           v-bind:lang="lang" 
           v-bind:sourceName="sourceName" 
           v-on:switchLanguage="switchLanguage" >
-    <button v-on:click="togglePopup"></button>
+          <button v-on:click="togglePopup"></button>
     </Modal>
   </header>
 
