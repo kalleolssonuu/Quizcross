@@ -56,7 +56,7 @@
       <div id="div4"> 
           <Crossword  v-bind:sourceName="sourceName"
                       v-bind:crossword="this.crossword.actual.posList"
-                      v-bind:matrixDims="this.matrixDims">
+                      v-bind:cellsAmount="this.cellsAmount">
           </Crossword>
       </div>
   
@@ -113,7 +113,7 @@
           wordCollision: false,
           noMatches: false,
   
-          matrixDims: {},
+          cellsAmount: 8,
 
           crossword: {actual: {posList: [], 
                                    startPos: {x: 0, 
@@ -126,7 +126,7 @@
           crosswordPackage: {crosswordName: "", 
                              crossword: [],
                              wordDesc: [],    /* används till beskrivningsmeny till höger i PlayView */
-                             matrixDims: {},  
+                             cellsAmount: 8,  
                              },
   
           showModal: false,
@@ -140,7 +140,7 @@
     created: function () {
       this.lang = this.$route.params.lang;
       this.gameID = this.$route.params.gameID;
-      this.matrixDims = JSON.parse(this.$route.params.dims);
+      this.cellsAmount = JSON.parse(this.$route.params.cellsAmount);
 
       socket.emit('pageLoaded', this.lang)
       socket.on("init", (labels) => {
@@ -180,8 +180,8 @@
           let word = this.word.toUpperCase();                 /* för att spara plats längre ner */
           let wordSplit = word.split("");
           console.log("wordSplit = " + wordSplit);
-          const horiz = this.matrixDims.x; /* för att spara plats längre ner */
-          const vert = this.matrixDims.y;    /* för att spara plats längre ner */
+          const horiz = this.cellsAmount; /* för att spara plats längre ner */
+          const vert = this.cellsAmount;    /* för att spara plats längre ner */
 
           this.crosswordCopy = JSON.parse(JSON.stringify(this.crossword.actual.posList))
           
@@ -356,15 +356,15 @@
         confirmCreateCrossword: function () {  
          this.crosswordPackage.crosswordName = this.gameID
          this.crosswordPackage.crossword = this.crossword.actual.posList
-         this.crosswordPackage.matrixDims = this.matrixDims
+         this.crosswordPackage.cellsAmount = this.cellsAmount
           socket.emit("createdCrosswordPackage", this.crosswordPackage)
          },
   
         fillPositionsNull: function () {
-          for (let v = 0; v < this.matrixDims.y; v++) {
+          for (let v = 0; v < this.cellsAmount; v++) {
               this.crossword.actual.posList[v] = [];
               /* crossword = [[null, null, null, null]] */
-              for (let h = 0; h < this.matrixDims.x; h++) {
+              for (let h = 0; h < this.cellsAmount; h++) {
               this.crossword.actual.posList[v][h] = {letter: null, 
                                                  inHorizontal: false,
                                                  inVertical: false,

@@ -1,12 +1,12 @@
  <template>
 
-  <div v-if="(this.sourceName == 'PlayView')">
-      <div v-if="(!this.inHorizontal) && (!this.inVertical)" class="box" id="nullLetter">
+  <div v-if="(this.sourceName == 'PlayView')" class="box">
+      <div v-if="(!this.inHorizontal) && (!this.inVertical)" id="nullLetter">
         <!-- ingenting -->
       </div>
 
-      <div v-else-if="this.isOccupied" :class="['box', 'letter']">
-          <div v-if="this.isFirstLetter" @click="testClick" :class="['clickable', 'occupied']">
+      <div v-else-if="this.isOccupied" class="box letter occupied">
+          <div v-if="this.isFirstLetter" @click="testClick" class="clickable">
             <span id="number"> {{ wordInOrder }} </span>
             {{ letter }}
           </div>
@@ -15,7 +15,7 @@
           </div>
       </div>
 
-      <div v-else-if="this.isOccupied == false" :class="['box', 'letter']">
+      <div v-else-if="this.isOccupied == false" class="box letter">
           <div v-if="this.isFirstLetter" @click="testClick" class="clickable">
             <span id="number"> {{ wordInOrder }} </span>
             {{ letter }}
@@ -26,12 +26,12 @@
       </div>
   </div>
 
-  <div v-else-if="(this.sourceName == 'CreateView')" :class="['box', 'letter']">
+  <div v-else-if="(this.sourceName == 'CreateView')" class="box letter">
         <div v-if="this.isFirstLetter" id="number"> {{ wordInOrder }} </div>
         {{ letter }}      
   </div>
 
-  <div v-else-if="(this.sourceName == 'PreCreate')" :class="['box', 'letter']">      
+  <div v-else-if="(this.sourceName == 'PreCreate')" class="box letter">      
   </div>
 
  </template>
@@ -43,12 +43,12 @@
     data: function() {
       return {
         name: 'WordBox',
-        dimsX: String(50 / this.matrixDims.x) + "%",
-        dimsY: String(50 / this.matrixDims.y) + "%",
-        borderSize: String((40 / this.matrixDims.y) / 35) + 'rem',
+        dims: String(50 / this.cellsAmount) + "vw",
+        /* dimsY: String(50 / this.matrixDims.y) + "vh", */
+        borderSize: String((50 / this.cellsAmount) / 35) + 'vw',
         // outerBorderSize: String((40 / this.matrixDims.y) / 50) + 'rem',
-        fontSize: String((50 / this.matrixDims.y) * 0.4) + '%',
-        numberSize: String((50 / this.matrixDims.y) * 0.3) + '%'
+        fontSize: String((50 / this.cellsAmount) * 0.4) + 'vh',
+        numberSize: String((50 / this.cellsAmount) * 0.3) + 'vh'
       }
     },
     props: {
@@ -62,7 +62,7 @@
         isOccupied: Boolean,
         sourceName: String,
         wordInOrder: Number,
-        matrixDims: Object
+        cellsAmount: Number
     },
     computed: {
 
@@ -76,17 +76,20 @@
 
       },
       watch: {
-        matrixDims: {
+        cellsAmount: {
           handler: function (newValue, oldValue) {
-            this.dimsX = String(50 / newValue.x) + "%"
-            this.dimsY = String(50 / newValue.y) + "%"
-            this.borderSize = String((newValue.y - 1) / 5) + 'rem',
-            /* this.outerBorderSize = String((50 / this.matrixDims.y) / 50) + '%', */
-            this.fontSize = String((50 / newValue.y) * 0.4) + '%',
-            this.numberSize = String((40 / newValue.y) * 0.3) + 'rem'
+            this.dims = String(50 / newValue) + "vw"
+            /* this.dimsY = String(50 / newValue.y) + "vh" */
+            console.log("Från watch handler: this.dims = " + this.dims)
 
-            document.querySelector(':root').style.setProperty('--dimsX', this.dimsX);
-            document.querySelector(':root').style.setProperty('--dimsY', this.dimsY);
+
+            this.borderSize = String((newValue - 1) / 5) + 'rem',
+            /* this.outerBorderSize = String((50 / this.matrixDims.y) / 50) + '%', */
+            this.fontSize = String((50 / newValue) * 0.4) + 'vh',
+            this.numberSize = String((40 / newValue) * 0.3) + 'vh'
+
+            document.querySelector(':root').style.setProperty('--dims', this.dims);
+            /* document.querySelector(':root').style.setProperty('--dimsY', this.dims); */
             document.querySelector(':root').style.setProperty('--borderSize', this.borderSize);
 /*             document.querySelector(':root').style.setProperty('--outerBorderSize', this.outerBorderSize); */
             document.querySelector(':root').style.setProperty('--fontSize', this.fontSize);
@@ -108,11 +111,11 @@
         })
       }); */
     const element = document.querySelector(':root');
-    element.style.setProperty('--dimsX', this.dimsX);
-      console.log(this.dimsX)
-      console.log(this.dimsY)
+    element.style.setProperty('--dims', this.dims);
+      /* console.log(this.dimsX)
+      console.log(this.dimsY) */
 
-    element.style.setProperty('--dimsY', this.dimsY);
+    /* element.style.setProperty('--dimsY', this.dimsY); */
     element.style.setProperty('--borderSize', this.borderSize);
     /* element.style.setProperty('--outerBorderSize', this.outerBorderSize); */
     element.style.setProperty('--fontSize', this.fontSize);
@@ -128,8 +131,8 @@
 <style>
 
 :root {
-  --dimsX: var(--dimsX);
-  --dimsY: var(--dimsY);
+/*   --dimsX: var(--dimsX);
+  --dimsY: var(--dimsY); */
   --borderSize: var(--borderSize);
   /* --outerBorderSize: var(--outerBorderSize); */
   --fontSize: var(--fontSize);
@@ -137,13 +140,16 @@
 }
 
 .box {
-/*   width: var(--dimsX); */
+  /* width: var(--dims);
+  height: var(--dims); */
   width: 100%;
   height: 100%;
 }
 
 .letter {
 /*   width: var(--dimsX); */
+  width: calc(var(--dims) - var(--borderSize));
+  height: calc(var(--dims) - var(--borderSize));
   display: flex;
   justify-content: center;
   align-items: center;
@@ -165,8 +171,8 @@
 }
 
 .clickable {
-/*   width: var(--dimsX);
-  height: var(--dimsY); */
+  width: 100%;
+  height: 100%;
   cursor: pointer;
 }
 
@@ -188,11 +194,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: var(--dimsX);
-  height: var(--dimsY);
   font-size: var(--numberSize);
   color: black;
-  display: flex;
   z-index: 1;
 }
 

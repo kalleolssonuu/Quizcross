@@ -7,7 +7,7 @@
     </div>
     </header>  
         
-        <h2 style="text-align: center;"> {{ matrixDims.x }}   x    {{ matrixDims.y }}</h2>   
+        <h2 style="text-align: center;"> {{ this.cellsAmount }} </h2>   
             <div class="plusMinusWrapper">
                 <button id="minusButton" v-on:click=decrease type="button">
                 -
@@ -20,7 +20,7 @@
             <div id="crosswordArea">
                 <Crossword  v-bind:sourceName="sourceName"
                             v-bind:crossword="this.crossword.actual.posList"
-                            v-bind:matrixDims="this.matrixDims">
+                            v-bind:cellsAmount="this.cellsAmount">
                 </Crossword>    
             </div>
             <div id="buttonArea">
@@ -30,7 +30,7 @@
                     </form>
                     <!-- JESSIE FRÅGA: GLÖM EJ måste fixa så ej kan skriva ett namn som redan finns!!!!! -->
                 
-                    <button class="standardButtonPreCreate" id="confirmAndCreate" @click="$router.push('/CreateView/'+lang+'/'+gameID+'/'+ JSON.stringify(matrixDims))">
+                    <button class="standardButtonPreCreate" id="confirmAndCreate" @click="$router.push('/CreateView/'+lang+'/'+gameID+'/'+ JSON.stringify(cellsAmount))">
                     {{uiLabels.confirmAndCreate}}
                     </button> 
                 </div>
@@ -53,10 +53,8 @@
     },
     data: function () {
     return {
-    matrixDims: {x: 8, y: 8},
-    x: 8,  // JESSIE FRÅGA: är dessa nödvändiga?
-    y: 8,
-   crossword: {actual: {posList: [], 
+    cellsAmount: 8,
+    crossword: {actual: {posList: [], 
                         startPos: {x: 0, 
                                    y: 0
                                   }
@@ -64,11 +62,11 @@
                           temp: []
                          },
     showModal: false,
-        uiLabels: {},
-        
-        gameID: "",   
-        lang: "",
-        sourceName: "PreCreate"
+    uiLabels: {},
+    
+    gameID: "",   
+    lang: "",
+    sourceName: "PreCreate"
     }
     },
     created: function(){
@@ -79,21 +77,20 @@
             this.uiLabels = labels
         })
         this.fillPositionsNull();
+        console.log(this.crossword.actual.posList)
     },
 
     methods: {
         increase: function() {
-            if(this.matrixDims.x <= 25) {
-                this.matrixDims.x ++
-                this.matrixDims.y ++
+            if (this.cellsAmount <= 25) {
+                this.cellsAmount ++
                 this.fillPositionsNull()
             }
         },
 
         decrease: function() {
-            if(this.matrixDims.x >= 6) {
-                this.matrixDims.x --
-                this.matrixDims.y --
+            if(this.cellsAmount >= 6) {
+                this.cellsAmount -= 1
                 this.fillPositionsNull()
             }
         },
@@ -103,10 +100,10 @@
             
             this.crossword.actual.posList = []
             
-            for (let v = 0; v < this.matrixDims.y; v++) {
+            for (let v = 0; v < this.cellsAmount; v++) {
                 this.crossword.actual.posList[v] = [];
                 /* crossword = [[null, null, null, null]] */     // JESSIE FRÅGA: ok att ta bort?
-                for (let h = 0; h < this.matrixDims.x; h++) {
+                for (let h = 0; h < this.cellsAmount; h++) {
                 this.crossword.actual.posList[v][h] = {letter: null, 
                                                     inHorizontal: false,
                                                     inVertical: false,
@@ -145,8 +142,8 @@
 
     #crosswordArea{
         float: left;
-        width: 50vw;
-        height: 50vh;
+        width: 100vw;
+        height: 100vh;
         margin-left: 25%;
         justify-content: center;
        
