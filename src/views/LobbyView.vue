@@ -16,8 +16,7 @@
       <div class="searchWrapper">        
             <input v-on:keyup="searchGame" v-if="this.lang == 'en'" v-model="searchTerm" id="searchInput" placeholder="Search for a game...">
             <input v-on:keyup="searchGame" v-else v-model="searchTerm" id="searchInput" placeholder="Sök efter ett spel...">
-           
-          </div>
+      </div>
 
 
 
@@ -30,11 +29,9 @@
           </div>
 
      
-          <div class="selectWrapper">
-          {{uiLabels.selectedGameLang}}  
-          <textarea readonly id="selectedGame"> 
-      
-          </textarea> 
+        <div class="selectWrapper">
+            {{uiLabels.selectedGameLang}}  
+          <textarea readonly id="selectedGame"> </textarea> 
         </div>
         
        
@@ -46,11 +43,6 @@
 
   
  <div>
-  
-
-
-               
-  
     <button class="standardButtonLobby" v-on:click="emitGameChoice()" @click="$router.push('/playView/'+lang+'/'+ selectedGame)"> 
       {{uiLabels.playPlay}}
     </button>
@@ -175,7 +167,7 @@ export default{
 }
 
 #allGamesList {
-  width: 80vv;
+  width: 35vw;
   height: 70vh;
   border-radius: 0.5rem;
   border-color: #a6d8d4;
@@ -183,7 +175,7 @@ export default{
   color: white;
   background-color: #43918a;
   font-family: "Comic Sans MS", "Comic Sans";
-  font-size: 2rem;
+  font-size: 1.5vw;
   position: relative;
 }
 div.scroll {
@@ -211,7 +203,7 @@ textarea {
 
 
 #selectedGame{
-  width: 40%;
+  width: 15vw;
   height: 4vh;
   margin:1%;
   border-radius: 0.5rem;
@@ -219,7 +211,7 @@ textarea {
   vertical-align: middle;
 
   font-family: "Comic Sans MS", "Comic Sans";
-  font-size: 1rem;
+  font-size: 1.5vw;
   border-color: white;
   background-color: #43918a;
   color: white;
@@ -264,14 +256,14 @@ textarea {
 
 
 .standardButtonLobby{
-  width: 10rem;
-    height: 4rem;
+  width: 15vw;
+    height: 10vh;
     border-radius: 15px;
     border-color: #ba0c00;
     color: white;
     background-color: #FE5F55;
     font-family: "Comic Sans MS", "Comic Sans";
-    font-size: 1rem;
+    font-size: 2vw;
     cursor:pointer;
     position: relative;
 }
@@ -279,14 +271,8 @@ textarea {
   opacity: 0.80;
 }
 
-#playButton{
-  width: 5rem;
-  height: 1.8rem;
-  border-radius: 10px;
-}
-
 #homepagebutton {
-  width: 10vv;
+  width: 10vw;
   height: 4vh;
   bottom: 0;
   left: 0;
@@ -321,7 +307,7 @@ input::-webkit-inner-spin-button {
 .selectWrapper{
   display: flex;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 2vw;
 
 }
 
