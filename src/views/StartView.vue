@@ -88,7 +88,7 @@ export default {
 
   .logo img{
     height:60vh;
-    width: 60vw;
+    width: 55vw;
     vertical-align: bottom;
   }
 
@@ -103,7 +103,7 @@ export default {
     font-size: 1.5rem;
     color: white;
     background-color: #FE5F55;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-family: "Comic Sans MS", "Comic Sans";
     cursor:pointer;
     position: relative;
     
