@@ -24,7 +24,7 @@
           
                       v-bind:sourceName="this.sourceName"
                       v-bind:crossword="this.userCrossword"
-                      v-bind:matrixDims="this.matrixDims"> 
+                      v-bind:cellsAmount="this.cellsAmount"> 
           </Crossword>
     </div>
   
@@ -89,12 +89,12 @@
           /* {crosswordName: "", 
               crossword: [],
               wordDesc: [],    används till beskrivningsmeny till höger i PlayView
-              matrixDims: {},
+              cellsAmount: tal,
               }, */
 
           word: "",
           desc: "",
-          matrixDims: {},
+          cellsAmount: 8,
           occupiedPosition: {x: null, y: null},
           latestOccupied: {x: 0, y: 0},
          
@@ -135,7 +135,7 @@
 
           this.loadReceivedCrossword();
           this.userCrossword = this.getUserCrossword()
-          this.matrixDims = JSON.parse(JSON.stringify(this.receivedCross.matrixDims))
+          this.cellsAmount = JSON.parse(JSON.stringify(this.receivedCross.cellsAmount))
           this.wordDesc = JSON.parse(JSON.stringify(this.receivedCross.wordDesc))
 
           console.log("Djup egenskap försök: " + this.userCrossword[1][0].isHorizontalWord + ", vi vill få true")
@@ -271,8 +271,8 @@
           console.log(this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].letter)
   
           let allMatchesCorrect = true
-          for (let v = 0; v < this.matrixDims.y; v++) {
-              for (let h = 0; h < this.matrixDims.x; h++) {
+          for (let v = 0; v < this.cellsAmount; v++) {
+              for (let h = 0; h < this.cellsAmount; h++) {
                 if (typeof(this.crosswordAnswer[v][h].letter) == "string") {
                   this.crosswordAnswer[v][h].letter = JSON.parse(JSON.stringify(this.crosswordAnswer[v][h].letter.toUpperCase()))
                 }
@@ -318,10 +318,10 @@
         },
 
         fillPremadeCrossword: function () {
-            for (let v = 0; v < this.matrixDims.y; v++) {
+            for (let v = 0; v < this.cellsAmount; v++) {
                 this.crosswordAnswer[v] = [];
                 /* crossword = [[null, null, null, null]] */
-                for (let h = 0; h < this.matrixDims.x; h++) {
+                for (let h = 0; h < this.cellsAmount; h++) {
                 this.crosswordAnswer[v][h] = {letter: null, 
                                                     inHorizontal: false,
                                                     inVertical: false,

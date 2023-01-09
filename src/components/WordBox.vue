@@ -1,12 +1,12 @@
  <template>
 
-  <div v-if="(this.sourceName == 'PlayView')">
-      <div v-if="(!this.inHorizontal) && (!this.inVertical)" class="box" id="nullLetter">
+  <div v-if="(this.sourceName == 'PlayView')" class="box">
+      <div v-if="(!this.inHorizontal) && (!this.inVertical)" id="nullLetter">
         <!-- ingenting -->
       </div>
 
-      <div v-else-if="this.isOccupied" class="box letter">
-          <div v-if="this.isFirstLetter" @click="testClick" :class="['clickable', 'occupied']">
+      <div v-else-if="this.isOccupied" class="box letter occupied">
+          <div v-if="this.isFirstLetter" @click="testClick" class="clickable">
             <span id="number"> {{ wordInOrder }} </span>
             {{ letter }}
           </div>
@@ -43,12 +43,12 @@
     data: function() {
       return {
         name: 'WordBox',
-        dimsX: String(50 / this.matrixDims.x) + "%",
-        dimsY: String(50 / this.matrixDims.x) + "%",
-        borderSize: String((50 / this.matrixDims.y) / 34) + '%',
+        dims: String(40 / this.cellsAmount) + "vw",
+        /* dimsY: String(50 / this.matrixDims.y) + "vh", */
+        borderSize: String((40 / this.cellsAmount) / 35) + 'vw',
         // outerBorderSize: String((40 / this.matrixDims.y) / 50) + 'rem',
-        fontSize: String((50 / this.matrixDims.y) * 0.4) + '%',
-        numberSize: String((50 / this.matrixDims.y) * 0.3) + '%'
+        fontSize: String((50 / this.cellsAmount) * 0.4) + 'vw',
+        numberSize: String((50 / this.cellsAmount) * 0.3) + 'vw'
       }
     },
     props: {
@@ -62,7 +62,7 @@
         isOccupied: Boolean,
         sourceName: String,
         wordInOrder: Number,
-        matrixDims: Object
+        cellsAmount: Number
     },
     computed: {
 
@@ -76,23 +76,27 @@
 
       },
       watch: {
-        matrixDims: {
-          handler: function () {
-            this.dimsX = String(50 / this.matrixDims.x) + "%"
-            this.dimsY = String(50 / this.matrixDims.y) + "%"
-            this.borderSize = String(this.matrixDims.y / 5) + 'rem',
-            /* this.outerBorderSize = String((50 / this.matrixDims.y) / 50) + '%', */
-            this.fontSize = String((40 / this.matrixDims.y) * 0.4) + 'rem',
-            /* this.numberSize = String((40 / this.matrixDims.y) * 0.3) + 'rem' */
+        cellsAmount: {
+          handler: function (newValue, oldValue) {
+            this.dims = String(40 / newValue) + "vw"
+            /* this.dimsY = String(50 / newValue.y) + "vh" */
+            console.log("Från watch handler: this.dims = " + this.dims)
 
-            document.querySelector(':root').style.setProperty('--dimsX', this.dimsX);
-            document.querySelector(':root').style.setProperty('--dimsY', this.dimsY);
+
+            this.borderSize = String((40 / newValue) / 35) + 'vw'
+            /* this.outerBorderSize = String((50 / this.matrixDims.y) / 50) + '%', */
+            this.fontSize = String((50 / newValue) * 0.4) + 'vw',
+            this.numberSize = String((40 / newValue) * 0.3) + 'vw'
+
+            document.querySelector(':root').style.setProperty('--dims', this.dims);
+            /* document.querySelector(':root').style.setProperty('--dimsY', this.dims); */
             document.querySelector(':root').style.setProperty('--borderSize', this.borderSize);
-            document.querySelector(':root').style.setProperty('--outerBorderSize', this.outerBorderSize);
+/*             document.querySelector(':root').style.setProperty('--outerBorderSize', this.outerBorderSize); */
             document.querySelector(':root').style.setProperty('--fontSize', this.fontSize);
             document.querySelector(':root').style.setProperty('--numberSize', this.numberSize);
 
-
+            console.log("Old value: " + oldValue)
+            console.log("New value: " + newValue)
             console.log("BORDER SIZE ------" + this.borderSize)
           },
           deep: true
@@ -107,13 +111,16 @@
         })
       }); */
     const element = document.querySelector(':root');
-    element.style.setProperty('--dimsX', this.dimsX);
-    element.style.setProperty('--dimsY', this.dimsY);
+    element.style.setProperty('--dims', this.dims);
+      /* console.log(this.dimsX)
+      console.log(this.dimsY) */
+
+    /* element.style.setProperty('--dimsY', this.dimsY); */
     element.style.setProperty('--borderSize', this.borderSize);
-    element.style.setProperty('--outerBorderSize', this.outerBorderSize);
+    /* element.style.setProperty('--outerBorderSize', this.outerBorderSize); */
     element.style.setProperty('--fontSize', this.fontSize);
     element.style.setProperty('--numberSize', this.numberSize);
-    console.log(this.matrixDims)
+    /* console.log(this.matrixDims) */
     },
     
   }
@@ -124,24 +131,25 @@
 <style>
 
 :root {
-  --dimsX: var(--dimsX); /* 1em */
-  --dimsY: var(--dimsY); /* 1em */
+/*   --dimsX: var(--dimsX);
+  --dimsY: var(--dimsY); */
   --borderSize: var(--borderSize);
   /* --outerBorderSize: var(--outerBorderSize); */
   --fontSize: var(--fontSize);
-  /* --numberSize: var(--numberSize); */
+  --numberSize: var(--numberSize);
 }
 
 .box {
-  /* width: var(--dimsX);
-  height: var(--dimsY); */
+  /* width: var(--dims);
+  height: var(--dims); */
   width: 100%;
   height: 100%;
 }
 
 .letter {
-  width: 100%;
-  height: 100%;
+/*   width: var(--dimsX); */
+  width: calc(var(--dims) - var(--borderSize));
+  height: calc(var(--dims) - var(--borderSize));
   display: flex;
   justify-content: center;
   align-items: center;
@@ -150,9 +158,9 @@
   font-weight: bold;
   font-size: var(--fontSize);
   background-color: white;
-  /* border: black var(--borderSize) rem; */
+  border: black var(--borderSize) solid;
   /* border: black 0.2rem solid; */
-  border: black 0.2rem solid;
+  /* border: black 0.2rem solid; */
   color: black;
 }
 
@@ -163,15 +171,15 @@
 }
 
 .clickable {
-  width: var(--dimsX);
-  height: var(--dimsY);
+  width: 100%;
+  height: 100%;
   cursor: pointer;
 }
 
-div {
+/* div {
   height: 100%;
   width: 100%;
-}
+} */
 
 #nullLetter {
   background-color: #A7CAB1;
@@ -186,11 +194,8 @@ div {
   position: absolute;
   top: 0;
   left: 0;
-  width: var(--dimsX);
-  height: var(--dimsY);
   font-size: var(--numberSize);
   color: black;
-  display: flex;
   z-index: 1;
 }
 

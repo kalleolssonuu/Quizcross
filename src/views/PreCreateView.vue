@@ -7,12 +7,12 @@
     </div>
     </header>  
         
-        <h2 style="text-align: center;"> {{ matrixDims.x }}   x    {{ matrixDims.y }}</h2>   
-            <div class="plusMinusWrapper" id="PlusMinusButtons">
+        <h2 style="text-align: center;"> {{ this.cellsAmount }} </h2>   
+            <div class="plusMinusWrapper">
                 <button id="minusButton" v-on:click=decrease type="button">
                 -
                 </button>
-                <button id="plusButton" v-on:click=increase type="button">
+                <button id="plusButton" v-on:click=increase >
                 +
                 </button>
             </div>
@@ -20,20 +20,21 @@
             <div id="crosswordArea">
                 <Crossword  v-bind:sourceName="sourceName"
                             v-bind:crossword="this.crossword.actual.posList"
-                            v-bind:matrixDims="this.matrixDims">
+                            v-bind:cellsAmount="this.cellsAmount">
                 </Crossword>    
-            </div>
-            <div id="buttonArea">
-                    <form id="myForm">                    
-                        <input v-if="this.lang == 'en'" type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Enter game name here..."> 
-                        <input v-else type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Ge korsordet ett namn...">
-                    </form>
+<!--             </div>
+
+            <div id="buttonArea"> -->
+                    <!--  <form id="myForm">   -->               
+                        <input v-if="this.lang == 'en'" type="text" v-model="gameID" id="gameName" name="gameName" placeholder="  Enter game name..."> 
+                        <input v-else type="text" v-model="gameID" id="gameName" name="gameName" placeholder=" Namnge korsordet...">
+                   <!--  </form>  -->
                     <!-- JESSIE FRÅGA: GLÖM EJ måste fixa så ej kan skriva ett namn som redan finns!!!!! -->
                 
-                    <button class="standardButtonPreCreate" id="confirmAndCreate" @click="$router.push('/CreateView/'+lang+'/'+gameID+'/'+ JSON.stringify(matrixDims))">
+                    <button class="standardButtonPreCreate" id="confirmAndCreate" @click="$router.push('/CreateView/'+lang+'/'+gameID+'/'+ JSON.stringify(cellsAmount))">
                     {{uiLabels.confirmAndCreate}}
                     </button> 
-                </div>
+            </div>
             <!-- </div> -->
             <HomepageButton v-bind:uiLabels="uiLabels" v-bind:lang="lang"></HomepageButton>
 </template>
@@ -53,10 +54,8 @@
     },
     data: function () {
     return {
-    matrixDims: {x: 8, y: 8},    
-    x: 8,  // JESSIE FRÅGA: är dessa nödvändiga?
-    y: 8,
-   crossword: {actual: {posList: [], 
+    cellsAmount: 8,
+    crossword: {actual: {posList: [], 
                         startPos: {x: 0, 
                                    y: 0
                                   }
@@ -64,11 +63,11 @@
                           temp: []
                          },
     showModal: false,
-        uiLabels: {},
-        
-        gameID: "",   
-        lang: "",
-        sourceName: "PreCreate"
+    uiLabels: {},
+    
+    gameID: "",   
+    lang: "",
+    sourceName: "PreCreate"
     }
     },
     created: function(){
@@ -79,33 +78,33 @@
             this.uiLabels = labels
         })
         this.fillPositionsNull();
+        console.log(this.crossword.actual.posList)
     },
 
     methods: {
         increase: function() {
-            if(this.matrixDims.x <= 25) {
-                this.matrixDims.x ++
-                this.matrixDims.y ++
+            if (this.cellsAmount <= 18) {
+                this.cellsAmount ++
                 this.fillPositionsNull()
             }
         },
 
         decrease: function() {
-            if(this.matrixDims.x >= 6) {
-                this.matrixDims.x --
-                this.matrixDims.y --
+            if(this.cellsAmount >= 6) {
+                this.cellsAmount --
                 this.fillPositionsNull()
             }
         },
 
 
         fillPositionsNull: function () {
+            
             this.crossword.actual.posList = []
             
-            for (let v = 0; v < this.matrixDims.y; v++) {
+            for (let v = 0; v < this.cellsAmount; v++) {
                 this.crossword.actual.posList[v] = [];
                 /* crossword = [[null, null, null, null]] */     // JESSIE FRÅGA: ok att ta bort?
-                for (let h = 0; h < this.matrixDims.x; h++) {
+                for (let h = 0; h < this.cellsAmount; h++) {
                 this.crossword.actual.posList[v][h] = {letter: null, 
                                                     inHorizontal: false,
                                                     inVertical: false,
@@ -135,61 +134,53 @@
     </script>
     
     <style>
-    /* .buttonWrapper{
-        display: flex;
-        justify-content: center;
-        background-color: aqua;
-        
-    } */
 
     #crosswordArea{
         float: left;
-        width: 50vw;
-        height: 50vh;
-        margin-left: 25%;
+        width: 85vw;
+        height: 100vh;
+        margin-left: 15vw;
         justify-content: center;
+        
+        
        
     }
-    #buttonArea{
-        float: right;
-        width: 20%;
-        background-color: aquamarine;
-    }
+     #buttonArea{
+        width: 100vw;
+        height: 25vh;
+        justify-content: center;
+    } 
 
-    #confirmAndCreate {
-        position: absolute;
-        width: 10rem;
-        height: 5rem;
-        border-radius: 1rem;
-        color: white;
-        position: absolute;
-        font-size: 1.5rem;
-    }
 
-    #gameName {
-        width: 18rem;
-        height: 4.6rem;
-        font-family: "Comic Sans MS", "Comic Sans", cursive;
-        font-size: 1.5rem;
-        border-radius: 1rem;
+     #gameName {
+        width: 20vw;
+        height: 5.5vw;
         position: absolute;
-    }
+        right: 19vw; top: 17vw;
+        font-family: "Comic Sans MS", "Comic Sans";
+        font-size:1.5rem;
+        border-radius: 1rem;
+        /* margin:1%; */
+    } 
     
-    #myForm{
-        height: 5rem;
-        margin-top: 1rem;
-        position: relative;
-    }
         
     .standardButtonPreCreate{
-    border-color: #ba0c00;
-    margin-bottom: 1.5rem;
-    margin-left: 0.5rem;
-    color: white;
-    background-color: #FE5F55;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-size: 1rem;
-    cursor:pointer;
+        width: 10vw;
+        height: 6vw;
+        /* display: flex; */
+        position: absolute;
+        right: 7vw; top: 17vw;
+        justify-content: center;
+        align-items: center;
+        border-radius: 1rem;
+        border-color: #ba0c00;
+        /* margin: 1rem; */
+        background-color: #FE5F55;
+        font-family: "Comic Sans MS", "Comic Sans";
+        color:white;
+        font-size: 1.5rem;
+        cursor:pointer;
+        
      
     }
     .standardButtonPreCreate:hover{
@@ -200,47 +191,40 @@
   .plusMinusWrapper{
     display: flex;
     justify-content: center;
-    margin: 1rem;
+    align-items: center;
+    margin:1%;
+    width: 100vw;
+    height: 5vw;
   }
 
-    #x {
-        width: 3rem;
-        height: 3rem;
-        font-family: "Comic Sans MS", "Comic Sans", cursive;
-        font-size: 30px;
-        text-align: center;
-    }
-
-    #y {
-        width: 3rem;
-        height: 3rem;
-        font-family: "Comic Sans MS", "Comic Sans", cursive;
-        font-size: 30px;
-        text-align: center;
+    #xy {
+        justify-content: center;
+        display: flex;
+        margin-left:2%;
     }
 
     #minusButton{
-        height: 2.5rem;
-        width: 4rem;
+        height: 5vh;
+        width: 4%;
         background-color: #FE5F55;
         border-color: #ba0c00;
         color: white;
-        font-size: 25px;
-        font-family: "Comic Sans MS", "Comic Sans", cursive;
-        border-top-left-radius: 10px;
-        border-bottom-left-radius: 10px;
+        font-size: 1.5rem;
+        font-family: "Comic Sans MS", "Comic Sans";
+        border-top-left-radius: 1rem;
+        border-bottom-left-radius: 1rem;
         cursor: pointer;
     }
     #plusButton {
-        height: 2.5rem;
-        width: 4rem;
+        height: 5vh;
+        width: 4%;
         background-color: #FE5F55;
         border-color: #ba0c00;
         color: white;
-        font-size: 25px;
-        font-family: "Comic Sans MS", "Comic Sans", cursive;
-        border-top-right-radius: 10px;
-        border-bottom-right-radius: 10px;
+        font-size: 1.5rem;
+        font-family: "Comic Sans MS", "Comic Sans";
+        border-top-right-radius: 1rem;
+        border-bottom-right-radius: 1rem;
         cursor: pointer;
     }
     #plusButton:hover{

@@ -5,7 +5,7 @@
           v-bind:lang="lang" 
           v-bind:sourceName="sourceName" 
           v-on:switchLanguage="switchLanguage" >
-    <button v-on:click="togglePopup"></button>
+          <button v-on:click="togglePopup"></button>
     </Modal>
   </header>
 
@@ -19,7 +19,7 @@
            
           </div>
 
-      <div id="gameList">
+
 
           <div class="scroll">
             <div id="listOfGames" v-for="(game, key) in shownGames" :key="key">              
@@ -38,7 +38,7 @@
         </div>
         
        
-      </div>
+
 
     </div>
 
@@ -175,11 +175,11 @@ export default{
 }
 
 #allGamesList {
-  width: 40rem;
-  height: 33rem;
+  width: 80vv;
+  height: 70vh;
   border-radius: 0.5rem;
   border-color: #a6d8d4;
-  margin: 2rem;
+  margin: 2%;
   color: white;
   background-color: #43918a;
   font-family: "Comic Sans MS", "Comic Sans";
@@ -187,28 +187,16 @@ export default{
   position: relative;
 }
 div.scroll {
-  margin:0.5rem;
+  margin:1%;
   background-color: #ffffff;
-  width: 39rem;
-  height: 24rem;
+  width: 80vv;
+  height: 50vh;
   overflow-x: hidden;
   overflow-y: auto;
   text-align:justify;
   color:black;
           }
 
-#create {
-  width: 6rem;
-  height: 2rem;
-  border-radius: 15px;
-  border-color: #ba0c00;
-  margin: 1rem;
-  color: white;
-  background-color: #FE5F55;
-  font-family: "Comic Sans MS", "Comic Sans";
-  font-size: 15px;
-  cursor:pointer;
-}
 
 .gameWrapper{
   display: flex;
@@ -216,48 +204,22 @@ div.scroll {
   
 }
 
-
-div.scroll {
-              margin:0.5rem;
-              background-color: #ffffff;
-              width: 39rem;
-              height: 24rem;
-              overflow-x: hidden;
-              overflow-y: auto;
-              text-align:justify;
-              color:black;
-          }
-
-
 textarea {
   resize: none;
   overflow:hidden;
 }
 
 
-/* #selectedname{
-  width: 10rem;
-  height: 1.5rem;
-  margin-top: 0.5rem;
-  margin-left: 25%;
-  border-radius: 5px;
-  text-align: center;
-  vertical-align: middle;
-  position: relative;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
-  font-size: 1rem;
-  color: #43918a;
-} */
 #selectedGame{
-  width: 15rem;
-  height: 1.75rem;
-  margin: 0.2rem;
+  width: 40%;
+  height: 4vh;
+  margin:1%;
   border-radius: 0.5rem;
   text-align: center;
   vertical-align: middle;
 
   font-family: "Comic Sans MS", "Comic Sans";
-  font-size: 1.25rem;
+  font-size: 1rem;
   border-color: white;
   background-color: #43918a;
   color: white;
@@ -271,13 +233,13 @@ textarea {
  background-color:#43918a;
  text-align: center;
  width: 90%;
- height: 4rem;
+ height: 10vh;
  cursor: pointer;
  border-width: 0ch;
  color:white;
  margin-left: 5%;
  margin-right: 5%;
- margin-top: 2%;
+ margin-top: 5%;
  font-family: "Comic Sans MS", "Comic Sans";
  font-size: medium;
  border-radius: 0.25rem;
@@ -288,8 +250,8 @@ textarea {
   }
 
 #searchInput{
-  width: 18rem;
-  height: 2rem;
+  width: 90%;
+  height: 4vh;
   border-radius: 0.5rem;
   text-align: center;
   vertical-align: middle;
@@ -300,54 +262,37 @@ textarea {
   border-color: #2d635f;
 }
 
+
 .standardButtonLobby{
-    width: 10rem;
+  width: 10rem;
     height: 4rem;
-    border-radius: 1rem;
+    border-radius: 15px;
     border-color: #ba0c00;
     color: white;
     background-color: #FE5F55;
     font-family: "Comic Sans MS", "Comic Sans";
     font-size: 1rem;
-    margin-bottom: 3vh;
     cursor:pointer;
     position: relative;
 }
 .standardButtonLobby:hover{
   opacity: 0.80;
 }
-/* #crossText{
-  font-size: 1.25rem;
-  width: 2rem;
-  position: relative;
-  text-align: center;
-  color: #ffffff;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
-} */
 
-/* #playButton{
+#playButton{
   width: 5rem;
   height: 1.8rem;
   border-radius: 10px;
-} */
+}
 
 #homepagebutton {
-  width: 10vw;
+  width: 10vv;
   height: 4vh;
   bottom: 0;
   left: 0;
 }
 
-#play{
-  width: 6rem;
-  height: 2rem;
-  border-radius: 15px;
-}
 
-
-#select{
-  margin-top: -20px;
-}
 .scroll::-webkit-scrollbar {
     width: 12px;
 }
@@ -371,8 +316,7 @@ input::-webkit-inner-spin-button {
 .searchWrapper{
     display: flex;
     justify-content: center;
-    margin: 0.25rem;
-    font-size: 1.5rem;
+    margin: 1%;
   }
 .selectWrapper{
   display: flex;
