@@ -289,7 +289,6 @@
             }
             console.log("Amount of words added: " + this.amountWordsAdded)
             console.log("wordInOrder: " + this.wordInOrder)
-            this.wordInOrder++
           }
           console.log(this.crossword.actual.posList)
         }, 
@@ -297,6 +296,9 @@
         confirmWord: function () {
           const audio = new Audio("https://audio-previews.elements.envatousercontent.com/files/317218604/preview.mp3?response-content-disposition=attachment%3B+filename%3D%22MQR9VVH-confirm-pop.mp3%22")
           audio.play()
+          this.wordInOrder++
+
+
           this.crosswordCopy = JSON.parse(JSON.stringify(this.crossword.actual.posList))
   
           const startPos = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].startPos))
@@ -308,6 +310,7 @@
 
           console.log("amountWordsAdded före confirm: " + this.amountWordsAdded)
           this.amountWordsAdded++
+
   
           this.word = ""
           this.desc = ""
