@@ -76,22 +76,22 @@ export default {
   z-index: 9998;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 200vw;
+  height: 200vh;
   background-color: rgba(0, 0, 0, .5);
 }
 
 .modal-vue .modal {
   position: absolute;
   top: 25%;
-  left: 30%;
+  left: 27%;
   height: 20%;
   width: 40%;
   z-index: 9999;
   margin: 0 auto;
   padding: 20px 30px;
   background-color: #FFFDD0;
-  color: #000;
+  color: black;
   border-radius: 15px;
   font-family: "Comic Sans MS", "Comic Sans";
   overflow-y: auto;
@@ -106,6 +106,7 @@ export default {
   cursor:pointer;
   height: 1.8rem;
   width: 1.8rem;
+  color: black;
 }
 .modal-vue .close:hover{
 background-color: #e36f67;

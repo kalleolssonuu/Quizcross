@@ -57,15 +57,16 @@
     
   </div>
 
-  <!-- HA kvar servertest lite till!! -->
-  <div>  
+  <!-- HA kvar servertest lite till!! --> <!-- lät som att den var ok att kommenterabort nu så hoppas det-->
+  <!-- <div>  
     {{"servertest :"}}
     <ul v-if="this.crosswordNames" >
       {{this.crosswordNames}}   
     </ul>
+  </div>  -->
 
-  </div>  
   <HomepageButton v-bind:uiLabels="uiLabels" v-bind:lang="lang"></HomepageButton>
+
 </template>
 
 <script> 
@@ -141,7 +142,7 @@ export default{
       console.log("sökta spel " + this.shownGames)
     },
 
-  selectGame: function (game){ 
+    selectGame: function (game){ 
     document.getElementById("selectedGame").value=game;
     this.selectedGame = game;
    /*  document.getElementById("selectedid").value=games.id */
@@ -299,23 +300,16 @@ textarea {
   border-color: #2d635f;
 }
 
-/* #searchButton{
-  width: 7rem;
-  height: 1.5rem;
-  border-radius: 5px;
-  
-} */
 .standardButtonLobby{
-  width: 10rem;
+    width: 10rem;
     height: 4rem;
-    border-radius: 15px;
+    border-radius: 1rem;
     border-color: #ba0c00;
-  
- 
     color: white;
     background-color: #FE5F55;
     font-family: "Comic Sans MS", "Comic Sans";
     font-size: 1rem;
+    margin-bottom: 3vh;
     cursor:pointer;
     position: relative;
 }
@@ -331,15 +325,15 @@ textarea {
   font-family: "Comic Sans MS", "Comic Sans", cursive;
 } */
 
-#playButton{
+/* #playButton{
   width: 5rem;
   height: 1.8rem;
   border-radius: 10px;
-}
+} */
 
 #homepagebutton {
-  width: 5rem;
-  height: 2.5rem;
+  width: 10vw;
+  height: 4vh;
   bottom: 0;
   left: 0;
 }
