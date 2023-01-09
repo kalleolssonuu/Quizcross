@@ -1,8 +1,8 @@
 <template>
   <header>
     <div>
-        <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
-        <button v-on:click="togglePopup"></button>
+        <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" style="position: fixed">
+          <button v-on:click="togglePopup"></button>
         </Modal>
       </div>
   </header>
@@ -56,7 +56,7 @@
       <div id="div4"> 
           <Crossword  v-bind:sourceName="sourceName"
                       v-bind:crossword="this.crossword.actual.posList"
-                      v-bind:matrixDims="this.matrixDims">
+                      v-bind:cellsAmount="this.cellsAmount">
           </Crossword>
       </div>
   
@@ -113,7 +113,7 @@
           wordCollision: false,
           noMatches: false,
   
-          matrixDims: {},
+          cellsAmount: 8,
 
           crossword: {actual: {posList: [], 
                                    startPos: {x: 0, 
@@ -126,7 +126,7 @@
           crosswordPackage: {crosswordName: "", 
                              crossword: [],
                              wordDesc: [],    /* används till beskrivningsmeny till höger i PlayView */
-                             matrixDims: {},  
+                             cellsAmount: 8,  
                              },
   
           showModal: false,
@@ -140,7 +140,7 @@
     created: function () {
       this.lang = this.$route.params.lang;
       this.gameID = this.$route.params.gameID;
-      this.matrixDims = JSON.parse(this.$route.params.dims);
+      this.cellsAmount = JSON.parse(this.$route.params.cellsAmount);
 
       socket.emit('pageLoaded', this.lang)
       socket.on("init", (labels) => {
@@ -180,8 +180,8 @@
           let word = this.word.toUpperCase();                 /* för att spara plats längre ner */
           let wordSplit = word.split("");
           console.log("wordSplit = " + wordSplit);
-          const horiz = this.matrixDims.x; /* för att spara plats längre ner */
-          const vert = this.matrixDims.y;    /* för att spara plats längre ner */
+          const horiz = this.cellsAmount; /* för att spara plats längre ner */
+          const vert = this.cellsAmount;    /* för att spara plats längre ner */
 
           this.crosswordCopy = JSON.parse(JSON.stringify(this.crossword.actual.posList))
           
@@ -289,7 +289,6 @@
             }
             console.log("Amount of words added: " + this.amountWordsAdded)
             console.log("wordInOrder: " + this.wordInOrder)
-            this.wordInOrder++
           }
           console.log(this.crossword.actual.posList)
         }, 
@@ -297,6 +296,9 @@
         confirmWord: function () {
           const audio = new Audio("https://audio-previews.elements.envatousercontent.com/files/317218604/preview.mp3?response-content-disposition=attachment%3B+filename%3D%22MQR9VVH-confirm-pop.mp3%22")
           audio.play()
+          this.wordInOrder++
+
+
           this.crosswordCopy = JSON.parse(JSON.stringify(this.crossword.actual.posList))
   
           const startPos = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].startPos))
@@ -308,6 +310,7 @@
 
           console.log("amountWordsAdded före confirm: " + this.amountWordsAdded)
           this.amountWordsAdded++
+
   
           this.word = ""
           this.desc = ""
@@ -356,15 +359,15 @@
         confirmCreateCrossword: function () {  
          this.crosswordPackage.crosswordName = this.gameID
          this.crosswordPackage.crossword = this.crossword.actual.posList
-         this.crosswordPackage.matrixDims = this.matrixDims
+         this.crosswordPackage.cellsAmount = this.cellsAmount
           socket.emit("createdCrosswordPackage", this.crosswordPackage)
          },
   
         fillPositionsNull: function () {
-          for (let v = 0; v < this.matrixDims.y; v++) {
+          for (let v = 0; v < this.cellsAmount; v++) {
               this.crossword.actual.posList[v] = [];
               /* crossword = [[null, null, null, null]] */
-              for (let h = 0; h < this.matrixDims.x; h++) {
+              for (let h = 0; h < this.cellsAmount; h++) {
               this.crossword.actual.posList[v][h] = {letter: null, 
                                                  inHorizontal: false,
                                                  inVertical: false,

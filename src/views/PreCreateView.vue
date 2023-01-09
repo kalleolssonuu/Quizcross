@@ -7,9 +7,9 @@
     </div>
     </header>  
         
-        <h2 id="xy">{{ matrixDims.x }}   x    {{ matrixDims.y }}</h2>   
+        <h2 style="text-align: center;"> {{ this.cellsAmount }} </h2>   
             <div class="plusMinusWrapper">
-                <button id="minusButton" v-on:click=decrease >
+                <button id="minusButton" v-on:click=decrease type="button">
                 -
                 </button>
                 <button id="plusButton" v-on:click=increase >
@@ -20,17 +20,18 @@
             <div id="crosswordArea">
                 <Crossword  v-bind:sourceName="sourceName"
                             v-bind:crossword="this.crossword.actual.posList"
-                            v-bind:matrixDims="this.matrixDims">
+                            v-bind:cellsAmount="this.cellsAmount">
                 </Crossword>    
-            </div>
-            <div id="buttonArea">
+<!--             </div>
+
+            <div id="buttonArea"> -->
                     <!--  <form id="myForm">   -->               
-                        <input v-if="this.lang == 'en'" type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Enter game name here..."> 
-                        <input v-else type="text" v-model="gameID" id="gameName" name="gameName" placeholder="Ge korsordet ett namn...">
+                        <input v-if="this.lang == 'en'" type="text" v-model="gameID" id="gameName" name="gameName" placeholder="  Enter game name..."> 
+                        <input v-else type="text" v-model="gameID" id="gameName" name="gameName" placeholder=" Namnge korsordet...">
                    <!--  </form>  -->
                     <!-- JESSIE FRÅGA: GLÖM EJ måste fixa så ej kan skriva ett namn som redan finns!!!!! -->
-                      <br>  
-                    <button class="standardButtonPreCreate" @click="$router.push('/CreateView/'+lang+'/'+gameID+'/'+ JSON.stringify(matrixDims))">
+                
+                    <button class="standardButtonPreCreate" id="confirmAndCreate" @click="$router.push('/CreateView/'+lang+'/'+gameID+'/'+ JSON.stringify(cellsAmount))">
                     {{uiLabels.confirmAndCreate}}
                     </button> 
             </div>
@@ -53,10 +54,8 @@
     },
     data: function () {
     return {
-    matrixDims: {x: 8, y: 8},    
-    x: 8,  // JESSIE FRÅGA: är dessa nödvändiga?
-    y: 8,
-   crossword: {actual: {posList: [], 
+    cellsAmount: 8,
+    crossword: {actual: {posList: [], 
                         startPos: {x: 0, 
                                    y: 0
                                   }
@@ -64,11 +63,11 @@
                           temp: []
                          },
     showModal: false,
-        uiLabels: {},
-        
-        gameID: "",   
-        lang: "",
-        sourceName: "PreCreate"
+    uiLabels: {},
+    
+    gameID: "",   
+    lang: "",
+    sourceName: "PreCreate"
     }
     },
     created: function(){
@@ -79,33 +78,33 @@
             this.uiLabels = labels
         })
         this.fillPositionsNull();
+        console.log(this.crossword.actual.posList)
     },
 
     methods: {
         increase: function() {
-            if(this.matrixDims.x <= 25) {
-                this.matrixDims.x ++
-                this.matrixDims.y ++
+            if (this.cellsAmount <= 18) {
+                this.cellsAmount ++
                 this.fillPositionsNull()
             }
         },
 
         decrease: function() {
-            if(this.matrixDims.x >= 6) {
-                this.matrixDims.x --
-                this.matrixDims.y --
+            if(this.cellsAmount >= 6) {
+                this.cellsAmount --
                 this.fillPositionsNull()
             }
         },
 
 
         fillPositionsNull: function () {
+            
             this.crossword.actual.posList = []
             
-            for (let v = 0; v < this.matrixDims.y; v++) {
+            for (let v = 0; v < this.cellsAmount; v++) {
                 this.crossword.actual.posList[v] = [];
                 /* crossword = [[null, null, null, null]] */     // JESSIE FRÅGA: ok att ta bort?
-                for (let h = 0; h < this.matrixDims.x; h++) {
+                for (let h = 0; h < this.cellsAmount; h++) {
                 this.crossword.actual.posList[v][h] = {letter: null, 
                                                     inHorizontal: false,
                                                     inVertical: false,
@@ -138,38 +137,44 @@
 
     #crosswordArea{
         float: left;
-        width: 50vw;
-        height: 50vh;
-        margin-left: 25%;
+        width: 85vw;
+        height: 100vh;
+        margin-left: 15vw;
         justify-content: center;
         
         
        
     }
      #buttonArea{
-        float: right;
-        width: 25%;
+        width: 100vw;
+        height: 25vh;
         justify-content: center;
-
     } 
 
 
      #gameName {
-        width: 80%;
-        height: 6vh;
-        font-family: "Comic Sans MS", "Comic Sans", cursive;
+        width: 20vw;
+        height: 5.5vw;
+        position: absolute;
+        right: 19vw; top: 17vw;
+        font-family: "Comic Sans MS", "Comic Sans";
         font-size:1.5rem;
         border-radius: 1rem;
-        margin:1%;
+        /* margin:1%; */
     } 
     
         
     .standardButtonPreCreate{
-        width: 50%;
-        height: 8vh;
+        width: 10vw;
+        height: 6vw;
+        /* display: flex; */
+        position: absolute;
+        right: 7vw; top: 17vw;
+        justify-content: center;
+        align-items: center;
         border-radius: 1rem;
         border-color: #ba0c00;
-        margin: 1rem;
+        /* margin: 1rem; */
         background-color: #FE5F55;
         font-family: "Comic Sans MS", "Comic Sans";
         color:white;
@@ -186,8 +191,10 @@
   .plusMinusWrapper{
     display: flex;
     justify-content: center;
-    margin:1%
-
+    align-items: center;
+    margin:1%;
+    width: 100vw;
+    height: 5vw;
   }
 
     #xy {

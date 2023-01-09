@@ -3,7 +3,7 @@
   <header>
     <div>
       <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
-      <button v-on:click="togglePopup"></button>
+        <button v-on:click="togglePopup"></button>
       </Modal>
     </div>
   </header>
@@ -88,7 +88,7 @@ export default {
 
   .logo img{
     height:60vh;
-    width: 60vw;
+    width: 55vw;
     vertical-align: bottom;
   }
 
@@ -103,7 +103,7 @@ export default {
     font-size: 1.5rem;
     color: white;
     background-color: #FE5F55;
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-family: "Comic Sans MS", "Comic Sans";
     cursor:pointer;
     position: relative;
     

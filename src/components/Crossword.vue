@@ -1,9 +1,8 @@
 <template>
 
-  <div> <!-- id="crosswordWrapper" -->
     <table style="border-collapse: collapse; border-spacing: 0;" cellspacing="0" cellpadding="0">
       <tr v-for="(list, ykey) in crossword" v-bind:key="'y' + ykey">
-        <td v-for="(element, xkey) in list" v-bind:key="'x' + xkey" id="tdSize">
+        <td v-for="(element, xkey) in list" v-bind:key="'x' + xkey"><!-- id="tdSize" -->
           <WordBox
             v-on:PositionFromBox="this.sendPositionToPlayView($event)"
 
@@ -17,12 +16,11 @@
             v-bind:wordInOrder="element.wordInOrder"
             v-bind:isOccupied="element.isOccupied"
             v-bind:sourceName="this.sourceName"
-            v-bind:matrixDims="this.matrixDims">
+            v-bind:cellsAmount="this.cellsAmount">
           </WordBox>
         </td> 
       </tr>
     </table>
-  </div>
 
 </template>
   
@@ -36,8 +34,7 @@ import WordBox from '../components/WordBox.vue'
     data: function() {
       return {
         /* sourceName: "" */
-        dimsX: String(50 / this.matrixDims.x) + "%",
-        dimsY: String(50 / this.matrixDims.y) + "%"
+        dims: String(40 / this.cellsAmount) + "vw"
       }
     },
     name: 'CrossWord',
@@ -46,7 +43,7 @@ import WordBox from '../components/WordBox.vue'
     },
     props: {
       crossword: Array,
-      matrixDims: Object,
+      cellsAmount: Number,
       solutionsList: Object,
       sourceName: String,
       wordInOrder: Number
@@ -59,6 +56,9 @@ import WordBox from '../components/WordBox.vue'
     created: function () {
       this.tempFunc()
     },
+    mounted: function () {
+      document.querySelector(':root').style.setProperty('--dims', this.dims)
+    },
     methods: {
       tempFunc: function () {
         console.log(this.wordPositions)
@@ -69,22 +69,18 @@ import WordBox from '../components/WordBox.vue'
       sendPositionToPlayView: function (event) {
         this.$emit("sendPosition", event)
         /* console.log("Event from Crossword" + event) */
-      },
-      updateLayout: function(event) {
-        this.on("updateLayout", event)
-        this.$set(this.crossword[this.occupiedPosition.y][this.occupiedPosition.x], this.crossword[this.occupiedPosition.y][this.occupiedPosition.x].letter, event.key)
       }
     },
     watch: {
-    matrixDims: {
-    handler: function () {
-      this.dimsX = String(50 / this.matrixDims.x) + "vw"
-      this.dimsY = String(50 / this.matrixDims.y) + "vh" /* 600 px ~ 40 rem */
-      document.querySelector(':root').style.setProperty('--dimsX', this.dimsX)
-      document.querySelector(':root').style.setProperty('--dimsY', this.dimsY)
-    },
-    deep: true
-      }
+    cellsAmount: {
+      handler: function (newValue, oldValue) {
+        this.dims = String(40 / newValue - (40 / this.cellsAmount) / 35) + "vw"
+        document.querySelector(':root').style.setProperty('--dims', this.dims)
+
+        console.log(oldValue)
+      },
+      deep: true
+    }
     }
   }
   </script>
@@ -93,6 +89,7 @@ import WordBox from '../components/WordBox.vue'
 <style scoped>
 
 :root {
+  --dims: 1em;
   --dimsX: 1em;
   --dimsY: 1em;
 }
@@ -100,8 +97,8 @@ import WordBox from '../components/WordBox.vue'
 #crosswordWrapper {
   /* table-layout: auto; */
   /* justify-content: center; */
-  height: 100%; /* 40rem; */
-  width: 100%; /* 40rem; */
+  height: 50vw; 
+  width: 50vw; 
   margin: 0 auto;
   background-color: #A7CAB1;
 
@@ -109,16 +106,17 @@ import WordBox from '../components/WordBox.vue'
 
 table {
   table-layout: auto;
-  width: 100%;
-  height: 100%;
+  height: 40vw; 
+  width: 40vw;
   border-spacing: 0;
 }
 
-#tdSize {
-  height: var(--dimsY);
-  width: var(--dimsX);
-  /* padding: var(--padding); */
-  padding: 0;
+tr {
+  height: var(--dims);
+}
+
+td {
+  width: var(--dims);
 }
 
   </style>

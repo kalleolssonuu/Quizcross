@@ -5,7 +5,7 @@
           v-bind:lang="lang" 
           v-bind:sourceName="sourceName" 
           v-on:switchLanguage="switchLanguage" >
-    <button v-on:click="togglePopup"></button>
+          <button v-on:click="togglePopup"></button>
     </Modal>
   </header>
 
@@ -57,15 +57,16 @@
     
   </div>
 
-  <!-- HA kvar servertest lite till!! -->
-  <div>  
+  <!-- HA kvar servertest lite till!! --> <!-- lät som att den var ok att kommenterabort nu så hoppas det-->
+  <!-- <div>  
     {{"servertest :"}}
     <ul v-if="this.crosswordNames" >
       {{this.crosswordNames}}   
     </ul>
+  </div>  -->
 
-  </div>  
   <HomepageButton v-bind:uiLabels="uiLabels" v-bind:lang="lang"></HomepageButton>
+
 </template>
 
 <script> 
@@ -141,7 +142,7 @@ export default{
       console.log("sökta spel " + this.shownGames)
     },
 
-  selectGame: function (game){ 
+    selectGame: function (game){ 
     document.getElementById("selectedGame").value=game;
     this.selectedGame = game;
    /*  document.getElementById("selectedid").value=games.id */
@@ -263,14 +264,14 @@ textarea {
 
 
 .standardButtonLobby{
-    width: 20%;
-    height: 8vh;
+  width: 10rem;
+    height: 4rem;
     border-radius: 15px;
     border-color: #ba0c00;
     color: white;
     background-color: #FE5F55;
     font-family: "Comic Sans MS", "Comic Sans";
-    font-size: 1.25rem;
+    font-size: 1rem;
     cursor:pointer;
     position: relative;
 }
@@ -278,6 +279,11 @@ textarea {
   opacity: 0.80;
 }
 
+#playButton{
+  width: 5rem;
+  height: 1.8rem;
+  border-radius: 10px;
+}
 
 #homepagebutton {
   width: 10vv;
