@@ -67,6 +67,11 @@
             </button>
             <br>
 
+            <button class="standardButton" v-on:click="togglePopupDescription"> 
+            {{uiLabels.showDescription}} 
+            </button>
+            <br>
+
             <!--<button v-on:click="this.emptyTextFields"> Empty Input </button> ---><!-- gör detta när användaren har valt ett ord istället för en knapp. Det rensar även textfältet -->
             <button class="standardButton" v-on:click="this.resetData">
               {{uiLabels.resetCrossword}}
@@ -80,6 +85,16 @@
           </div>
           <br>
           <HomepageButton v-bind:uiLabels="uiLabels" v-bind:lang="lang"></HomepageButton>
+          
+          <div class="modalDescription">
+            <div class="overlay" v-if="showModalDescription"
+            @click="showModalDescription=false">
+            </div>
+            <div class="modal" v-if="showModal">
+             TEXT HÄR
+              <button class="close" @click="showModal = false">x</button>
+            </div>
+          </div>
   </template>
     
   <script>
@@ -130,6 +145,7 @@
                              },
   
           showModal: false,
+          showModalDescription: false,
           uiLabels: {},
           
           gameID:"",
@@ -163,6 +179,9 @@
   
         togglePopup: function () {
           this.showModal = ! this.showModal;
+        },
+        togglePopupDescription: function () {
+          this.showModalDescription = ! this.showModalDescription;
         },
     
         resetData: function () {
@@ -497,8 +516,48 @@
     justify-content: center;
     margin-top: 10%;
   }
-  
-  
+.modalDescription .overlay {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+}
+
+.modalDescription .modal {
+  position: absolute;
+  top: 15vw;
+  left: 27vw;
+  height: 10vw;
+  width: 40vw;
+  z-index: 9999;
+  margin: 0 auto;
+  padding: 20px 30px;
+  background-color: #FFFDD0;
+  color: black;
+  border-radius: 15px;
+  font-family: "Comic Sans MS", "Comic Sans";
+  overflow-y: auto;
+}
+
+.modalDescription .close{
+  position: absolute;
+  top: 1vw;
+  right: 1vw;
+  background-color: #FE5F55;
+  border-radius: 5px;
+  cursor:pointer;
+  height: 2vw;
+  width: 2vw;
+  color: black;
+  border-color: black;
+}
+.modalDescription .close:hover{
+background-color: #e36f67;
+}
+
   #showSolutions {
     width: 5rem;
     height: 4.5rem;

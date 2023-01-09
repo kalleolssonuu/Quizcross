@@ -35,6 +35,7 @@
 	"discard": "Kasta",
 	"QuitGame": "Avsluta",
 	"wordPlacement": "Välj ordets placering:",
+	"showDescription": "Mina beskrivningar",
 
 	"//PreCreateView": "Här är PreCreateViews översättningar",
 	"confirmAndCreate": "Skapa",

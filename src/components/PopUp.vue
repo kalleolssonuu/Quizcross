@@ -107,6 +107,7 @@ export default {
   height: 2vw;
   width: 2vw;
   color: black;
+  border-color: black;
 }
 .modal-vue .close:hover{
 background-color: #e36f67;
