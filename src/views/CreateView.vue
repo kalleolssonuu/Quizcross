@@ -85,16 +85,18 @@
           </div>
           <br>
           <HomepageButton v-bind:uiLabels="uiLabels" v-bind:lang="lang"></HomepageButton>
-          
+
+          <!--Popup för beskrivningar till ord på ett knapptryck (knapp har label, starta om server)-->
           <div class="modalDescription">
-            <div class="overlay" v-if="showModalDescription"
-            @click="showModalDescription=false">
-            </div>
-            <div class="modal" v-if="showModal">
-             TEXT HÄR
-              <button class="close" @click="showModal = false">x</button>
-            </div>
+              <div class="overlay" v-if="showModalDescription"
+                  @click="showModalDescription=false">
+              </div>
+              <div class="modal" v-if="showModalDescription">
+                  TEXT HÄR
+                  <button class="close" @click="showModalDescription = false">x</button>
+              </div>
           </div>
+          
   </template>
     
   <script>
@@ -516,7 +518,7 @@
     justify-content: center;
     margin-top: 10%;
   }
-.modalDescription .overlay {
+.modalDescription .overlay {    /*STYLING FÖR TONAD SVART BAKGRUND*/
   position: fixed;
   z-index: 9998;
   top: 0;
@@ -526,7 +528,7 @@
   background-color: rgba(0, 0, 0, .5);
 }
 
-.modalDescription .modal {
+.modalDescription .modal {    /*STYLING FÖR SJÄLVA POPUPEN*/
   position: absolute;
   top: 15vw;
   left: 27vw;
@@ -542,7 +544,7 @@
   overflow-y: auto;
 }
 
-.modalDescription .close{
+.modalDescription .close{     /*STYLING FÖR STÄNG NED KNAPP*/
   position: absolute;
   top: 1vw;
   right: 1vw;
