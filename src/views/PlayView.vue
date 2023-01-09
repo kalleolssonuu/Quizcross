@@ -198,10 +198,14 @@
         },
 
         enterLetterFromKeyPress: function (event) {
-          console.log("Inuti event click handler, event.key = " + event.key)
+          console.log("Inuti event click handler, event.key = " + event.which)
+          console.log("typeof() på knappen: " + typeof(event.which))
+          console.log("test ändring utan server-omstart")
 
                     /* INGÅR Å, Ä, Ö?? */
-            if ((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122)) {
+            if ((event.which >= 65 && event.which <= 90) || (event.which >= 97 && event.which <= 122) || 
+                event.which == 192 || event.which == 221 || event.which == 222) {
+
                 if (this.inputDirection == "Horizontal" && typeof(event.key) == "string") {
 
                   this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].letter = event.key.toUpperCase()

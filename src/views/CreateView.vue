@@ -295,8 +295,8 @@
             this.enableWordButtons = true
 
             console.log("this.matchesIterator = " + this.matchesIterator)
-            this.crossword.actual.posList = JSON.parse(JSON.stringify(this.crossword.temp[0].posList))  /* visa första matchningen */
-            this.crossword.actual.startPos = JSON.parse(JSON.stringify(this.crossword.temp[0].startPos))
+            this.crossword.actual.posList = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].posList))  /* visa första matchningen */
+            this.crossword.actual.startPos = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].startPos))
           }
           console.log(this.crossword.actual.posList)
         }, 
@@ -340,8 +340,6 @@
           audio.play()
           this.word = ""
           this.desc = ""
-
-          this.wordInOrder--
 
           this.crossword.actual.posList = JSON.parse(JSON.stringify(this.crosswordCopy))
           this.enableWordButtons = false
@@ -441,13 +439,6 @@
                   } else {
                     newTempCrossword.posList[v][h].wordInOrder = JSON.parse(JSON.stringify(this.crossword.actual.posList[v][h].wordInOrder))
                   }
-
-                } else {
-                  /* newTempCrossword.posList[v][h + i].isFirstLetter = false */
-                  if (newTempCrossword.startPos.x == 0 && newTempCrossword.startPos.y == 0) {
-                    console.log("Från getNewTempPositionHoriz, wordInOrder på resterande bokstävers positioner: " + newTempCrossword.posList[v][h + i].wordInOrder)
-                  }
-                  /* newTempCrossword.posList[v][h + i].wordInOrder = null */
                 }
             }
             return newTempCrossword
