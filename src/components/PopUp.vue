@@ -5,7 +5,7 @@
     <span class="logoText" v-if="sourceName != 'StartView'"> QUIZCROSS</span>
    </div>
 
-   <div class="modal-vue">
+   <div class="modal">
       <button id="help" :src="uiLabels.changeLanguage" @click="showModal=true">
         ?
       </button>
@@ -71,7 +71,7 @@ export default {
     margin: 1vw; 
     color: black;
   } 
-  .modal-vue .overlay {
+  .modal .overlay {
   position: fixed;
   z-index: 9998;
   top: 0;
@@ -81,7 +81,7 @@ export default {
   background-color: rgba(0, 0, 0, .5);
 }
 
-.modal-vue .modal {
+.modal .modal {
   position: absolute;
   top: 15vw;
   left: 27vw;
@@ -97,7 +97,7 @@ export default {
   overflow-y: auto;
 }
 
-.modal-vue .close{
+.modal .close{
   position: absolute;
   top: 1vw;
   right: 1vw;
@@ -109,7 +109,7 @@ export default {
   color: black;
   border-color: black;
 }
-.modal-vue .close:hover{
+.modal .close:hover{
 background-color: #e36f67;
 }
 #flag {
