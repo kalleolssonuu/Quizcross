@@ -90,10 +90,11 @@ export default{
 
     socket.on('currentCrosswordNames', data => { 
         this.crosswordNames = data
+        this.shownGames = JSON.parse(JSON.stringify(this.crosswordNames));
+        console.log(this.crosswordNames)
     }); 
 
-    this.shownGames = JSON.parse(JSON.stringify(this.allGames));
-    console.log(this.crosswordNames)
+
 
 
   },  
@@ -101,6 +102,7 @@ export default{
   data: function() {
     return{
       crosswordNames: null, 
+
       gameID: "", 
       lang: "",
 
@@ -129,7 +131,7 @@ export default{
     },
    
     searchGame: function() {
-      this.shownGames = this.allGames.filter(item => item.toLowerCase().includes(this.searchTerm.toLowerCase()));
+      this.shownGames = this.crosswordNames.filter(item => item.toLowerCase().includes(this.searchTerm.toLowerCase()));
 
       console.log("sökta spel " + this.shownGames)
     },

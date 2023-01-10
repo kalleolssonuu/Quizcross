@@ -213,74 +213,76 @@
 
               if (this.crossword.actual.posList[v][h].letter === wordSplit[0] || this.crossword.actual.posList[v][h].letter === null) {
 
-                  if (wordSplit.length <= vert - v) { /* FÅR PLATS VERTIKALT? */
-                      /* h = 1, v = 0 */
-                      for (let iv = 0; iv < wordSplit.length; iv++) {
+                if (wordSplit.length <= horiz - h) { /* FÅR PLATS HORISONTELLT? */
+                                      
+                  for (let ih = 0; ih < wordSplit.length; ih++) {
 
-                          if ((this.crossword.actual.posList[v + iv][h].letter === wordSplit[iv]) || (this.crossword.actual.posList[v + iv][h].letter === null)) { /* räcker med att spara första och sista positionen för ordet! */
-
-                            if (this.crossword.actual.posList[v + iv][h].letter === wordSplit[iv]) {
-                              this.wordCollision = true
-                              this.letterMatchCounter++
-                            }
-
-                            if (iv == wordSplit.length - 1) { /* vi har tagit oss till slutet av ordet och allt har funkat */                            
-                              if (this.letterMatchCounter != wordSplit.length) {
-                                if (this.wordCollision) {
-                                  console.log("lägger till prio. h = " + h + ", v = " + v + ", prioIterator = " + this.prioIterator)
-                                  this.crossword.temp.splice(this.prioIterator, 0, this.getNewTempPositionVert(h, v, wordSplit))
-                                  this.prioIterator++
-
-                                } else {
-                                  this.crossword.temp[this.matchesIterator] = this.getNewTempPositionVert(h, v, wordSplit)
-                                }
-                                this.crossword.temp[this.matchesIterator].startPos.x = h
-                                this.crossword.temp[this.matchesIterator].startPos.y = v
-                                this.matchesIterator++;
-                              }
-                            }
-                          } else {
-                            break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
-                          }
-                      }
-                  }
-                  this.letterMatchCounter = 0
-                  this.wordCollision = false
-
-                  if (wordSplit.length <= horiz - h) { /* FÅR PLATS HORISONTELLT? */
+                    if ((this.crossword.actual.posList[v][h + ih].letter === wordSplit[ih]) || (this.crossword.actual.posList[v][h + ih].letter === null)) { /* räcker med att spara första och sista positionen för ordet! */
                       
-                    for (let ih = 0; ih < wordSplit.length; ih++) {
-
-                          if ((this.crossword.actual.posList[v][h + ih].letter === wordSplit[ih]) || (this.crossword.actual.posList[v][h + ih].letter === null)) { /* räcker med att spara första och sista positionen för ordet! */
-                            
-                            if (this.crossword.actual.posList[v][h + ih].letter === wordSplit[ih]) {
-                              this.wordCollision = true
-                              this.letterMatchCounter++
-                            }
-
-                            if (ih == wordSplit.length - 1) { /* vi har tagit oss till slutet av ordet och allt har funkat */
-
-                              if (this.letterMatchCounter != wordSplit.length) {
-                                if (this.wordCollision) {
-                                  console.log("lägger till prio. h = " + h + ", v = " + v + ", prioIterator = " + this.prioIterator)
-                                  this.crossword.temp.splice(this.prioIterator, 0, this.getNewTempPositionHoriz(h, v, wordSplit))
-                                  this.prioIterator++
-
-                                } else {
-                                  this.crossword.temp[this.matchesIterator] = this.getNewTempPositionHoriz(h, v, wordSplit)
-                                }
-                                this.crossword.temp[this.matchesIterator].startPos.x = h
-                                this.crossword.temp[this.matchesIterator].startPos.y = v
-                                this.matchesIterator++;
-                              }
-                              }
-                          } else {
-                              break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
-                          }
+                      if (this.crossword.actual.posList[v][h + ih].letter === wordSplit[ih]) {
+                        this.wordCollision = true
+                        this.letterMatchCounter++
                       }
+
+                      if (ih == wordSplit.length - 1) { /* vi har tagit oss till slutet av ordet och allt har funkat */
+
+                        if (this.letterMatchCounter != wordSplit.length) {
+                          if (this.wordCollision) {
+                            console.log("lägger till prio. h = " + h + ", v = " + v + ", prioIterator = " + this.prioIterator)
+                            this.crossword.temp.splice(this.prioIterator, 0, this.getNewTempPositionHoriz(h, v, wordSplit))
+                            this.prioIterator++
+
+                          } else {
+                            this.crossword.temp[this.matchesIterator] = this.getNewTempPositionHoriz(h, v, wordSplit)
+                          }
+                          this.crossword.temp[this.matchesIterator].startPos.x = h
+                          this.crossword.temp[this.matchesIterator].startPos.y = v
+                          this.matchesIterator++;
+                        }
+                        }
+                    } else {
+                        break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
+                    }
                   }
-                  this.letterMatchCounter = 0
-                  this.wordCollision = false
+                }
+                this.letterMatchCounter = 0
+                this.wordCollision = false
+
+
+                if (wordSplit.length <= vert - v) { /* FÅR PLATS VERTIKALT? */
+                    /* h = 1, v = 0 */
+                    for (let iv = 0; iv < wordSplit.length; iv++) {
+
+                        if ((this.crossword.actual.posList[v + iv][h].letter === wordSplit[iv]) || (this.crossword.actual.posList[v + iv][h].letter === null)) { /* räcker med att spara första och sista positionen för ordet! */
+
+                          if (this.crossword.actual.posList[v + iv][h].letter === wordSplit[iv]) {
+                            this.wordCollision = true
+                            this.letterMatchCounter++
+                          }
+
+                          if (iv == wordSplit.length - 1) { /* vi har tagit oss till slutet av ordet och allt har funkat */                            
+                            if (this.letterMatchCounter != wordSplit.length) {
+                              if (this.wordCollision) {
+                                console.log("lägger till prio. h = " + h + ", v = " + v + ", prioIterator = " + this.prioIterator)
+                                this.crossword.temp.splice(this.prioIterator, 0, this.getNewTempPositionVert(h, v, wordSplit))
+                                this.prioIterator++
+
+                              } else {
+                                this.crossword.temp[this.matchesIterator] = this.getNewTempPositionVert(h, v, wordSplit)
+                              }
+                              this.crossword.temp[this.matchesIterator].startPos.x = h
+                              this.crossword.temp[this.matchesIterator].startPos.y = v
+                              this.matchesIterator++;
+                            }
+                          }
+                        } else {
+                          break /* vi vill fortsätta vandringen över matrisen om någon bokstav inte uppfyller villkoret */
+                        }
+                    }
+                }
+                this.letterMatchCounter = 0
+                this.wordCollision = false
+
               }
           }
           } /* alla positioner-loopen: slut */
@@ -321,7 +323,7 @@
             } else {
               this.crossword.actual.posList[startPos.y][startPos.x].wordInOrder = this.wordInOrder
               this.wordInOrder++
-            }
+          }
 
           this.crosswordPackage.wordDesc[this.amountWordsAdded] = 
           {word: this.word, desc: this.desc, wordInOrder: this.crossword.actual.posList[startPos.y][startPos.x].wordInOrder, 
