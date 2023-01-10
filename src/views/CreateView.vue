@@ -378,7 +378,7 @@
          this.crosswordPackage.crossword = this.crossword.actual.posList
          this.crosswordPackage.cellsAmount = this.cellsAmount
           socket.emit("createdCrosswordPackage", this.crosswordPackage)
-         },
+        },
   
         fillPositionsNull: function () {
           for (let v = 0; v < this.cellsAmount; v++) {

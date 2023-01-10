@@ -109,6 +109,11 @@
           occupiedPosition: {x: null, y: null},
           latestOccupied: {x: 0, y: 0},
          
+
+          /* Vi vill ta emot paket: {namn, userCrossword} från servern. För att inte alla sockets ska uppdatera sina PlayViews,
+             kolla matchning paket.namn mot this.gameID. Om matchning, byt ut this.userCrossword mot paket.userCrossword. */
+
+
           crosswordAnswer: [], /* crossword från crosswordPackage */
           userCrossword: [],
 
@@ -152,6 +157,8 @@
 
           this.loadReceivedCrossword();
           this.userCrossword = this.getUserCrossword()
+
+          this.gameID = JSON.parse(JSON.stringify(this.receivedCross.crosswordName))
           this.cellsAmount = JSON.parse(JSON.stringify(this.receivedCross.cellsAmount))
           this.wordDesc = JSON.parse(JSON.stringify(this.receivedCross.wordDesc))
 
@@ -163,8 +170,12 @@
 
         /* ------ försök att ta emot uppdaterat userCrossword från annan deltagare ------ */
 
-        socket.on('updateUserCrossword', data  => { 
-          this.userCrossword = JSON.parse(JSON.stringify(data))
+        socket.on('userCrosswordToAll', function(d) {
+          console.log("test socket.on('userCrosswordToAll'), d = " + d)
+          if (d.gameID == this.gameID) {
+            console.log("inside socket.on if statement")
+            this.userCrossword = d.crossword
+          }
         })
 
         /* ------ ------ */
@@ -196,6 +207,11 @@
           this.occupiedPosition.x = event.x
           this.occupiedPosition.y = event.y
 
+          socket.emit('updatedUserCrossword', function () {
+            console.log("test socket.emit('updatedUserCrossword'), d = " + {crossword: this.userCrossword, gameID: this.gameID})
+            return {crossword: this.userCrossword, gameID: this.gameID}}
+            )
+
           /* this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].isOccupied = true */
 
           console.log("Position occupied? " + this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].isOccupied)
@@ -206,6 +222,7 @@
           console.log("Occupied position test: " + this.occupiedPosition)
           console.log("... x = " + this.occupiedPosition.x)
           console.log("... y = " + this.occupiedPosition.y)
+
 
 
           /* SKICKA USERCROSSWORD TILL SERVER */
@@ -315,6 +332,10 @@
           }
   
 
+          socket.emit('updatedUserCrossword', function () {
+            console.log("test socket.emit('updatedUserCrossword'), d = " + {crossword: this.userCrossword, gameID: this.gameID})
+            return {crossword: this.userCrossword, gameID: this.gameID}}
+            )
 
           /* SKICKA USERCROSSWORD TILL SERVER */
 

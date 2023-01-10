@@ -60,6 +60,11 @@ function sockets(io, socket, data) {
       io.emit('currentCrosswordNames', data.getCrosswordNames() );
     });
 
+/*     socket.on('sentUserCrossword', function(d) {
+      data.addUserCrosswordPackage(d);
+      io.emit('currentCrosswordNames', data.getCrosswordNames() );
+    }); */
+
     socket.emit('currentCrosswordNames', data.getCrosswordNames() ); 
 
 
@@ -70,7 +75,16 @@ function sockets(io, socket, data) {
     data.findMatchingGame(d)
     io.emit('gameToBePlayed', data.getMatchingGame() ); //  visst ska denna också finnas? när en socket redan etablerats. tänker om man vill spela ett till spel typ
   });    
+
+
   
+  socket.on('updatedUserCrossword', function(d) {
+    console.log("test socket.on('updatedUserCrossword'), d = " + d)
+    io.emit('userCrosswordToAll', d)
+  }) 
+  
+
+  /* kan tas bort eller hur? /Kalle */
   socket.emit('gameToBePlayed', data.getMatchingGame() ); 
 
 }
