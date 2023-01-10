@@ -145,15 +145,15 @@
           this.data = data
         ),
 
+        socket.emit("joinPoll", this.gameID); 
 
           /* DET HÄR SKER EFTER this.loadReceivedCrossWord! */
         socket.on('gameToBePlayed', data  => { // ursprung: lobby
-          console.log("data = " + data)
+          console.log("Data från 'gameToBePlayed' = " + data)
 
           this.receivedCross = JSON.parse(JSON.stringify(data))
-          console.log("receivedCross från PlayView = " + this.receivedCross)
 
-          console.log("receivedCross.crossword från PlayView = " + this.receivedCross.crossword)
+          console.log("Korsordspaket från socket join: " + this.receivedCross)
 
           this.loadReceivedCrossword();
           this.userCrossword = this.getUserCrossword()
@@ -161,17 +161,15 @@
           this.gameID = JSON.parse(JSON.stringify(this.receivedCross.crosswordName))
           this.cellsAmount = JSON.parse(JSON.stringify(this.receivedCross.cellsAmount))
           this.wordDesc = JSON.parse(JSON.stringify(this.receivedCross.wordDesc))
-
-          console.log("Djup egenskap försök: " + this.userCrossword[1][0].isHorizontalWord + ", vi vill få true")
-          /* console.log("Djup egenskap försök: " + this.userCrossword[1][1].inVertical + ", vi vill få true") */
         })  /* data bör vara värdet till nyckeln "korsords-ID" */
 
 
 
         /* ------ försök att ta emot uppdaterat userCrossword från annan deltagare ------ */
 
-        socket.on('userCrosswordToAll', function(d) {
+        socket.on('sendUpdatedUserCross', (d) => {
           console.log("test socket.on('userCrosswordToAll'), d = " + d)
+          console.log("d.gameID: " + d.gameID + ", this.gameID: " + this.gameID)
           if (d.gameID == this.gameID) {
             console.log("inside socket.on if statement")
             this.userCrossword = d.crossword
@@ -207,10 +205,7 @@
           this.occupiedPosition.x = event.x
           this.occupiedPosition.y = event.y
 
-          socket.emit('updatedUserCrossword', function () {
-            console.log("test socket.emit('updatedUserCrossword'), d = " + {crossword: this.userCrossword, gameID: this.gameID})
-            return {crossword: this.userCrossword, gameID: this.gameID}}
-            )
+          socket.emit('updatedUserCrossword', {crossword: this.userCrossword, gameID: this.gameID})
 
           /* this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].isOccupied = true */
 
@@ -332,10 +327,7 @@
           }
   
 
-          socket.emit('updatedUserCrossword', function () {
-            console.log("test socket.emit('updatedUserCrossword'), d = " + {crossword: this.userCrossword, gameID: this.gameID})
-            return {crossword: this.userCrossword, gameID: this.gameID}}
-            )
+          socket.emit('updatedUserCrossword', {crossword: this.userCrossword, gameID: this.gameID})
 
           /* SKICKA USERCROSSWORD TILL SERVER */
 
