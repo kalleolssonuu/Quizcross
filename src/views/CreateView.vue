@@ -723,4 +723,27 @@ background-color: #e36f67;
     margin-block-start: 0;
     margin-block-end: 0;
   }
+
+  div.scroll {
+      margin:1%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      text-align:justify;
+              }
+  
+    .scroll::-webkit-scrollbar {
+      width: 2vh;
+      border-radius: 2vw;
+    }
+ 
+    .scroll::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(255, 253, 253, 0.3); 
+    }
+ 
+    .scroll::-webkit-scrollbar-thumb {
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+      background: #43918a;
+      border-bottom-right-radius: 0.5vw;
+      border-bottom-left-radius: 0.5vw;
+    }
   </style>
