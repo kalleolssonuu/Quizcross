@@ -10,6 +10,9 @@ function Data() {
  this.crossword = null;  // JESSIE FRÅGA: diskutera varför måste va globala????       
  this.actualCrossword = null;
 
+ /*  this.userCrosswordPackages = {};
+ this.userCrossword = null; */
+
 }
 
 /***********************************************
@@ -104,6 +107,18 @@ Data.prototype.addPackage = function(d) {
  console.log("crosswordpackages uppdaterat till:")
  console.log(this.crosswordPackages)
 };
+
+/* Data.prototype.addUserCrosswordPackage = function(d) {
+  console.log("I addPckage")
+ 
+  this.crossword = d;
+  let crosswordID = this.userCrossword.crosswordName.replace(/\s/g, ''); 
+  
+  this.userCrosswordPackages[crosswordID] = this.crossword; 
+ 
+  console.log("crosswordpackages uppdaterat till:")
+  console.log(this.crosswordPackages)
+ }; */
 
 Data.prototype.getCrosswordNames = function () { 
   console.log("i data.getCrosswordNames")

@@ -42,17 +42,17 @@
         <div id="wordPlacement">
           {{uiLabels.wordPlacement}}
         </div>
-      <div id="placementArrows">
-          <img id="showSolutions" :src="uiLabels.showPrevious" v-on:click="this.showPreviousSolution">
-          <img id="showSolutions" :src="uiLabels.showNext" v-on:click="this.showNextSolution">
-      </div>
+        <div id="placementArrows">
+            <img id="showSolutions" :src="uiLabels.showPrevious" v-on:click="this.showPreviousSolution">
+            <img id="showSolutions" :src="uiLabels.showNext" v-on:click="this.showNextSolution">
+        </div>
 
         <div id="confirmDiscardButtons">
-          <button v-if="!this.enableWordButtons" class="standardButton disabled"  disabled style="width: 6rem;"> {{uiLabels.discard}} </button>
-          <button v-else v-on:click="this.discardWord" class="standardButton" style="width: 6rem;"> {{uiLabels.discard}} </button>
+          <button v-if="!this.enableWordButtons" class="standardButton disabled"  disabled style="width: 7vw;"> {{uiLabels.discard}} </button>
+          <button v-else v-on:click="this.discardWord" class="standardButton" style="width: 7vw;"> {{uiLabels.discard}} </button>
 
-          <button v-if="!this.enableWordButtons" class="standardButton disabled"  disabled style="width: 6rem;"> {{uiLabels.confirm}} </button>
-          <button v-else v-on:click="this.confirmWord" class="standardButton" style="width: 6rem;"> {{uiLabels.confirm}} </button>
+          <button v-if="!this.enableWordButtons" class="standardButton disabled"  disabled style="width: 7vw;"> {{uiLabels.confirm}} </button>
+          <button v-else v-on:click="this.confirmWord" class="standardButton" style="width: 7vw;"> {{uiLabels.confirm}} </button>
         </div>
       </div>
       
@@ -79,10 +79,6 @@
               {{uiLabels.resetCrossword}}
             </button> 
             <br>
-
-            <button class="standardButton"  @click="$router.push('/Lobby/'+lang)"> 
-            {{uiLabels.QuitGame}} 
-            </button>
 
           </div>
           <br>
@@ -421,7 +417,7 @@
          this.crosswordPackage.crossword = this.crossword.actual.posList
          this.crosswordPackage.cellsAmount = this.cellsAmount
           socket.emit("createdCrosswordPackage", this.crosswordPackage)
-         },
+        },
   
         fillPositionsNull: function () {
           for (let v = 0; v < this.cellsAmount; v++) {
@@ -497,17 +493,18 @@
   <style>
   
   .standardButton{
-    width: 10rem;
-    height: 4rem;
+    width: 14vw;
+    height: 5.5vw;
     border-radius: 0.94rem;
     border-color: #ba0c00;
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
-    margin-left: 0.5rem;
+    margin-top: 1vw;
+    margin-bottom: 2vw;
+    margin-right: 0.5vw;
+
     color: white;
     background-color: #FE5F55;
     font-family: "Comic Sans MS", "Comic Sans";
-    font-size: 1rem;
+    font-size: 1.25vw;
     cursor:pointer;
     position: relative;   
   }
@@ -538,36 +535,34 @@
 
   #inputFieldWrapper {
     float: left;
-    width: 25%;
+    width: 25vw;
     justify-content: center;
-    margin-top: 5%;
+    margin-top: 3vw;
   }
   #placementArrows{
-    /* float: left; */
     justify-content: center;
-    margin-top: 3rem;
-    display: flex;
+    margin-top: 4.5vw;
+    position:absolute;
   
   }
   #confirmDiscardButtons{
     position: absolute;
-    float: left;
     justify-content: center;
-    margin-top: 8rem;
+    margin-top: 10vw;
   }
   #div4 {
     float: left;
-    width: 50%;
-    margin-top: 2%;
-    justify-content: center;
+    width: 48vw;
+    margin-left: 4vw;
+    margin-top:3vw;
+
   }
   #div5 {
+    margin-top: 5vw;
+    margin-right:3vw;
     float: left;
-    width: 15%;
-    height: 25rem;
-    margin-left: 3rem;
-    justify-content: center;
-    margin-top: 10%;
+    width: 18vw;
+
   }
 .modalDescription .overlay {    /*STYLING FÖR TONAD SVART BAKGRUND*/
   position: fixed;
@@ -613,10 +608,10 @@ background-color: #e36f67;
 }
 
   #showSolutions {
-    width: 5rem;
-    height: 4.5rem;
+    width: 6vw;
+    height: 5vw;
     cursor:pointer; 
-    margin: 0.5rem;
+    margin-right: 0.6vw;
   }
   #showSolutions:hover{
     opacity: 0.80;
@@ -628,30 +623,32 @@ background-color: #e36f67;
   .solutionsWrapper{
     display: flex;
     justify-content: center;
-    height: 15rem;
-    width: 15rem;
-    
+    height: 18vw;
+    width: 20vw;
+    margin-left: 2.5vw;
     border-radius: 2rem;
     background-color: #93b39c;
-    border-width: 0.1rem;
     border-color: #43918a;
     border-style: solid;
   }
   #wordPlacement{
-    font-size: 1rem;
-    margin-top: 1rem;
+    font-size: 1.4vw;
+    width: 20vw;
+    height: 3vw;
+    margin: 1vw;
     display: flex;
+    justify-content: center;
 
   }
   
     #wordInput {
-      height: 3rem;
-      width: 12rem;
+      height: 4vw;
+      width: 16vw;
       text-align: center; 
       font-family: "Comic Sans MS", "Comic Sans";
-      font-size: 1rem;
+      font-size: 1.5vw;
       border-radius: 1rem;
-      margin-top: 0.5rem
+      margin-top: 0.5vw
    }
 
    .wordDescriptionWrapper{
