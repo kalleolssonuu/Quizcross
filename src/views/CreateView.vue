@@ -7,7 +7,9 @@
       </div>
   </header>
   
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- HÄMTAR IKONEN FÖR DESC POP UP -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   
   <div id="inputFieldWrapper">
             
@@ -15,14 +17,19 @@
      
         <input v-if="this.lang == 'en'" type="text" id="wordInput" v-model="word" required="required" placeholder="Enter a word...">
         <input v-else type="text" id="wordInput" v-model="word" required="required" placeholder="Ge ett ord... ">
+
+
       </div>
       <br>
 
   <!-- style="display: inline-block" behövs denna i klassen nedan?-->
-      <div class="inputField" >
+      <div class="inputField">
      
           <input v-if="this.lang == 'en'" type="text"  id="wordInput" v-model="desc" required="required" placeholder="Enter a description... ">
           <input v-else type="text" id="wordInput" v-model="desc" required="required" placeholder="Ge en beskrivning... ">
+          <button class="descPopUp" v-on:click="togglePopupDescription"> 
+              <i class="fa fa-bars"></i>
+            </button>
       </div>
       <br>
       
@@ -67,11 +74,6 @@
             </button>
             <br>
 
-            <button class="standardButton" v-on:click="togglePopupDescription"> 
-            {{uiLabels.showDescription}} 
-            </button>
-            <br>
-
             <!--<button v-on:click="this.emptyTextFields"> Empty Input </button> ---><!-- gör detta när användaren har valt ett ord istället för en knapp. Det rensar även textfältet -->
             <button class="standardButton" v-on:click="this.resetData">
               {{uiLabels.resetCrossword}}
@@ -92,7 +94,44 @@
                   @click="showModalDescription=false">
               </div>
               <div class="modal" v-if="showModalDescription">
-                  TEXT HÄR
+                  <div class ="wordDescriptionWrapper"> 
+        
+        <div id="horizontalDescriptions">
+  
+            <div id="wordDescTop">{{uiLabels.horizontalWords}}</div>
+            <div id="orderedList"  class="scroll">
+              <ul style="list-style: none;">
+                <li v-for="(value, key) in this.getSortedDescs()" :key="key">
+                  <span v-if="value.direction == 'Horizontal'">
+                    {{ value.wordInOrder + ". " + value.desc }}
+                  </span>
+                  <span v-else style="display: none;">
+                  </span>
+                </li>
+              </ul>
+            </div>
+  
+        </div>
+  
+  
+  
+        <div id="verticalDescriptions">
+  
+          <div id="wordDescTop">{{uiLabels.verticalWords}}</div>
+          <div id="orderedList"  class="scroll">
+            <ul style="list-style: none;">
+              <li v-for="(value, key) in this.getSortedDescs()" :key="key">
+                <span v-if="value.direction == 'Vertical'">
+                  {{ value.wordInOrder + ". " + value.desc }}
+                </span>
+                <span v-else style="visibility: hidden;">
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+  
+    </div>
                   <button class="close" @click="showModalDescription = false">x</button>
               </div>
           </div>
@@ -190,6 +229,10 @@
         resetData: function () {
           location.reload()
         },
+
+        getSortedDescs: function () {
+            return this.crosswordPackage.wordDesc.sort((a, b) => a.wordInOrder - b.wordInOrder)
+          },
   
         findPotentialMatches: function () { // JESSIE FRÅGA: ha kvar kommentarer i längre algoritmer eller ta bort?
         
@@ -477,8 +520,22 @@
     cursor: default;
     background-color: #ba0c00;
   }
+  .descPopUp{
+    width: 2.5vw;
+    height: 2.5vw;
+    color: white;
+    background-color: #A7CAB1;
+    border: 0;
+    font-family: "Comic Sans MS", "Comic Sans";
+    font-size: 1.5vw;
+    cursor:pointer;
+    position: relative;   
+  }
+  .descPopIp:hover{
+    opacity: 0.80;
+  }
 
-  
+
   #inputFieldWrapper {
     float: left;
     width: 25%;
@@ -524,24 +581,24 @@
 
 .modalDescription .modal {    /*STYLING FÖR SJÄLVA POPUPEN*/
   position: absolute;
-  top: 15vw;
+  top: 5vw;
   left: 27vw;
-  height: 10vw;
+  height: 70vh;
   width: 40vw;
   z-index: 9999;
   margin: 0 auto;
   padding: 20px 30px;
-  background-color: #FFFDD0;
+  background-color: #A7CAB1;
   color: black;
   border-radius: 15px;
   font-family: "Comic Sans MS", "Comic Sans";
-  overflow-y: auto;
+  justify-content: center;
 }
 
 .modalDescription .close{     /*STYLING FÖR STÄNG NED KNAPP*/
   position: absolute;
-  top: 1vw;
-  right: 1vw;
+  top: 0.5vw;
+  right: 0.5vw;
   background-color: #FE5F55;
   border-radius: 5px;
   cursor:pointer;
@@ -549,6 +606,7 @@
   width: 2vw;
   color: black;
   border-color: black;
+  text-align: center;
 }
 .modalDescription .close:hover{
 background-color: #e36f67;
@@ -594,6 +652,78 @@ background-color: #e36f67;
       font-size: 1rem;
       border-radius: 1rem;
       margin-top: 0.5rem
-    
    }
+
+   .wordDescriptionWrapper{
+    display: flex;
+    flex-direction: column;
+    float:right;
+    align-items: center;
+    height: 70vh;
+    width: 22vw;
+    margin-right: 9vw;
+    margin-left: 9vw;
+  }
+  
+  #horizontalDescriptions{
+    width: 20vw;
+    height: 31vh;
+    border-radius: 5px;
+    border-color: #a6d8d4;
+    margin-left: 5%;
+    margin-top: 6%;
+    color: white;
+    background-color:#43918a;
+    font-family: "Comic Sans MS", "Comic Sans";
+    font-size: 20px;
+    position: relative;
+    float:left;
+    margin-bottom: 2rem;
+  }
+  
+  #verticalDescriptions{
+    width: 20vw;
+    height: 31vh;
+    border-radius: 5px;
+    border-color: #a6d8d4;
+    margin-left: 5%;
+    color: white;
+    background-color:#43918a;
+    font-family: "Comic Sans MS", "Comic Sans";
+    font-size: 20px;
+    position: relative;
+    float:left;
+  }
+  #wordDescTop{
+    width: 19.2vw;
+    height: 6vh;
+    border-top-left-radius: 0.5vw;
+    border-top-right-radius: 0.5vw;
+    border-color: #43918a;
+    margin-left: 5%;
+    color: #43918a;
+    background-color: white;
+    font-family: "Comic Sans MS", "Comic Sans";
+    font-size: 1.5vw;
+    position: relative;
+    float:left;
+    margin:0.4vw;
+    text-align: center;
+  }
+
+  #orderedList {
+    width: 19vw;
+    margin-left: 0.4vw;
+    height: 22vh;
+    overflow-y: auto;
+    border: 0.1vw solid white;
+    border-bottom-left-radius: 0.5vw;
+    border-bottom-right-radius: 0.5vw;
+    text-align: left;
+  }
+
+  ol { 
+    margin-block-start: 0;
+    margin-block-end: 0;
+  }
   </style>
