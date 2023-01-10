@@ -35,7 +35,7 @@ export default{
  position: fixed;
  bottom: 0;
  left:0;
- margin: 2vw; 
+ margin: 1vw; 
  display: flex;
  align-items: center;
 }
