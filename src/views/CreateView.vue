@@ -23,7 +23,7 @@
       <br>
 
   <!-- style="display: inline-block" behövs denna i klassen nedan?-->
-      <div class="inputField">
+      <div class="inputField" style="margin-left: 2.3vw">
      
           <input v-if="this.lang == 'en'" type="text"  id="wordInput" v-model="desc" required="required" placeholder="Enter a description... ">
           <input v-else type="text" id="wordInput" v-model="desc" required="required" placeholder="Ge en beskrivning... ">
