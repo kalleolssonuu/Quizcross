@@ -43,7 +43,7 @@
 
   
  <div>
-    <button class="standardButtonLobby" v-on:click="emitGameChoice()" @click="$router.push('/playView/'+lang+'/'+ selectedGame)"> 
+    <button class="standardButtonLobby" v-on:click="emitGameChoice()"> 
       {{uiLabels.playPlay}}
     </button>
     
@@ -125,9 +125,8 @@ export default{
 
   methods: {
     emitGameChoice: function() { 
-      socket.emit("chosenGame", this.selectedGame ); 
-
-      console.log("I emitgamechoice")
+      this.$router.push('/playView/'+this.lang+'/'+ this.selectedGame)
+      console.log("I emitgamechoice, this.selectedGame: " + this.selectedGame)
     },
    
     searchGame: function() {
