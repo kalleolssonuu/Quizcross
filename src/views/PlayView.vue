@@ -31,35 +31,38 @@
     <div class ="wordDescriptionWrapper"> 
         
       <div id="horizontalDescriptions">
-        <div id="wordDescTop">{{uiLabels.horizontalWords}}</div>
-        <div id="orderedList"  class="scroll">
-          <ol>
-        <li v-for="(value, key) in this.getSortedDescs()" :key="key">
-          <span v-if="this.receivedCross.crossword[value.startPos.y][value.startPos.x].isHorizontalWord == true">
-            {{ value.desc }}
-          </span>
-          <span v-else style="display: none;">
-          </span>
-        </li>
-      </ol>
-      </div>
+
+          <div id="wordDescTop">{{uiLabels.horizontalWords}}</div>
+          <div id="orderedList"  class="scroll">
+            <ul style="list-style: none;">
+              <li v-for="(value, key) in this.getSortedDescs()" :key="key">
+                <span v-if="value.direction == 'Horizontal'">
+                  {{ value.wordInOrder + ". " + value.desc }}
+                </span>
+                <span v-else style="display: none;">
+                </span>
+              </li>
+            </ul>
+          </div>
+
       </div>
 
 
 
       <div id="verticalDescriptions">
+
         <div id="wordDescTop">{{uiLabels.verticalWords}}</div>
         <div id="orderedList"  class="scroll">
-        <ol>
-        <li v-for="(value, key) in this.getSortedDescs()" :key="key">
-          <span v-if="this.receivedCross.crossword[value.startPos.y][value.startPos.x].isHorizontalWord == false">
-            {{ value.desc }}
-          </span>
-          <span v-else style="visibility: hidden;">
-          </span>
-        </li>
-      </ol>
-      </div>
+          <ul style="list-style: none;">
+            <li v-for="(value, key) in this.getSortedDescs()" :key="key">
+              <span v-if="value.direction == 'Vertical'">
+                {{ value.wordInOrder + ". " + value.desc }}
+              </span>
+              <span v-else style="visibility: hidden;">
+              </span>
+            </li>
+          </ul>
+        </div>
       </div>
 
   </div>
@@ -109,15 +112,17 @@
           crosswordAnswer: [], /* crossword från crosswordPackage */
           userCrossword: [],
 
+          crosswordPackage: {},
+
           firstMouseClick: true,
   
           showModal: false,
           uiLabels: {},
-          id: "",
+          gameID: "",
           lang: "",
           sourceName: "PlayView",
           inputDirection: "Horizontal",      
-          arrow: "&rarr;"   
+          arrow: "&rarr;"
         }
       },
   
@@ -127,6 +132,9 @@
         socket.on("init", (labels) => {
           this.uiLabels = labels
         })
+
+        this.gameID = this.$route.params.gameID;
+        console.log("gameID: " + this.gameID)
 
         socket.on("dataUpdate", (data) =>
           this.data = data
@@ -150,6 +158,16 @@
           console.log("Djup egenskap försök: " + this.userCrossword[1][0].isHorizontalWord + ", vi vill få true")
           /* console.log("Djup egenskap försök: " + this.userCrossword[1][1].inVertical + ", vi vill få true") */
         })  /* data bör vara värdet till nyckeln "korsords-ID" */
+
+
+
+        /* ------ försök att ta emot uppdaterat userCrossword från annan deltagare ------ */
+
+        socket.on('updateUserCrossword', data  => { 
+          this.userCrossword = JSON.parse(JSON.stringify(data))
+        })
+
+        /* ------ ------ */
 
         /* this.loadReceivedCrossword();
         this.userCrossword = this.getUserCrossword() */
@@ -195,10 +213,14 @@
         },
 
         enterLetterFromKeyPress: function (event) {
-          console.log("Inuti event click handler, event.key = " + event.key)
+          console.log("Inuti event click handler, event.key = " + event.which)
+          console.log("typeof() på knappen: " + typeof(event.which))
+          console.log("test ändring utan server-omstart")
 
                     /* INGÅR Å, Ä, Ö?? */
-            if ((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122)) {
+            if ((event.which >= 65 && event.which <= 90) || (event.which >= 97 && event.which <= 122) || 
+                event.which == 192 || event.which == 221 || event.which == 222) {
+
                 if (this.inputDirection == "Horizontal" && typeof(event.key) == "string") {
 
                   this.userCrossword[this.occupiedPosition.y][this.occupiedPosition.x].letter = event.key.toUpperCase()
@@ -292,6 +314,8 @@
               }
           }
   
+
+
           /* SKICKA USERCROSSWORD TILL SERVER */
 
           if (allMatchesCorrect) {
@@ -336,15 +360,17 @@
                                                     inVertical: false,
                                                     isFirstLetter: false,
                                                     isOccupied: false,
-                                                    wordInOrder: 1} /* if (wordInOrder != 0) { lägg till siffra i hörnet } */
+                                                    wordInOrder: null} /* if (wordInOrder != 0) { lägg till siffra i hörnet } */
                 }
             }
   
-            this.crosswordAnswer[0][0].letter = "c"; this.crosswordAnswer[0][0].inHorizontal = true
-            this.crosswordAnswer[0][0].isFirstLetter = true
+            this.crosswordAnswer[0][0].letter = "c"; this.crosswordAnswer[0][0].inHorizontal = true; /* FRÅN CLOWN */
+            this.crosswordAnswer[0][0].isFirstLetter = true; this.crosswordAnswer[0][0].wordInOrder = 1;
   
+
+            /* FRÅN LAKAN */
             this.crosswordAnswer[0][1].letter = "l"; this.crosswordAnswer[0][1].inHorizontal = true; this.crosswordAnswer[0][1].inVertical = true
-            this.crosswordAnswer[0][1].isFirstLetter = true
+            this.crosswordAnswer[0][1].isFirstLetter = true; this.crosswordAnswer[0][1].wordInOrder = 2
   
             this.crosswordAnswer[0][2].letter = "o"; this.crosswordAnswer[0][2].inHorizontal = true
             this.crosswordAnswer[0][3].letter = "w"; this.crosswordAnswer[0][3].inHorizontal = true
@@ -377,6 +403,13 @@
               this.inputDirection = "Horizontal" 
               arrowDiv.textContent = "\u2193";
             }
+          },
+
+          sendCrosswordPackage: function () {  
+            this.crosswordPackage.crosswordName = this.gameID
+            this.crosswordPackage.crossword = this.userCrossword
+            this.crosswordPackage.cellsAmount = this.cellsAmount
+            socket.emit("createdCrosswordPackage", this.crosswordPackage)
           },
   
           switchLanguage: function() {
