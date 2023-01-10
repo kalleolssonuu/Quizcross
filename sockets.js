@@ -32,11 +32,22 @@ function sockets(io, socket, data) {
     socket.emit('questionEdited', data.getAllQuestions(d.pollId));
   });
 
-  socket.on('joinPoll', function(pollId) {
+/*   socket.on('joinPoll', function(pollId) {
     socket.join(pollId);
     socket.emit('newQuestion', data.getQuestion(pollId))
     socket.emit('dataUpdate', data.getAnswers(pollId));
+  }); */
+
+
+  /* vår socket join */
+  socket.on('joinPoll', function(gameID) {
+    socket.join(gameID);
+    socket.emit('gameToBePlayed', data.getMatchingGame(gameID));
   });
+
+/*   socket.on('sendUpdatedUserCross', function(d) {
+    io.to(d.gameID).emit('newQuestion', d.crossword);
+  }) */
 
   socket.on('runQuestion', function(d) {
     io.to(d.pollId).emit('newQuestion', data.getQuestion(d.pollId, d.questionNumber));
@@ -60,18 +71,28 @@ function sockets(io, socket, data) {
       io.emit('currentCrosswordNames', data.getCrosswordNames() );
     });
 
+/*     socket.on('sentUserCrossword', function(d) {
+      data.addUserCrosswordPackage(d);
+      io.emit('currentCrosswordNames', data.getCrosswordNames() );
+    }); */
+
     socket.emit('currentCrosswordNames', data.getCrosswordNames() ); 
 
 
   // Nedan har ursprung: Klick på knappen play i lobbyview
-  socket.on('chosenGame', function(d) {    
+  socket.on('chosenGame', function(ID) {    
     console.log("I finsmatchinggame")
 
-    data.findMatchingGame(d)
-    io.emit('gameToBePlayed', data.getMatchingGame() ); //  visst ska denna också finnas? när en socket redan etablerats. tänker om man vill spela ett till spel typ
+    /* data.findMatchingGame(d) */
+    io.emit('gameToBePlayed', data.getMatchingGame(ID) ); //  visst ska denna också finnas? när en socket redan etablerats. tänker om man vill spela ett till spel typ
   });    
+
+
   
-  socket.emit('gameToBePlayed', data.getMatchingGame() ); 
+  socket.on('updatedUserCrossword', (d) => {
+    console.log("test socket.on('updatedUserCrossword'), d = " + d)
+    io.to(d.gameID).emit('sendUpdatedUserCross', d)
+  }) 
 
 }
 

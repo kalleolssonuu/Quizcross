@@ -6,9 +6,11 @@ const languages = ["en", "se"];
 function Data() {
   this.polls = {};
 
- this.crosswordPackages = {};
- this.crossword = null;  // JESSIE FRÅGA: diskutera varför måste va globala????       
- this.actualCrossword = null;
+  this.crosswordPackages = {};       
+  this.actualCrossword = null;
+
+ /*  this.userCrosswordPackages = {};
+ this.userCrossword = null; */
 
 }
 
@@ -96,14 +98,23 @@ Data.prototype.getAnswers = function(pollId) {
 Data.prototype.addPackage = function(d) {
  console.log("I addPckage")
 
- this.crossword = d;
- let crosswordID = this.crossword.crosswordName.replace(/\s/g, ''); 
+ let crossword = d;
+ let crosswordID = crossword.crosswordName.replace(/\s/g, ''); 
  
- this.crosswordPackages[crosswordID] = this.crossword; 
-
- console.log("crosswordpackages uppdaterat till:")
- console.log(this.crosswordPackages)
+ this.crosswordPackages[crosswordID] = crossword; 
 };
+
+/* Data.prototype.addUserCrosswordPackage = function(d) {
+  console.log("I addPckage")
+ 
+  this.crossword = d;
+  let crosswordID = this.userCrossword.crosswordName.replace(/\s/g, ''); 
+  
+  this.userCrosswordPackages[crosswordID] = this.crossword; 
+ 
+  console.log("crosswordpackages uppdaterat till:")
+  console.log(this.crosswordPackages)
+ }; */
 
 Data.prototype.getCrosswordNames = function () { 
   console.log("i data.getCrosswordNames")
@@ -134,12 +145,15 @@ Data.prototype.findMatchingGame = function(d) {
 
   this.actualCrossword = matchingCrossword[IDToMatch] /* skriver nyckeln --> får värdet */
   console.log(this.actualCrossword)
+
   };
 
-Data.prototype.getMatchingGame = function() {
-  console.log("matchingcrossword i getmatchingcrossword är:")
-  console.log(this.actualCrossword)
-  return(this.actualCrossword)
+Data.prototype.getMatchingGame = function(ID) {
+  let chosenID = ID;
+  let IDToMatch = chosenID.replace(/\s/g, '');
+  console.log("ID från getMatchingGame")
+  console.log("Paket från getMatchingGame: " + this.crosswordPackages[IDToMatch])
+  return(this.crosswordPackages[IDToMatch])
 };
 
 
