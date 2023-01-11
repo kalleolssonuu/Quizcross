@@ -13,40 +13,28 @@
 
     <div id="allGamesList">
       {{uiLabels.gameList}}
-      <div class="searchWrapper">        
-            <input v-on:keyup="searchGame" v-if="this.lang == 'en'" v-model="searchTerm" id="searchInput" placeholder="Search for a game...">
-            <input v-on:keyup="searchGame" v-else v-model="searchTerm" id="searchInput" placeholder="Sök efter ett spel...">
-      </div>
+
 
 
 
           <div class="scroll">
             <div id="listOfGames" v-for="(game, key) in shownGames" :key="key">              
-              <button id="selectGameButtonStyle" v-on:click=selectGame(game)>
+              <button id="selectGameButtonStyle" v-on:click="emitGameChoice(game)">
                 {{game}}
               </button>
             </div>
           </div>
 
-     
-        <div class="selectWrapper">
-            {{uiLabels.selectedGameLang}}  
-          <textarea readonly id="selectedGame"> </textarea> 
-        </div>
+        <div class="searchWrapper">        
+            <input v-on:keyup="searchGame" v-if="this.lang == 'en'" v-model="searchTerm" id="searchInput" placeholder="Search for a game...">
+            <input v-on:keyup="searchGame" v-else v-model="searchTerm" id="searchInput" placeholder="Sök efter ett spel...">
+      </div>
         
        
 
 
     </div>
 
-  </div>
-
-  
- <div>
-    <button class="standardButtonLobby" v-on:click="emitGameChoice()"> 
-      {{uiLabels.playPlay}}
-    </button>
-    
   </div>
 
   <!-- HA kvar servertest lite till!! --> <!-- lät som att den var ok att kommenterabort nu så hoppas det-->
@@ -124,9 +112,9 @@ export default{
   },
 
   methods: {
-    emitGameChoice: function() { 
-      this.$router.push('/playView/'+this.lang+'/'+ this.selectedGame)
-      console.log("I emitgamechoice, this.selectedGame: " + this.selectedGame)
+    emitGameChoice: function(game) { 
+      this.$router.push('/playView/'+this.lang+'/'+ game)
+      console.log("I emitgamechoice, this.selectedGame: " + game)
     },
    
     searchGame: function() {
@@ -202,7 +190,7 @@ textarea {
   overflow:hidden;
 }
 
-
+/* 
 #selectedGame{
   width: 15vw;
   height: 4vh;
@@ -216,26 +204,26 @@ textarea {
   border-color: white;
   background-color: #43918a;
   color: white;
-}
+} */
 
 /* #selectadGameText{  
   font-size: 1rem;
 } */
 
 #selectGameButtonStyle {
- background-color:#43918a;
+ background-color:#FE5F55;
  text-align: center;
  width: 90%;
  height: 10vh;
  cursor: pointer;
  border-width: 0ch;
  color:white;
- margin-left: 5%;
- margin-right: 5%;
- margin-top: 5%;
+ margin-left: 2vw;
+ margin-right: 2vw;
+ margin-top: 2vw;
  font-family: "Comic Sans MS", "Comic Sans";
- font-size: medium;
- border-radius: 0.25rem;
+ font-size: 1.5vw;
+ border-radius: 0.5vw;
 }
 #selectGameButtonStyle:hover{
     opacity: 75%;
