@@ -6,21 +6,21 @@
       </div>
 
       <div v-else-if="this.isOccupied" class="box letter occupied">
-          <div v-if="this.isFirstLetter" @click="testClick" class="clickable">
+          <div v-if="this.isFirstLetter" @click="sendOccupied" class="clickable">
             <span id="number"> {{ wordInOrder }} </span>
             {{ letter }}
           </div>
-          <div v-else class="occupied">
+          <div v-else @click="sendOccupied" class="occupied clickable">
             {{ letter }}
           </div>
       </div>
 
       <div v-else-if="this.isOccupied == false" class="box letter">
-          <div v-if="this.isFirstLetter" @click="testClick" class="clickable">
+          <div v-if="this.isFirstLetter" @click="sendOccupied" class="clickable">
             <span id="number"> {{ wordInOrder }} </span>
             {{ letter }}
           </div>
-          <div v-else>
+          <div v-else @click="sendOccupied" class="clickable">
             {{ letter }}
           </div>
       </div>
@@ -68,7 +68,7 @@
 
     },
     methods: {
-      testClick: function() { /* ÄNDRA SENARE SÅ ATT ENDAST PlayView ÄR TILLÅTET SOM sourceName */
+      sendOccupied: function() { /* ÄNDRA SENARE SÅ ATT ENDAST PlayView ÄR TILLÅTET SOM sourceName */
         this.$emit("PositionFromBox", {x: this.xkey, y: this.ykey})
         /* console.log("Event from WordBox? : " + {x: this.xkey, y: this.ykey}) */
       },
@@ -173,6 +173,8 @@
 .clickable {
   width: 100%;
   height: 100%;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
 }
 
