@@ -104,7 +104,7 @@
             }
 
             else {
-                alert("Namn redan taget, välj ett annat!")
+                alert(this.uiLabels.nameTaken)
             }           
             
         });

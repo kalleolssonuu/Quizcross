@@ -37,10 +37,12 @@
 	"QuitGame": "Avsluta",
 	"wordPlacement": "Välj ordets placering:",
 	"showDescription": "Mina beskrivningar",
+	"noMatches": "Inga matchningar, testa ett annat ord!",
 
 	"//PreCreateView": "Här är PreCreateViews översättningar",
 	"confirmAndCreate": "Skapa",
 	"chooseDimension": "Välj dimension",
+	"nameTaken": "Namn upptaget, välj ett annat!",
 
 	"//PlayView": "Här är ActualPlayviews översättningar",
 	"inputDirectionHorizontal": "Horisontell",
@@ -48,5 +50,6 @@
 	"horizontalWords": "Horisontella ord:",
 	"verticalWords": "Vertikala ord:",
 	"finishedGame": "Avsluta spel",
-	"selectedDirection": "Vald riktning"
+	"selectedDirection": "Vald riktning",
+	"youMadeIt": "Grattis, du löste korsordet!"
 }

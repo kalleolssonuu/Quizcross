@@ -337,7 +337,7 @@
           /* SKICKA USERCROSSWORD TILL SERVER */
 
           if (allMatchesCorrect) {
-            alert("Du har löst korsordet!")
+            alert(this.uiLabels.youMadeIt)
             /* skicka att korsordet har blivit löst?
             
                 vi vet att korsordet har blivit löst, antingen genom:
