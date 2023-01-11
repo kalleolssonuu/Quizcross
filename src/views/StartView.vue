@@ -2,7 +2,8 @@
 
   <header>
     <div>
-      <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName" v-on:switchLanguage="switchLanguage" >
+      <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName"
+        v-on:switchLanguage="switchLanguage">
         <button v-on:click="togglePopup"></button>
       </Modal>
     </div>
@@ -13,14 +14,9 @@
   </div>
 
   <div class="wrapper">
-    <button id="playAndCreateButton" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.createCross}}</button>
-    <button id="playAndCreateButton" @click="$router.push('/Lobby/'+lang)">{{uiLabels.playCross}}</button>
+    <button id="playAndCreateButton" @click="$router.push('/PreCreate/' + lang)">{{ uiLabels.createCross }}</button>
+    <button id="playAndCreateButton" @click="$router.push('/Lobby/' + lang)">{{ uiLabels.playCross }}</button>
   </div>
-
-  <!-- <audio ref="audioPlayer" src="01 Manboy.m4a"></audio>
-  <button @click="togglePlayback">
-    {{ playbackToggle ? 'Pause Music': 'Play Music' }}
-  </button> -->
 
 </template>
 
@@ -35,12 +31,12 @@ export default {
     Modal
   },
   props: {
-  modal: Object,
+    modal: Object,
   },
   data: function () {
     return {
       uiLabels: {},
-      
+
       lang: "en",
       showModal: false,
       sourceName: 'StartView',
@@ -55,7 +51,7 @@ export default {
     });
   },
   methods: {
-    switchLanguage: function() {  
+    switchLanguage: function () {
       if (this.lang === "en")
         this.lang = "sv"
       else
@@ -64,80 +60,53 @@ export default {
       socket.emit("switchLanguage", this.lang)
       this.$router.push(this.lang)
     },
-    /* FÖR ATT FÅ FRAM POP-UP RUTA*/
+
     togglePopup: function () {
-      this.showModal = ! this.showModal;
+      this.showModal = !this.showModal;
     },
 
-    togglePlayback() {
-      this.playbackToggle ? this.$refs.audioPlayer.pause() : this.$refs.audioPlayer.play();
-      this.playbackToggle = !this.playbackToggle;
-    }
   }
 }
 </script>
 
 <style scoped>
+#homepic {
+  background-color: #A7CAB1;
+  height: 100%;
+  width: 100%;
+}
 
-  #homepic {
-    background-color: #A7CAB1;
-    height: 100%;
-    width: 100%;
-  }
 
-
-  .logo img{
-    height:60vh;
-    width: 55vw;
-    vertical-align: bottom;
-  }
+.logo img {
+  height: 60vh;
+  width: 55vw;
+  vertical-align: bottom;
+}
 
 
 #playAndCreateButton {
 
-    height:15vh;
-    width: 25vw;
-    border-radius: 1.5rem;
-    border-color: #ba0c00;
-    margin: 5%;
-    font-size: 1.5rem;
-    color: white;
-    background-color: #FE5F55;
-    font-family: "Comic Sans MS", "Comic Sans";
-    cursor:pointer;
-    position: relative;
-    
-  }
+  height: 15vh;
+  width: 25vw;
+  border-radius: 1.5rem;
+  border-color: #ba0c00;
+  margin: 5%;
+  font-size: 1.5rem;
+  color: white;
+  background-color: #FE5F55;
+  font-family: "Comic Sans MS", "Comic Sans";
+  cursor: pointer;
+  position: relative;
 
-  #playAndCreateButton:hover{
-    background-color: #fb6d63;
-    
-  }
+}
 
-/* 
-@media screen and (max-width:50em) {
-  .logo {
-    font-size: 5vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .hamburger::before {
-    content: "☰";
-  }
-  .close::before {
-    content: "✕";
-  }
-  .hide {
-    left:-12em;
-  }
-} */
+#playAndCreateButton:hover {
+  background-color: #fb6d63;
 
-/* ska allt det ovan vara kvar? alltså det under media /elin */
+}
 
-
-.wrapper{
-    display: flex;
-    justify-content: center;
-  }
+.wrapper {
+  display: flex;
+  justify-content: center;
+}
 </style>

@@ -1,114 +1,53 @@
 function sockets(io, socket, data) {
   socket.emit('init', data.getUILabels());
-  
+
   socket.on('pageLoaded', function (lang) {
-    //console.log("pageLoaded parameter lang", lang);
     socket.emit('init', data.getUILabels(lang));
   });
 
-  socket.on('switchLanguage', function(lang) {
-    //console.log("Vilket språk från switchlanguage:", lang);
+  socket.on('switchLanguage', function (lang) {
     socket.emit('init', data.getUILabels(lang));
     socket.emit(lang);
   });
 
-  socket.on('createPoll', function(d) {
-    socket.emit('pollCreated', data.createPoll(d.pollId, d.lang));
-    // create poll skapar ett tomt poll och skickar ut lista med det pollet i sig
-    // dvs:  return this.polls[pollId];
-  });
-
-  socket.on('playCross', function(d) {
-    socket.emit('crossCreated', data.playCross(d.playId, d.lang));
-  });
-
-  socket.on('addQuestion', function(d) {
-    data.addQuestion(d.pollId, {q: d.q, a: d.a});
-    socket.emit('dataUpdate', data.getAnswers(d.pollId));
-  });
-
-  socket.on('editQuestion', function(d) {
-    data.editQuestion(d.pollId, d.index, {q: d.q, a: d.a});
-    socket.emit('questionEdited', data.getAllQuestions(d.pollId));
-  });
-
-/*   socket.on('joinPoll', function(pollId) {
-    socket.join(pollId);
-    socket.emit('newQuestion', data.getQuestion(pollId))
-    socket.emit('dataUpdate', data.getAnswers(pollId));
-  }); */
-
 
   /* vår socket join */
-  socket.on('joinPoll', function(gameID) {
+  socket.on('joinPoll', function (gameID) {
     socket.join(gameID);
     socket.emit('gameToBePlayed', data.getMatchingGame(gameID));
   });
 
-/*   socket.on('sendUpdatedUserCross', function(d) {
-    io.to(d.gameID).emit('newQuestion', d.crossword);
-  }) */
+  // Ursprung: försöker välja spelnamn i preCreate
+  socket.emit("nameChecked", data.getCheckedName())
 
-  socket.on('runQuestion', function(d) {
-    io.to(d.pollId).emit('newQuestion', data.getQuestion(d.pollId, d.questionNumber));
-    io.to(d.pollId).emit('dataUpdate', data.getAnswers(d.pollId));
-  });
-
-  socket.on('submitAnswer', function(d) {
-    data.submitAnswer(d.pollId, d.answer);
-    io.to(d.pollId).emit('dataUpdate', data.getAnswers(d.pollId));
-  });
-
-  socket.on('resetAll', () => {
-    data = new Data();
-    data.initializeData();
-  });
-
-
-
-    // koll av spelnamnval
-  socket.emit("nameChecked", data.getCheckedName() )
-
-  socket.on("nameToCheck", function(d) {  
+  socket.on("nameToCheck", function (d) {
     data.checkName(d)
-    
+
     io.to(socket.id).emit("nameChecked", data.getCheckedName()) //tydligen har varje connection ett socket.id? borde bli samma om man bara tar to(d)???
   });
 
-  
-  
-  
+
   // Nedan har ursprung: klick på knappen "confirmcreatecrossword" i createview
-  socket.on('createdCrosswordPackage', function(d) {
-      data.addPackage(d);
-      io.emit('currentCrosswordNames', data.getCrosswordNames() );
-    });
-
-/*     socket.on('sentUserCrossword', function(d) {             
-      data.addUserCrosswordPackage(d);
-      io.emit('currentCrosswordNames', data.getCrosswordNames() );
-    }); */
-
-    socket.emit('currentCrosswordNames', data.getCrosswordNames() );  
+  socket.on('createdCrosswordPackage', function (d) {
+    data.addPackage(d);
+    io.emit('currentCrosswordNames', data.getCrosswordNames());
+  });
+  socket.emit('currentCrosswordNames', data.getCrosswordNames());
 
 
   // Nedan har ursprung: Klick på knappen play i lobbyview
-  socket.on('chosenGame', function(ID) {    
-    console.log("I finsmatchinggame")
-
+  socket.on('chosenGame', function (ID) {
     /* data.findMatchingGame(d) */
-    io.emit('gameToBePlayed', data.getMatchingGame(ID) ); //  visst ska denna också finnas? när en socket redan etablerats. tänker om man vill spela ett till spel typ
-  });    
+    io.emit('gameToBePlayed', data.getMatchingGame(ID));
+  });
 
 
-  // vid multiplayer
+  // Ursprung: knapptryck eller val av bokstav i playview
   socket.on('updatedUserCrossword', (d) => {
-    console.log("test socket.on('updatedUserCrossword'), d = " + d)
     io.to(d.gameID).emit('sendUpdatedUserCross', d) // ändra d till d.crossword?
-  }) 
+  })
 
 
-  // 
 
 }
 

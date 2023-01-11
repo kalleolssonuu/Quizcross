@@ -1,43 +1,41 @@
 <template>
   <header>
-    <Modal 
-          v-bind:uiLabels="uiLabels" 
-          v-bind:lang="lang" 
-          v-bind:sourceName="sourceName" 
-          v-on:switchLanguage="switchLanguage" >
-          <button v-on:click="togglePopup"></button>
+    <Modal v-bind:uiLabels="uiLabels" v-bind:lang="lang" v-bind:sourceName="sourceName"
+      v-on:switchLanguage="switchLanguage">
+      <button v-on:click="togglePopup"></button>
     </Modal>
   </header>
 
   <div class="gameWrapper">
 
     <div id="allGamesList">
-      {{uiLabels.gameList}}
+      {{ uiLabels.gameList }}
 
 
 
 
-          <div class="scroll">
-            <div id="listOfGames" v-for="(game, key) in shownGames" :key="key">              
-              <button id="selectGameButtonStyle" v-on:click="emitGameChoice(game)">
-                {{game}}
-              </button>
-            </div>
-          </div>
-
-        <div class="searchWrapper">        
-            <input v-on:keyup="searchGame" v-if="this.lang == 'en'" v-model="searchTerm" id="searchInput" placeholder="Search for a game...">
-            <input v-on:keyup="searchGame" v-else v-model="searchTerm" id="searchInput" placeholder="Sök efter ett spel...">
+      <div class="scroll">
+        <div id="listOfGames" v-for="(game, key) in shownGames" :key="key">
+          <button id="selectGameButtonStyle" v-on:click="emitGameChoice(game)">
+            {{ game }}
+          </button>
+        </div>
       </div>
-        
+
+      <div class="searchWrapper">
+        <input v-on:keyup="searchGame" v-if="this.lang == 'en'" v-model="searchTerm" id="searchInput"
+          placeholder="Search for a game...">
+        <input v-on:keyup="searchGame" v-else v-model="searchTerm" id="searchInput" placeholder="Sök efter ett spel...">
+      </div>
+
 
     </div>
 
   </div>
-  <div id ="textCreate">
-    {{ uiLabels.createFromLobby }}  
-    </div>
-  <button class="createButtonLobby" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.create}}</button>
+  <div id="textCreate">
+    {{ uiLabels.createFromLobby }}
+  </div>
+  <button class="createButtonLobby" @click="$router.push('/PreCreate/' + lang)">{{ uiLabels.create }}</button>
 
 
 
@@ -45,98 +43,94 @@
 
 </template>
 
-<script> 
+<script>
 import Modal from '../components/PopUp.vue'
-import io from 'socket.io-client'; 
+import io from 'socket.io-client';
 const socket = io();
 import HomepageButton from '../components/HomepageComponent.vue'
 
-export default{
+export default {
   name: 'PlayView',
-  components:{
+  components: {
     Modal,
     HomepageButton
   },
-  
+
   props: {
     modal: Object
   },
 
-  created: 
-  function () {
-    this.lang = this.$route.params.lang; 
+  created:
+    function () {
+      this.lang = this.$route.params.lang;
 
-    socket.emit('pageLoaded')
+      socket.emit('pageLoaded')
 
-    socket.on("init", (labels) => {  //JESSIE FRÅGA: VAD GÖR DENNA
-      this.uiLabels = labels
-    });
+      socket.on("init", (labels) => {
+        this.uiLabels = labels
+      });
 
-    socket.on('currentCrosswordNames', data => { 
+      socket.on('currentCrosswordNames', data => {
         this.crosswordNames = data
         this.shownGames = JSON.parse(JSON.stringify(this.crosswordNames));
-        console.log(this.crosswordNames)
-    }); 
+
+      });
 
 
 
 
-  },  
+    },
 
-  data: function() {
-    return{
-      crosswordNames: null, 
+  data: function () {
+    return {
+      crosswordNames: null,
 
-      gameID: "", 
+      gameID: "",
       lang: "",
 
       gameName: "",
 
-      shownGames:[],
+      shownGames: [],
 
-      allGames: ["server test", "Hugos spel","Elins spel","Kung Charles spel","Emils spel", "Hugos spel","Elins spel","Kung Charles spel","Emils spel"],
 
       searchTerm: "",
 
 
       selectedGame: "",
       uiLabels: {},
-     
+
       showModal: false,
       sourceName: "LobbyView"
     }
   },
 
   methods: {
-    emitGameChoice: function(game) { 
-      this.$router.push('/playView/'+this.lang+'/'+ game)
-      console.log("I emitgamechoice, this.selectedGame: " + game)
+    emitGameChoice: function (game) {
+      this.$router.push('/playView/' + this.lang + '/' + game)
     },
-   
-    searchGame: function() {
+
+    searchGame: function () {
       this.shownGames = this.crosswordNames.filter(item => item.toLowerCase().includes(this.searchTerm.toLowerCase()));
 
-      console.log("sökta spel " + this.shownGames)
     },
 
-    selectGame: function (game){ 
-    document.getElementById("selectedGame").value=game;
-    this.selectedGame = game;
-   /*  document.getElementById("selectedid").value=games.id */
-  },
-
-  switchLanguage: function() {
-    if (this.lang === "en")
-      this.lang = "sv"
-    else
-      this.lang = "en"
-
-    socket.emit("switchLanguage", this.lang)
-    this.$router.push(this.lang)
+    selectGame: function (game) {
+      document.getElementById("selectedGame").value = game;
+      this.selectedGame = game;
     },
 
-  togglePopup: function () {
-      this.showModal = ! this.showModal;
+    switchLanguage: function () {
+      if (this.lang === "en")
+        this.lang = "sv"
+      else
+        this.lang = "en"
+
+      socket.emit("switchLanguage", this.lang)
+      this.$router.push(this.lang)
+    },
+
+    togglePopup: function () {
+      this.showModal = !this.showModal;
     }
   }
 }
@@ -144,14 +138,12 @@ export default{
 </script>
 
 <style>
+.gameWrapper {
 
-.gameWrapper{
-  /* display: flex;
-  justify-content: center; */
-  float:left;
+  float: left;
   width: 50vw;
   margin-left: 25vw;
-  
+
 }
 
 #allGamesList {
@@ -163,54 +155,50 @@ export default{
   color: white;
   background-color: #43918a;
   font-family: "Comic Sans MS", "Comic Sans";
-  font-size:2.5vw;
+  font-size: 2.5vw;
   position: relative;
 }
+
 div.scroll {
-  margin:1vw;
+  margin: 1vw;
   background-color: #ffffff;
   height: 50vh;
   overflow-x: hidden;
   overflow-y: auto;
-  text-align:justify;
-  color:black;
+  text-align: justify;
+  color: black;
   border-radius: 0.2vw;
-          }
+}
 
 
-.gameWrapper{
+.gameWrapper {
   display: flex;
   justify-content: center;
-  
-}
 
-textarea {
-  resize: none;
-  overflow:hidden;
 }
-
 
 #selectGameButtonStyle {
- background-color:#43918a;
- text-align: center;
- width: 90%;
- height: 10vh;
- cursor: pointer;
- border-width: 0ch;
- color:white;
- margin-left: 2vw;
- margin-right: 2vw;
- margin-top: 2vw;
- font-family: "Comic Sans MS", "Comic Sans";
- font-size: 1.5vw;
- border-radius: 0.5vw;
+  background-color: #43918a;
+  text-align: center;
+  width: 90%;
+  height: 10vh;
+  cursor: pointer;
+  border-width: 0ch;
+  color: white;
+  margin-left: 2vw;
+  margin-right: 2vw;
+  margin-top: 2vw;
+  font-family: "Comic Sans MS", "Comic Sans";
+  font-size: 1.5vw;
+  border-radius: 0.5vw;
 }
-#selectGameButtonStyle:hover{
-    opacity: 75%;
-    
-  }
 
-#searchInput{
+#selectGameButtonStyle:hover {
+  opacity: 75%;
+
+}
+
+#searchInput {
   width: 90%;
   height: 4vh;
   border-radius: 0.5rem;
@@ -224,20 +212,21 @@ textarea {
 }
 
 
-.createButtonLobby{
+.createButtonLobby {
   width: 10vw;
-    height: 5vw;
-    border-radius: 1.5vw;
-    border-color: #ba0c00;
-    color: white;
-    background-color: #FE5F55;
-    font-family: "Comic Sans MS", "Comic Sans";
-    font-size: 1.5vw;
-    cursor:pointer;
-    margin-top: 1vw;
-    margin-right:8vw;
+  height: 5vw;
+  border-radius: 1.5vw;
+  border-color: #ba0c00;
+  color: white;
+  background-color: #FE5F55;
+  font-family: "Comic Sans MS", "Comic Sans";
+  font-size: 1.5vw;
+  cursor: pointer;
+  margin-top: 1vw;
+  margin-right: 8vw;
 }
-.createButtonLobby:hover{
+
+.createButtonLobby:hover {
   opacity: 0.80;
 }
 
@@ -250,36 +239,36 @@ textarea {
 
 
 .scroll::-webkit-scrollbar {
-    width: 12px;
+  width: 12px;
 }
- 
+
 .scroll::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
-    border-radius: 2px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 2px;
 }
- 
+
 .scroll::-webkit-scrollbar-thumb {
-    border-radius: 2px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
-    background: #43918a;
+  border-radius: 2px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+  background: #43918a;
 }
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-.searchWrapper{
-    display: flex;
-    justify-content: center;
-    margin: 1.75vw;
-  }
-#textCreate{
-  font-size: 1.5vw;
-  margin-right:8vw;
-  margin-top:15vw;
-
+.searchWrapper {
+  display: flex;
+  justify-content: center;
+  margin: 1.75vw;
 }
 
+#textCreate {
+  font-size: 1.5vw;
+  margin-right: 8vw;
+  margin-top: 15vw;
 
+}
 </style>
