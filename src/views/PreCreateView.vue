@@ -9,6 +9,7 @@
         
           
             <div class="plusMinusWrapper">    
+                <h2 id="xy" style="font-size: 1.5vw;"> {{ uiLabels.chooseDimension }}</h2><br><br>
                 <h2 id="xy"> {{ this.cellsAmount }} x  {{ this.cellsAmount }}</h2> 
                 <button id="minusButton" v-on:click=decrease >
                 -
@@ -31,10 +32,9 @@
                         <input v-else type="text" v-model="gameID" id="gameName" name="gameName" placeholder=" Namnge korsordet...">
                    <!--  </form>  -->
                 
-                    <button class="standardButtonPreCreate" id="confirmAndCreate" v-on:click="checkIfNameExist">
-                    {{uiLabels.confirmAndCreate}}
-                    </button> 
-            </div>
+                    <button v-if=" this.gameID ==''" class="standardButtonPreCreate disabled" disabled id="confirmAndCreate">{{uiLabels.confirmAndCreate}}</button> 
+                    <button v-else class="standardButtonPreCreate" id="confirmAndCreate" v-on:click="checkIfNameExist">{{uiLabels.confirmAndCreate}}</button>
+                                </div>
              </div> 
             <HomepageButton v-bind:uiLabels="uiLabels" v-bind:lang="lang"></HomepageButton>
 </template>
@@ -64,7 +64,7 @@
                          },
     showModal: false,
     uiLabels: {},
-    
+    enableCreateButton: false,
     gameID: "",   
     lang: "",
     sourceName: "PreCreate",
@@ -86,7 +86,14 @@
     },
 
     methods: {
-        checkIfNameExist: function() {
+
+        unlockButton: function() { 
+            if (this.gameID != null) {
+            this.enableCreateButton = true
+        }
+    },
+
+    checkIfNameExist: function() {
             socket.emit('nameToCheck', this.gameID)
 
             socket.on("nameChecked", (bool) => {
@@ -103,6 +110,7 @@
         });
         
         },
+       
 
         increase: function() {
             if (this.cellsAmount <= 18) {
@@ -215,17 +223,23 @@
     float: left;
     justify-content: center;
     margin-top: 10vw;
-
-
+    border-style: solid;
+    background-color: #93b39c;
+    border-color: #43918a;
+    height: 30vh;
+    width: 20vw;
+    margin-left: 2.5vw;
+    margin-right: 2.5vw;
+    border-radius: 2vw;
   }
 
     #xy {
-        width: 25vw;
+        width: 20vw;
         justify-content: center;
-
- 
+        position: absolute;
+        margin-top: 2vw;
     }
-
+    
     #minusButton{
         height: 3vw;
         width: 3vw;
@@ -236,8 +250,8 @@
         font-family: "Comic Sans MS", "Comic Sans";
         border-top-left-radius: 1rem;
         border-bottom-left-radius: 1rem;
- 
         cursor: pointer;
+        margin-top: 6vw;
     }
     #plusButton {
         height: 3vw;
@@ -264,5 +278,10 @@
     margin: 0;
 }
 
+.standardButtonPreCreate.disabled {
+    opacity: 30%;
+    cursor: default;
+    background-color: #ba0c00;
+  }
    
 </style>

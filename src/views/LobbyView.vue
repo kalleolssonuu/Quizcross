@@ -13,49 +13,33 @@
 
     <div id="allGamesList">
       {{uiLabels.gameList}}
-      <div class="searchWrapper">        
-            <input v-on:keyup="searchGame" v-if="this.lang == 'en'" v-model="searchTerm" id="searchInput" placeholder="Search for a game...">
-            <input v-on:keyup="searchGame" v-else v-model="searchTerm" id="searchInput" placeholder="Sök efter ett spel...">
-      </div>
+
 
 
 
           <div class="scroll">
             <div id="listOfGames" v-for="(game, key) in shownGames" :key="key">              
-              <button id="selectGameButtonStyle" v-on:click=selectGame(game)>
+              <button id="selectGameButtonStyle" v-on:click="emitGameChoice(game)">
                 {{game}}
               </button>
             </div>
           </div>
 
-     
-        <div class="selectWrapper">
-            {{uiLabels.selectedGameLang}}  
-          <textarea readonly id="selectedGame"> </textarea> 
-        </div>
+        <div class="searchWrapper">        
+            <input v-on:keyup="searchGame" v-if="this.lang == 'en'" v-model="searchTerm" id="searchInput" placeholder="Search for a game...">
+            <input v-on:keyup="searchGame" v-else v-model="searchTerm" id="searchInput" placeholder="Sök efter ett spel...">
+      </div>
         
-       
-
 
     </div>
 
   </div>
+  <div id ="textCreate">
+    {{ uiLabels.createFromLobby }}  
+    </div>
+  <button class="createButtonLobby" @click="$router.push('/PreCreate/'+lang)">{{uiLabels.create}}</button>
 
-  
- <div>
-    <button class="standardButtonLobby" v-on:click="emitGameChoice()"> 
-      {{uiLabels.playPlay}}
-    </button>
-    
-  </div>
 
-  <!-- HA kvar servertest lite till!! --> <!-- lät som att den var ok att kommenterabort nu så hoppas det-->
-  <!-- <div>  
-    {{"servertest :"}}
-    <ul v-if="this.crosswordNames" >
-      {{this.crosswordNames}}   
-    </ul>
-  </div>  -->
 
   <HomepageButton v-bind:uiLabels="uiLabels" v-bind:lang="lang"></HomepageButton>
 
@@ -124,9 +108,9 @@ export default{
   },
 
   methods: {
-    emitGameChoice: function() { 
-      this.$router.push('/playView/'+this.lang+'/'+ this.selectedGame)
-      console.log("I emitgamechoice, this.selectedGame: " + this.selectedGame)
+    emitGameChoice: function(game) { 
+      this.$router.push('/playView/'+this.lang+'/'+ game)
+      console.log("I emitgamechoice, this.selectedGame: " + game)
     },
    
     searchGame: function() {
@@ -162,32 +146,35 @@ export default{
 <style>
 
 .gameWrapper{
-  display: flex;
-  justify-content: center;
+  /* display: flex;
+  justify-content: center; */
+  float:left;
+  width: 50vw;
+  margin-left: 25vw;
   
 }
 
 #allGamesList {
   width: 35vw;
   height: 70vh;
-  border-radius: 0.5rem;
+  border-radius: 0.5vw;
   border-color: #a6d8d4;
-  margin: 2%;
+  margin: 2vw;
   color: white;
   background-color: #43918a;
   font-family: "Comic Sans MS", "Comic Sans";
-  font-size: 1.5vw;
+  font-size:2.5vw;
   position: relative;
 }
 div.scroll {
-  margin:1%;
+  margin:1vw;
   background-color: #ffffff;
-  width: 80vv;
   height: 50vh;
   overflow-x: hidden;
   overflow-y: auto;
   text-align:justify;
   color:black;
+  border-radius: 0.2vw;
           }
 
 
@@ -203,25 +190,6 @@ textarea {
 }
 
 
-#selectedGame{
-  width: 15vw;
-  height: 4vh;
-  margin:1%;
-  border-radius: 0.5rem;
-  text-align: center;
-  vertical-align: middle;
-
-  font-family: "Comic Sans MS", "Comic Sans";
-  font-size: 1.5vw;
-  border-color: white;
-  background-color: #43918a;
-  color: white;
-}
-
-/* #selectadGameText{  
-  font-size: 1rem;
-} */
-
 #selectGameButtonStyle {
  background-color:#43918a;
  text-align: center;
@@ -230,12 +198,12 @@ textarea {
  cursor: pointer;
  border-width: 0ch;
  color:white;
- margin-left: 5%;
- margin-right: 5%;
- margin-top: 5%;
+ margin-left: 2vw;
+ margin-right: 2vw;
+ margin-top: 2vw;
  font-family: "Comic Sans MS", "Comic Sans";
- font-size: medium;
- border-radius: 0.25rem;
+ font-size: 1.5vw;
+ border-radius: 0.5vw;
 }
 #selectGameButtonStyle:hover{
     opacity: 75%;
@@ -250,25 +218,26 @@ textarea {
   vertical-align: middle;
   position: relative;
   font-family: "Comic Sans MS", "Comic Sans";
-  font-size: 1rem;
+  font-size: 1vw;
   color: #43918a;
   border-color: #2d635f;
 }
 
 
-.standardButtonLobby{
-  width: 15vw;
-    height: 10vh;
-    border-radius: 15px;
+.createButtonLobby{
+  width: 10vw;
+    height: 5vw;
+    border-radius: 1.5vw;
     border-color: #ba0c00;
     color: white;
     background-color: #FE5F55;
     font-family: "Comic Sans MS", "Comic Sans";
-    font-size: 2vw;
+    font-size: 1.5vw;
     cursor:pointer;
-    position: relative;
+    margin-top: 1vw;
+    margin-right:8vw;
 }
-.standardButtonLobby:hover{
+.createButtonLobby:hover{
   opacity: 0.80;
 }
 
@@ -303,13 +272,14 @@ input::-webkit-inner-spin-button {
 .searchWrapper{
     display: flex;
     justify-content: center;
-    margin: 1%;
+    margin: 1.75vw;
   }
-.selectWrapper{
-  display: flex;
-  justify-content: center;
-  font-size: 2vw;
+#textCreate{
+  font-size: 1.5vw;
+  margin-right:8vw;
+  margin-top:15vw;
 
 }
+
 
 </style>
