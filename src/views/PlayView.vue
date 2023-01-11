@@ -14,7 +14,6 @@
       {{ inputDirection }} <div id="arrow"></div>
     </button>
 
-    <!-- Ha kvar servertest lite till -->
     <div>
   </div>
     
@@ -138,7 +137,7 @@
           this.uiLabels = labels
         })
 
-        this.gameID = this.$route.params.gameID;
+        this.gameID = this.$route.params.gameID; // görs 2 gånger nu?
         console.log("gameID: " + this.gameID)
 
         socket.on("dataUpdate", (data) =>
@@ -170,7 +169,7 @@
         socket.on('sendUpdatedUserCross', (d) => {
           console.log("test socket.on('userCrosswordToAll'), d = " + d)
           console.log("d.gameID: " + d.gameID + ", this.gameID: " + this.gameID)
-          if (d.gameID == this.gameID) {
+          if (d.gameID == this.gameID) {                      // denna behövs väl ej???? iom io.to? kolla min kommentar i sockets
             console.log("inside socket.on if statement")
             this.userCrossword = d.crossword
           }
@@ -332,7 +331,7 @@
           /* SKICKA USERCROSSWORD TILL SERVER */
 
           if (allMatchesCorrect) {
-            alert("du har löst korsordet")
+            alert("Du har löst korsordet!")
             /* skicka att korsordet har blivit löst?
             
                 vi vet att korsordet har blivit löst, antingen genom:

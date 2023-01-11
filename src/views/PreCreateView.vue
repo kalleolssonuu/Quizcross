@@ -30,9 +30,8 @@
                         <input v-if="this.lang == 'en'" type="text" v-model="gameID" id="gameName" name="gameName" placeholder="  Enter game name..."> 
                         <input v-else type="text" v-model="gameID" id="gameName" name="gameName" placeholder=" Namnge korsordet...">
                    <!--  </form>  -->
-                    <!-- JESSIE FRÅGA: GLÖM EJ måste fixa så ej kan skriva ett namn som redan finns!!!!! -->
                 
-                    <button class="standardButtonPreCreate" id="confirmAndCreate" @click="$router.push('/CreateView/'+lang+'/'+gameID+'/'+ JSON.stringify(cellsAmount))">
+                    <button class="standardButtonPreCreate" id="confirmAndCreate" v-on:click="checkIfNameExist">
                     {{uiLabels.confirmAndCreate}}
                     </button> 
             </div>
@@ -68,7 +67,8 @@
     
     gameID: "",   
     lang: "",
-    sourceName: "PreCreate"
+    sourceName: "PreCreate",
+    nameTaken: null,
     }
     },
     created: function(){
@@ -77,12 +77,33 @@
         socket.emit('pageLoaded', this.lang)
         socket.on("init", (labels) => {
             this.uiLabels = labels
-        })
+              
+        });
+
+
         this.fillPositionsNull();
         console.log(this.crossword.actual.posList)
     },
 
     methods: {
+        checkIfNameExist: function() {
+            socket.emit('nameToCheck', this.gameID)
+
+            socket.on("nameChecked", (bool) => {
+            this.nameTaken = bool
+
+            if (this.nameTaken===false) {        
+                 this.$router.push('/CreateView/'+this.lang+'/'+this.gameID+'/'+ JSON.stringify(this.cellsAmount))       
+            }
+
+            else {
+                alert("Namn redan taget, välj ett annat!")
+            }           
+            
+        });
+        
+        },
+
         increase: function() {
             if (this.cellsAmount <= 18) {
                 this.cellsAmount ++

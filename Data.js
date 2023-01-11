@@ -8,6 +8,8 @@ function Data() {
 
   this.crosswordPackages = {};       
   this.actualCrossword = null;
+  this.nameTaken = false;
+  
 
  /*  this.userCrosswordPackages = {};
  this.userCrossword = null; */
@@ -94,6 +96,31 @@ Data.prototype.getAnswers = function(pollId) {
   return {}
 };
 
+// Ursprung: precreate bekräfta namnval
+Data.prototype.checkName = function(d) {
+  //console.log("I checkName")
+
+  let name = d;
+  let nameToCheck = name.replace(/\s/g, '');
+
+  if (this.crosswordPackages[nameToCheck] === undefined) {
+    return this.nameTaken = false
+  }
+    else {
+      return this.nameTaken = true
+    }
+
+};
+
+Data.prototype.getCheckedName= function() {
+  console.log("this.nametaken som skickas till client är:")
+  console.log(this.nameTaken)
+  return this.nameTaken
+};
+
+
+
+
 // Nedan har ursprung: klick confirmcreatecrossword i creataeview
 Data.prototype.addPackage = function(d) {
  console.log("I addPckage")
@@ -128,7 +155,7 @@ Data.prototype.getCrosswordNames = function () {
   return crosswordNames
 };
 
-//Nedan har ursprung: klick play i lobbyview
+//Nedan har ursprung: klick play i lobbyview       
 Data.prototype.findMatchingGame = function(d) {
   console.log("I findMatchingGame")
   
@@ -148,13 +175,13 @@ Data.prototype.findMatchingGame = function(d) {
 
   };
 
-Data.prototype.getMatchingGame = function(ID) {
-  let chosenID = ID;
-  let IDToMatch = chosenID.replace(/\s/g, '');
-  console.log("ID från getMatchingGame")
-  console.log("Paket från getMatchingGame: " + this.crosswordPackages[IDToMatch])
-  return(this.crosswordPackages[IDToMatch])
-};
+// Data.prototype.getMatchingGame = function(ID) {
+//   let chosenID = ID;
+//   let IDToMatch = chosenID.replace(/\s/g, '');
+//   console.log("ID från getMatchingGame")
+//   console.log("Paket från getMatchingGame: " + this.crosswordPackages[IDToMatch])
+//   return(this.crosswordPackages[IDToMatch])
+// };
 
 
 module.exports = Data;

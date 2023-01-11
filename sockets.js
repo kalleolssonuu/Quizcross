@@ -63,6 +63,19 @@ function sockets(io, socket, data) {
     data = new Data();
     data.initializeData();
   });
+
+
+
+    // koll av spelnamnval
+  socket.emit("nameChecked", data.getCheckedName() )
+
+  socket.on("nameToCheck", function(d) {  
+    data.checkName(d)
+    
+    io.to(socket.id).emit("nameChecked", data.getCheckedName()) //tydligen har varje connection ett socket.id? borde bli samma om man bara tar to(d)???
+  });
+
+  
   
   
   // Nedan har ursprung: klick på knappen "confirmcreatecrossword" i createview
@@ -71,12 +84,12 @@ function sockets(io, socket, data) {
       io.emit('currentCrosswordNames', data.getCrosswordNames() );
     });
 
-/*     socket.on('sentUserCrossword', function(d) {
+/*     socket.on('sentUserCrossword', function(d) {             
       data.addUserCrosswordPackage(d);
       io.emit('currentCrosswordNames', data.getCrosswordNames() );
     }); */
 
-    socket.emit('currentCrosswordNames', data.getCrosswordNames() ); 
+    socket.emit('currentCrosswordNames', data.getCrosswordNames() );  
 
 
   // Nedan har ursprung: Klick på knappen play i lobbyview
@@ -88,11 +101,14 @@ function sockets(io, socket, data) {
   });    
 
 
-  
+  // vid multiplayer
   socket.on('updatedUserCrossword', (d) => {
     console.log("test socket.on('updatedUserCrossword'), d = " + d)
-    io.to(d.gameID).emit('sendUpdatedUserCross', d)
+    io.to(d.gameID).emit('sendUpdatedUserCross', d) // ändra d till d.crossword?
   }) 
+
+
+  // 
 
 }
 
