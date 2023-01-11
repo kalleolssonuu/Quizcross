@@ -17,10 +17,9 @@
 	"//PopUp": "Här är PopUps översättningar",
 	"whatIsQC": "Tryck på 'Skapa' för att skapa ett nytt korsord!\nTryck på 'Spela' för att välja ett korsord att spela",
 	"pageDescriptionLobbyView": "Välj ett befintligt korsord genom att klicka på det i tabellen 'Alla korsord'.\n Tryck på 'Skapa' om du vill skapa ett nytt korsord.",
-	"pageDescriptionCreateView":"Fyll i ord med motsvarande beskrivning och lägg till i korsordet. Använd knapparna 'Nästa' och 'Senaste' för att bestämma ordets plats i korsordet.",
-	"pageDescriptionPreCreateView": "Använd '+' och '-' knapparna för att välja den önskade storleken på ditt korsord",
-	"pageDescriptionPlayView": "Klicka på en av rutorna med en siffra på för att skriva in din gissning. Byt riktning (horisontellt eller vertikalt) du skriver på genom att klicka på knappen ovanför korsodet, eller klicka högerpilen för att riktningen ska bli horisontell och nedåtpilen för att riktningen ska bli vertikal",
-	
+	"pageDescriptionCreateView":"Fyll i ord med motsvarande beskrivning och lägg till i korsordet. Använd knapparna 'Nästa' och 'Senaste' för att bestämma ordets plats i korsordet. Vill du börja om, klicka på 'Återställ korsord'. Känner du dig klar med korsordet klickar du på 'Skapa och spela' för att spara korsordet.",
+	"pageDescriptionPreCreateView": "Använd '+' och '-' knapparna för att välja den önskade storleken på ditt korsord. Skriv sedan in namnet på ditt korsord och börja skapandet!",
+	"pageDescriptionPlayView": "Klicka på en av rutorna för att skriva in din gissning. Byt riktning (horisontellt eller vertikalt) du skriver på genom att klicka på en av knapparna ovanför korsodet.",
 	"//HomepageComponent": "Här är komponenten för hemknappens översättning",
 	"HomepageButton": "Startsidan",
 

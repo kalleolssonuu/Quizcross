@@ -19,9 +19,9 @@
 	"//PopUp": "Här är PopUps översättningar",
 	"whatIsQC": "Press 'Create' to create a new crossword. Press 'Play' to choose a crossword to play",
 	"pageDescriptionLobbyView": "Choose a crossword to solve by clicking on it under the table 'All crosswords'. \n Press 'Create' to create a new crossword.",
-	"pageDescriptionCreateView":"Enter a word and a description and add the word to the crossword. Use the 'Next' and 'Previous' buttons to place the word where you want it.",
-	"pageDescriptionPreCreateView": "Use the '+' and '-' buttons to choose the desired size of your crossword",
-	"pageDescriptionPlayView": "Click on one of the boxes with a number on it to start typing your guess. Change the direction (horizontal or vertical) you want to write by clicking the button above the crossword, or click the right arrow to make the direction horizontal and the arrow down to make the direction vertical",
+	"pageDescriptionCreateView":"Enter a word and a description and add the word to the crossword. Use the 'Next' and 'Previous' buttons to place the word where you want it. If you want to start over, click 'Reset crossword'. If you are done click 'Create and play' to save the crossword",
+	"pageDescriptionPreCreateView": "Use the '+' and '-' buttons to choose the desired size of your crossword. Choose the name of the crossword and start creating!",
+	"pageDescriptionPlayView": "Click on one of the boxes to start typing your guess. Change the direction (horizontal or vertical) you want to write by clicking on of the the buttons above the crossword.",
 
 	"//HomepageComponent": "Här är komponenten för hemknappens översättning",
 	"HomepageButton": "Home page",
