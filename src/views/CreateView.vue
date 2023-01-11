@@ -66,12 +66,10 @@
                       v-bind:cellsAmount="this.cellsAmount">
           </Crossword>
       </div>
-  
+      
           
           <div id="div5">
-            <button class="standardButton" v-on:click="this.confirmCreateCrossword" @click="$router.push('/Lobby/'+lang)"> <!-- JESSIE ÄNDRA SKICKA MED ID?????? -->
-            {{uiLabels.createCrossword}}   
-            </button>
+            <button class="standardButton disabled" v-on:click="this.confirmCreateCrossword" @click="$router.push('/Lobby/'+lang)">{{uiLabels.createCrossword}}</button>
             <br>
 
             <!--<button v-on:click="this.emptyTextFields"> Empty Input </button> ---><!-- gör detta när användaren har valt ett ord istället för en knapp. Det rensar även textfältet -->
