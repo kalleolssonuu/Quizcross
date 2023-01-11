@@ -77,7 +77,7 @@
 
 
   <div id="div5">
-    <button v-if="!this.enableCreateButton" class="standardButton disabled" v-on:click="this.confirmCreateCrossword"
+    <button v-if="!this.enableCreateButton" class="standardButton disabled" disabled v-on:click="this.confirmCreateCrossword"
       @click="$router.push('/Lobby/' + lang)">{{ uiLabels.createCrossword }}</button>
     <button v-else class="standardButton" v-on:click="this.confirmCreateCrossword"
       @click="$router.push('/Lobby/' + lang)">{{ uiLabels.createCrossword }}</button>
