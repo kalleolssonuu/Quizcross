@@ -7,18 +7,25 @@
     </div>
   </header> 
     
-  
-    <div id="div2">
-      Change input direction: <br><!-- uiLabels + layout-fix -->
-    <button v-on:click="changeDirection">
-      {{ inputDirection }} <div id="arrow"></div>
+    <div class="direction">
+      <br>
+      {{ uiLabels.selectedDirection }} <br><!-- uiLabels + layout-fix -->
+    <button v-if="this.inputDirection =='Horizontal'" v-on:click="changeDirectionToH">
+      {{ uiLabels.inputDirectionHorizontal }}
     </button>
-
+    <button v-else style="opacity: 50%" v-on:click="changeDirectionToH">
+      {{ uiLabels.inputDirectionHorizontal }}
+    </button>
+    <button v-if="this.inputDirection =='Vertical'" v-on:click="changeDirectionToV">
+      {{ uiLabels.inputDirectionVertical }}
+    </button>
+    <button v-else style="opacity: 50%" v-on:click="changeDirectionToV">
+      {{ uiLabels.inputDirectionVertical }}
+    </button>
+    </div>
     <!-- Ha kvar servertest lite till -->
-    <div>
-  </div>
     
-
+    <div id="div2">
           <Crossword  v-on:sendPosition="this.storePosition($event)"
                       v-on:updateLayout="this.updateLayout($event)"
           
@@ -28,8 +35,11 @@
           </Crossword>
     </div>
   
-    <div class ="wordDescriptionWrapper"> 
+    <div class ="wordDescriptionWrapper">  
         
+      <div>
+        <button id="finishedGame" @click="$router.push('/lobby/'+lang)">{{uiLabels.finishedGame}}</button>
+      </div> 
       <div id="horizontalDescriptions">
 
           <div id="wordDescTop">{{uiLabels.horizontalWords}}</div>
@@ -64,13 +74,9 @@
           </ul>
         </div>
       </div>
+     
 
-  </div>
-
-
-      <div>
-        <button id="finishedGame" @click="$router.push('/lobby/'+lang)">{{uiLabels.finishedGame}}</button>
-      </div>   
+    </div> 
     
   </template>
 
@@ -82,7 +88,6 @@
     import io from 'socket.io-client';
     
     const socket = io();
-    let arrowDiv = document.getElementById("arrow");
   
   export default {
       name: 'PlayView',
@@ -408,13 +413,15 @@
             return this.receivedCross.wordDesc.sort((a, b) => a.wordInOrder - b.wordInOrder)
           },
 
-          changeDirection: function() {
+          changeDirectionToV: function() {
             if (this.inputDirection === "Horizontal") {
               this.inputDirection = "Vertical"
-              arrowDiv.textContent = "\u2192";
-            } else {
-              this.inputDirection = "Horizontal" 
-              arrowDiv.textContent = "\u2193";
+            }
+          },
+
+          changeDirectionToH: function() {
+            if (this.inputDirection === "Vertical") {
+              this.inputDirection = "Horizontal"
             }
           },
 
@@ -450,6 +457,7 @@
     float:left;
     width: 50%;
     margin: 5%;
+    margin-top: 15vw;
   }
   
   .wordDescriptionWrapper{
@@ -460,7 +468,6 @@
     height: 100vh;
     width: 22vw;
     margin-right: 6vw;
-    margin-top: 12vh;
   }
   
   #horizontalDescriptions{
@@ -473,7 +480,7 @@
     color: white;
     background-color:#43918a;
     font-family: "Comic Sans MS", "Comic Sans";
-    font-size: 20px;
+    font-size: 2vw;
     position: relative;
     float:left;
     margin-bottom: 2rem;
@@ -488,7 +495,7 @@
     color: white;
     background-color:#43918a;
     font-family: "Comic Sans MS", "Comic Sans";
-    font-size: 20px;
+    font-size: 2vw;
     position: relative;
     float:left;
   }
@@ -502,7 +509,7 @@
     color: #43918a;
     background-color: white;
     font-family: "Comic Sans MS", "Comic Sans";
-    font-size: 1.5rem;
+    font-size: 2.2vw;
     position: relative;
     float:left;
     margin:0.4vw;
@@ -528,8 +535,6 @@
   #finishedGame{
     width: 10vw;
     height: 3vw;
-    position: absolute;
-    left: 45%;
     background-color: #FE5F55;
     border-radius: 5px;
     color: white;
@@ -537,11 +542,14 @@
   }
   
   button {
-      width: 10vw;
-      height: 8vh;
-      border-radius: 15px;
+      width: 7.5vw;
+      height: 5vh;
+      border-radius: 1vw;
       border-color: #ba0c00;
-      margin: 1.5vw;
+      margin-top: 2.5vw;
+      margin-left: 0.8vw;
+      margin-right: 0.8vw;
+      margin-bottom: 3vw;
       color: white;
       background-color: #FE5F55;
       font-family: "Comic Sans MS", "Comic Sans";
@@ -551,10 +559,10 @@
     }
 
     div.playScroll {
-      margin:1%;
       overflow-x: hidden;
       overflow-y: auto;
       text-align:justify;
+      font-size: 1.5vw;
               }
   
     .playScroll::-webkit-scrollbar {
@@ -571,5 +579,19 @@
       background: #43918a;
       border-bottom-right-radius: 0.5vw;
       border-bottom-left-radius: 0.5vw;
+    }
+
+    .direction {
+      width: 20vw;
+      height: 10vw;
+      position: absolute;
+      border-style: solid;
+      background-color: #93b39c;
+      border-color: #43918a;
+      margin-left: 5vw;
+      margin-top: 2vw;
+      border-radius: 1.5vw;
+      justify-content: center;
+      font-size: 1.5vw;
     }
   </style>

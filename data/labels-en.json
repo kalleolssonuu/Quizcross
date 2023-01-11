@@ -45,9 +45,10 @@
 	"chooseDimension": "Choose dimension",
 
 	"//PlayView": "Här är ActualPlayviews översättningar",
-	"inputDirectionHorizontal": "Horisontell",
-	"inputDirectionVertical": "Vertikal",
+	"inputDirectionHorizontal": "Horisontal",
+	"inputDirectionVertical": "Vertical",
 	"horizontalWords": "Horizontal words:",
 	"verticalWords": "Vertical words:",
-	"finishedGame": "Quit crossword"
+	"finishedGame": "Quit crossword",
+	"selectedDirection": "Selected input direction"
 }
