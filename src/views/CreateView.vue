@@ -6,6 +6,8 @@
         </Modal>
       </div>
   </header>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   
   <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- HÄMTAR IKONEN FÖR DESC POP UP -->
@@ -51,7 +53,7 @@
           <button v-if="!this.enableWordButtons" class="standardButton disabled"  disabled style="width: 7vw;"> {{uiLabels.discard}} </button>
           <button v-else v-on:click="this.discardWord" class="standardButton" style="width: 7vw;"> {{uiLabels.discard}} </button>
 
-          <button v-if="!this.enableWordButtons" class="standardButton disabled"  disabled style="width: 7vw;"> {{uiLabels.confirm}} </button>
+          <button v-if="!this.enableWordButtons" class="standardButton disabled" disabled style="width: 7vw;"> {{uiLabels.confirm}} </button>
           <button v-else v-on:click="this.confirmWord" class="standardButton" style="width: 7vw;"> {{uiLabels.confirm}} </button>
         </div>
       </div>
@@ -66,17 +68,16 @@
                       v-bind:cellsAmount="this.cellsAmount">
           </Crossword>
       </div>
-  
+      
           
           <div id="div5">
-            <button class="standardButton" v-on:click="this.confirmCreateCrossword" @click="$router.push('/Lobby/'+lang)"> <!-- JESSIE ÄNDRA SKICKA MED ID?????? -->
-            {{uiLabels.createCrossword}}   
-            </button>
+            <button v-if="!this.enableCreateButton" class="standardButton disabled" v-on:click="this.confirmCreateCrossword" @click="$router.push('/Lobby/'+lang)">{{uiLabels.createCrossword}}</button>
+            <button v-else class="standardButton" v-on:click="this.confirmCreateCrossword" @click="$router.push('/Lobby/'+lang)">{{uiLabels.createCrossword}}</button>
             <br>
-
             <!--<button v-on:click="this.emptyTextFields"> Empty Input </button> ---><!-- gör detta när användaren har valt ett ord istället för en knapp. Det rensar även textfältet -->
             <button class="standardButton" v-on:click="this.resetData">
-              {{uiLabels.resetCrossword}}
+              <i class="fa fa-trash-o" style="font-size:3vw;color:white"></i> <br>
+              <text style="font-size: 1.2vw">{{uiLabels.resetCrossword}}</text>
             </button> 
             <br>
 
@@ -162,6 +163,7 @@
           letterMatchCounter: 0,
   
           enableWordButtons: false,
+          enableCreateButton: false,
           wordCollision: false,
           noMatches: false,
   
@@ -372,6 +374,7 @@
           this.word = ""
           this.desc = ""
           this.enableWordButtons = false
+          this.enableCreateButton = true
 
           console.log(this.crosswordPackage.wordDesc)
         },
@@ -723,4 +726,27 @@ background-color: #e36f67;
     margin-block-start: 0;
     margin-block-end: 0;
   }
+
+  div.scroll {
+      margin:1%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      text-align:justify;
+              }
+  
+    .scroll::-webkit-scrollbar {
+      width: 2vh;
+      border-radius: 2vw;
+    }
+ 
+    .scroll::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(255, 253, 253, 0.3); 
+    }
+ 
+    .scroll::-webkit-scrollbar-thumb {
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+      background: #43918a;
+      border-bottom-right-radius: 0.5vw;
+      border-bottom-left-radius: 0.5vw;
+    }
   </style>
