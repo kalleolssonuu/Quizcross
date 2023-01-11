@@ -15,7 +15,7 @@
 
 	"//PopUp": "Här är PopUps översättningar",
 	"whatIsQC": "Tryck på 'Skapa' för att skapa ett nytt korsord!\nTryck på 'Spela' för att välja ett korsord att spela",
-	"pageDescriptionLobbyView": "Välj bland förskapade och egenskapade korsord. Tryck sedan på 'Spela' för att lösa korsordet.\n Tryck på 'Skapa' om du vill skapa ett nytt korsord",
+	"pageDescriptionLobbyView": "Välj ett befintligt korsord genom att klicka på det i tabellen 'Alla korsord'.\n Tryck på 'Skapa' om du vill skapa ett nytt korsord.",
 	"pageDescriptionCreateView":"Fyll i ord med motsvarande beskrivning och lägg till i korsordet. Använd knapparna 'Nästa' och 'Senaste' för att bestämma ordets plats i korsordet.",
 	"pageDescriptionPreCreateView": "Använd '+' och '-' knapparna för att välja den önskade storleken på ditt korsord",
 	"pageDescriptionPlayView": "Klicka på en av rutorna med en siffra på för att skriva in din gissning. Byt riktning (horisontellt eller vertikalt) du skriver på genom att klicka på knappen ovanför korsodet, eller klicka högerpilen för att riktningen ska bli horisontell och nedåtpilen för att riktningen ska bli vertikal",
