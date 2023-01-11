@@ -53,7 +53,7 @@
           <button v-if="!this.enableWordButtons" class="standardButton disabled"  disabled style="width: 7vw;"> {{uiLabels.discard}} </button>
           <button v-else v-on:click="this.discardWord" class="standardButton" style="width: 7vw;"> {{uiLabels.discard}} </button>
 
-          <button v-if="!this.enableWordButtons" class="standardButton disabled"  disabled style="width: 7vw;"> {{uiLabels.confirm}} </button>
+          <button v-if="!this.enableWordButtons" class="standardButton disabled" disabled style="width: 7vw;"> {{uiLabels.confirm}} </button>
           <button v-else v-on:click="this.confirmWord" class="standardButton" style="width: 7vw;"> {{uiLabels.confirm}} </button>
         </div>
       </div>
@@ -71,9 +71,9 @@
       
           
           <div id="div5">
-            <button class="standardButton disabled" v-on:click="this.confirmCreateCrossword" @click="$router.push('/Lobby/'+lang)">{{uiLabels.createCrossword}}</button>
+            <button v-if="!this.enableCreateButton" class="standardButton disabled" v-on:click="this.confirmCreateCrossword" @click="$router.push('/Lobby/'+lang)">{{uiLabels.createCrossword}}</button>
+            <button v-else class="standardButton" v-on:click="this.confirmCreateCrossword" @click="$router.push('/Lobby/'+lang)">{{uiLabels.createCrossword}}</button>
             <br>
-
             <!--<button v-on:click="this.emptyTextFields"> Empty Input </button> ---><!-- gör detta när användaren har valt ett ord istället för en knapp. Det rensar även textfältet -->
             <button class="standardButton" v-on:click="this.resetData">
               <i class="fa fa-trash-o" style="font-size:3vw;color:white"></i> <br>
@@ -163,6 +163,7 @@
           letterMatchCounter: 0,
   
           enableWordButtons: false,
+          enableCreateButton: false,
           wordCollision: false,
           noMatches: false,
   
@@ -373,6 +374,7 @@
           this.word = ""
           this.desc = ""
           this.enableWordButtons = false
+          this.enableCreateButton = true
 
           console.log(this.crosswordPackage.wordDesc)
         },
