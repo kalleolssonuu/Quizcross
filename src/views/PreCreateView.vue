@@ -109,12 +109,12 @@ export default {
                     this.$router.push('/CreateView/' + this.lang + '/' + this.gameID + '/' + JSON.stringify(this.cellsAmount))
                 }
 
-                else {
-                    alert("Namn redan taget, välj ett annat!")
-                }
-
-            });
-
+            else {
+                alert(this.uiLabels.nameTaken)
+            }           
+            
+        });
+        
         },
 
 

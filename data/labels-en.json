@@ -39,11 +39,13 @@
 	"QuitGame": "Quit",
 	"wordPlacement": "Choose word placement:",
 	"showDescription": "My descriptions",
+	"noMatches": "No matches, try another word!",
 	
 
 	"//PreCreateView": "Här är PreCreateViews översättningar",
 	"confirmAndCreate": "Create",
 	"chooseDimension": "Choose dimension",
+	"nameTaken": "Name already taken, choose another one!",
 
 	"//PlayView": "Här är ActualPlayviews översättningar",
 	"inputDirectionHorizontal": "Horisontal",
@@ -51,5 +53,6 @@
 	"horizontalWords": "Horizontal words:",
 	"verticalWords": "Vertical words:",
 	"finishedGame": "Quit crossword",
-	"selectedDirection": "Selected input direction"
+	"selectedDirection": "Selected input direction",
+	"youMadeIt": "Congratulations, you solved the crossword!"
 }

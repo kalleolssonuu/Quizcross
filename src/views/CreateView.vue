@@ -420,8 +420,7 @@ export default {
     },
 
     alertNoMatches: function () {
-      alert("No matches! Try another word.")
-    },
+      alert(this.uiLabels.noMatches)    },
 
     confirmCreateCrossword: function () {
       this.crosswordPackage.crosswordName = this.gameID

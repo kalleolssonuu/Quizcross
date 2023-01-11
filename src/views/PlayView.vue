@@ -285,7 +285,7 @@ export default {
 
 
       if (allMatchesCorrect) {
-        alert("Du har löst korsordet!")
+        alert(this.uiLabels.youMadeIt)
 
       }
     },
