@@ -182,12 +182,12 @@ export default{
 div.scroll {
   margin:1%;
   background-color: #ffffff;
-  width: 80vv;
   height: 50vh;
   overflow-x: hidden;
   overflow-y: auto;
   text-align:justify;
   color:black;
+  border-radius: 0.2vw;
           }
 
 

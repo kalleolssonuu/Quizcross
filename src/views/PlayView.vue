@@ -33,7 +33,7 @@
       <div id="horizontalDescriptions">
 
           <div id="wordDescTop">{{uiLabels.horizontalWords}}</div>
-          <div id="orderedList"  class="scroll">
+          <div id="orderedList"  class="playScroll">
             <ul style="list-style: none;">
               <li v-for="(value, key) in this.getSortedDescs()" :key="key">
                 <span v-if="value.direction == 'Horizontal'">
@@ -52,7 +52,7 @@
       <div id="verticalDescriptions">
 
         <div id="wordDescTop">{{uiLabels.verticalWords}}</div>
-        <div id="orderedList"  class="scroll">
+        <div id="orderedList"  class="playScroll">
           <ul style="list-style: none;">
             <li v-for="(value, key) in this.getSortedDescs()" :key="key">
               <span v-if="value.direction == 'Vertical'">
@@ -550,23 +550,23 @@
       position: relative;   
     }
 
-    div.scroll {
+    div.playScroll {
       margin:1%;
       overflow-x: hidden;
       overflow-y: auto;
       text-align:justify;
               }
   
-    .scroll::-webkit-scrollbar {
+    .playScroll::-webkit-scrollbar {
       width: 2vh;
       border-radius: 2vw;
     }
  
-    .scroll::-webkit-scrollbar-track {
+    .playScroll::-webkit-scrollbar-track {
       -webkit-box-shadow: inset 0 0 6px rgba(255, 253, 253, 0.3); 
     }
  
-    .scroll::-webkit-scrollbar-thumb {
+    .playScroll::-webkit-scrollbar-thumb {
       -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
       background: #43918a;
       border-bottom-right-radius: 0.5vw;
