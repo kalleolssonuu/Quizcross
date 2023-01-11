@@ -9,6 +9,7 @@
         
           
             <div class="plusMinusWrapper">    
+                <h2 id="xy" style="font-size: 1.5vw;"> {{ uiLabels.chooseDimension }}</h2><br><br>
                 <h2 id="xy"> {{ this.cellsAmount }} x  {{ this.cellsAmount }}</h2> 
                 <button id="minusButton" v-on:click=decrease >
                 -
@@ -194,17 +195,23 @@
     float: left;
     justify-content: center;
     margin-top: 10vw;
-
+    border-style: solid;
+    background-color: #93b39c;
+    border-color: #43918a;
+    height: 30vh;
+    width: 20vw;
+    margin-left: 2.5vw;
+    margin-right: 2.5vw;
 
   }
 
     #xy {
-        width: 25vw;
+        width: 20vw;
         justify-content: center;
-
- 
+        position: absolute;
+        margin-top: 2vw;
     }
-
+    
     #minusButton{
         height: 3vw;
         width: 3vw;
@@ -215,8 +222,8 @@
         font-family: "Comic Sans MS", "Comic Sans";
         border-top-left-radius: 1rem;
         border-bottom-left-radius: 1rem;
- 
         cursor: pointer;
+        margin-top: 6vw;
     }
     #plusButton {
         height: 3vw;
