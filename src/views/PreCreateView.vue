@@ -33,10 +33,9 @@
                    <!--  </form>  -->
                     <!-- JESSIE FRÅGA: GLÖM EJ måste fixa så ej kan skriva ett namn som redan finns!!!!! -->
                 
-                    <button class="standardButtonPreCreate" id="confirmAndCreate" @click="$router.push('/CreateView/'+lang+'/'+gameID+'/'+ JSON.stringify(cellsAmount))">
-                    {{uiLabels.confirmAndCreate}}
-                    </button> 
-            </div>
+                    <button v-if=" this.gameID ==''" class="standardButtonPreCreate disabled" disabled id="confirmAndCreate">{{uiLabels.confirmAndCreate}}</button> 
+                    <button v-else class="standardButtonPreCreate" id="confirmAndCreate" @click="$router.push('/CreateView/'+lang+'/'+gameID+'/'+ JSON.stringify(cellsAmount))">{{uiLabels.confirmAndCreate}}</button>
+                                </div>
              </div> 
             <HomepageButton v-bind:uiLabels="uiLabels" v-bind:lang="lang"></HomepageButton>
 </template>
@@ -66,7 +65,7 @@
                          },
     showModal: false,
     uiLabels: {},
-    
+    enableCreateButton: false,
     gameID: "",   
     lang: "",
     sourceName: "PreCreate"
@@ -84,6 +83,14 @@
     },
 
     methods: {
+
+        unlockButton: function() { 
+            if (this.gameID != null) {
+            this.enableCreateButton = true
+        }
+    },
+       
+
         increase: function() {
             if (this.cellsAmount <= 18) {
                 this.cellsAmount ++
@@ -202,7 +209,7 @@
     width: 20vw;
     margin-left: 2.5vw;
     margin-right: 2.5vw;
-
+    border-radius: 2vw;
   }
 
     #xy {
@@ -250,5 +257,10 @@
     margin: 0;
 }
 
+.standardButtonPreCreate.disabled {
+    opacity: 30%;
+    cursor: default;
+    background-color: #ba0c00;
+  }
    
 </style>
