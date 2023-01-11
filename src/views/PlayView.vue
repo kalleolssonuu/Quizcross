@@ -455,9 +455,8 @@
   
   #div2{
     float:left;
-    width: 50%;
-    margin: 5%;
     margin-top: 15vw;
+    margin-left: 6vw;
   }
   
   .wordDescriptionWrapper{
@@ -588,7 +587,7 @@
       border-style: solid;
       background-color: #93b39c;
       border-color: #43918a;
-      margin-left: 5vw;
+      margin-left: 15vw;
       margin-top: 2vw;
       border-radius: 1.5vw;
       justify-content: center;
