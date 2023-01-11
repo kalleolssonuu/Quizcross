@@ -175,13 +175,13 @@ Data.prototype.findMatchingGame = function(d) {
 
   };
 
-// Data.prototype.getMatchingGame = function(ID) {
-//   let chosenID = ID;
-//   let IDToMatch = chosenID.replace(/\s/g, '');
-//   console.log("ID från getMatchingGame")
-//   console.log("Paket från getMatchingGame: " + this.crosswordPackages[IDToMatch])
-//   return(this.crosswordPackages[IDToMatch])
-// };
+Data.prototype.getMatchingGame = function(ID) {
+  let chosenID = ID;
+  let IDToMatch = chosenID.replace(/\s/g, '');
+  console.log("ID från getMatchingGame")
+  console.log("Paket från getMatchingGame: " + this.crosswordPackages[IDToMatch])
+  return(this.crosswordPackages[IDToMatch])
+};
 
 
 module.exports = Data;
