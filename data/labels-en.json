@@ -18,7 +18,7 @@
 
 	"//PopUp": "Här är PopUps översättningar",
 	"whatIsQC": "Press 'Create' to create a new crossword. Press 'Play' to choose a crossword to play",
-	"pageDescriptionLobbyView": "Choose between user created crosswords and your own crosswords. Press 'Play' to solve the chosen crossword. Press 'Create' to create a new crossword",
+	"pageDescriptionLobbyView": "Choose a crossword to solve by clicking on it under the table 'All crosswords'. \n Press 'Create' to create a new crossword.",
 	"pageDescriptionCreateView":"Enter a word and a description and add the word to the crossword. Use the 'Next' and 'Previous' buttons to place the word where you want it.",
 	"pageDescriptionPreCreateView": "Use the '+' and '-' buttons to choose the desired size of your crossword",
 	"pageDescriptionPlayView": "Click on one of the boxes with a number on it to start typing your guess. Change the direction (horizontal or vertical) you want to write by clicking the button above the crossword, or click the right arrow to make the direction horizontal and the arrow down to make the direction vertical",
