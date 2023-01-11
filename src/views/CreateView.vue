@@ -6,6 +6,8 @@
         </Modal>
       </div>
   </header>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   
   <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- HÄMTAR IKONEN FÖR DESC POP UP -->
@@ -74,7 +76,8 @@
             <br>
             <!--<button v-on:click="this.emptyTextFields"> Empty Input </button> ---><!-- gör detta när användaren har valt ett ord istället för en knapp. Det rensar även textfältet -->
             <button class="standardButton" v-on:click="this.resetData">
-              {{uiLabels.resetCrossword}}
+              <i class="fa fa-trash-o" style="font-size:3vw;color:white"></i> <br>
+              <text style="font-size: 1.2vw">{{uiLabels.resetCrossword}}</text>
             </button> 
             <br>
 
