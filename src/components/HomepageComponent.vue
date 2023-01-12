@@ -45,6 +45,6 @@ export default {
 }
 
 #homeText {
-  font-size: 1.5vw;
+  font-size: 0.9vw;
 }
 </style>
