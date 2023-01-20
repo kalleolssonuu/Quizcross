@@ -17,9 +17,21 @@
 
     <div class="inputField">
 
-      <input v-if="this.lang == 'en'" type="text" id="wordInput" v-model="word" required="required"
+<!--       <input v-if="this.lang == 'en'" type="text" id="wordInput" v-model="word" required="required"
         placeholder="Enter a word...">
       <input v-else type="text" id="wordInput" v-model="word" required="required" placeholder="Ge ett ord... ">
+ -->
+      <input v-if="this.lang == 'en' && !this.enableWordButtons" type="text" id="wordInput" v-model="word" required="required"
+        placeholder="Enter a word... ">
+
+      <input v-else-if="this.lang == 'en' && this.enableWordButtons" type="text" id="wordInput" v-model="word" required="required"
+      placeholder="Enter a word... " disabled>
+
+      <input v-else-if="this.lang != 'en' && !this.enableWordButtons" type="text" id="wordInput" v-model="word" required="required" 
+      placeholder="Ge ett ord...">
+
+      <input v-else-if="this.lang != 'en' && this.enableWordButtons" type="text" id="wordInput" v-model="word" required="required" 
+      placeholder="Ge ett ord..." disabled>
 
 
     </div>
@@ -28,9 +40,21 @@
 
     <div class="inputField" style="margin-left: 2.3vw">
 
-      <input v-if="this.lang == 'en'" type="text" id="wordInput" v-model="desc" required="required"
+      <input v-if="this.lang == 'en' && !this.enableWordButtons" type="text" id="wordInput" v-model="desc" required="required"
         placeholder="Enter a description... ">
-      <input v-else type="text" id="wordInput" v-model="desc" required="required" placeholder="Ge en beskrivning... ">
+
+      <input v-else-if="this.lang == 'en' && this.enableWordButtons" type="text" id="wordInput" v-model="desc" required="required"
+      placeholder="Enter a description... " disabled>
+
+      <input v-else-if="this.lang != 'en' && !this.enableWordButtons" type="text" id="wordInput" v-model="desc" required="required" 
+      placeholder="Ge en beskrivning... ">
+
+      <input v-else-if="this.lang != 'en' && this.enableWordButtons" type="text" id="wordInput" v-model="desc" required="required" 
+      placeholder="Ge en beskrivning... " disabled>
+
+
+
+
       <button class="descPopUp" v-on:click="togglePopupDescription">
         <i class="fa fa-bars"></i>
       </button>
@@ -76,8 +100,8 @@
   </div>
 
 
-  <div id="div5">
-    <button v-if="!this.enableCreateButton" class="standardButton disabled" disabled v-on:click="this.confirmCreateCrossword"
+  <div id="div5">      <!--  true                      false -->
+    <button v-if="this.enableWordButtons && !this.enableCreateButton" class="standardButton disabled" disabled v-on:click="this.confirmCreateCrossword"
       @click="$router.push('/Lobby/' + lang)">{{ uiLabels.createCrossword }}</button>
     <button v-else class="standardButton" v-on:click="this.confirmCreateCrossword"
       @click="$router.push('/Lobby/' + lang)">{{ uiLabels.createCrossword }}</button>
@@ -344,6 +368,7 @@ export default {
         this.desc = ""
       } else {
         this.enableWordButtons = true
+        this.enableCreateButton = false
 
 
         this.crossword.actual.posList = JSON.parse(JSON.stringify(this.crossword.temp[this.userIterator].posList))  /* visa första matchningen */

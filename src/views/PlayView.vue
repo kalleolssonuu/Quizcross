@@ -11,17 +11,17 @@
   <div class="direction">
     <br>
     {{ uiLabels.selectedDirection }} <br>
-    <button v-if="this.inputDirection == 'Horizontal'" v-on:click="changeDirectionToH">
-      {{ uiLabels.inputDirectionHorizontal }}
+    <button v-if="this.inputDirection == 'Horizontal'" v-on:click="changeDirectionToH" id="arrowbutton">
+      →
     </button>
-    <button v-else style="opacity: 50%" v-on:click="changeDirectionToH">
-      {{ uiLabels.inputDirectionHorizontal }}
+    <button v-else style="opacity: 50%" v-on:click="changeDirectionToH" id="arrowbutton">
+      →
     </button>
-    <button v-if="this.inputDirection == 'Vertical'" v-on:click="changeDirectionToV">
-      {{ uiLabels.inputDirectionVertical }}
+    <button v-if="this.inputDirection == 'Vertical'" v-on:click="changeDirectionToV" id="arrowbutton">
+      ↓
     </button>
-    <button v-else style="opacity: 50%" v-on:click="changeDirectionToV">
-      {{ uiLabels.inputDirectionVertical }}
+    <button v-else style="opacity: 50%" v-on:click="changeDirectionToV" id="arrowbutton">
+      ↓
     </button>
   </div>
 
@@ -352,6 +352,13 @@ export default {
 </script>
 
 <style>
+
+#arrowbutton {
+  font-size: x-large;
+  justify-content: center;
+  align-items: flex-start;
+}
+
 #div2 {
   float: left;
   margin-top: 15vw;
